@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import useStore from "../../zustand/store";
 import Header from "../Header/Header";
 import Home from "../Home/Home";
+import Search from "../Search/Search";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import Footer from "../Footer/Footer";
@@ -22,6 +23,7 @@ function App() {
       <main className="content-wrapper">
         <Routes>
           <Route exact path="/" element={<Home />} />
+          <Route exact path="/search" element={<Search />} />
           <Route
             exact
             path="/login"

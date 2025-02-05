@@ -1,1 +1,8 @@
-/* Silence is golden */
+/* 
+ * Bootstrap 5 "Finder" theme overrides 
+ * https://themes.getbootstrap.com/product/finder-directory-listings-template-ui-kit
+*/
+
+.text-brand {
+  color: #bbcefd !important;
+}
