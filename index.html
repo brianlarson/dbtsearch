@@ -1,15 +1,42 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>DBTsearch</title>
-	</head>
-	<body>
-		<noscript>
-			You need to enable JavaScript to run this app.
-		</noscript>
-		<div id="root"></div>
-		<script type="module" src="/src/index.jsx"></script>
-	</body>
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" data-pwa="true">
+
+<head>
+	<meta charset="utf-8">
+
+	<!-- Viewport -->
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+
+	<!-- SEO Meta Tags -->
+	<title>DBTsearch - Find DBT Providers - Minneapolis/St. Paul, Minnesota</title>
+	<meta name="description" content="Search for DBT providers and their availability">
+
+	<!-- Webmanifest + Favicon / App icons -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="icon" type="image/png" href="/public/app-icons/icon-32x32.png" sizes="32x32">
+	<link rel="apple-touch-icon" href="/public/app-icons/icon-180x180.png">
+
+	<!-- Preloaded local web font (Inter) -->
+	<link rel="preload" href="/public/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+	<!-- Font icons -->
+	<link rel="preload" href="/public/icons/finder-icons.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="stylesheet" href="/public/icons/finder-icons.min.css">
+
+	<!-- Vendor styles -->
+	<!-- <link rel="stylesheet" href="/public/js/swiper/swiper-bundle.min.css"> -->
+
+	<!-- Bootstrap + Theme styles -->
+	<link rel="preload" href="/public/css/theme.min.css" as="style">
+	<link rel="stylesheet" href="/public/css/theme.min.css" id="theme-styles">
+</head>
+
+<body>
+	<div id="root"></div>
+	<script src="/public/js/theme.min.js"></script>
+	<script type="module" src="/src/index.jsx"></script>
+</body>
+
 </html>

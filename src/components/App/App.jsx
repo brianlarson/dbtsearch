@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import useStore from "../../zustand/store";
-import Nav from "../Nav/Nav";
-import HomePage from "../HomePage/HomePage";
+import Header from "../Header/Header";
+import Home from "../Home/Home";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
+import Footer from "../Footer/Footer";
 
 function App() {
   const user = useStore((state) => state.user);
@@ -17,23 +18,10 @@ function App() {
 
   return (
     <>
-      <header>
-        <h1>DBTsearch</h1>
-        <Nav />
-      </header>
-      <main>
+      <Header />
+      <main className="content-wrapper">
         <Routes>
-          <Route
-            exact
-            path="/"
-            element={
-              user.id ? (
-                <HomePage /> // Render HomePage for authenticated user.
-              ) : (
-                <Navigate to="/login" replace /> // Redirect unauthenticated user.
-              )
-            }
-          />
+          <Route exact path="/" element={<Home />} />
           <Route
             exact
             path="/login"
@@ -74,9 +62,7 @@ function App() {
           <Route path="*" element={<h2>404 Page</h2>} />
         </Routes>
       </main>
-      <footer>
-        <p>Copyright © {new Date().getFullYear()}</p>
-      </footer>
+      <Footer />
     </>
   );
 }
