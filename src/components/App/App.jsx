@@ -40,9 +40,9 @@ function App() {
             path="/registration"
             element={
               user.id ? (
-                <Navigate to="/" replace /> // Redirect authenticated user.
-              ) : (
                 <RegisterPage /> // Render RegisterPage for unauthenticated user.
+              ) : (
+                <Navigate to="/" replace /> // Redirect authenticated user.
               )
             }
           />

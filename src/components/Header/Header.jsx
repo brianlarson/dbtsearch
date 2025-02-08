@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 import Nav from "../Nav/Nav";
 
 function Header() {
@@ -9,7 +11,7 @@ function Header() {
         data-sticky-element
       >
         <div className="container">
-          {/* Mobile offcanvas menu toggler (Hamburger) */}
+          {/* Mobile offcanvas menu toggle btn */}
           <button
             type="button"
             className="navbar-toggler me-3 me-lg-0"
@@ -24,7 +26,7 @@ function Header() {
           {/* Navbar brand (Logo) */}
           <a
             className="navbar-brand py-1 py-md-2 py-xl-1 me-2 me-sm-n4 me-md-n5 me-lg-0"
-            href="index.html"
+            href="/"
           >
             <span className="d-flex flex-shrink-0 text-secondary rtl-flip me-2">
               <img
@@ -48,24 +50,17 @@ function Header() {
           {/* Button group */}
           <div className="d-flex gap-sm-1">
             {/* Contact button  */}
-            <a
+            <NavLink
+              to="/contact"
               className="btn btn-outline-secondary me-2 d-none d-md-inline"
-              href="#"
-              aria-label="Contact"
             >
-              {/* <i className="fi-log-in fs-base mx-n2 me-xl-2" /> */}
               Contact
-            </a>
+            </NavLink>
 
             {/* Login button  */}
-            <a
-              className="btn btn-secondary fw-semibold"
-              href="/login"
-              aria-label="Sign in to account"
-            >
-              {/* <i className="fi-log-in fs-base mx-n2 me-xl-2" /> */}
+            <NavLink to="/login" className="btn btn-secondary fw-semibold">
               Login
-            </a>
+            </NavLink>
           </div>
         </div>
       </header>

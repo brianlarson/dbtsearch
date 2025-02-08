@@ -26,7 +26,7 @@ function Search() {
                         <img
                           src="/public/images/logos/asc-psychological-services.webp"
                           className="position-absolute top-0 start-0 w-100 h-100 object-fit-contain px-4 py-3"
-                          alt="ASC Logo"
+                          alt=""
                         />
                         <div
                           className="ratio d-none d-sm-block"

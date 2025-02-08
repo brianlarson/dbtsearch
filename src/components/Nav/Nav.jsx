@@ -23,19 +23,19 @@ function Nav() {
         <div className="offcanvas-body pt-2 pb-4 py-lg-0 mx-lg-auto">
           <ul className="navbar-nav position-relative">
             <li className="nav-item py-lg-2 me-lg-n2 me-xl-0">
-              <a className="nav-link __active" href="#">
+              <NavLink to="/search" className="nav-link">
                 Search
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item py-lg-2 me-lg-n2 me-xl-0">
-              <a className="nav-link" href="#">
+              <NavLink to="/about" className={"nav-link"}>
                 About
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item py-lg-2 me-lg-n2 me-xl-0">
-              <a className="nav-link" href="#">
+              <NavLink to="/faq" className="nav-link">
                 FAQs
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
