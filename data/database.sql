@@ -54,7 +54,7 @@ $$ LANGUAGE plpgsql;
 -- the set_update_at_to_now function on any rows that
 -- have been touched by an UPDATE query:
 CREATE TRIGGER on_user_update
-BEFORE UPDATE ON "user"
+BEFORE UPDATE ON "users"
 FOR EACH ROW
 EXECUTE PROCEDURE set_updated_at_to_now();
 
