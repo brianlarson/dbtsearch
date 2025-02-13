@@ -2,11 +2,15 @@ import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import useStore from "../../zustand/store";
+
 import Header from "../Header/Header";
 import Home from "../Home/Home";
 import Search from "../Search/Search";
-import LoginPage from "../Login/Login";
-import RegisterPage from "../Register/Register";
+import About from "../About/About";
+import FAQs from "../FAQs/FAQs";
+import Contact from "../Contact/Contact";
+import Login from "../Login/Login";
+import Register from "../Register/Register";
 import Footer from "../Footer/Footer";
 
 function App() {
@@ -24,8 +28,10 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/search" element={<Search />} />
-          <Route exact path="/about" element={<AboutPage />} />
-          <Route exact path="/login" element={<LoginPage />} />
+          <Route exact path="/about" element={<About />} />
+          <Route exact path="/faqs" element={<FAQs />} />
+          <Route exact path="/contact" element={<Contact />} />
+          <Route exact path="/login" element={<Login />} />
           <Route path="*" element={<h2>404 Page</h2>} />
           <Route
             exact
@@ -34,7 +40,7 @@ function App() {
               user.id ? (
                 <Navigate to="/" replace /> // Redirect authenticated user.
               ) : (
-                <RegisterPage /> // Render RegisterPage for unauthenticated user.
+                <Register /> // Render RegisterPage for unauthenticated user.
               )
             }
           />

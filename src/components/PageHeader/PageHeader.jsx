@@ -23,7 +23,7 @@ function PageHeader({ pageHeading, pageSubheading }) {
             <div className="row">
               {pageHeading && (
                 <div className="col-md-6 pb-1">
-                  <h1 className="h2 m-0">{pageHeading}</h1>
+                  <h1 className="h1 m-0">{pageHeading}</h1>
                 </div>
               )}
               {pageSubheading && (
@@ -35,7 +35,6 @@ function PageHeader({ pageHeading, pageSubheading }) {
               )}
             </div>
             <hr className="mt-0" />
-            {/* <div className="pt-2 pt-lg-3 fs-5"></div> */}
           </div>
         </div>
       </div>

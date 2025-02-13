@@ -18,9 +18,10 @@ function Home() {
                 Find certified DBT provider availibility in Minnesota
               </h2>
               <p className="fs-5">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Quibusdam rem voluptatem culpa facere pariatur tempore qui ipsum
-                dolor.
+                DBTsearch is a website that allows clinicians and prospective
+                clients to search for certified DBT providers in Minnesota and
+                more specifically, locate providers that have current
+                availability.
               </p>
               <a href="/search" className="btn btn-lg btn-primary mt-3">
                 Find DBT Providers

@@ -33,7 +33,7 @@ function Nav() {
               </NavLink>
             </li>
             <li className="nav-item py-lg-2 me-lg-n2 me-xl-0">
-              <NavLink to="/faq" className="nav-link">
+              <NavLink to="/faqs" className="nav-link">
                 FAQs
               </NavLink>
             </li>
