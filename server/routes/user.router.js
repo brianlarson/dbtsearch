@@ -25,7 +25,7 @@ router.post('/register', (req, res, next) => {
   const hashedPassword = encryptLib.encryptPassword(req.body.password);
 
   const sqlText = `
-    INSERT INTO "user"
+    INSERT INTO "users"
       ("username", "password")
       VALUES
       ($1, $2);
@@ -46,7 +46,7 @@ router.post('/register', (req, res, next) => {
 // a request, it runs a middleware function that leverages the Passport
 // library to instantiate a session if the request body's username and
 // password are correct.
-  // You can find this middleware function in /server/strategies/user.strategy.js.
+// You can find this middleware function in /server/strategies/user.strategy.js.
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
   res.sendStatus(200);
 });
@@ -55,8 +55,8 @@ router.post('/login', userStrategy.authenticate('local'), (req, res) => {
 router.post('/logout', (req, res, next) => {
   // Use passport's built-in method to log out the user.
   req.logout((err) => {
-    if (err) { 
-      return next(err); 
+    if (err) {
+      return next(err);
     }
     res.sendStatus(200);
   });

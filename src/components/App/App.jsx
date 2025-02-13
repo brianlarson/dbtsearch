@@ -5,8 +5,8 @@ import useStore from "../../zustand/store";
 import Header from "../Header/Header";
 import Home from "../Home/Home";
 import Search from "../Search/Search";
-import LoginPage from "../LoginPage/LoginPage";
-import RegisterPage from "../RegisterPage/RegisterPage";
+import LoginPage from "../Login/Login";
+import RegisterPage from "../Register/Register";
 import Footer from "../Footer/Footer";
 
 function App() {
@@ -24,44 +24,33 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/search" element={<Search />} />
-          <Route
-            exact
-            path="/login"
-            element={
-              user.id ? (
-                <Navigate to="/" replace /> // Redirect authenticated user.
-              ) : (
-                <LoginPage /> // Render LoginPage for unauthenticated user.
-              )
-            }
-          />
-          <Route
-            exact
-            path="/registration"
-            element={
-              user.id ? (
-                <RegisterPage /> // Render RegisterPage for unauthenticated user.
-              ) : (
-                <Navigate to="/" replace /> // Redirect authenticated user.
-              )
-            }
-          />
-          <Route
-            exact
-            path="/about"
-            element={
-              <>
-                <h2>About DBTsearch</h2>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Labore natus corporis consectetur quia architecto, obcaecati
-                  nihil alias veritatis ad magnam voluptatibus placeat ducimus
-                  incidunt porro quo assumenda reiciendis animi iusto.
-                </p>
-              </>
-            }
-          />
+          <Route exact path="/about" element={<AboutPage />} />
+          <Route exact path="/login" element={<LoginPage />} />
           <Route path="*" element={<h2>404 Page</h2>} />
+          <Route
+            exact
+            path="/register"
+            element={
+              user.id ? (
+                <Navigate to="/" replace /> // Redirect authenticated user.
+              ) : (
+                <RegisterPage /> // Render RegisterPage for unauthenticated user.
+              )
+            }
+          />
+          {/* 
+            <Route
+              exact
+              path="/login"
+              element={
+                user.id ? (
+                  <Navigate to="/" replace /> // Redirect authenticated user.
+                ) : (
+                  <LoginPage /> // Render LoginPage for unauthenticated user.
+                )
+              }
+            />
+          */}
         </Routes>
       </main>
       <Footer />
