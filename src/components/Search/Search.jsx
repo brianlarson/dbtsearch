@@ -1,21 +1,25 @@
-import { useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import useStore from "../../zustand/store";
 
 import PageHeader from "../PageHeader/PageHeader";
 import ProviderList from "../ProviderList/ProviderList";
 
 function Search() {
-  const [providers, setProvider] = useState([]);
+  const providers = useStore((state) => state.providers);
+  const fetchProviders = useStore((state) => state.fetchProviders);
 
-  
+  useEffect(() => {
+    fetchProviders();
+  }, [providers]);
 
   return (
     <>
-      <PageHeader
+      <pre>{JSON.stringify(providers)}</pre>
+      {/* <PageHeader
         pageHeading="Search"
         pageSubheading="DBT Providers in Minnesota"
       />
-      <ProviderList />
+      <ProviderList /> */}
     </>
   );
 }
