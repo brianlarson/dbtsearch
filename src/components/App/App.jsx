@@ -12,6 +12,7 @@ import Contact from "../Contact/Contact";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Footer from "../Footer/Footer";
+import Error404 from "../Error404/Error404";
 
 function App() {
   const user = useStore((state) => state.user);
@@ -32,7 +33,7 @@ function App() {
           <Route exact path="/faqs" element={<FAQs />} />
           <Route exact path="/contact" element={<Contact />} />
           <Route exact path="/login" element={<Login />} />
-          <Route path="*" element={<h2>404 Page</h2>} />
+          <Route path="*" element={<Error404 />} />
           <Route
             exact
             path="/register"
