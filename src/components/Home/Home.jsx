@@ -6,7 +6,6 @@ function Home() {
 
   return (
     <>
-      {/* Hero/content with search CTA */}
       <section className="position-relative bg-dark py-5">
         <div className="container position-relative z-2 py-2 py-sm-4">
           <div className="row py-md-2 py-lg-5 my-xxl-1">
@@ -34,7 +33,6 @@ function Home() {
           <div className="col-md-6 position-relative">
             <img
               src="/public/images/pexels-steve-1690351.jpg"
-              // src="/public/images/denys-nevozhai-z0nVqfrOqWA-unsplash.jpg"
               className="position-absolute top-0 end-0 w-100 h-100 object-fit-cover"
               alt="Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'"
             />

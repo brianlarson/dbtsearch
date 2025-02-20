@@ -48,6 +48,7 @@ router.post('/register', (req, res, next) => {
 // password are correct.
 // You can find this middleware function in /server/strategies/user.strategy.js.
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
+  console.log(req.body);
   res.sendStatus(200);
 });
 

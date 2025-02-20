@@ -61,14 +61,14 @@ passport.use(
     pool.query(sqlText, sqlValues)
       .then((dbRes) => {
         const user = dbRes && dbRes.rows && dbRes.rows[0];
-        
+        console.log(user, encryptLib.comparePassword(password, user.password));
         if (user && encryptLib.comparePassword(password, user.password)) {
           // The request body's password has been hashed and matches the stored
           // hashed password. AKA: Login was successful! Now, we use Passport's
           // done function to instantiate a new session for this user.
-            // The `done` function takes two arguments:
-              // * An error. This is `null` in this case.
-              // * A user we want to instatiate a session for.
+          // The `done` function takes two arguments:
+          // * An error. This is `null` in this case.
+          // * A user we want to instatiate a session for.
           done(null, user);
         } else {
           // The request body's password has been hashed and DOES NOT match the

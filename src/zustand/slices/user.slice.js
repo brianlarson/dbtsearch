@@ -16,7 +16,7 @@ const createUserSlice = (set, get) => ({
       set({ user: data });
     } catch (err) {
       console.log('fetchUser error:', err);
-      set({user : {}});
+      set({ user: {} });
     }
   },
   register: async (newUserCredentials) => {
@@ -36,6 +36,7 @@ const createUserSlice = (set, get) => ({
     // to /api/user/login and then retrieves their data.
     get().setAuthErrorMessage('')
     try {
+      console.log(userCredentials);
       await axios.post('/api/user/login', userCredentials);
       get().fetchUser();
     } catch (err) {
@@ -50,19 +51,19 @@ const createUserSlice = (set, get) => ({
       }
     }
   },
-  logOut : async () => {
+  logOut: async () => {
     // Logs out the current user by sending a POST request to
     // /api/user/logout, and then clears their data.
     try {
       await axios.post('/api/user/logout');
-      set({user : {}});
+      set({ user: {} });
     } catch (err) {
       console.log('logOut error:', err);
     }
   },
   setAuthErrorMessage: (message) => {
     // Sets an error message for authentication-related issues.
-    set({authErrorMessage : message})
+    set({ authErrorMessage: message })
   }
 })
 
