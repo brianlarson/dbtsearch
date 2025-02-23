@@ -1,14 +1,14 @@
 -------------------------------------------------------
 --------------------------------------------------
 -- START FROM SCRATCH:
-DROP TRIGGER IF EXISTS "on_user_update" ON "user";
-DROP TABLE IF EXISTS "user";
+DROP TRIGGER IF EXISTS "on_user_update" ON "users";
+DROP TABLE IF EXISTS "users";
 
 
 -------------------------------------------------------
 --------------------------------------------------
 -- TABLE SCHEMAS:
-CREATE TABLE "user" (
+CREATE TABLE "users" (
   "id" SERIAL PRIMARY KEY,
   "username" VARCHAR (80) UNIQUE NOT NULL,
   "password" VARCHAR (1000) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE "user" (
 --   passwords. Once you've done that, you can modify this INSERT statement to include
 --   your dummy users. Be sure to copy/paste their hashed passwords, as well.
 --   This is only for development purposes! Here's a commented-out example:
--- INSERT INTO "user"
+-- INSERT INTO "users"
 --   ("username", "password")
 --   VALUES
 --   ('unicorn10', '$2a$10$oGi81qjXmTh/slGzYOr2fu6NGuCwB4kngsiWQPToNrZf5X8hxkeNG'), --pw: 123

@@ -1,8 +1,11 @@
 import { NavLink } from "react-router-dom";
+import useStore from "../../zustand/store";
 
 import Nav from "../Nav/Nav";
 
 function Header() {
+  const user = useStore((store) => store.user);
+  const { logOut } = useStore();
   return (
     <>
       {/* Global header */}
@@ -45,11 +48,12 @@ function Header() {
             <div className="visually-hidden">DBTsearch</div>
           </a>
 
+          {/* Main Navigation */}
           <Nav />
 
-          {/* Button group */}
+          {/* Navigation Button group */}
           <div className="d-flex gap-sm-1">
-            {/* Contact button  */}
+            {/* Contact  */}
             <NavLink
               to="/contact"
               className="btn btn-outline-secondary me-2 d-none d-md-inline"
@@ -57,10 +61,24 @@ function Header() {
               Contact
             </NavLink>
 
-            {/* Login button  */}
-            <NavLink to="/login" className="btn btn-secondary fw-semibold">
-              Login
-            </NavLink>
+            {/* Login (or Admin) */}
+            {user.id ? (
+              <>
+                <div>
+                  <NavLink
+                    to="/admin"
+                    className="btn btn-secondary fw-semibold"
+                  >
+                    <i className="fi-unlock fs-base ms-n1 me-2"></i>
+                    Admin
+                  </NavLink>
+                </div>
+              </>
+            ) : (
+              <NavLink to="/login" className="btn btn-secondary fw-semibold">
+                Login
+              </NavLink>
+            )}
           </div>
         </div>
       </header>

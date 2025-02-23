@@ -13,14 +13,14 @@ passport.serializeUser((user, done) => {
 // based on the user ID that's stored in the active session that
 // corresponds to the cookie that came along with the request.
 // This Passport method does the work of:
-//   * Getting that user's info out of the "user" table.
+//   * Getting that user's info out of the "users" table.
 //   * Attaching the user's info to the request as `req.user`.
 // There are great answers to this Stack Overflow question, if you'd like
 // more details about serializeUser and deserializeUser:
 //   * https://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize
 passport.deserializeUser((id, done) => {
   const sqlText = `
-    SELECT * FROM "user"
+    SELECT * FROM "users"
       WHERE "id" = $1;
   `;
   const sqlValues = [id];
@@ -53,7 +53,7 @@ passport.use(
   'local',
   new LocalStrategy((username, password, done) => {
     const sqlText = `
-      SELECT * FROM "user"
+      SELECT * FROM "users"
         WHERE username = $1;
     `;
     const sqlValues = [username];

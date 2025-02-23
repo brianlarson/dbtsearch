@@ -23,8 +23,8 @@ function Nav() {
         <div className="offcanvas-body pt-2 pb-4 py-lg-0 mx-lg-auto">
           <ul className="navbar-nav position-relative">
             <li className="nav-item py-lg-2 me-lg-n2 me-xl-0">
-              <NavLink to="/search" className="nav-link">
-                Search
+              <NavLink to="/providers" className="nav-link">
+                Providers
               </NavLink>
             </li>
             <li className="nav-item py-lg-2 me-lg-n2 me-xl-0">

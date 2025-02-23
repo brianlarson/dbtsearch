@@ -8,7 +8,7 @@ function Error404() {
       <Container>
         <p className="pb-5">
           The resource you're looking for doesn't exist, has been removed or no
-          longer exists. Total bummer, dude.
+          longer exists.
         </p>
       </Container>
     </>

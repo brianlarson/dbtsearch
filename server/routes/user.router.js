@@ -47,6 +47,8 @@ router.post('/register', (req, res, next) => {
 // library to instantiate a session if the request body's username and
 // password are correct.
 // You can find this middleware function in /server/strategies/user.strategy.js.
+
+// router.post('/login', (req, res) => {
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
   console.log(req.body);
   res.sendStatus(200);

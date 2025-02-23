@@ -57,6 +57,7 @@ const createUserSlice = (set, get) => ({
     try {
       await axios.post('/api/user/logout');
       set({ user: {} });
+      window.location.href = "/logout";
     } catch (err) {
       console.log('logOut error:', err);
     }

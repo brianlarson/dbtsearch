@@ -22,7 +22,7 @@ function Home() {
                 more specifically, locate providers that have current
                 availability.
               </p>
-              <a href="/search" className="btn btn-lg btn-primary mt-3">
+              <a href="/providers" className="btn btn-lg btn-primary mt-3">
                 Find DBT Providers
                 <i className="fi-arrow-right fs-base ms-2"></i>
               </a>

@@ -40,10 +40,9 @@ function About() {
           treatment, providers have more time, and treatment programs remain
           full: win-win-win!
         </p>
-        <a href="/search" class="btn btn-lg btn-primary mt-3">
-          Find DBT Providers<i class="fi-arrow-right fs-base ms-2"></i>
+        <a href="/providers" className="btn btn-lg btn-primary mt-3">
+          Find DBT Providers<i className="fi-arrow-right fs-base ms-2"></i>
         </a>
-        {/* End page content */}
       </Container>
     </>
   );
