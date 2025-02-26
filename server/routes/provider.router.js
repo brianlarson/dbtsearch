@@ -16,11 +16,24 @@ router.get('/', (req, res) => {
     });
 });
 
-// GET route: '/api/providers/[id]'
+// GET route for Admin: '/api/providers/[id]'
 router.get('/:id', (req, res) => {
   pool.query(`SELECT * FROM "providers" WHERE manager_id = ${req.params.id};`)
     .then(result => {
       console.log('Fetch admin providers from database…', result.rows);
+      res.send(result.rows);
+    })
+    .catch(err => {
+      // console.log('Error with GET query:', err);
+      res.sendStatus(500);
+    });
+});
+
+// GET route for Admin editing: '/api/providers/edit/[id]'
+router.get('/edit/:id', (req, res) => {
+  pool.query(`SELECT * FROM "providers" WHERE id = ${req.params.id};`)
+    .then(result => {
+      console.log('Fetch provider to edit from database…', result.rows);
       res.send(result.rows);
     })
     .catch(err => {
