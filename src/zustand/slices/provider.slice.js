@@ -3,7 +3,7 @@ import axios from 'axios';
 const createProviderSlice = (set, get) => ({
   providers: [],
   providerEdit: [],
-  fetchProviders: () => {
+  fetchProviders: (all) => {
     axios({
       method: 'GET',
       url: '/api/provider'

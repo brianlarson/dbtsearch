@@ -1,6 +1,6 @@
 import ProviderListItem from "../ProviderListItem/ProviderListItem";
 
-function ProviderList({ providers }) {
+function ProviderList({ providers, handleShowChange }) {
   return (
     <>
       {/* Provider list */}
@@ -9,6 +9,7 @@ function ProviderList({ providers }) {
           <div className="col-lg-11 col-xl-10 col-xxl-9">
             <div class="form-check form-switch pb-2 mb-lg-4">
               <input
+                onChange={handleShowChange}
                 type="checkbox"
                 className="form-check-input"
                 role="switch"
