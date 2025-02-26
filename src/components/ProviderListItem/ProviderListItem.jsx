@@ -34,9 +34,9 @@ function ProviderListItem({ item }) {
                   // No logo image found
                   <div
                     className="w-100 d-flex align-items-center justify-content-center mb-0"
-                    aria-hiden="true"
+                    aria-hidden="true"
                   >
-                    <i class="fi-heart text-brand h1"></i>
+                    <i className="fi-heart text-brand h1"></i>
                   </div>
                 )}
               </div>

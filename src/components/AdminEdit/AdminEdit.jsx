@@ -54,7 +54,7 @@ function AdminEdit({ providerEdit, handleCancelClick }) {
                         htmlFor="availability"
                         className="form-check-label"
                       >
-                        Currently has availability
+                        Has availability
                       </label>
                     </div>
                   </div>

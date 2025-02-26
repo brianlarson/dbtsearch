@@ -9,13 +9,12 @@ function Providers() {
   const [showAll, setShowAll] = useState(false);
 
   const handleShowChange = () => {
-    setShowAll(!showAll);
-    console.log("Show all providers:", showAll);
+    setShowAll((prevShowAll) => !prevShowAll);
   };
 
   useEffect(() => {
-    fetchProviders();
-  }, [providers]);
+    fetchProviders(showAll);
+  }, [showAll, fetchProviders]);
 
   return (
     <>

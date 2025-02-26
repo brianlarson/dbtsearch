@@ -3,10 +3,11 @@ import axios from 'axios';
 const createProviderSlice = (set, get) => ({
   providers: [],
   providerEdit: [],
-  fetchProviders: (all) => {
-    axios({
+  fetchProviders: (showAll) => {
+    const url = showAll ? '/api/provider/all' : '/api/provider';
+    return axios({
       method: 'GET',
-      url: '/api/provider'
+      url: url
     })
       .then((response) => {
         // console.log('GET request successful:', response.data);
@@ -17,12 +18,12 @@ const createProviderSlice = (set, get) => ({
       });
   },
   fetchAdminProviders: (id) => {
-    axios({
+    return axios({
       method: 'GET',
       url: `/api/provider/${id}`
     })
       .then((response) => {
-        console.log('GET request successful:', response.data);
+        // console.log('GET request successful:', response.data);
         set({ providers: response.data });
       })
       .catch((err) => {
@@ -35,7 +36,7 @@ const createProviderSlice = (set, get) => ({
       url: `/api/provider/edit/${id}`
     })
       .then((response) => {
-        console.log('GET request successful:', response.data);
+        // console.log('GET request successful:', response.data);
         set({ providerEdit: response.data });
       })
       .catch((err) => {
