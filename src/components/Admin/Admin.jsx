@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import useStore from "../../zustand/store";
 
 import PageHeader from "../PageHeader/PageHeader";
@@ -8,6 +7,7 @@ import AdminEdit from "../AdminEdit/AdminEdit";
 
 function Admin() {
   const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     user,
     providers,
@@ -30,14 +30,15 @@ function Admin() {
     }
   }, [fetchAdminProviders, user]);
 
-  const handleEditClick = (id) => {
+  const handleEditClick = async (id) => {
+    setLoading(true);
+    await editAdminProvider(id);
+    setLoading(false);
     setEditing(true);
-    editAdminProvider(id);
   };
 
   const handleCancelClick = () => {
     setEditing(false);
-    // editAdminProvider(id);
   };
 
   return (
@@ -64,7 +65,9 @@ function Admin() {
             </div>
 
             {/* Admin provider listing & editing */}
-            {editing ? (
+            {loading ? (
+              <div>Loading...</div>
+            ) : editing ? (
               <AdminEdit
                 providerEdit={providerEdit}
                 handleCancelClick={handleCancelClick}

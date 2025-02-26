@@ -30,7 +30,7 @@ const createProviderSlice = (set, get) => ({
       });
   },
   editAdminProvider: (id) => {
-    axios({
+    return axios({
       method: 'GET',
       url: `/api/provider/edit/${id}`
     })
