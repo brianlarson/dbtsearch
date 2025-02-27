@@ -1,20 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-function AdminEdit({ providerEdit, handleCancelClick }) {
-  console.log("providerEdit", providerEdit);
+function AdminEdit({ providerEdit, handleCancelClick, editing, setEditing }) {
+  // console.log("providerEdit", providerEdit);
   const provider = providerEdit[0] || {};
 
-  const [name, setName] = useState(provider.name);
-  const [availability, setAvailability] = useState(provider.availability);
+  const [name, setName] = useState(provider.name || "");
+  const [availability, setAvailability] = useState(
+    provider.availability || false
+  );
+
+  useEffect(() => {
+    if (providerEdit.length > 0) {
+      setName(providerEdit[0].name || "");
+      setAvailability(providerEdit[0].availability || false);
+    }
+  }, [providerEdit]);
 
   function handleChange(e) {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     if (name === "name") {
       setName(value);
-      console.log(name, value);
     } else if (name === "availability") {
-      setAvailability(!availability);
+      setAvailability(checked);
     }
+    // console.log(name, value, type, checked);
+  }
+
+  function updateProvider(id, data) {
+    // console.log(id, data);
+    axios({
+      method: "PUT",
+      url: `/api/provider/edit/update/${id}`,
+      data: data,
+    })
+      .then((res) => {
+        console.log("updateProvider", res.data);
+        setEditing(false);
+      })
+      .catch((err) => {
+        console.error("updateProvider", err);
+      });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const { name, availability } = e.target;
+    const data = {
+      name: name.value,
+      availability: availability.checked ? true : false,
+    };
+    // console.log("submitting", data.name, data.availability);
+    updateProvider(provider.id, data);
   }
 
   return (
@@ -25,7 +62,7 @@ function AdminEdit({ providerEdit, handleCancelClick }) {
           <div className="list-group-item p-4">
             <div className="pe-4">
               <h3 className="fs-5 mb-4 fw-semibold">{name}</h3>
-              <form action="" className="form">
+              <form onSubmit={handleSubmit} className="form">
                 <div className="row">
                   <div className="col-md-8 mb-3">
                     <label htmlFor="name" className="form-label">
@@ -33,7 +70,7 @@ function AdminEdit({ providerEdit, handleCancelClick }) {
                     </label>
                     <input
                       onChange={handleChange}
-                      defaultValue={name}
+                      value={name}
                       id="name"
                       name="name"
                       type="text"
@@ -44,7 +81,7 @@ function AdminEdit({ providerEdit, handleCancelClick }) {
                     <div className="form-check">
                       <input
                         onChange={handleChange}
-                        checked={availability}
+                        checked={availability ?? "checked"}
                         id="availability"
                         name="availability"
                         type="checkbox"

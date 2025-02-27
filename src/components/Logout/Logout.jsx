@@ -6,7 +6,7 @@ function Logout() {
     <>
       <PageHeader pageHeading="Thank you!" />
       <Container>
-        <p>
+        <p className="fs-base">
           You are now logged out of the system.
           <br />
           <a className="text-brand" href="/login">

@@ -28,7 +28,7 @@ function Admin() {
     if (user && user.id) {
       fetchAdminProviders(user.id);
     }
-  }, [fetchAdminProviders, user]);
+  }, [fetchAdminProviders, user, editing]);
 
   const handleEditClick = async (id) => {
     setLoading(true);
@@ -71,6 +71,8 @@ function Admin() {
               <AdminEdit
                 providerEdit={providerEdit}
                 handleCancelClick={handleCancelClick}
+                editing={editing}
+                setEditing={setEditing}
               />
             ) : (
               <AdminList
