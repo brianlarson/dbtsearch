@@ -48,10 +48,23 @@ You said you're converting to a "totally different stack." Here are common direc
 
 ## Next decisions
 
-1. **First milestone on `stack-rewrite`:** e.g. Nuxt app + Tailwind, connect to DDEV MySQL, one directory page (providers list). Link commits with **TT-8** in the message.
-2. When the new stack is ready, promote `stack-rewrite` to `main` (see GETTING-STARTED §5).
+1. When the new stack is ready, promote `stack-rewrite` to `main` (see GETTING-STARTED §5).
 
 ---
+
+## This week / Next atomic tasks
+
+Suggested order. Link commits with the issue key (e.g. **TT-9**) in the message.
+
+| Order | Issue | What |
+|-------|--------|------|
+| 1 | [TT-9 — Export directory data to JSON](https://linear.app/tiny-tree/issue/TT-9/export-directory-data-to-json) | Export providers (and optionally users) to JSON for Craft / new schema. Data model will change with Craft; focus is preserving data, not schema. |
+| 2 | [TT-10 — Scaffold Nuxt 3 + Tailwind](https://linear.app/tiny-tree/issue/TT-10/scaffold-nuxt-3-tailwind-on-stack-rewrite) | Add Nuxt 3 + Tailwind to `stack-rewrite`; app shell only. |
+| 3 | [TT-12 — Connect Nuxt to DDEV MySQL](https://linear.app/tiny-tree/issue/TT-12/connect-nuxt-to-ddev-mysql) | Configure Nuxt → DDEV MySQL 8; verify connection. |
+| 4 | [TT-11 — First directory page: providers list](https://linear.app/tiny-tree/issue/TT-11/first-directory-page-providers-list) | One read-only page listing providers (from DB or JSON); proves stack. |
+| 5 | [TT-13 — Document Craft data model for directory](https://linear.app/tiny-tree/issue/TT-13/document-craft-data-model-for-directory) | Outline Craft entry types/fields and how exported data maps; prep for Craft project. |
+
+**Note:** TT-9 (export to JSON) can be done on `main` or `stack-rewrite`; the rest are on `stack-rewrite`.
 
 ---
 
