@@ -16,12 +16,14 @@ import Admin from "../Admin/Admin";
 import Footer from "../Footer/Footer";
 import Error404 from "../Error404/Error404";
 
+const captureMarkup = import.meta.env.VITE_CAPTURE_MARKUP === "true";
+
 function App() {
   const user = useStore((state) => state.user);
   const fetchUser = useStore((state) => state.fetchUser);
 
   useEffect(() => {
-    fetchUser();
+    if (!captureMarkup) fetchUser();
   }, [fetchUser]);
 
   return (
@@ -38,12 +40,16 @@ function App() {
           <Route
             exact
             path="/login"
-            element={user.id ? <Navigate to="/admin" replace /> : <Login />}
+            element={
+              captureMarkup ? <Login /> : user.id ? <Navigate to="/admin" replace /> : <Login />
+            }
           />
           <Route
             exact
             path="/admin"
-            element={user.id ? <Admin /> : <Navigate to="/login" replace />}
+            element={
+              captureMarkup ? <Admin /> : user.id ? <Admin /> : <Navigate to="/login" replace />
+            }
           />
           <Route path="/logout" element={<Logout />} />
           <Route path="*" element={<Error404 />} />
