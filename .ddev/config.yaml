@@ -1,0 +1,11 @@
+# DDEV config: PostgreSQL only. Run Node (Express + Vite) on your host.
+# See docs/GETTING-STARTED.md for usage.
+
+name: dbtsearch
+type: node
+docroot: ""
+database:
+  type: postgres
+  version: 14
+# Fixed port so .env DATABASE_URL is predictable (avoids conflict with local Postgres on 5432)
+host_db_port: "55432"

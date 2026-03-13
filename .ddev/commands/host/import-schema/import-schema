@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+## Description: Import data/database.sql into DDEV's Postgres (database: db)
+## Usage: import-schema
+## Example: ddev import-schema
+## DBTypes: postgres
+
+set -e
+SQL_FILE="${DDEV_APPROOT}/data/database.sql"
+PORT="${DDEV_HOST_DB_PORT:-55432}"
+
+if ! command -v psql &>/dev/null; then
+  echo "psql not found. Install PostgreSQL client on your host (e.g. brew install libpq && brew link --force libpq)."
+  echo "Or run the SQL manually: connect to 127.0.0.1:${PORT} user db / db, database db, then run data/database.sql."
+  exit 1
+fi
+
+if [[ ! -f "$SQL_FILE" ]]; then
+  echo "Schema file not found: $SQL_FILE"
+  exit 1
+fi
+
+export PGPASSWORD=db
+psql -h 127.0.0.1 -p "$PORT" -U db -d db -f "$SQL_FILE"
+echo "Schema imported into database 'db'."
