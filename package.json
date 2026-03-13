@@ -25,7 +25,9 @@
     "client": "vite",
     "server": "nodemon --watch server server/server.js",
     "build": "vite build",
-    "test": "vitest"
+    "test": "vitest",
+    "linear:close": "node scripts/linear.js close",
+    "linear:create": "node scripts/linear.js create"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

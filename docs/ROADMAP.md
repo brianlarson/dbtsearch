@@ -61,4 +61,19 @@ You said you're converting to a "totally different stack." Here are common direc
 
 ---
 
+---
+
+## Linear from the repo
+
+With `LINEAR_API_KEY` in `.env`, you can close or create issues from the terminal:
+
+```bash
+node scripts/linear.js close TT-5
+node scripts/linear.js create "Stack rewrite — branch + first milestone" "Optional description"
+```
+
+Or: `pnpm run linear:close -- TT-5` and `pnpm run linear:create -- "Title" "Description"`.
+
+---
+
 *Last updated: when you went to bed. Adjust this doc as you make decisions.*

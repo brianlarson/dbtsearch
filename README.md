@@ -18,6 +18,6 @@ Quick version:
 - `public/` — Static assets
 - `data/` — Schema (`database.sql`) and seed/data files
 
-## Tracked in Linear
+## Linear
 
-Commits that mention the issue key (e.g. **TT-5**) in the message are linked in Linear.
+Mention the issue key (e.g. **TT-6**) in commit messages to link in Linear. With `LINEAR_API_KEY` in `.env`: `node scripts/linear.js close TT-5` or `node scripts/linear.js create "Title" "Description"` (see docs/ROADMAP.md).
