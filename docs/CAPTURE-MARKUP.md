@@ -52,8 +52,8 @@ The app can run with **auth disabled** so you can capture every page (including 
    - Any 404 page (e.g. `/nonexistent`)
 
 3. **How to capture**
-   - **Option A (manual):** For each URL, open in browser → right‑click → "Save as" → "Webpage, Complete" or "Webpage, HTML only". Save into `docs/reference-markup/` (e.g. `home.html`, `providers.html`, …).
-   - **Option B (script):** Use a small Node script with `fetch()` of each route and write the response HTML to files. (SPA: you may get the shell only; for full DOM use a headless browser like Puppeteer/Playwright to visit each URL and export `document.documentElement.outerHTML`.)
+   - **Script (recommended):** With the client running, run `npm run capture-markup`. If the client is on another port (e.g. 5175), run `npm run capture-markup -- http://localhost:5175`. Saves full rendered HTML to `docs/reference-markup/`. Requires Playwright (`npx playwright install chromium` once).
+   - **Manual:** For each URL, open in browser → right‑click → "Save as" → "Webpage, HTML only". Save into `docs/reference-markup/` (e.g. `home.html`, …).
 
 4. **Where to save**
    - `docs/reference-markup/` — one `.html` per route (e.g. `home.html`, `providers.html`, `about.html`, `faqs.html`, `contact.html`, `register.html`, `login.html`, `admin.html`, `404.html`). Add to `.gitignore` if the files are large or you prefer not to commit them; otherwise commit for reference.
