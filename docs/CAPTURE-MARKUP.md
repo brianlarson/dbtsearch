@@ -13,25 +13,43 @@ Use this as reference when rebuilding pages in Vue/Nuxt + Tailwind. Goal: **Boot
 
 ---
 
-## Steps
+## No database required: auth bypass for capture
 
-1. **Switch to main and run the app**
+The app can run with **auth disabled** so you can capture every page (including `/login` and `/admin`) without logging in or running the database.
+
+1. **Set in `.env` (repo root):**
+   ```env
+   VITE_CAPTURE_MARKUP=true
+   ```
+2. **Run only the client** (no server/DB needed):
    ```bash
    git checkout main
-   npm run server   # terminal 1
-   npm run client   # terminal 2
+   npm run client
    ```
-   Open http://localhost:5173 (and ensure DDEV + Postgres are running if the app needs the DB).
+3. Open http://localhost:5173 and visit each route. `/admin` and `/login` render without a real user. Admin may show an empty list (no API); you’re capturing layout and structure.
+4. **When you’re done capturing,** remove `VITE_CAPTURE_MARKUP` from `.env` or set it to `false`, so the app uses normal auth again.
+
+---
+
+## Steps (with auth bypass)
+
+1. **Switch to main, set env, run client**
+   ```bash
+   git checkout main
+   echo "VITE_CAPTURE_MARKUP=true" >> .env
+   npm run client
+   ```
+   Open http://localhost:5173. No server or database required.
 
 2. **Routes to capture**
    - `/` — Home
-   - `/providers` — Provider list
+   - `/providers` — Provider list (may be empty without API)
    - `/about` — About
    - `/faqs` — FAQs
    - `/contact` — Contact
-   - `/register` — Register (logged-out state)
-   - `/login` — Login
-   - `/admin` — Admin (log in first; may have list + edit views)
+   - `/register` — Register
+   - `/login` — Login (renders directly)
+   - `/admin` — Admin (renders directly; list may be empty)
    - `/logout` — Redirect; optional
    - Any 404 page (e.g. `/nonexistent`)
 
