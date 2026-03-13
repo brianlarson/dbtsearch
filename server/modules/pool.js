@@ -7,11 +7,10 @@ let pool;
 // Example of a valid DATABASE_URL: 
 //  DATABASE_URL=postgresql://jDoe354:secretPw123@some.db.com/prime_app
 if (process.env.DATABASE_URL) {
+  const isLocal = process.env.DATABASE_URL.includes('127.0.0.1') || process.env.DATABASE_URL.includes('localhost');
   pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    }
+    ssl: isLocal ? false : { rejectUnauthorized: false }
   });
 }
 // When we're running this app on our own computer we'll connect to the

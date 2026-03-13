@@ -2,8 +2,9 @@
 # See docs/GETTING-STARTED.md for usage.
 
 name: dbtsearch
-type: node
-docroot: ""
+# Use php type (Node isn't a built-in type); we only use DDEV for PostgreSQL.
+type: php
+docroot: .
 database:
   type: postgres
   version: 14
