@@ -7,8 +7,9 @@ Short-term plan and stack-rewrite options.
 ## Current status
 
 - **TT-5:** Done — original stack running (DDEV + Postgres, server/client).
-- **TT-8 (Stack rewrite):** [TT-8 — Stack rewrite — branch + first milestone](https://linear.app/tiny-tree/issue/TT-8/stack-rewrite-branch-first-milestone). Branch `stack-rewrite` created; choose target stack and implement first milestone (e.g. auth + one read-only page).
-- **Baseline:** React (Vite), Zustand, Express, Passport, PostgreSQL. Schema in `data/database.sql` (users + providers).
+- **TT-8 (Stack rewrite):** [TT-8 — Stack rewrite — branch + first milestone](https://linear.app/tiny-tree/issue/TT-8/stack-rewrite-branch-first-milestone). Branch `stack-rewrite` created.
+- **Chosen stack:** Vue 3, Nuxt 3, Tailwind CSS, **MySQL 8+** (Craft CMS–recommended). DDEV on this branch uses MySQL 8. Schema: `data/database.mysql.sql`. After `ddev start`, import with `ddev mysql < data/database.mysql.sql` (or use DDEV’s import-db).
+- **Legacy (main):** React (Vite), Express, Passport, PostgreSQL; schema `data/database.sql`.
 
 ---
 
@@ -33,10 +34,10 @@ You said you're converting to a "totally different stack." Here are common direc
 | **Next.js API routes / Remix loaders** | Single app, less moving parts | Tied to that framework |
 | **Other runtime (e.g. Go, Rust)** | Performance, different ecosystem | Full rewrite of API and auth |
 
-### Database
+### Database (chosen for stack-rewrite)
 
-- **Keep Postgres (DDEV or hosted):** No change; you already have schema and DDEV.
-- **ORM:** If you add one (e.g. Prisma, Drizzle), it can live with Express or with Next/Remix.
+- **MySQL 8+ (Craft CMS–recommended):** DDEV on `stack-rewrite` is configured for MySQL 8.0. Schema: `data/database.mysql.sql`. Aligns with Craft CMS and your usual stack.
+- **Legacy (main):** Postgres remains for the existing React/Express app.
 
 ### Recommendation (for a search-style app)
 
@@ -47,9 +48,8 @@ You said you're converting to a "totally different stack." Here are common direc
 
 ## Next decisions
 
-1. **What stack?** (e.g. Next.js + Postgres, Remix + DDEV, or keep Vite + Express — see tables above.)
-2. **First milestone on `stack-rewrite`:** e.g. auth + one read-only page, or providers list parity. Link commits with **TT-8** in the message.
-3. When the new stack is ready, promote `stack-rewrite` to `main` (see GETTING-STARTED §5).
+1. **First milestone on `stack-rewrite`:** e.g. Nuxt app + Tailwind, connect to DDEV MySQL, one directory page (providers list). Link commits with **TT-8** in the message.
+2. When the new stack is ready, promote `stack-rewrite` to `main` (see GETTING-STARTED §5).
 
 ---
 

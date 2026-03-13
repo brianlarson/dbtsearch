@@ -1,12 +1,12 @@
-# DDEV config: PostgreSQL only. Run Node (Express + Vite) on your host.
-# See docs/GETTING-STARTED.md for usage.
+# DDEV config for stack-rewrite: MySQL 8+ (Craft CMS–recommended). Run Nuxt on your host.
+# On main branch, legacy app uses Postgres; this branch uses MySQL for Vue/Nuxt + Craft alignment.
+# See docs/ROADMAP.md and docs/GETTING-STARTED.md.
 
 name: dbtsearch
-# Use php type (Node isn't a built-in type); we only use DDEV for PostgreSQL.
 type: php
 docroot: .
 database:
-  type: postgres
-  version: 14
-# Fixed port so .env DATABASE_URL is predictable (avoids conflict with local Postgres on 5432)
-host_db_port: "55432"
+  type: mysql
+  version: "8.0"
+# Optional: fixed port for MySQL (default 3306). Uncomment if you need a specific port.
+# host_db_port: "33060"
