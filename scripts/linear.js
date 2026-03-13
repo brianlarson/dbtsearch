@@ -5,6 +5,7 @@
  *
  * Usage:
  *   node scripts/linear.js close TT-5
+ *   node scripts/linear.js start TT-14
  *   node scripts/linear.js create "Title here" "Optional description"
  *
  * For create, the new issue is added to the same team as TT-5 (Tiny Tree).
@@ -91,12 +92,16 @@ async function getIssueAndTeam(identifier) {
   return issue;
 }
 
-async function closeIssue(identifier) {
+async function setIssueState(identifier, stateNames) {
   const issue = await getIssueAndTeam(identifier);
-  const done = issue.team?.states?.nodes?.find(
-    (s) => s.name.toLowerCase() === 'done' || s.name.toLowerCase() === 'completed'
+  const names = stateNames.map((n) => n.toLowerCase());
+  const state = issue.team?.states?.nodes?.find((s) =>
+    names.includes(s.name.toLowerCase())
   );
-  if (!done) throw new Error('Could not find Done state on team ' + (issue.team?.name || '?'));
+  if (!state)
+    throw new Error(
+      'Could not find state (' + stateNames.join(' or ') + ') on team ' + (issue.team?.name || '?')
+    );
 
   await graphql(
     `
@@ -107,9 +112,17 @@ async function closeIssue(identifier) {
       }
     }
     `,
-    { id: issue.id, stateId: done.id }
+    { id: issue.id, stateId: state.id }
   );
-  console.log(`Closed ${issue.identifier}: ${issue.title} → ${done.name}`);
+  console.log(`${issue.identifier}: ${issue.title} → ${state.name}`);
+}
+
+async function closeIssue(identifier) {
+  await setIssueState(identifier, ['Done', 'Completed']);
+}
+
+async function startIssue(identifier) {
+  await setIssueState(identifier, ['In Progress', 'In progress', 'Started']);
 }
 
 async function createIssue(title, description = '') {
@@ -139,10 +152,13 @@ async function main() {
   try {
     if (cmd === 'close' && args[0]) {
       await closeIssue(args[0].toUpperCase());
+    } else if (cmd === 'start' && args[0]) {
+      await startIssue(args[0].toUpperCase());
     } else if (cmd === 'create' && args[0]) {
       await createIssue(args[0], args[1] || '');
     } else {
       console.log('Usage: node scripts/linear.js close TT-5');
+      console.log('       node scripts/linear.js start TT-14');
       console.log('       node scripts/linear.js create "Title" "Optional description"');
       process.exit(1);
     }

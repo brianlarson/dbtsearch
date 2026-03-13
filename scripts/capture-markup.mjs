@@ -31,12 +31,16 @@ await mkdir(OUT_DIR, { recursive: true });
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage();
 
+const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
 for (const [path, file] of ROUTES) {
   const url = BASE + path;
   try {
     await page.goto(url, { waitUntil: "networkidle", timeout: 15000 });
     // SPA: wait for React to render main content
     await page.locator("main.content-wrapper").waitFor({ state: "visible", timeout: 8000 }).catch(() => {});
+    // Give the SPA time to paint so we don't capture shell-only markup (~2KB)
+    await delay(800);
     const html = await page.evaluate(() => document.documentElement.outerHTML);
     const outPath = join(OUT_DIR, file);
     await writeFile(outPath, html, "utf8");

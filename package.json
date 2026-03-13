@@ -28,7 +28,8 @@
     "test": "vitest",
     "linear:close": "node scripts/linear.js close",
     "linear:create": "node scripts/linear.js create",
-    "capture-markup": "node scripts/capture-markup.mjs"
+    "capture-markup": "node scripts/capture-markup.mjs",
+    "view-markup": "npx serve docs/reference-markup -p 5180"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

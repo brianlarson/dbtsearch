@@ -58,6 +58,13 @@ The app can run with **auth disabled** so you can capture every page (including 
 4. **Where to save**
    - `docs/reference-markup/` — one `.html` per route (e.g. `home.html`, `providers.html`, `about.html`, `faqs.html`, `contact.html`, `register.html`, `login.html`, `admin.html`, `404.html`). Add to `.gitignore` if the files are large or you prefer not to commit them; otherwise commit for reference.
 
-5. **Notes**
+5. **Viewing the captured markup**
+   - From the repo root, run:
+     ```bash
+     npm run view-markup
+     ```
+   - Open **http://localhost:5180** in a browser. You’ll see a directory listing; click any `.html` file (e.g. `home.html`, `providers.html`) to view that page for reference during the new build. Stop the server with `Ctrl+C` when done.
+
+6. **Notes**
    - Current stack: React, Bootstrap 5, Finder theme (`public/css/theme.min.css`), dark theme (`data-bs-theme="dark"`).
    - When rebuilding: replace Bootstrap classes with Tailwind equivalents; keep structure and content; use Vue for forms, toggles, and other interactivity.
