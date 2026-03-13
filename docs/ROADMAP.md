@@ -1,21 +1,14 @@
 # Roadmap
 
-Short-term plan and stack-rewrite options for when you're ready.
+Short-term plan and stack-rewrite options.
 
 ---
 
 ## Current status
 
-- **TT-5 (Spin up original project):** Server and client run; DDEV provides Postgres. Finish by doing the smoke test (register → log out → log in → log out) and marking TT-5 Done in Linear.
+- **TT-5:** Done — original stack running (DDEV + Postgres, server/client).
+- **TT-8 (Stack rewrite):** [TT-8 — Stack rewrite — branch + first milestone](https://linear.app/tiny-tree/issue/TT-8/stack-rewrite-branch-first-milestone). Branch `stack-rewrite` created; choose target stack and implement first milestone (e.g. auth + one read-only page).
 - **Baseline:** React (Vite), Zustand, Express, Passport, PostgreSQL. Schema in `data/database.sql` (users + providers).
-
----
-
-## Right after TT-5
-
-1. Mark TT-5 Done in Linear.
-2. Optional: Tidy code comments / README to sound like this project, not the Prime starter.
-3. When ready to change stacks: `git checkout -b stack-rewrite` and do all new-stack work there. Promote to `main` when you're happy (see GETTING-STARTED §5).
 
 ---
 
@@ -52,12 +45,11 @@ You said you're converting to a "totally different stack." Here are common direc
 
 ---
 
-## Decisions when you're back
+## Next decisions
 
-1. **Smoke test done?** If yes, close TT-5.
-2. **What stack do you want?** (e.g. "Next.js + Postgres" or "Remix + DDEV")
-3. **Create `stack-rewrite` branch** and add a Linear issue for the rewrite so commits link.
-4. **First milestone on new stack:** e.g. "Auth + one read-only page" or "Same providers list, new stack."
+1. **What stack?** (e.g. Next.js + Postgres, Remix + DDEV, or keep Vite + Express — see tables above.)
+2. **First milestone on `stack-rewrite`:** e.g. auth + one read-only page, or providers list parity. Link commits with **TT-8** in the message.
+3. When the new stack is ready, promote `stack-rewrite` to `main` (see GETTING-STARTED §5).
 
 ---
 
@@ -69,7 +61,7 @@ With `LINEAR_API_KEY` in `.env`, you can close or create issues from the termina
 
 ```bash
 node scripts/linear.js close TT-5
-node scripts/linear.js create "Stack rewrite — branch + first milestone" "Optional description"
+node scripts/linear.js create "Title" "Optional description"
 ```
 
 Or: `pnpm run linear:close -- TT-5` and `pnpm run linear:create -- "Title" "Description"`.
