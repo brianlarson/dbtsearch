@@ -52,12 +52,31 @@ You said you're converting to a "totally different stack." Here are common direc
 
 ---
 
+## Chosen stack (restack)
+
+| Layer      | Choice        | Notes |
+|-----------|----------------|------|
+| **Frontend** | Vue.js + Nuxt.js + Vite | Nuxt 3 uses Vite by default. Use `docs/reference-markup/` for layout/copy when rebuilding. |
+| **Styling**  | Tailwind CSS   | Replace Bootstrap/Finder classes from legacy markup. |
+| **CMS**      | Craft CMS      | Content, admin, optional headless API. |
+| **Database** | MySQL 8        | Craft recommends MySQL 8. Use in DDEV for the new stack. |
+| **Dev env**  | DDEV           | Run Craft (and MySQL 8) in DDEV on `stack-rewrite`. Legacy on `main` keeps current DDEV Postgres. |
+
+---
+
+## Restack: Craft CMS + DDEV and legacy always available
+
+- **Review legacy anytime:** The legacy app lives on `main`. To run it: `git checkout main`, `ddev start`, `npm run server` (terminal 1), `npm run client` (terminal 2). No need to rename or delete anything; `main` stays the React/Express/Postgres app until you promote the new stack.
+- **New stack on a branch:** Create `stack-rewrite` when ready. Do all Craft/Nuxt work there. Use `docs/reference-markup/` (committed on `main`, so it’s on the branch too) as the layout/copy reference when rebuilding pages.
+- **Suggested first step:** Set up Craft CMS with DDEV on `stack-rewrite`: add **MySQL 8** in DDEV for Craft (Craft’s recommended DB), and either add Craft in a `cms/` subdir or make DDEV serve Craft’s `web/`. Then add a Nuxt (Vue + Vite + Tailwind) app—e.g. in a `frontend/` or `app/` dir—and aim for “Craft running + one page matched to reference markup.”
+
+---
+
 ## Decisions when you're back
 
 1. **Smoke test done?** If yes, close TT-5.
-2. **What stack do you want?** (e.g. "Next.js + Postgres" or "Remix + DDEV")
-3. **Create `stack-rewrite` branch** and add a Linear issue for the rewrite so commits link.
-4. **First milestone on new stack:** e.g. "Auth + one read-only page" or "Same providers list, new stack."
+2. **Create `stack-rewrite` branch** and add a Linear issue for the rewrite so commits link.
+3. **First milestone on new stack:** e.g. “Craft + MySQL 8 in DDEV” then “Nuxt + Tailwind + one page from reference markup.”
 
 ---
 
