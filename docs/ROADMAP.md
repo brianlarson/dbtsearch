@@ -4,6 +4,23 @@ Short-term plan and stack-rewrite options.
 
 ---
 
+## At a glance
+
+| What | Status / one-liner |
+|------|--------------------|
+| **Legacy app** | `main`: React + Express + Postgres. Running. |
+| **New stack** | `stack-rewrite`: Vue, Nuxt, Tailwind, MySQL 8+. Branch + schema ready. |
+| **TT-9** | Export providers/users → JSON (for Craft; no DB on capture). |
+| **TT-14** | Capture legacy HTML (main, client-only, no auth). → `docs/reference-markup/`. |
+| **TT-10** | Nuxt 3 + Tailwind app shell on `stack-rewrite`. |
+| **TT-12** | Nuxt ↔ DDEV MySQL; verify. |
+| **TT-11** | One providers list page (read-only). |
+| **TT-13** | Craft entry types + field map (doc). |
+
+**Branch:** TT-9 & TT-14 on `main`; rest on `stack-rewrite`. Commit with issue key (e.g. TT-9) in message.
+
+---
+
 ## Current status
 
 - **TT-5:** Done — original stack running (DDEV + Postgres, server/client).
@@ -54,18 +71,16 @@ You said you're converting to a "totally different stack." Here are common direc
 
 ## This week / Next atomic tasks
 
-Suggested order. Link commits with the issue key (e.g. **TT-9**) in the message.
+Suggested order. Full detail in Linear; one-liners above.
 
-| Order | Issue | What |
-|-------|--------|------|
-| 1 | [TT-9 — Export directory data to JSON](https://linear.app/tiny-tree/issue/TT-9/export-directory-data-to-json) | Export providers (and optionally users) to JSON for Craft / new schema. Data model will change with Craft; focus is preserving data, not schema. |
-| 2 | [TT-14 — Capture legacy page markup](https://linear.app/tiny-tree/issue/TT-14/capture-legacy-page-markup-for-tailwindvue-reference) | On **main**: run legacy app, capture rendered HTML of each page (/, /providers, /about, /faqs, /contact, /register, /login, /admin, 404). Save to `docs/reference-markup/`. Reference for Bootstrap → Tailwind + Vue rebuild. See docs/CAPTURE-MARKUP.md. |
-| 3 | [TT-10 — Scaffold Nuxt 3 + Tailwind](https://linear.app/tiny-tree/issue/TT-10/scaffold-nuxt-3-tailwind-on-stack-rewrite) | Add Nuxt 3 + Tailwind to `stack-rewrite`; app shell only. |
-| 4 | [TT-12 — Connect Nuxt to DDEV MySQL](https://linear.app/tiny-tree/issue/TT-12/connect-nuxt-to-ddev-mysql) | Configure Nuxt → DDEV MySQL 8; verify connection. |
-| 5 | [TT-11 — First directory page: providers list](https://linear.app/tiny-tree/issue/TT-11/first-directory-page-providers-list) | One read-only page listing providers (from DB or JSON); match structure/look from captured markup where possible. |
-| 6 | [TT-13 — Document Craft data model for directory](https://linear.app/tiny-tree/issue/TT-13/document-craft-data-model-for-directory) | Outline Craft entry types/fields and how exported data maps; prep for Craft project. |
-
-**Note:** TT-9 and TT-14 can be done on `main` (TT-14 must run legacy app on main). The rest are on `stack-rewrite`.
+| # | Issue | Summary |
+|---|--------|--------|
+| 1 | [TT-9](https://linear.app/tiny-tree/issue/TT-9/export-directory-data-to-json) | Export data → JSON for Craft. |
+| 2 | [TT-14](https://linear.app/tiny-tree/issue/TT-14/capture-legacy-page-markup-for-tailwindvue-reference) | Capture legacy HTML (main, no DB). [Details](CAPTURE-MARKUP.md) |
+| 3 | [TT-10](https://linear.app/tiny-tree/issue/TT-10/scaffold-nuxt-3-tailwind-on-stack-rewrite) | Nuxt 3 + Tailwind shell. |
+| 4 | [TT-12](https://linear.app/tiny-tree/issue/TT-12/connect-nuxt-to-ddev-mysql) | Nuxt ↔ MySQL. |
+| 5 | [TT-11](https://linear.app/tiny-tree/issue/TT-11/first-directory-page-providers-list) | Providers list page. |
+| 6 | [TT-13](https://linear.app/tiny-tree/issue/TT-13/document-craft-data-model-for-directory) | Craft data model doc. |
 
 ---
 

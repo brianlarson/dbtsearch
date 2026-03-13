@@ -1,8 +1,8 @@
 # Get original stack running
 
-**Tracked in Linear:** [TT-5 — Spin up original Prime Academy project](https://linear.app/tiny-tree/issue/TT-5/spin-up-original-prime-academy-project)
+**Linear:** [TT-5](https://linear.app/tiny-tree/issue/TT-5/spin-up-original-prime-academy-project) (done)
 
-Use this checklist to get the current app (React, Vite, Express, Passport, PostgreSQL) running before forking to the new stack.
+**Summary:** DDEV or local Postgres → `.env` → `npm run server` + `npm run client` → http://localhost:5173. Smoke test: register, log out, log in.
 
 ---
 
