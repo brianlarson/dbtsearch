@@ -25,7 +25,7 @@ Short-term plan and stack-rewrite options.
 
 - **TT-5:** Done — original stack running (DDEV + Postgres, server/client).
 - **TT-8 (Stack rewrite):** [TT-8 — Stack rewrite — branch + first milestone](https://linear.app/tiny-tree/issue/TT-8/stack-rewrite-branch-first-milestone). Branch `stack-rewrite` created.
-- **Chosen stack:** Vue 3, Nuxt 3, Tailwind CSS, **MySQL 8+** (Craft CMS–recommended). DDEV on this branch uses MySQL 8. Schema: `data/database.mysql.sql`. After `ddev start`, import with `ddev mysql < data/database.mysql.sql` (or use DDEV’s import-db).
+- **Chosen stack:** Vue 3, Nuxt 3, Tailwind CSS, **MySQL 8+** (Craft CMS–recommended). DDEV on this branch gets **MySQL 8** via `.ddev/docker-compose.mysql.yaml` (Craft uses it); Postgres remains for legacy. **First-run:** [docs/STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) — set docroot to `cms/web`, `ddev start`, install Craft into `cms/`.
 - **Legacy (main):** React (Vite), Express, Passport, PostgreSQL; schema `data/database.sql`.
 
 ---

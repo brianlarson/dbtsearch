@@ -1,0 +1,28 @@
+# MySQL 8 for Craft CMS (stack-rewrite). Primary DB remains Postgres for legacy.
+# After ddev start, Craft can use: host=mysql8, port=3306, database=craft, user=craft, password=craft
+# On host (e.g. TablePlus): 127.0.0.1:3306 (when DDEV exposes it).
+services:
+  mysql8:
+    container_name: ddev-${DDEV_SITENAME}-mysql8
+    image: mysql:8.0
+    restart: "no"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: craft
+      MYSQL_USER: craft
+      MYSQL_PASSWORD: craft
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql8_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql8_data: {}

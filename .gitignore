@@ -66,3 +66,10 @@ typings/
 
 # ignore package-lock as it complicates merging
 package-lock.json
+
+# Craft CMS (stack-rewrite, cms/)
+cms/vendor/
+cms/.env
+cms/web/cpresources/
+cms/storage/
+cms/node_modules/
