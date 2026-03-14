@@ -12,8 +12,20 @@ database:
     version: "14"
 use_dns_when_possible: true
 composer_version: "2"
-web_environment: []
+# Force Craft (in cms/) to use MySQL 8; DDEV primary DB stays Postgres for legacy.
+web_environment:
+  - DB_DRIVER=mysql
+  - DB_SERVER=mysql8
+  - DB_PORT=3306
+  - DB_DATABASE=craft
+  - DB_USER=craft
+  - DB_PASSWORD=craft
 corepack_enable: false
+# Prevent DDEV from overwriting cms/.env with Postgres; Craft uses MySQL via .env.web.
+disable_settings_management: true
+hooks:
+  post-start:
+    - exec-host: "cp .ddev/craft-mysql.env.web .ddev/.env.web"
 
 # Key features of DDEV's config.yaml:
 

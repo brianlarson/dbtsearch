@@ -1,0 +1,23 @@
+dateModified: 1773503222
+email:
+  fromEmail: brian@brianlarson.com
+  fromName: 'DBT Search'
+  transportType: craft\mail\transportadapters\Sendmail
+meta:
+  __names__:
+    0e198a9f-3b1b-487f-80ee-3c2aeed6d349: 'DBT Search' # DBT Search
+    3220f3b5-89ff-450e-9a8c-83bd4b04bdf5: 'Public Schema' # Public Schema
+    cc0c373f-6532-483b-831f-3c8878b9bb8e: 'DBT Search' # DBT Search
+system:
+  edition: pro
+  live: true
+  name: 'DBT Search'
+  schemaVersion: 5.9.0.8
+  timeZone: America/Los_Angeles
+users:
+  allowPublicRegistration: false
+  defaultGroup: null
+  photoSubpath: null
+  photoVolumeUid: null
+  require2fa: false
+  requireEmailVerification: true

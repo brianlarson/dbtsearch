@@ -1,0 +1,8 @@
+baseUrl: $PRIMARY_SITE_URL
+handle: default
+hasUrls: true
+language: en
+name: 'DBT Search'
+primary: true
+siteGroup: cc0c373f-6532-483b-831f-3c8878b9bb8e # DBT Search
+sortOrder: 1

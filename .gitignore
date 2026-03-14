@@ -70,6 +70,7 @@ package-lock.json
 # Craft CMS (stack-rewrite, cms/)
 cms/vendor/
 cms/.env
+cms/config/license.key
 cms/web/cpresources/
 cms/storage/
 cms/node_modules/
