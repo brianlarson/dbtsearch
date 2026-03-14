@@ -1,7 +1,5 @@
 # Capture legacy page markup
 
-**Linear:** [TT-14](https://linear.app/tiny-tree/issue/TT-14/capture-legacy-page-markup-for-tailwindvue-reference)
-
 **Summary:** On `main`, set `VITE_CAPTURE_MARKUP=true`, run client only (no server/DB). Visit each route and save HTML to `docs/reference-markup/`. Use as reference for Bootstrap → Tailwind + Vue rebuild.
 
 ---
@@ -9,7 +7,7 @@
 ## When to do this
 
 - **Branch:** `main` (legacy app uses Bootstrap 5 + Finder theme).
-- **Before or in parallel with:** Nuxt scaffold (TT-10) and first directory page (TT-11). Having the markup helps match structure and copy when converting to Tailwind.
+- **Before or in parallel with:** Nuxt scaffold and first directory page. Having the markup helps match structure and copy when converting to Tailwind.
 
 ---
 

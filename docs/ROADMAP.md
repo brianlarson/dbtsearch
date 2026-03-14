@@ -9,22 +9,18 @@ Short-term plan and stack-rewrite options.
 | What | Status / one-liner |
 |------|--------------------|
 | **Legacy app** | `main`: React + Express + Postgres. Running. |
-| **New stack** | `stack-rewrite`: Vue, Nuxt, Tailwind, MySQL 8+. Branch + schema ready. |
-| **TT-9** | Export providers/users → JSON (for Craft; no DB on capture). |
-| **TT-14** | Capture legacy HTML (main, client-only, no auth). → `docs/reference-markup/`. |
-| **TT-10** | Nuxt 3 + Tailwind app shell on `stack-rewrite`. |
-| **TT-12** | Nuxt ↔ DDEV MySQL; verify. |
-| **TT-11** | One providers list page (read-only). |
-| **TT-13** | Craft entry types + field map (doc). |
+| **New stack** | `stack-rewrite`: Vue, Nuxt, Tailwind, MySQL 8+. Branch ready; next: install Craft in `./cms`. |
+| **Markup** | Capture legacy HTML (main, client-only) → `docs/reference-markup/`. [Details](CAPTURE-MARKUP.md) |
+| **Milestones** | Craft + DDEV → Nuxt + Tailwind shell → first directory page. Track in **GitHub Issues**; use issue # in commits. |
 
-**Branch:** TT-9 & TT-14 on `main`; rest on `stack-rewrite`. Commit with issue key (e.g. TT-9) in message.
+**Branch:** Legacy on `main`; restack on `stack-rewrite`. See [NOTES-FOR-AGENTS.md](NOTES-FOR-AGENTS.md) for a short guide for AI/agents.
 
 ---
 
 ## Current status
 
-- **TT-5:** Done — original stack running (DDEV + Postgres, server/client).
-- **TT-8 (Stack rewrite):** [TT-8 — Stack rewrite — branch + first milestone](https://linear.app/tiny-tree/issue/TT-8/stack-rewrite-branch-first-milestone). Branch `stack-rewrite` created.
+- **Original stack:** Done — running on `main` (DDEV + Postgres, server/client).
+- **Stack rewrite:** Branch `stack-rewrite` created. **Next step:** install Craft CMS in `./cms` per [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md).
 - **Chosen stack:** Vue 3, Nuxt 3, Tailwind CSS, **MySQL 8+** (Craft CMS–recommended). DDEV on this branch gets **MySQL 8** via `.ddev/docker-compose.mysql.yaml` (Craft uses it); Postgres remains for legacy. **First-run:** [docs/STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) — set docroot to `cms/web`, `ddev start`, install Craft into `cms/`.
 - **Hosting:** Craft Cloud is out (no small plans). Plan: **Cloudways** (managed Craft + MySQL), lightweight Craft install. See [docs/HOSTING.md](HOSTING.md).
 - **Legacy (main):** React (Vite), Express, Passport, PostgreSQL; schema `data/database.sql`.
@@ -70,32 +66,14 @@ You said you're converting to a "totally different stack." Here are common direc
 
 ---
 
-## This week / Next atomic tasks
+## Next milestones
 
-Suggested order. Full detail in Linear; one-liners above.
+1. **Craft in `./cms`** — [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md): docroot `cms/web`, `ddev start`, `composer create-project craftcms/craft cms`, `ddev craft install`.
+2. **Nuxt + Tailwind** — App shell on `stack-rewrite`; then first directory page from `docs/reference-markup/`.
+3. **Craft data model** — Document entry types and fields for the directory.
 
-| # | Issue | Summary |
-|---|--------|--------|
-| 1 | [TT-9](https://linear.app/tiny-tree/issue/TT-9/export-directory-data-to-json) | Export data → JSON for Craft. |
-| 2 | [TT-14](https://linear.app/tiny-tree/issue/TT-14/capture-legacy-page-markup-for-tailwindvue-reference) | Capture legacy HTML (main, no DB). [Details](CAPTURE-MARKUP.md) |
-| 3 | [TT-10](https://linear.app/tiny-tree/issue/TT-10/scaffold-nuxt-3-tailwind-on-stack-rewrite) | Nuxt 3 + Tailwind shell. |
-| 4 | [TT-12](https://linear.app/tiny-tree/issue/TT-12/connect-nuxt-to-ddev-mysql) | Nuxt ↔ MySQL. |
-| 5 | [TT-11](https://linear.app/tiny-tree/issue/TT-11/first-directory-page-providers-list) | Providers list page. |
-| 6 | [TT-13](https://linear.app/tiny-tree/issue/TT-13/document-craft-data-model-for-directory) | Craft data model doc. |
+Track in **GitHub Issues**; mention issue # in commit messages (e.g. `#12`).
 
 ---
 
-## Linear from the repo
-
-With `LINEAR_API_KEY` in `.env`, you can close or create issues from the terminal:
-
-```bash
-node scripts/linear.js close TT-5
-node scripts/linear.js create "Title" "Optional description"
-```
-
-Or: `pnpm run linear:close -- TT-5` and `pnpm run linear:create -- "Title" "Description"`.
-
----
-
-*Last updated: when you went to bed. Adjust this doc as you make decisions.*
+*Last updated: docs onceover; Linear removed; next step = Craft install in ./cms.*

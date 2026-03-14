@@ -1,14 +1,12 @@
 # Get original stack running
 
-**Linear:** [TT-5](https://linear.app/tiny-tree/issue/TT-5/spin-up-original-prime-academy-project) (done)
-
-**Summary:** DDEV or local Postgres → `.env` → `npm run server` + `npm run client` → http://localhost:5173. Smoke test: register, log out, log in.
+**Summary:** DDEV or local Postgres → `.env` → `npm run server` + `npm run client` → http://localhost:5173. Smoke test: register, log out, log in, Admin → edit provider → save → log out.
 
 ---
 
 ## Prerequisites
 
-- **Node.js** ≥ 18
+- **Node.js** ≥ 20.19 (use `nvm use` in repo root; see `.nvmrc`)
 - **npm** (comes with Node)
 - **DDEV** (recommended for DB) or **PostgreSQL** installed and running on your host
 
@@ -49,8 +47,9 @@ DDEV provides PostgreSQL only; you run the Node app (Express + Vite) on your hos
 
 ## 2. Repo and env
 
-1. In the repo root:
+1. In the repo root (use Node 20 so Vite and deps resolve correctly):
    ```bash
+   nvm use
    npm install
    ```
 2. Create a `.env` in the **repo root** (copy from `.env.example`):
@@ -79,12 +78,10 @@ DDEV provides PostgreSQL only; you run the Node app (Express + Vite) on your hos
 
 ## 4. Smoke test
 
-- Register a new user
-- Log out
-- Log back in
-- Log out
+- Register a new user (or log in as existing).
+- Open **Admin**, confirm **My Providers** (or empty-state message), click **Edit** on a provider, change name or availability, **Save**, then log out, log in, log out.
 
-If all of that works, the original stack is running and you have a good baseline.
+If all of that works, the original stack is running and you have a good baseline. Track restack work in **GitHub Issues** (see [ROADMAP.md](ROADMAP.md)).
 
 ---
 
@@ -107,10 +104,10 @@ You keep one repo and a clear "original stack" vs "new stack" history.
 
 ---
 
-## Linking commits to Linear
+## Linking commits to GitHub Issues
 
-Include the issue key (e.g. **TT-5**) in your commit message so Linear links the commit to the issue. Examples:
+Mention the issue number in commit messages so GitHub links the commit to the issue. Examples:
 
-- `Get original stack running (TT-5)`
-- `TT-5 Add DDEV config and getting-started checklist`
-- `Fixes TT-5`
+- `Get original stack running #5`
+- `Add DDEV config and getting-started checklist (#5)`
+- `Fixes #5`

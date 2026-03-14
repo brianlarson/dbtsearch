@@ -1,6 +1,8 @@
-# DBTsearch
+# DBT Search
 
-A searchable directory of certified DBT (Dialectical Behavior Therapy) providers in Minnesota. It surfaces providers with **current availability** first so clinicians and clients can find treatment without calling down the state’s long list.
+![DBT Search logo](public/images/dbtsearch-logo.svg)
+
+A searchable directory of certified DBT (Dialectical Behavior Therapy) providers in Minnesota. DBT Search surfaces providers with **current availability** first so clinicians and clients can find treatment without calling down the state’s long list.
 
 ---
 
@@ -16,7 +18,7 @@ A searchable directory of certified DBT (Dialectical Behavior Therapy) providers
 
 **Data:** Providers list (name, certification, availability, contact, locations); admin users can manage providers they’re assigned to. Reference markup for all pages lives in `docs/reference-markup/` for the restack.
 
-**Branches:** Legacy app on `main`; restack (Craft + Nuxt + Tailwind) on `stack-rewrite`. See [docs/ROADMAP.md](docs/ROADMAP.md) and [docs/STACK-REWRITE-SETUP.md](docs/STACK-REWRITE-SETUP.md).
+**Branches:** Legacy app on `main`; restack (Craft + Nuxt + Tailwind) on `stack-rewrite`. **Next step:** install Craft in `./cms` per [docs/STACK-REWRITE-SETUP.md](docs/STACK-REWRITE-SETUP.md). See [docs/ROADMAP.md](docs/ROADMAP.md). For a short guide for AI/agents: [docs/NOTES-FOR-AGENTS.md](docs/NOTES-FOR-AGENTS.md).
 
 ---
 
