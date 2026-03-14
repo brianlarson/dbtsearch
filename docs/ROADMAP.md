@@ -8,7 +8,7 @@ Short-term plan and stack-rewrite options.
 
 | What | Status / one-liner |
 |------|--------------------|
-| **Legacy app** | `main`: React + Express + Postgres. Running. |
+| **Legacy app** | `main` and `legacy` branch: React + Express + Postgres. Running. |
 | **New stack** | `stack-rewrite`: Vue, Nuxt, Tailwind, MySQL 8+. Branch ready; next: install Craft in `./cms`. |
 | **Markup** | Capture legacy HTML (main, client-only) → `docs/reference-markup/`. [Details](CAPTURE-MARKUP.md) |
 | **Milestones** | Craft + DDEV → Nuxt + Tailwind shell → first directory page. Track in **GitHub Issues**; use issue # in commits. |

@@ -18,7 +18,7 @@ A searchable directory of certified DBT (Dialectical Behavior Therapy) providers
 
 **Data:** Providers list (name, certification, availability, contact, locations); admin users can manage providers they’re assigned to. Reference markup for all pages lives in `docs/reference-markup/` for the restack.
 
-**Branches:** Legacy app on `main`; restack (Craft + Nuxt + Tailwind) on `stack-rewrite`. **Next step:** install Craft in `./cms` per [docs/STACK-REWRITE-SETUP.md](docs/STACK-REWRITE-SETUP.md). See [docs/ROADMAP.md](docs/ROADMAP.md). For a short guide for AI/agents: [docs/NOTES-FOR-AGENTS.md](docs/NOTES-FOR-AGENTS.md).
+**Branches:** Legacy app on `main` and `legacy` (same content; use either to run the old stack). Restack (Craft + Nuxt + Tailwind) on `stack-rewrite`. **Next step:** install Craft in `./cms` per [docs/STACK-REWRITE-SETUP.md](docs/STACK-REWRITE-SETUP.md). See [docs/ROADMAP.md](docs/ROADMAP.md). For a short guide for AI/agents: [docs/NOTES-FOR-AGENTS.md](docs/NOTES-FOR-AGENTS.md).
 
 ---
 

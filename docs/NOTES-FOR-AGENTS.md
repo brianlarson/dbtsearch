@@ -5,11 +5,12 @@ Short reference for anyone (human or AI) working in this repo.
 ## Project
 
 - **Name:** DBT Search (with space). Searchable directory of certified DBT providers in Minnesota; surfaces availability first.
-- **Repo:** Legacy app (React, Vite, Express, Passport, Postgres) on `main`; restack (Vue, Nuxt, Tailwind, Craft CMS, MySQL 8) on `stack-rewrite`.
+- **Repo:** Legacy app (React, Vite, Express, Passport, Postgres) on `main` and `legacy`; restack (Vue, Nuxt, Tailwind, Craft CMS, MySQL 8) on `stack-rewrite`.
 
 ## Branches
 
-- **`main`** — Legacy stack. Run: `ddev start`, `npm run server`, `npm run client`. See [GETTING-STARTED.md](GETTING-STARTED.md).
+- **`main`** — Legacy stack (default branch). Run: `ddev start`, `npm run server`, `npm run client`. See [GETTING-STARTED.md](GETTING-STARTED.md).
+- **`legacy`** — Snapshot of legacy app (same as `main`). Use `git checkout legacy` to run the old stack; stays unchanged when you later promote the new stack to `main`.
 - **`stack-rewrite`** — New stack. Next step: **install Craft CMS in `./cms`** per [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) (docroot `cms/web`, `ddev start`, `composer create-project craftcms/craft cms`, `ddev craft install`).
 
 ## Key docs

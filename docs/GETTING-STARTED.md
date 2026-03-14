@@ -96,11 +96,11 @@ When you're ready to build the new stack:
    ```
 3. Do all new-stack work on `stack-rewrite`.
 4. When the new stack is ready to become the default:
-   - Rename the old default: `git branch -m main legacy` (or `master` → `legacy` if that's your current default).
-   - Rename the new branch: `git branch -m stack-rewrite main`.
-   - Push the new `main` and update the remote default branch in your host (GitHub/GitLab/etc.) if needed.
+   - The **`legacy`** branch already exists (created from `main`), so the old app is preserved there.
+   - Rename the new branch to `main`: `git checkout stack-rewrite`, then `git branch -m stack-rewrite main`, push the new `main`, and set it as the default branch on GitHub/GitLab if needed.
+   - The old default `main` can be deleted locally/remote after the switch, or kept briefly; **`legacy`** remains the branch to use for the old app.
 
-You keep one repo and a clear "original stack" vs "new stack" history.
+You keep one repo with **`legacy`** = old stack, **`main`** = new stack once promoted.
 
 ---
 

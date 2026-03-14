@@ -1,75 +1,70 @@
 # Stack-rewrite: first-run setup
 
-Get Craft CMS and MySQL 8 running in DDEV on the `stack-rewrite` branch. Reference: GitHub issue “Stack rewrite — Craft CMS + DDEV”.
+Get Craft CMS and MySQL 8 running in DDEV on the `stack-rewrite` branch.
+
+## Folder structure (this is correct)
+
+- **Repo root** = where `.ddev/` lives. This is your DDEV project root.
+- **Craft** lives in `cms/`. Its public docroot is `cms/web`.
+- DDEV is configured with `docroot: cms/web` and `composer_root: cms`. Composer is provided by DDEV; there is no root-level `composer.json` — Craft brings its own inside `cms/` when you install it.
+
+So: one repo, Craft in a subdirectory, DDEV serves `cms/web`. Good.
 
 ## Prerequisites
 
 - You’re on the `stack-rewrite` branch.
-- DDEV and Docker are installed and running.
+- DDEV and Docker are installed.
+- **Run all commands below from your repo root** (the same directory where you run `ddev start`). If you use a git worktree, use that worktree’s path for everything so `cms/` is created in the right place.
 
-## 1. Point DDEV at Craft’s web root
+## Install in 4 steps
 
-Craft will live in `cms/` with its public files in `cms/web`. Set DDEV’s docroot so it serves that folder:
-
-```bash
-ddev config --docroot=cms/web
-```
-
-(Or edit `.ddev/config.yaml` and set `docroot: cms/web`.)
-
-## 2. Start DDEV (Postgres + MySQL 8)
-
-This project adds a second database container (MySQL 8) for Craft. Start DDEV as usual:
+### 1. Start DDEV
 
 ```bash
 ddev start
 ```
 
-You’ll have:
+You get Postgres (legacy) and MySQL 8 (Craft). Craft will use MySQL: host `mysql8`, port `3306`, database `craft`, user `craft`, password `craft`.
 
-- **Postgres** (legacy): `127.0.0.1:55432`, user `db`, database `db` — for the Node app when you’re on `main`.
-- **MySQL 8** (Craft): `127.0.0.1:3306`, database `craft`, user `craft`, password `craft` — for Craft.
+### 2. Create the Craft project in `cms/`
 
-## 3. Install Craft CMS into `cms/`
-
-From the **repo root**. If `cms/` exists but is empty (or only has `.gitkeep`), remove it so Composer can create a fresh project:
+From repo root, run Composer **inside** the container so `cms/` is created in the same path DDEV mounts:
 
 ```bash
-rm -rf cms
-ddev composer create-project craftcms/craft cms --no-scripts
+ddev exec composer create-project craftcms/craft cms --no-scripts
 ```
 
-This creates the `cms/` directory with Craft, Composer deps, and the `web/` docroot.
+This creates `cms/` (with its own `composer.json`, `web/`, etc.). Do not run this from the host in a different directory — then the container won’t see `cms/`.
 
-## 4. Run Craft’s installer
+### 3. Run the Craft installer
 
-Use Craft’s CLI installer and point it at the MySQL 8 service (host `mysql8` inside DDEV):
+**Important:** Craft must use MySQL, not Postgres. The repo’s `cms/.env` is set with `DB_DRIVER=mysql`, `DB_SERVER=mysql8`, etc., so the installer uses the MySQL 8 service. DDEV’s default database is Postgres (used by the legacy app), so without these env vars Craft would use Postgres and conflict with existing tables.
 
 ```bash
 ddev craft install
 ```
 
-When prompted:
+When prompted, use MySQL: server `mysql8`, port `3306`, database `craft`, user `craft`, password `craft`. Set site URL, admin user, and site name as you like. Or complete the web installer at the project URL with the same DB settings.
 
-- **Database driver:** MySQL
-- **Database server:** `mysql8`
-- **Database port:** `3306`
-- **Database name:** `craft`
-- **Database user:** `craft`
-- **Database password:** `craft`
-- Set **site URL** (e.g. `https://dbtsearch.ddev.site`), **admin** user, and site name as you like.
+### 4. Open the site
 
-Or open the project URL in the browser and complete the web installer with the same DB settings.
-
-## 5. Open the site
-
-- **Front:** `https://dbtsearch.ddev.site` (or the URL DDEV shows).
+- **Front:** `https://dbtsearch.ddev.site`  
 - **Admin:** `https://dbtsearch.ddev.site/admin`
 
-## Next
+## After install
 
-- Add a Nuxt (Vue + Vite + Tailwind) app (e.g. in `frontend/` or `app/`) and match one page from `docs/reference-markup/`.
-- Track progress in GitHub Issues and mention the issue number in commits (e.g. `#12`).
+- `ddev composer` runs in `cms/` (install plugins, etc.).
+- `ddev craft` runs Craft CLI from `cms/`.
+
+## Troubleshooting
+
+**Craft used Postgres and failed with “relation already exists” (e.g. `users`)**  
+Craft was using DDEV’s primary DB (Postgres) instead of MySQL. Ensure `cms/.env` has `DB_DRIVER=mysql`, `DB_SERVER=mysql8`, `DB_DATABASE=craft`, `DB_USER=craft`, `DB_PASSWORD=craft`. Then remove the Craft tables that were created in Postgres and run the installer again:
+
+```bash
+cat .ddev/commands/web/drop-craft-tables-from-postgres.sql | ddev exec -s db psql -U db -d db
+ddev craft install
+```
 
 ## Switching back to the legacy app
 
