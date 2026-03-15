@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "storybook": "storybook dev -p 6006",
+    "build:splash": "vite build --config vite.splash.config.js",
     "build-storybook": "storybook build",
     "test:e2e": "playwright test",
     "test:e2e:debug": "playwright test --debug",

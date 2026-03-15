@@ -3,8 +3,8 @@
  * Primary (blue) and accent (gold) are distinct; palette includes variations.
  */
 @theme {
-  /* Font: modern sans serif */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Font: Google Sans (add @font-face to use it); DM Sans fallback when Google Sans not loaded */
+  --font-sans: "Google Sans", "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
   /* Brand primaries */
   --color-brand: #7c9cfd;

@@ -1,0 +1,12 @@
+/* Google Sans not on Google Fonts; use DM Sans as similar fallback until you add @font-face for Google Sans */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@import "./themes/dbtsearch.css";
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}

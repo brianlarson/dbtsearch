@@ -13,10 +13,17 @@ export default {
     copy: { control: 'text' },
     formHeading: { control: 'text' },
     submitLabel: { control: 'text' },
+    showSuccess: { control: 'boolean' },
+    successMessage: { control: 'text' },
   },
 };
 
 export const Default = {
   render: (args) => renderImageFlushLeft(args),
   args: defaultArgs,
+};
+
+export const Success = {
+  render: (args) => renderImageFlushLeft(args),
+  args: { ...defaultArgs, showSuccess: true },
 };
