@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: bcf50025-2188-4126-a360-29999caeae89 # Splash Page
+handle: splashPage
+maxAuthors: 1
+name: 'Splash Page'
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  0e198a9f-3b1b-487f-80ee-3c2aeed6d349: # DBT Search
+    enabledByDefault: true
+    hasUrls: true
+    template: splash/index.twig
+    uriFormat: __home__
+type: single

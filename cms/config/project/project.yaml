@@ -1,13 +1,84 @@
-dateModified: 1773503222
+dateModified: 1773601960
 email:
-  fromEmail: brian@brianlarson.com
+  fromEmail: support@tinytreecounseling.com
   fromName: 'DBT Search'
+  replyToEmail: null
+  template: ''
+  transportSettings:
+    command: '/usr/local/bin/mailpit sendmail -t --smtp-addr 127.0.0.1:1025'
   transportType: craft\mail\transportadapters\Sendmail
+fs:
+  assets:
+    hasUrls: true
+    name: Assets
+    settings:
+      path: $CRAFT_WEB_ROOT/uploads
+    type: craft\fs\Local
+    url: $PRIMARY_SITE_URL/uploads
 meta:
   __names__:
     0e198a9f-3b1b-487f-80ee-3c2aeed6d349: 'DBT Search' # DBT Search
+    1f048049-d0c9-4364-8a8d-736b4d508537: Pending # Pending
+    98fab9df-c419-4085-9a57-5c61f96573c2: Form # Form
+    288c542e-3541-4e24-96ee-aa5fa0bea135: General # General
     3220f3b5-89ff-450e-9a8c-83bd4b04bdf5: 'Public Schema' # Public Schema
+    acef0518-5cc6-4dd0-9231-234846cfc200: Approved # Approved
+    bcf50025-2188-4126-a360-29999caeae89: 'Splash Page' # Splash Page
     cc0c373f-6532-483b-831f-3c8878b9bb8e: 'DBT Search' # DBT Search
+    d7cbe0ad-28b6-4a03-ace9-d634d2072400: 'Contact Form' # Contact Form
+    ddb25fd5-a759-494a-9d4d-96a6e44c941e: 'Plain Text' # Plain Text
+    ddb17090-e3f7-41d7-aab7-b1729da37d11: Subscriber # Subscriber
+    e37b7064-6cc1-44c5-a156-52caa30e8b65: 'Splash Page' # Splash Page
+    fe417a71-4d1b-460f-8a63-7ac81c0e5092: Images # Images
+plugins:
+  formie:
+    edition: standard
+    enabled: true
+    licenseKey: QUKB6ZEKL37AO89B4TEAAZKZ
+    schemaVersion: 3.4.12
+    settings:
+      ajaxTimeout: 10
+      alertEmails: null
+      allowPublicVolumes: true
+      defaultDateDisplayType: calendar
+      defaultDateTime: null
+      defaultDateValueOption: ''
+      defaultEmailTemplate: ''
+      defaultExportFolder: '@storage/formie-export'
+      defaultFileUploadVolume: ''
+      defaultFormTemplate: ''
+      defaultInstructionsPosition: verbb\formie\positions\AboveInput
+      defaultLabelPosition: verbb\formie\positions\AboveInput
+      defaultPage: forms
+      emptyValuePlaceholder: 'No response.'
+      enableBackSubmission: true
+      enableCsrfValidationForGuests: true
+      enableLargeFieldStorage: false
+      enableUnloadWarning: true
+      filterIntegrationMapping: true
+      includeDraftElementUsage: false
+      includeRevisionElementUsage: false
+      maxIncompleteSubmissionAge: 30
+      maxSentNotificationsAge: 30
+      outputConsoleMessages: true
+      pdfPaperOrientation: portrait
+      pdfPaperSize: letter
+      pluginName: Forms
+      queuePriority: null
+      saveSpam: true
+      sendEmailAlerts: false
+      sentNotifications: true
+      setOnlyCurrentPagePayload: false
+      spamBehaviour: showSuccess
+      spamBehaviourMessage: ''
+      spamEmailNotifications: true
+      spamKeywords: ''
+      spamLimit: 500
+      submissionsBehaviour: all
+      useCssLayers: false
+      useQueueForIntegrations: true
+      useQueueForNotifications: true
+      validateCustomTemplates: true
 system:
   edition: pro
   live: true
