@@ -1,0 +1,182 @@
+/**
+ * DBT Search theme — blues, golds, texture, typography.
+ * Primary (blue) and accent (gold) are distinct; palette includes variations.
+ */
+@theme {
+  /* Font: modern sans serif */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand primaries */
+  --color-brand: #7c9cfd;
+  --color-brand-accent: #b8860b;
+
+  /* Blue palette (primary) — clearer blue, not lavender */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #7c9cfd;
+  --color-primary-500: #6b8ef9;
+  --color-primary-600: #5b7ef0;
+  --color-primary-700: #4a6ae5;
+  --color-primary-800: #3d5dd4;
+  --color-primary-900: #364fad;
+  --color-primary: var(--color-primary-500);
+  --color-primary-foreground: #0f172a;
+
+  /* Cold dark blues for backgrounds (off primary) — between previous two */
+  --color-background-dark: #1d222a;
+  --color-background-dark-1: #212730;
+  --color-background-dark-2: #242b36;
+  --color-layer-dark: #242b36;
+  --color-layer-dark-line: #2e3948;
+  --color-layer-dark-hover: #282f3c;
+  --color-layer-dark-focus: #282f3c;
+  --color-layer-dark-active: #282f3c;
+
+  /* Dark mode type — cool gray, more contrast, palette-aligned */
+  --color-foreground-dark: #e8eef5;
+  --color-foreground-dark-muted: #94a8c4;
+  --color-foreground-dark-muted-1: #7a8fa8;
+  --color-foreground-dark-muted-2: #5f7290;
+
+  /* Accent — brown mustard, distinct from blue */
+  --color-accent-50: #fdf8eb;
+  --color-accent-100: #f9ecce;
+  --color-accent-200: #f0d99a;
+  --color-accent-300: #e2c260;
+  --color-accent-400: #d4a84b;
+  --color-accent-500: #b8860b;
+  --color-accent-600: #9a7209;
+  --color-accent-700: #7d5c07;
+  --color-accent-800: #634a06;
+  --color-accent-900: #4d3a05;
+  --color-accent: var(--color-accent-500);
+  --color-accent-foreground: #0f172a;
+
+  /* Tertiary — rust / brown-red, less pink */
+  --color-tertiary-50: #faf4f2;
+  --color-tertiary-100: #f5e6e2;
+  --color-tertiary-200: #e8c9c2;
+  --color-tertiary-300: #d4a399;
+  --color-tertiary-400: #b87265;
+  --color-tertiary-500: #9a4a42;
+  --color-tertiary-600: #823d36;
+  --color-tertiary-700: #6b322c;
+  --color-tertiary-800: #572924;
+  --color-tertiary-900: #45221e;
+  --color-tertiary: var(--color-tertiary-500);
+  --color-tertiary-foreground: #fff;
+}
+
+/* Dark default + cold blue background, full var set */
+.dark,
+[data-theme="dbtsearch"],
+[data-theme="dbtsearch"] .dark {
+  /* Backgrounds */
+  --background: var(--color-background-dark);
+  --background-1: var(--color-background-dark-1);
+  --background-2: var(--color-background-dark-2);
+
+  /* Body copy — higher contrast, cool gray to match palette */
+  --foreground: var(--color-foreground-dark);
+  --foreground-inverse: var(--color-background-dark);
+  --muted-foreground: var(--color-foreground-dark-muted);
+  --muted-foreground-1: var(--color-foreground-dark-muted-1);
+  --muted-foreground-2: var(--color-foreground-dark-muted-2);
+
+  /* Borders (cool blue-gray) */
+  --border: var(--color-layer-dark-line);
+  --border-line-inverse: var(--color-layer-dark-line);
+  --border-line-1: var(--color-background-dark-2);
+  --border-line-2: var(--color-layer-dark-line);
+  --border-line-3: #243044;
+  --border-line-4: #2d3d52;
+  --border-line-5: #3d4f66;
+  --border-line-6: #4d6178;
+  --border-line-7: #7a8fa8;
+  --border-line-8: var(--color-foreground-dark-muted);
+
+  /* Layer (cards, inputs) */
+  --layer: var(--color-layer-dark);
+  --layer-line: var(--color-layer-dark-line);
+  --layer-foreground: var(--color-foreground-dark);
+  --layer-hover: var(--color-layer-dark-hover);
+  --layer-focus: var(--color-layer-dark-focus);
+  --layer-active: var(--color-layer-dark-active);
+
+  /* Muted surfaces */
+  --muted: var(--color-background-dark-1);
+  --muted-hover: var(--color-layer-dark-hover);
+  --muted-focus: var(--color-layer-dark-focus);
+  --muted-active: var(--color-layer-dark-active);
+
+  /* Primary */
+  --primary: var(--color-primary-500);
+  --primary-foreground: #0f172a;
+  --primary-hover: var(--color-primary-600);
+  --primary-active: var(--color-primary-700);
+  --primary-line: var(--color-primary-500);
+  --primary-focus: var(--color-primary-500);
+  --primary-checked: #0f172a;
+
+  /* Inverse / navbar (same cold dark) */
+  --inverse: var(--color-background-dark);
+  --navbar: var(--color-background-dark-1);
+  --navbar-line: var(--color-layer-dark-line);
+  --navbar-divider: var(--color-layer-dark-line);
+  --navbar-nav-foreground: var(--color-foreground-dark);
+  --navbar-nav-hover: var(--color-layer-dark-hover);
+  --navbar-nav-focus: var(--color-layer-dark-focus);
+  --navbar-nav-active: var(--color-layer-dark-active);
+}
+
+/* Typography accents use primary (blue): code, links */
+[data-theme="dbtsearch"] code {
+  color: var(--color-primary-500);
+}
+[data-theme="dbtsearch"] a:not([class]) {
+  color: var(--color-primary-500);
+}
+[data-theme="dbtsearch"] a:not([class]):hover {
+  color: var(--color-primary-400);
+}
+
+/* Background texture options — apply to a wrapper (e.g. body or main) */
+[data-theme="dbtsearch"] .bg-texture-grain {
+  position: relative;
+}
+[data-theme="dbtsearch"] .bg-texture-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="dbtsearch"] .bg-texture-mesh {
+  position: relative;
+}
+[data-theme="dbtsearch"] .bg-texture-mesh::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(107, 142, 249, 0.14) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(107, 142, 249, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="dbtsearch"] .bg-texture-subtle {
+  position: relative;
+}
+[data-theme="dbtsearch"] .bg-texture-subtle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}

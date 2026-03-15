@@ -67,6 +67,11 @@ typings/
 # ignore package-lock as it complicates merging
 package-lock.json
 
+# Frontend (Storybook build)
+frontend/storybook-static/
+frontend/test-results/
+frontend/playwright-report/
+
 # Craft CMS (stack-rewrite, cms/)
 cms/vendor/
 cms/.env
