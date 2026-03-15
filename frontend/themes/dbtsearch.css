@@ -6,6 +6,9 @@
   /* Font: Google Sans (add @font-face to use it); DM Sans fallback when Google Sans not loaded */
   --font-sans: "Google Sans", "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
+  /* Container (match Storybook header width) */
+  --container-8xl: 96rem;
+
   /* Brand primaries */
   --color-brand: #7c9cfd;
   --color-brand-accent: #b8860b;
@@ -25,20 +28,30 @@
   --color-primary-foreground: #0f172a;
 
   /* Cold dark blues for backgrounds (off primary) — between previous two */
+  --color-background: var(--color-background-dark);
   --color-background-dark: #1d222a;
   --color-background-dark-1: #212730;
   --color-background-dark-2: #242b36;
   --color-layer-dark: #242b36;
-  --color-layer-dark-line: #2e3948;
+  --color-layer-dark-line: #3d4f66;
+  --color-layer-line: var(--color-layer-dark-line);
+  --color-border: var(--color-layer-dark-line);
+  --color-navbar-dark: #1a1f26;
+  --color-navbar: var(--color-navbar-dark);
+  --color-navbar-line: var(--color-layer-dark-line);
   --color-layer-dark-hover: #282f3c;
   --color-layer-dark-focus: #282f3c;
   --color-layer-dark-active: #282f3c;
 
   /* Dark mode type — cool gray, more contrast, palette-aligned */
+  --color-foreground: var(--color-foreground-dark);
   --color-foreground-dark: #e8eef5;
   --color-foreground-dark-muted: #94a8c4;
   --color-foreground-dark-muted-1: #7a8fa8;
   --color-foreground-dark-muted-2: #5f7290;
+  --color-muted-foreground: var(--color-foreground-dark-muted);
+  --color-foreground-muted: var(--color-foreground-dark-muted);
+  --color-layer-foreground: var(--color-foreground-dark);
 
   /* Accent — brown mustard, distinct from blue */
   --color-accent-50: #fdf8eb;
@@ -73,7 +86,8 @@
 .dark,
 [data-theme="dbtsearch"],
 [data-theme="dbtsearch"] .dark {
-  /* Backgrounds */
+  /* Backgrounds (--color-background used by Tailwind’s bg-background utility) */
+  --color-background: var(--color-background-dark);
   --background: var(--color-background-dark);
   --background-1: var(--color-background-dark-1);
   --background-2: var(--color-background-dark-2);
@@ -85,15 +99,15 @@
   --muted-foreground-1: var(--color-foreground-dark-muted-1);
   --muted-foreground-2: var(--color-foreground-dark-muted-2);
 
-  /* Borders (cool blue-gray) */
+  /* Borders (cool blue-gray, visible against dark bg) */
   --border: var(--color-layer-dark-line);
   --border-line-inverse: var(--color-layer-dark-line);
   --border-line-1: var(--color-background-dark-2);
   --border-line-2: var(--color-layer-dark-line);
   --border-line-3: #243044;
-  --border-line-4: #2d3d52;
-  --border-line-5: #3d4f66;
-  --border-line-6: #4d6178;
+  --border-line-4: #3d4f66;
+  --border-line-5: #4d6178;
+  --border-line-6: #5c7190;
   --border-line-7: #7a8fa8;
   --border-line-8: var(--color-foreground-dark-muted);
 
@@ -120,9 +134,9 @@
   --primary-focus: var(--color-primary-500);
   --primary-checked: #0f172a;
 
-  /* Inverse / navbar (same cold dark) */
+  /* Inverse / navbar (slightly darker than main background for separation) */
   --inverse: var(--color-background-dark);
-  --navbar: var(--color-background-dark-1);
+  --navbar: var(--color-navbar-dark);
   --navbar-line: var(--color-layer-dark-line);
   --navbar-divider: var(--color-layer-dark-line);
   --navbar-nav-foreground: var(--color-foreground-dark);

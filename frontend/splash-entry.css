@@ -10,3 +10,8 @@
     cursor: pointer;
   }
 }
+
+/* Used by splash template (form heading) — not in scanned JS */
+@utility text-uppercase {
+  text-transform: uppercase;
+}
