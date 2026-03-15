@@ -1,8 +1,6 @@
-# DBT Search
-
 ![DBT Search logo](public/images/dbtsearch-logo.svg)
 
-A searchable directory of certified DBT (Dialectical Behavior Therapy) providers in Minnesota. DBT Search surfaces providers with **current availability** first so clinicians and clients can find treatment without calling down the state’s long list.
+DBTsearch&trade; is a searchable directory of certified DBT (Dialectical Behavior Therapy) providers in Minnesota. DBT Search surfaces providers with **current availability** first so clinicians and clients can find treatment without calling down the state’s long list.
 
 ---
 
