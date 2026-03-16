@@ -1,0 +1,39 @@
+{% hook 'formie.field.field-before' %}
+
+{% set renderOptions = renderOptions ?? {} %}
+{% set element = element ?? null %}
+{% set _fromRenderOptions = renderOptions.value|default(null) %}
+{% set _fromElement = element ? element.getFieldValue(field.handle) : null %}
+{% set _defaultVal = field.normalizeValue(field.getDefaultValue(), null) %}
+{% set value = value ?? _fromRenderOptions %}
+{% set value = value ?? _fromElement %}
+{% set value = value ?? _defaultVal %}
+{% set errors = element ? element.getErrors(field.handle) : [] %}
+
+{% set labelPosition = craft.formie.getLabelPosition(field, form) %}
+{% set instructionsPosition = craft.formie.getInstructionsPosition(field, form) %}
+
+<div class="formie-field-wrapper">
+  {% hook 'formie.field.field-start' %}
+
+  {{ formieInclude('_includes/instructions', { position: 'above' }) }}
+
+  <div class="formie-input-block">
+    {% hook 'formie.field.input-before' %}
+    {{ field.getFrontEndInputHtml(form, value, renderOptions | merge({
+      submission: element,
+      errors: errors,
+    })) }}
+    {% hook 'formie.field.input-end' %}
+  </div>
+
+  {{ formieInclude('_includes/instructions', { position: 'below' }) }}
+
+  {% if errors %}
+    {{ formieInclude('_includes/field-errors') }}
+  {% endif %}
+
+  {% hook 'formie.field.field-end' %}
+</div>
+
+{% hook 'formie.field.field-after' %}

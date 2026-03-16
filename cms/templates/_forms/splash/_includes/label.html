@@ -1,0 +1,21 @@
+{# Label with Storybook classes — show for above position so splash form has visible labels #}
+{% set position = position ?? 'above' %}
+{% if position == 'above' %}
+  {% set _form = field.form %}
+  {% set isRequired = field.required ?? required ?? false %}
+  {% set _formSettings = attribute(_form, 'settings')|default({}) %}
+  {% set requiredIndicator = attribute(_formSettings, 'requiredIndicator')|default('asterisk') %}
+  <label for="{{ field.getHtmlId(field.form) }}" class="splash-label">
+    {{- field.label | t('formie') | raw -}}
+    {%- if requiredIndicator == 'asterisk' and isRequired -%}
+      &nbsp;<span class="text-primary" aria-hidden="true">*</span>
+    {%- elseif not isRequired -%}
+      &nbsp;<small class="ml-px"><i>(optional)</i></small>
+    {%- endif -%}
+    {% set _fromRenderOptions = renderOptions is defined ? (attribute(renderOptions, 'labelExtraContent')|default(null)) : null %}
+    {% set labelExtraContent = labelExtraContent ?? _fromRenderOptions %}
+    {%- if labelExtraContent -%}
+      {{ labelExtraContent | raw }}
+    {%- endif -%}
+  </label>
+{% endif %}

@@ -1,11 +1,11 @@
-dateModified: 1773601960
+dateModified: 1773606167
 email:
   fromEmail: support@tinytreecounseling.com
   fromName: 'DBT Search'
   replyToEmail: null
   template: ''
   transportSettings:
-    command: '/usr/local/bin/mailpit sendmail -t --smtp-addr 127.0.0.1:1025'
+    command: '/usr/sbin/sendmail -bs'
   transportType: craft\mail\transportadapters\Sendmail
 fs:
   assets:
@@ -29,6 +29,7 @@ meta:
     ddb25fd5-a759-494a-9d4d-96a6e44c941e: 'Plain Text' # Plain Text
     ddb17090-e3f7-41d7-aab7-b1729da37d11: Subscriber # Subscriber
     e37b7064-6cc1-44c5-a156-52caa30e8b65: 'Splash Page' # Splash Page
+    eb8a7a70-63cb-4cc1-bae4-e3516a6766ee: Splash # Splash
     fe417a71-4d1b-460f-8a63-7ac81c0e5092: Images # Images
 plugins:
   formie:
@@ -38,7 +39,10 @@ plugins:
     schemaVersion: 3.4.12
     settings:
       ajaxTimeout: 10
-      alertEmails: null
+      alertEmails:
+        -
+          - 'Brian Larson'
+          - brian@brianlarson.com
       allowPublicVolumes: true
       defaultDateDisplayType: calendar
       defaultDateTime: null
@@ -66,7 +70,7 @@ plugins:
       pluginName: Forms
       queuePriority: null
       saveSpam: true
-      sendEmailAlerts: false
+      sendEmailAlerts: true
       sentNotifications: true
       setOnlyCurrentPagePayload: false
       spamBehaviour: showSuccess

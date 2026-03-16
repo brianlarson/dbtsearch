@@ -1,0 +1,24 @@
+{% set fieldOptions = fieldOptions ?? field.getFieldOptions() %}
+{% set isSingleOption = fieldOptions|length == 1 %}
+{% set value = value ?? [] %}
+
+{% if not isSingleOption %}
+  {{ hiddenInput(field.getHtmlName(), '') }}
+{% endif %}
+
+{% for option in fieldOptions %}
+  {% set optVal = option.value ?? '' %}
+  {% set selected = value is iterable and value is not same as('') ? (optVal in value) : (value == optVal or value == true or value == '1') %}
+  <label class="splash-checkbox-label">
+    <input type="checkbox"
+      {{ isSingleOption ? 'id="' ~ field.getHtmlId(field.form) ~ '"' : '' }}
+      name="{{ field.getHtmlName() }}{{ isSingleOption ? '' : '[]' }}"
+      value="{{ option.value ?? '' }}"
+      {{ selected ? 'checked' : '' }}
+      class="splash-checkbox"
+      {{ attr(field.getInputAttributes()) }}
+    />
+    <span>{{ option.label | t('formie') | raw }}</span>
+  </label>
+  {% if not loop.first and not isSingleOption %}<br>{% endif %}
+{% endfor %}

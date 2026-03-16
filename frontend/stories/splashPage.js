@@ -96,7 +96,7 @@ export function formFields(args) {
         </div>`;
   return `
     <section class="mt-5 relative overflow-hidden rounded-xl border border-layer-line bg-layer bg-blend-darken p-6">
-      <h2 class="text-2xl font-semibold text-uppercase text-accent-300 mb-7">${formHeading}</h2>
+      <h2 class="text-2xl font-semibold text-accent-300 mb-7">${formHeading}</h2>
       <form action="#" method="post" class="relative text-foreground-muted">
         ${nameOrgRow}
         <div class="mt-4">${renderInputRow(emailField)}</div>

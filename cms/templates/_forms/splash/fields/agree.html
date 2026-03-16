@@ -1,0 +1,15 @@
+{{ hiddenInput(field.getHtmlName(), '', {
+  'data-fui-input-type': 'agree',
+}) }}
+
+<label class="splash-checkbox-label">
+  <input type="checkbox"
+    id="{{ field.getHtmlId(field.form) }}"
+    name="{{ field.getHtmlName() }}"
+    value="1"
+    {{ value ? 'checked' : '' }}
+    class="splash-checkbox"
+    {{ attr(field.getInputAttributes()) }}
+  />
+  <span>{{ field.getDescriptionHtml()|raw }}</span>
+</label>

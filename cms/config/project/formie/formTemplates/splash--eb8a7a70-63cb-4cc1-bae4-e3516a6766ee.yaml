@@ -1,0 +1,11 @@
+handle: splash
+name: Splash
+outputCssLayout: false
+outputCssLocation: page-header
+outputCssTheme: true
+outputJsBase: false
+outputJsLocation: page-footer
+outputJsTheme: true
+sortOrder: 1
+template: _forms/splash
+useCustomTemplates: true

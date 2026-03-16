@@ -1,0 +1,12 @@
+# Dev server SSH connection
+SSH_HOST=000.000.000.000
+SSH_USER=master
+SSH_PORT=22
+SSH_KEY=~/.ssh/id_rsa
+
+# Dev Craft project root (absolute path on the server)
+# e.g. /home/master/applications/[APP_DIR_DEV]/public_html
+REMOTE_PATH=/home/master/applications/your_app_dir_dev/public_html
+
+# Asset directories to sync (space-separated, relative to project root)
+ASSET_DIRS=web/uploads

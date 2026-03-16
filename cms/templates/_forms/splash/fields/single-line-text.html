@@ -1,0 +1,9 @@
+<input type="text"
+  id="{{ field.getHtmlId(field.form) }}"
+  name="{{ field.getHtmlName() }}"
+  value="{{ value|default('') }}"
+  {{ field.required ? 'required' : '' }}
+  placeholder="{{ field.placeholder|default('') }}"
+  class="splash-input"
+  {{ attr(field.getInputAttributes()) }}
+/>

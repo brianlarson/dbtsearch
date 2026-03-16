@@ -68,7 +68,7 @@
         </ul>
 
         {% if showSuccess %}
-          <section class="mt-5 relative overflow-hidden rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-6" role="alert" aria-live="polite">
+          <section id="splash-success" class="mt-5 relative overflow-hidden rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-6" role="alert" aria-live="polite">
             <div class="flex items-start gap-3">
               <svg class="size-5 shrink-0 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               <p class="text-sm font-medium text-emerald-200">{{ successMessage }}</p>
@@ -78,7 +78,7 @@
           {% set submission = form.getCurrentSubmission() %}
           {% set attributes = { method: 'post', class: 'relative text-foreground-muted', 'data-fui-form': form.configJson } %}
           <section class="mt-5 relative overflow-hidden rounded-xl border border-layer-line bg-layer bg-blend-darken p-6">
-            <h2 class="text-2xl font-semibold text-uppercase text-accent-300 mb-7">{{ formHeading }}</h2>
+            <h2 class="text-2xl font-semibold text-accent-300 mb-7">{{ formHeading }}</h2>
             {% set flashError = craft.formie.plugin.service.getFlash(form.id, 'error') %}
             {% if flashError %}<div class="mb-4 text-sm text-red-400" role="alert">{{ flashError|raw }}</div>{% endif %}
             <form {{ attr(attributes) }}>
@@ -93,12 +93,16 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {% for field in fields[0:2] %}
                     {% set value = attribute(submission, field.handle) ?? field.defaultValue ?? null %}
-                    <div>{{ field.getFrontEndInputHtml(form, value)|raw }}</div>
+                    <div>
+                      <label for="{{ field.getHtmlId(form) }}" class="splash-label">{{ field.label|t('formie')|raw }}{% if not field.required %} <small class="ml-px"><i>(optional)</i></small>{% endif %}</label>
+                      {{ field.getFrontEndInputHtml(form, value)|raw }}
+                    </div>
                   {% endfor %}
                 </div>
                 <div class="mt-4">
                   {% set field = fields[2] %}
                   {% set value = attribute(submission, field.handle) ?? field.defaultValue ?? null %}
+                  <label for="{{ field.getHtmlId(form) }}" class="splash-label">{{ field.label|t('formie')|raw }}{% if not field.required %} <small class="ml-px"><i>(optional)</i></small>{% endif %}</label>
                   {{ field.getFrontEndInputHtml(form, value)|raw }}
                 </div>
                 <div class="pt-2 mt-3">
@@ -131,6 +135,10 @@
       </div>
     </div>
   </main>
+
+  {% if showSuccess %}
+  <script>document.getElementById('splash-success')?.scrollIntoView({ behavior: 'smooth', block: 'center' });</script>
+  {% endif %}
 
   <footer class="border-t border-border py-6">
     <div class="mx-auto max-w-7xl px-4 pt-5 text-center sm:px-6 lg:px-8">
