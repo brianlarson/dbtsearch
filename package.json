@@ -1,6 +1,6 @@
 {
-  "name": "prime-solo-project",
-  "version": "1.0.0",
+  "name": "dbtsearch",
+  "version": "0.2.0",
   "private": true,
   "engines": {
     "node": ">=18.x"
@@ -27,7 +27,16 @@
     "build": "vite build",
     "test": "vitest",
     "linear:close": "node scripts/linear.js close",
-    "linear:create": "node scripts/linear.js create"
+    "linear:create": "node scripts/linear.js create",
+    "mm-pull": "python3 scripts/migrate/pull-remote.py",
+    "mm-help": "python3 scripts/migrate/mm-help.py",
+    "mm-pull:assets": "python3 scripts/migrate/pull-remote.py --assets-only",
+    "mm-push:dev:assets": "python3 scripts/migrate/push-dev.py --assets-only",
+    "mm-push:dev": "python3 scripts/migrate/push-dev.py",
+    "mm-pull:all": "python3 scripts/migrate/pull-remote.py --with-assets",
+    "mm-setup": "python3 scripts/migrate/mm-setup.py",
+    "mm-push:dev:all": "python3 scripts/migrate/push-dev.py --with-assets",
+    "mm": "python3 scripts/migrate/mm-help.py"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",
