@@ -21,6 +21,14 @@ Open http://localhost:6006. Logo and hero image are in `frontend/public/images/`
 ## Stories
 
 - **Pages/Splash Page** — Landing/splash page with form fields: name, email, provider name. Content (heading, tagline, form heading, submit label) is driven by Craft Single section “Splash Page”; see `docs/SPLASH-PAGE-CRAFT.md`.
+- **Directory UI kit (atomic-style)** — Directory MVP stories:
+  - `Atoms/Buttons & Badges`
+  - `Atoms/Form Controls`
+  - `Molecules/Directory Filters`
+  - `Organisms/Provider Card`
+  - `Organisms/List States`
+  - `Pages/Directory Layout`
+  Shared render helpers live in `stories/directoryKit.js`. See `docs/DIRECTORY-PRELINE-COMPONENTS.md` for the component roundup.
 
 ## Build static Storybook
 
