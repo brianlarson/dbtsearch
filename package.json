@@ -25,22 +25,10 @@
     "client": "vite",
     "server": "nodemon --watch server server/server.js",
     "build": "vite build",
-    "test": "vitest",
-    "ssh:prod": "TARGET=$(awk -F= '/^SSH_USER/ {user=$2} /^SSH_HOST/ {host=$2} END {print user \"@\" host}' ./scripts/migrate/production.cfg) && RPATH=$(awk -F= '/^REMOTE_PATH/ {print $2}' ./scripts/migrate/production.cfg) && ssh -t $TARGET \"cd $RPATH && grep '^ENVIRONMENT' .env && pwd && exec \\$SHELL\"",
-    "ssh:dev": "TARGET=$(awk -F= '/^SSH_USER/ {user=$2} /^SSH_HOST/ {host=$2} END {print user \"@\" host}' ./scripts/migrate/dev.cfg) && RPATH=$(awk -F= '/^REMOTE_PATH/ {print $2}' ./scripts/migrate/dev.cfg) && ssh -t $TARGET \"cd $RPATH && grep '^ENVIRONMENT' .env && pwd && exec \\$SHELL\"",
-    "mm-pull": "python3 scripts/migrate/pull-remote.py",
-    "mm-help": "python3 scripts/migrate/mm-help.py",
-    "mm-pull:assets": "python3 scripts/migrate/pull-remote.py --assets-only",
-    "mm-push:dev:assets": "python3 scripts/migrate/push-dev.py --assets-only",
-    "mm-push:dev": "python3 scripts/migrate/push-dev.py",
-    "mm-pull:all": "python3 scripts/migrate/pull-remote.py --with-assets",
-    "mm-setup": "python3 scripts/migrate/mm-setup.py",
-    "mm-push:dev:all": "python3 scripts/migrate/push-dev.py --with-assets",
-    "mm": "python3 scripts/migrate/mm-help.py"
+    "test": "vitest"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",
-    "mighty-migration": "github:mightycitizen/mighty-migration",
     "nodemon": "^3.1.14",
     "vite": "^5.4.21",
     "vitest": "^1.6.1"

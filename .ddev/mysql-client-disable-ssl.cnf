@@ -1,0 +1,3 @@
+# Disable SSL for mysql/mariadb-dump when connecting to mysql8 (avoids self-signed cert error 2026).
+[client]
+ssl = 0

@@ -20,31 +20,8 @@
  * @link https://craftcms.com/docs/5.x/reference/config/app.html
  */
 
-use Craft;
 use craft\helpers\App;
 
 return [
     'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS',
-
-    'components' => [
-        'mailer' => function() {
-            $config = App::mailerConfig();
-
-            // Use Mailpit (or local SMTP) when in dev mode so Formie/Craft emails are captured locally
-            if (Craft::$app->getConfig()->getGeneral()->devMode) {
-                $host = App::env('MAILPIT_SMTP_HOSTNAME') ?: App::env('MAIL_HOST') ?: '127.0.0.1';
-                $port = (int) (App::env('MAILPIT_SMTP_PORT') ?: App::env('MAIL_PORT') ?: '1025');
-                $adapter = craft\helpers\MailerHelper::createTransportAdapter(
-                    craft\mail\transportadapters\Smtp::class,
-                    [
-                        'host' => $host,
-                        'port' => $port,
-                    ]
-                );
-                $config['transport'] = $adapter->defineTransport();
-            }
-
-            return Craft::createObject($config);
-        },
-    ],
 ];

@@ -23,13 +23,7 @@ fieldLayouts:
             uid: 337e5aec-0c5a-433d-bd78-cf5ce79dfdef
             userCondition: null
             warning: null
-            width: 50
-          -
-            dateAdded: '2026-03-15T19:11:36+00:00'
-            elementCondition: null
-            type: craft\fieldlayoutelements\LineBreak
-            uid: faa39b50-37ef-49a5-a48a-e29f4e2e2711
-            userCondition: null
+            width: 100
           -
             dateAdded: '2026-03-15T18:54:25+00:00'
             editCondition: null
@@ -45,12 +39,66 @@ fieldLayouts:
             uid: 3c17e516-45ef-413c-b36c-6c0e63dbe8f1
             userCondition: null
             warning: null
-            width: 50
+            width: 100
           -
-            dateAdded: '2026-03-15T19:12:40+00:00'
+            dateAdded: '2026-03-17T04:06:50+00:00'
+            editCondition: null
             elementCondition: null
-            type: craft\fieldlayoutelements\LineBreak
-            uid: 3045e8c8-f085-4dd0-8ebb-a7b19898c36d
+            elementEditCondition: null
+            fieldUid: 68f6aaed-7edc-4e91-9996-3a86c16baf2f # Basic Editor
+            handle: content
+            instructions: null
+            label: Content
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 54105f47-70cb-4862-a58b-713095eac6cc
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-03-17T04:11:21+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 5f28f2bc-f3cb-4fa0-8af5-6a1a1fa88c0d
+            userCondition: null
+          -
+            dateAdded: '2026-03-17T04:10:34+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: formHeading
+            instructions: null
+            label: 'Form Heading'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b7bb25ce-84b3-420f-8390-0f4faa141f63
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-03-15T18:54:25+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 98fab9df-c419-4085-9a57-5c61f96573c2 # Form
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e2b62ea0-43f5-437d-a08c-e5bbc3ad4de9
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-03-17T04:11:21+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 8241cdc9-92b5-4833-91f2-2de4c5ec8c94
             userCondition: null
           -
             dateAdded: '2026-03-15T18:54:25+00:00'
@@ -67,29 +115,7 @@ fieldLayouts:
             uid: d99165ad-d54c-4bd5-9628-a6b356f4cf1f
             userCondition: null
             warning: null
-            width: 50
-          -
-            dateAdded: '2026-03-15T19:12:40+00:00'
-            elementCondition: null
-            type: craft\fieldlayoutelements\LineBreak
-            uid: 90a431c7-08df-4a11-9e9b-22300b3fd430
-            userCondition: null
-          -
-            dateAdded: '2026-03-15T18:54:25+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: 98fab9df-c419-4085-9a57-5c61f96573c2 # Form
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: e2b62ea0-43f5-437d-a08c-e5bbc3ad4de9
-            userCondition: null
-            warning: null
-            width: 50
+            width: 100
         name: Content
         uid: 3962ad29-c767-4408-904d-177a4036fce2
         userCondition: null

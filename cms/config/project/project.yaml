@@ -1,4 +1,4 @@
-dateModified: 1773606167
+dateModified: 1773722118
 email:
   fromEmail: support@tinytreecounseling.com
   fromName: 'DBT Search'
@@ -19,6 +19,7 @@ meta:
   __names__:
     0e198a9f-3b1b-487f-80ee-3c2aeed6d349: 'DBT Search' # DBT Search
     1f048049-d0c9-4364-8a8d-736b4d508537: Pending # Pending
+    68f6aaed-7edc-4e91-9996-3a86c16baf2f: 'Basic Editor' # Basic Editor
     98fab9df-c419-4085-9a57-5c61f96573c2: Form # Form
     288c542e-3541-4e24-96ee-aa5fa0bea135: General # General
     3220f3b5-89ff-450e-9a8c-83bd4b04bdf5: 'Public Schema' # Public Schema
@@ -32,6 +33,10 @@ meta:
     eb8a7a70-63cb-4cc1-bae4-e3516a6766ee: Splash # Splash
     fe417a71-4d1b-460f-8a63-7ac81c0e5092: Images # Images
 plugins:
+  ckeditor:
+    edition: standard
+    enabled: true
+    schemaVersion: 5.0.0.1
   formie:
     edition: standard
     enabled: true
@@ -87,8 +92,9 @@ system:
   edition: pro
   live: true
   name: 'DBT Search'
+  retryDuration: null
   schemaVersion: 5.9.0.8
-  timeZone: America/Los_Angeles
+  timeZone: America/Chicago
 users:
   allowPublicRegistration: false
   defaultGroup: null

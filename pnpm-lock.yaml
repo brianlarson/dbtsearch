@@ -51,9 +51,6 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.7.0
         version: 4.7.0(vite@5.4.21)
-      mighty-migration:
-        specifier: github:mightycitizen/mighty-migration
-        version: git+https://git@github.com:mightycitizen/mighty-migration.git#77680021be809ee046802cb7075db2f532892b5a
       nodemon:
         specifier: ^3.1.14
         version: 3.1.14
@@ -897,10 +894,6 @@ packages:
   methods@1.1.2:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
     engines: {node: '>= 0.6'}
-
-  mighty-migration@git+https://git@github.com:mightycitizen/mighty-migration.git#77680021be809ee046802cb7075db2f532892b5a:
-    resolution: {commit: 77680021be809ee046802cb7075db2f532892b5a, repo: git@github.com:mightycitizen/mighty-migration.git, type: git}
-    version: 1.1.73
 
   mime-db@1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
@@ -2197,8 +2190,6 @@ snapshots:
   merge-stream@2.0.0: {}
 
   methods@1.1.2: {}
-
-  mighty-migration@git+https://git@github.com:mightycitizen/mighty-migration.git#77680021be809ee046802cb7075db2f532892b5a: {}
 
   mime-db@1.52.0: {}
 

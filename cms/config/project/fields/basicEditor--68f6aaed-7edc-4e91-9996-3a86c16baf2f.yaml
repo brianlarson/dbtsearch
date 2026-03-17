@@ -1,0 +1,40 @@
+columnSuffix: null
+handle: basicEditor
+instructions: null
+name: 'Basic Editor'
+searchable: false
+settings:
+  advancedLinkFields:
+    - urlSuffix
+    - target
+    - download
+  availableTransforms: ''
+  availableVolumes: '*'
+  characterLimit: null
+  css: null
+  defaultTransform: null
+  defaultUploadLocationSubpath: null
+  defaultUploadLocationVolume: null
+  fullGraphqlData: true
+  headingLevels: false
+  imageEntryTypeUid: null
+  imageFieldUid: null
+  imageMode: img
+  js: null
+  options: null
+  parseEmbeds: false
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  showWordCount: false
+  sourceEditingGroups:
+    - __ADMINS__
+  toolbar:
+    - bold
+    - italic
+    - link
+  wordLimit: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\ckeditor\Field
