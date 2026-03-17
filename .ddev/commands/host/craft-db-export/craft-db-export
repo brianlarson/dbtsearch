@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+## Description: Export Craft MySQL (mysql8) to cms/storage/backups/craft-export.sql
+## Usage: craft-db-export
+## Example: ddev craft-db-export
+set -e
+BACKUP_DIR="${DDEV_APPROOT:-.}/cms/storage/backups"
+mkdir -p "$BACKUP_DIR"
+OUTPUT="${BACKUP_DIR}/craft-export.sql"
+# Use mysql8 while legacy service exists; after migration to primary db, use: -s db -u db -pdb
+ddev exec -s mysql8 mysqldump -u craft -pcraft --no-tablespaces craft > "$OUTPUT"
+echo "Craft DB exported to: $OUTPUT"
+echo "To import on Cloudways: upload this file and run: mysql -u user -p database < craft-export.sql"

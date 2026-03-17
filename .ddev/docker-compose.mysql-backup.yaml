@@ -1,6 +1,0 @@
-# So Craft db/backup (mysqldump from web → mysql8) skips SSL and avoids error 2026.
-# https://docs.ddev.com/en/stable/users/extend/custom-compose-files/
-services:
-  web:
-    volumes:
-      - "mysql-client-disable-ssl.cnf:/etc/mysql/conf.d/disable-ssl.cnf:ro"
