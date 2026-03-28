@@ -28,6 +28,9 @@ Open http://localhost:6006. Logo and hero image are in `frontend/public/images/`
   - `Organisms/Directory/ProviderCard`
   - `Organisms/Directory/ProviderList`
   - `Organisms/Directory/ListStates`
+  - `Organisms/Directory/LegacyHeader`
+  - `Organisms/Directory/LegacyPageHeader`
+  - `Organisms/Directory/LegacyFooter`
   - `Pages/Directory/DirectoryPageView` (includes legacy-style header / image page-header / footer toggles)
   Shared render helpers live in `stories/directoryKit.js` and are intentionally aligned to the Vue classes in `app/src/components/directory/*`. See `docs/DIRECTORY-PRELINE-COMPONENTS.md` for the component roundup.
 
