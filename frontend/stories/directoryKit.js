@@ -38,6 +38,18 @@ export const sampleProviders = [
 
 export function renderLegacyHeader() {
   return `
+    <header class="border-b border-slate-800 bg-slate-950">
+      <div class="mx-auto flex max-w-md justify-start px-4 py-4">
+        <a href="/" class="inline-block shrink-0">
+          <img src="/images/dbtsearch-logo.svg" alt="DBT Search" class="h-[3rem] w-auto md:h-[3.3rem]" />
+        </a>
+      </div>
+    </header>
+  `;
+}
+
+export function renderDirectoryTopNav() {
+  return `
     <header class="sticky top-0 z-50 border-b border-slate-700 bg-slate-900/95 backdrop-blur">
       <div class="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <button
@@ -88,7 +100,7 @@ export function renderLegacyPageHeader({ pageHeading = 'Providers', pageSubheadi
 
     <section class="mx-auto max-w-6xl px-4 py-5 sm:px-6 md:py-7 lg:px-8">
       <div class="grid grid-cols-1 items-end gap-2 md:grid-cols-2">
-        <h1 class="text-3xl font-bold tracking-tight text-white">${pageHeading}</h1>
+        <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">${pageHeading}</h1>
         <h2 class="text-base font-medium text-slate-300 md:text-right">${pageSubheading}</h2>
       </div>
       <hr class="mt-4 border-slate-700" />
@@ -99,9 +111,13 @@ export function renderLegacyPageHeader({ pageHeading = 'Providers', pageSubheadi
 export function renderLegacyFooter() {
   const year = new Date().getFullYear();
   return `
-    <footer class="mt-14 border-t border-slate-800">
-      <div class="mx-auto max-w-6xl px-4 py-8 text-center sm:px-6 lg:px-8">
-        <p class="mb-3 text-sm text-slate-300">
+    <footer class="mt-14 border-t border-slate-800 py-6">
+      <div class="mx-auto max-w-4xl px-4 text-center text-sm text-slate-500">
+        <p>
+          <span class="font-semibold text-slate-400">DBT Search</span>
+          — certified DBT providers in Minnesota
+        </p>
+        <p class="mt-3 text-sm text-slate-300">
           <span class="font-semibold text-white">DBTsearch</span> is powered by
           <a
             href="https://www.tinytreecounseling.com/"
@@ -112,7 +128,7 @@ export function renderLegacyFooter() {
             Tiny Tree Counseling &amp; Consulting
           </a>
         </p>
-        <p class="text-xs text-slate-400">Copyright &copy; ${year} DBTsearch.org. All rights reserved.</p>
+        <p class="mt-2 text-xs text-slate-400">Copyright &copy; ${year} DBTsearch.org. All rights reserved.</p>
       </div>
     </footer>
   `;
@@ -293,13 +309,14 @@ export function renderDirectoryPageFrame({
   return `
     <div class="dark min-h-screen bg-slate-950 text-white" data-theme="dbtsearch">
       ${renderLegacyHeader()}
+      ${renderDirectoryTopNav()}
       ${renderLegacyPageHeader({
         pageHeading: 'Providers',
         pageSubheading: 'DBT Providers in Minnesota',
       })}
 
       <main class="pb-12">
-        <section class="mx-auto max-w-6xl px-4 pt-2 sm:px-6 lg:px-8">
+        <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 lg:px-8">
           ${renderDirectoryFilters({ resultCount, onlyAvailable, search })}
           <section class="mt-6">
             ${

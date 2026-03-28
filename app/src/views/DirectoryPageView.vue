@@ -62,7 +62,10 @@ onBeforeUnmount(() => {
           :result-count="resultCount"
         />
 
-        <div v-if="isLoading" class="mt-6 rounded-xl border border-slate-800 bg-slate-900/70 p-6 text-slate-300">
+        <div
+          v-if="isLoading"
+          class="mt-6 rounded-xl border border-slate-800 bg-slate-900/70 p-6 text-slate-300"
+        >
           Loading providers...
         </div>
 
@@ -81,7 +84,11 @@ onBeforeUnmount(() => {
           </button>
         </div>
 
-        <ProviderList v-else :providers="providers" @reset-filters="resetFilters" />
+        <ProviderList
+          v-else
+          :providers="providers"
+          @reset-filters="resetFilters"
+        />
       </section>
     </main>
 

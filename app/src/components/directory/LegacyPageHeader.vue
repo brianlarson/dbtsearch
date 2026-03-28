@@ -14,15 +14,15 @@ withDefaults(
 </script>
 
 <template>
-  <section class="relative bg-slate-900 py-5" aria-hidden="true">
+  <section class="relative bg-slate-900 py-5">
     <div class="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8" />
-    <div class="pointer-events-none absolute inset-0 grid grid-cols-1 md:grid-cols-2">
+    <div class="absolute inset-0 grid grid-cols-1 md:grid-cols-2">
       <div class="hidden md:block" />
-      <div class="relative">
+      <div class="relative" aria-hidden="true">
         <div class="absolute inset-0 bg-cover bg-center" :style="{ backgroundImage: `url('${heroImageUrl}')` }" />
       </div>
     </div>
-    <div class="pointer-events-none absolute inset-0 bg-black/50 md:hidden" />
+    <div class="absolute inset-0 bg-black/50 md:hidden" aria-hidden="true" />
   </section>
 
   <section class="mx-auto max-w-6xl px-4 py-5 sm:px-6 md:py-7 lg:px-8">
