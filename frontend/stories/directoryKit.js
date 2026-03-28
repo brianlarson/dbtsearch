@@ -1,6 +1,6 @@
 /**
- * Directory UI kit for Storybook (layout-first).
- * Preline/Tailwind token usage mirrors the upcoming Vue directory MVP.
+ * Directory UI kit for Storybook.
+ * Intentionally mirrors class names and structure in app/src/components/directory/*.vue.
  */
 
 export const sampleProviders = [
@@ -16,8 +16,8 @@ export const sampleProviders = [
     phone: '833-482-5546',
     website: 'https://www.tinytreecounseling.com/',
     email: 'support@tinytreecounseling.com',
-    updatedAtLabel: 'Mar 15, 2026',
-    image: null,
+    updatedAt: '2026-03-15T00:00:00.000Z',
+    imageUrl: '',
   },
   {
     id: '2',
@@ -31,60 +31,62 @@ export const sampleProviders = [
     phone: '612-925-6033',
     website: 'http://acp-mn.com/',
     email: '',
-    updatedAtLabel: 'Mar 10, 2026',
-    image: null,
+    updatedAt: '2026-03-10T00:00:00.000Z',
+    imageUrl: '',
   },
 ];
 
-export function renderDirectoryHeader() {
-  return `
-    <header class="sticky top-0 z-40 w-full border-b border-navbar-line bg-navbar">
-      <div class="mx-auto flex max-w-7xl items-center gap-x-4 px-4 py-3 sm:px-6 lg:px-8">
-        <a href="/" class="flex shrink-0 items-center">
-          <img src="/images/dbtsearch-logo.svg" alt="DBT Search" class="h-10 w-auto sm:h-12" />
-        </a>
-      </div>
-    </header>
-  `;
+export function formatUpdatedAt(value) {
+  if (!value) return 'Unknown';
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return 'Unknown';
+  return parsed.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 }
 
 export function renderBadge({ label, tone = 'neutral' }) {
-  const tones = {
-    success: 'border-emerald-500/50 text-emerald-300',
-    info: 'border-cyan-500/50 text-cyan-300',
-    neutral: 'border-layer-line text-layer-foreground',
-  };
-  return `<span class="inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${tones[tone] || tones.neutral}">${label}</span>`;
+  const toneClass =
+    tone === 'success'
+      ? 'border-emerald-500/50 text-emerald-300'
+      : tone === 'info'
+        ? 'border-cyan-500/50 text-cyan-300'
+        : 'border-slate-600 text-slate-300';
+  return `<span class="rounded-full border px-2.5 py-1 text-xs font-medium ${toneClass}">${label}</span>`;
 }
 
-export function renderButton({ label = 'Button', variant = 'primary', icon = '' }) {
-  const base =
-    'inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary focus:outline-none';
+export function renderButton({ label = 'Button', variant = 'primary' }) {
   const variants = {
-    primary: 'bg-primary text-primary-foreground hover:opacity-90',
-    secondary: 'border border-layer-line bg-layer text-layer-foreground hover:bg-layer-hover',
-    outline: 'border border-primary text-primary hover:bg-primary hover:text-primary-foreground',
-    subtle: 'border border-layer-line text-muted-foreground hover:text-foreground hover:border-border',
+    primary: 'rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground hover:opacity-90',
+    retry:
+      'rounded-lg border border-red-400/50 px-3 py-2 text-sm hover:bg-red-500/20 text-red-200',
   };
-  return `<button type="button" class="${base} ${variants[variant] || variants.primary}">${icon ? `<span aria-hidden="true">${icon}</span>` : ''}<span>${label}</span></button>`;
+  return `<button type="button" class="${variants[variant] || variants.primary}">${label}</button>`;
 }
 
-export function renderTextInput({
-  id = 'text',
-  label = 'Label',
-  placeholder = '',
-  type = 'text',
-  value = '',
-}) {
+export function renderActionLink({ label, href = '#' }) {
+  return `
+    <a
+      href="${href}"
+      class="rounded-lg border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary hover:text-white"
+    >
+      ${label}
+    </a>
+  `;
+}
+
+export function renderTextInput({ id = 'text', label = 'Label', placeholder = '', type = 'text', value = '' }) {
   return `
     <div>
-      <label for="${id}" class="mb-1 block text-sm font-medium text-layer-foreground">${label}</label>
+      <label for="${id}" class="mb-1 block text-sm font-medium text-slate-300">${label}</label>
       <input
         id="${id}"
         type="${type}"
         value="${value}"
         placeholder="${placeholder}"
-        class="block w-full rounded-lg border border-layer-line bg-layer px-3 py-2.5 text-layer-foreground placeholder-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none"
+        class="w-full rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
       />
     </div>
   `;
@@ -92,15 +94,15 @@ export function renderTextInput({
 
 export function renderDirectoryFilters({ resultCount = 24, onlyAvailable = true, search = '' } = {}) {
   return `
-    <section class="rounded-xl border border-layer-line bg-layer p-4 md:p-5">
+    <section class="space-y-4 rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
       <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <label class="inline-flex items-center gap-2 text-sm text-layer-foreground">
-          <input type="checkbox" class="rounded border-layer-line bg-layer text-primary focus:ring-primary" ${onlyAvailable ? 'checked' : ''} />
+        <label class="inline-flex items-center gap-2 text-sm text-slate-300">
+          <input type="checkbox" class="rounded border-slate-700 bg-slate-800 text-primary focus:ring-primary" ${onlyAvailable ? 'checked' : ''} />
           <span>Only show providers with availability</span>
         </label>
-        <div class="text-sm text-muted-foreground">Results: ${resultCount}</div>
+        <div class="text-sm text-slate-400">Results: ${resultCount}</div>
       </div>
-      <div class="mt-4">
+      <div>
         ${renderTextInput({
           id: 'provider-search',
           label: 'Search by provider name',
@@ -114,37 +116,50 @@ export function renderDirectoryFilters({ resultCount = 24, onlyAvailable = true,
 }
 
 export function renderProviderCard(provider = sampleProviders[0]) {
-  const address = `${provider.address} ${provider.city}, ${provider.state} ${provider.zip}`;
   return `
-    <article class="overflow-hidden rounded-xl border border-layer-line bg-layer">
+    <article class="overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
       <div class="grid grid-cols-1 gap-0 sm:grid-cols-[12rem_1fr]">
-        <div class="border-b border-layer-line bg-background/40 p-5 sm:border-r sm:border-b-0">
-          <div class="flex h-full min-h-[7rem] items-center justify-center rounded-lg border border-layer-line bg-background/60 p-4">
+        <div class="border-b border-slate-800 bg-slate-800/40 p-5 sm:border-r sm:border-b-0">
+          <div class="flex h-full min-h-[7rem] items-center justify-center rounded-lg border border-slate-700 bg-slate-900/60 p-4">
             ${
-              provider.image
-                ? `<img src="${provider.image}" alt="${provider.name} logo" class="max-h-20 w-auto object-contain" />`
+              provider.imageUrl
+                ? `<img src="${provider.imageUrl}" alt="${provider.name} logo" class="max-h-20 w-auto object-contain" />`
                 : '<span class="text-3xl text-primary" aria-hidden="true">❤</span>'
             }
           </div>
         </div>
         <div class="p-5">
           <div class="mb-3 flex flex-wrap gap-2">
-            ${renderBadge({ label: provider.availability ? 'Availability' : 'No Availability', tone: provider.availability ? 'success' : 'neutral' })}
+            ${renderBadge({
+              label: provider.availability ? 'Availability' : 'No Availability',
+              tone: provider.availability ? 'success' : 'neutral',
+            })}
             ${provider.dbtaCertified ? renderBadge({ label: 'DBT-A Certified', tone: 'info' }) : ''}
           </div>
           <h3 class="mb-1 text-lg font-semibold text-primary">${provider.name}</h3>
-          <p class="mb-3 text-sm text-muted-foreground">${address}</p>
+          <p class="mb-3 text-sm text-slate-300">${provider.address} ${provider.city}, ${provider.state} ${provider.zip}</p>
           <div class="mb-4 text-sm">
-            <a href="tel:${provider.phone}" class="text-primary underline decoration-primary/40 underline-offset-2 hover:opacity-90">${provider.phone}</a>
+            ${
+              provider.phone
+                ? `<a href="tel:${provider.phone}" class="text-primary underline decoration-primary/40 underline-offset-2 hover:opacity-90">${provider.phone}</a>`
+                : ''
+            }
           </div>
           <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div class="flex flex-wrap gap-2">
-              ${provider.website ? renderButton({ label: 'Website', variant: 'subtle' }) : ''}
-              ${provider.email ? renderButton({ label: 'Email', variant: 'subtle' }) : ''}
+              ${provider.website ? renderActionLink({ label: 'Website', href: provider.website }) : ''}
+              ${
+                provider.email
+                  ? renderActionLink({
+                      label: 'Email',
+                      href: `mailto:${provider.email}?subject=Inquiry%20from%20DBT%20Search`,
+                    })
+                  : ''
+              }
             </div>
-            <div class="text-sm text-muted-foreground">
+            <div class="text-sm text-slate-400">
               Last updated:
-              <span class="font-medium text-foreground">${provider.updatedAtLabel || 'Unknown'}</span>
+              <span class="font-medium text-slate-200">${formatUpdatedAt(provider.updatedAt)}</span>
             </div>
           </div>
         </div>
@@ -153,45 +168,68 @@ export function renderProviderCard(provider = sampleProviders[0]) {
   `;
 }
 
-export function renderListState({ state = 'loading' } = {}) {
-  if (state === 'loading') {
-    return '<div class="rounded-xl border border-layer-line bg-layer p-6 text-muted-foreground">Loading providers...</div>';
-  }
-  if (state === 'error') {
+export function renderProviderList({ providers = sampleProviders, empty = false } = {}) {
+  if (empty || providers.length === 0) {
     return `
-      <div class="rounded-xl border border-tertiary-400/40 bg-tertiary-500/10 p-6 text-sm text-foreground">
-        <p class="mb-4">We couldn’t load providers right now.</p>
-        ${renderButton({ label: 'Retry', variant: 'outline' })}
+      <div class="rounded-xl border border-slate-800 bg-slate-900/70 p-6 text-center">
+        <p class="mb-4 text-slate-300">No providers match your current filters.</p>
+        ${renderButton({ label: 'Reset filters', variant: 'primary' })}
       </div>
     `;
   }
+
   return `
-    <div class="rounded-xl border border-layer-line bg-layer p-6 text-center">
-      <p class="mb-4 text-muted-foreground">No providers match your current filters.</p>
-      ${renderButton({ label: 'Reset filters', variant: 'primary' })}
-    </div>
+    <ul class="space-y-4">
+      ${providers.map((provider) => `<li>${renderProviderCard(provider)}</li>`).join('')}
+    </ul>
   `;
 }
 
-export function renderDirectoryPageFrame({ providers = sampleProviders, resultCount = 24, onlyAvailable = true, search = '' } = {}) {
+export function renderListState({ state = 'loading' } = {}) {
+  if (state === 'loading') {
+    return '<div class="rounded-xl border border-slate-800 bg-slate-900/70 p-6 text-slate-300">Loading providers...</div>';
+  }
+  if (state === 'error') {
+    return `
+      <div class="rounded-xl border border-red-500/40 bg-red-500/10 p-6 text-red-200" role="alert">
+        <p class="mb-4">Failed to load providers.</p>
+        ${renderButton({ label: 'Retry', variant: 'retry' })}
+      </div>
+    `;
+  }
+  return renderProviderList({ providers: [], empty: true });
+}
+
+export function renderDirectoryPageFrame({
+  providers = sampleProviders,
+  resultCount = providers.length,
+  onlyAvailable = true,
+  search = '',
+  isLoading = false,
+  errorMessage = '',
+} = {}) {
   return `
-    <div class="dark min-h-screen bg-background text-foreground" data-theme="dbtsearch">
-      ${renderDirectoryHeader()}
-      <main class="pb-10">
-        <section class="border-b border-layer-line bg-background/40">
-          <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-            <p class="mb-2 text-sm uppercase tracking-wide text-muted-foreground">Directory</p>
-            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Providers</h1>
-            <p class="mt-2 text-muted-foreground">DBT Providers in Minnesota</p>
-          </div>
+    <main class="dark min-h-screen bg-slate-950 pb-12 text-white" data-theme="dbtsearch">
+      <section class="border-b border-slate-800 bg-slate-900/60">
+        <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+          <p class="mb-2 text-sm uppercase tracking-wide text-slate-400">Directory</p>
+          <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Providers</h1>
+          <p class="mt-2 text-slate-300">DBT Providers in Minnesota</p>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 lg:px-8">
+        ${renderDirectoryFilters({ resultCount, onlyAvailable, search })}
+        <section class="mt-6">
+          ${
+            isLoading
+              ? renderListState({ state: 'loading' })
+              : errorMessage
+                ? `<div class="rounded-xl border border-red-500/40 bg-red-500/10 p-6 text-red-200" role="alert"><p class="mb-4">${errorMessage}</p>${renderButton({ label: 'Retry', variant: 'retry' })}</div>`
+                : renderProviderList({ providers })
+          }
         </section>
-        <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 lg:px-8">
-          ${renderDirectoryFilters({ resultCount, onlyAvailable, search })}
-          <ul class="mt-6 space-y-4">
-            ${providers.map((provider) => `<li>${renderProviderCard(provider)}</li>`).join('')}
-          </ul>
-        </section>
-      </main>
-    </div>
+      </section>
+    </main>
   `;
 }

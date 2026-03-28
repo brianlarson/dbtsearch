@@ -26,9 +26,10 @@ Open http://localhost:6006. Logo and hero image are in `frontend/public/images/`
   - `Atoms/Form Controls`
   - `Molecules/Directory Filters`
   - `Organisms/Provider Card`
+  - `Organisms/Provider List`
   - `Organisms/List States`
   - `Pages/Directory Layout`
-  Shared render helpers live in `stories/directoryKit.js`. See `docs/DIRECTORY-PRELINE-COMPONENTS.md` for the component roundup.
+  Shared render helpers live in `stories/directoryKit.js` and are intentionally aligned to the Vue classes in `app/src/components/directory/*`. See `docs/DIRECTORY-PRELINE-COMPONENTS.md` for the component roundup.
 
 ## Build static Storybook
 
