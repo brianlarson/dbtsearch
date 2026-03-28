@@ -52,13 +52,13 @@ Component checklist for the Vue + Craft GraphQL directory MVP, based on legacy l
 
 ## Storybook mapping
 
-- `Atoms/Buttons & Badges`
-- `Atoms/Form Controls`
-- `Molecules/Directory Filters`
-- `Organisms/Provider Card`
-- `Organisms/Provider List`
-- `Organisms/List States`
-- `Pages/Directory Layout`
+- `Atoms/Directory/ButtonsBadges`
+- `Atoms/Directory/FormControls`
+- `Molecules/Directory/DirectoryFilters`
+- `Organisms/Directory/ProviderCard`
+- `Organisms/Directory/ProviderList`
+- `Organisms/Directory/ListStates`
+- `Pages/Directory/DirectoryPageView`
 
 All stories are currently in `frontend/stories/` and use shared render helpers in `frontend/stories/directoryKit.js`.
 The helper file is intentionally aligned to class names and structure in:

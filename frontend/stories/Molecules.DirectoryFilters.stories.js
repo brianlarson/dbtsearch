@@ -1,7 +1,7 @@
 import { renderDirectoryFilters } from './directoryKit.js';
 
 export default {
-  title: 'Molecules/Directory Filters',
+  title: 'Molecules/Directory/DirectoryFilters',
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -20,7 +20,7 @@ export default {
 
 function renderStory(args) {
   return `
-    <div class="dark min-h-screen bg-background text-foreground p-8" data-theme="dbtsearch">
+    <div class="dark min-h-screen bg-slate-950 text-white p-8" data-theme="dbtsearch">
       <div class="mx-auto max-w-5xl">
         ${renderDirectoryFilters(args)}
       </div>

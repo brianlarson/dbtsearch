@@ -1,7 +1,7 @@
 import { renderProviderList, sampleProviders } from './directoryKit.js';
 
 export default {
-  title: 'Organisms/Provider List',
+  title: 'Organisms/Directory/ProviderList.vue',
   parameters: {
     layout: 'fullscreen',
     docs: {

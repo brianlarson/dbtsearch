@@ -1,7 +1,7 @@
 import { renderProviderCard, sampleProviders } from './directoryKit.js';
 
 export default {
-  title: 'Organisms/Provider Card',
+  title: 'Organisms/Directory/ProviderCard',
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -15,7 +15,7 @@ export default {
 
 function wrap(content) {
   return `
-    <div class="dark min-h-screen bg-background text-foreground p-8" data-theme="dbtsearch">
+    <div class="dark min-h-screen bg-slate-950 text-white p-8" data-theme="dbtsearch">
       <div class="mx-auto max-w-5xl">
         ${content}
       </div>
