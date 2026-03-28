@@ -7,7 +7,7 @@ export default {
     docs: {
       description: {
         component:
-          'Direct page-level mirror of app/src/views/DirectoryPageView.vue with state variants.',
+          'Direct page-level mirror of app/src/views/DirectoryPageView.vue with legacy-inspired header hero, logo, and footer chrome.',
       },
     },
   },

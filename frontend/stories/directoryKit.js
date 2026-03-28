@@ -36,6 +36,88 @@ export const sampleProviders = [
   },
 ];
 
+export function renderLegacyHeader() {
+  return `
+    <header class="sticky top-0 z-50 border-b border-slate-700 bg-slate-900/95 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
+        <button
+          type="button"
+          aria-label="Toggle navigation"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-700 text-slate-300 md:hidden"
+        >
+          <span class="text-lg leading-none">☰</span>
+        </button>
+        <a href="/" class="flex shrink-0 items-center">
+          <img src="/images/dbtsearch-logo.svg" alt="DBTsearch" class="h-10 w-auto md:h-14" />
+        </a>
+
+        <nav class="ml-3 hidden items-center gap-4 text-sm text-slate-300 md:flex">
+          <a href="#" class="hover:text-white">Providers</a>
+          <a href="#" class="hover:text-white">About</a>
+          <a href="#" class="hover:text-white">FAQs</a>
+        </nav>
+
+        <div class="ml-auto flex items-center gap-2">
+          <button type="button" class="hidden rounded-md border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary hover:text-white sm:inline-flex">
+            Contact
+          </button>
+          <button type="button" class="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90">
+            Login
+          </button>
+        </div>
+      </div>
+    </header>
+  `;
+}
+
+export function renderLegacyPageHeader({ pageHeading = 'Providers', pageSubheading = 'DBT Providers in Minnesota' } = {}) {
+  return `
+    <section class="relative bg-slate-900 py-5" aria-hidden="true">
+      <div class="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8"></div>
+      <div class="pointer-events-none absolute inset-0 grid grid-cols-1 md:grid-cols-2">
+        <div class="hidden md:block"></div>
+        <div class="relative">
+          <div
+            class="absolute inset-0 bg-cover bg-center"
+            style="background-image: url('/images/pexels-steve-1690351.jpg');"
+          ></div>
+        </div>
+      </div>
+      <div class="pointer-events-none absolute inset-0 bg-black/50 md:hidden"></div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 py-5 sm:px-6 md:py-7 lg:px-8">
+      <div class="grid grid-cols-1 items-end gap-2 md:grid-cols-2">
+        <h1 class="text-3xl font-bold tracking-tight text-white">${pageHeading}</h1>
+        <h2 class="text-base font-medium text-slate-300 md:text-right">${pageSubheading}</h2>
+      </div>
+      <hr class="mt-4 border-slate-700" />
+    </section>
+  `;
+}
+
+export function renderLegacyFooter() {
+  const year = new Date().getFullYear();
+  return `
+    <footer class="mt-14 border-t border-slate-800">
+      <div class="mx-auto max-w-6xl px-4 py-8 text-center sm:px-6 lg:px-8">
+        <p class="mb-3 text-sm text-slate-300">
+          <span class="font-semibold text-white">DBTsearch</span> is powered by
+          <a
+            href="https://www.tinytreecounseling.com/"
+            class="ml-1 text-primary underline decoration-1 hover:opacity-90"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Tiny Tree Counseling &amp; Consulting
+          </a>
+        </p>
+        <p class="text-xs text-slate-400">Copyright &copy; ${year} DBTsearch.org. All rights reserved.</p>
+      </div>
+    </footer>
+  `;
+}
+
 export function formatUpdatedAt(value) {
   if (!value) return 'Unknown';
   const parsed = new Date(value);
@@ -209,27 +291,29 @@ export function renderDirectoryPageFrame({
   errorMessage = '',
 } = {}) {
   return `
-    <main class="dark min-h-screen bg-slate-950 pb-12 text-white" data-theme="dbtsearch">
-      <section class="border-b border-slate-800 bg-slate-900/60">
-        <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-          <p class="mb-2 text-sm uppercase tracking-wide text-slate-400">Directory</p>
-          <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Providers</h1>
-          <p class="mt-2 text-slate-300">DBT Providers in Minnesota</p>
-        </div>
-      </section>
+    <div class="dark min-h-screen bg-slate-950 text-white" data-theme="dbtsearch">
+      ${renderLegacyHeader()}
+      ${renderLegacyPageHeader({
+        pageHeading: 'Providers',
+        pageSubheading: 'DBT Providers in Minnesota',
+      })}
 
-      <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 lg:px-8">
-        ${renderDirectoryFilters({ resultCount, onlyAvailable, search })}
-        <section class="mt-6">
-          ${
-            isLoading
-              ? renderListState({ state: 'loading' })
-              : errorMessage
-                ? `<div class="rounded-xl border border-red-500/40 bg-red-500/10 p-6 text-red-200" role="alert"><p class="mb-4">${errorMessage}</p>${renderButton({ label: 'Retry', variant: 'retry' })}</div>`
-                : renderProviderList({ providers })
-          }
+      <main class="pb-12">
+        <section class="mx-auto max-w-6xl px-4 pt-2 sm:px-6 lg:px-8">
+          ${renderDirectoryFilters({ resultCount, onlyAvailable, search })}
+          <section class="mt-6">
+            ${
+              isLoading
+                ? renderListState({ state: 'loading' })
+                : errorMessage
+                  ? `<div class="rounded-xl border border-red-500/40 bg-red-500/10 p-6 text-red-200" role="alert"><p class="mb-4">${errorMessage}</p>${renderButton({ label: 'Retry', variant: 'retry' })}</div>`
+                  : renderProviderList({ providers })
+            }
+          </section>
         </section>
-      </section>
-    </main>
+      </main>
+
+      ${renderLegacyFooter()}
+    </div>
   `;
 }
