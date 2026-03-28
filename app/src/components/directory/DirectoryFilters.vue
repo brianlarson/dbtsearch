@@ -24,7 +24,7 @@ const availabilityModel = computed({
 </script>
 
 <template>
-  <section class="space-y-4 rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
+  <section class="space-y-4 rounded-xl border border-slate-800/80 bg-slate-900/55 p-4 md:p-5">
     <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
       <label class="inline-flex items-center gap-2 text-sm text-slate-300">
         <input

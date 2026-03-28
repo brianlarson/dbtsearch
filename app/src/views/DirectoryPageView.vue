@@ -55,7 +55,7 @@ onBeforeUnmount(() => {
     <LegacyPageHeader page-heading="Providers" page-subheading="DBT Providers in Minnesota" />
 
     <main class="pb-12">
-      <section class="mx-auto max-w-6xl px-4 pt-2 sm:px-6 lg:px-8">
+      <section class="mx-auto max-w-6xl px-4 pt-1 sm:px-6 lg:px-8">
         <DirectoryFilters
           v-model:search-term="searchTerm"
           v-model:only-available="onlyAvailable"

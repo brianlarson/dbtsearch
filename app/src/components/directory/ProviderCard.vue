@@ -18,9 +18,9 @@ function formatUpdatedAt(value: string): string {
 </script>
 
 <template>
-  <article class="overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
+  <article class="w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
     <div class="grid grid-cols-1 gap-0 sm:grid-cols-[12rem_1fr]">
-      <div class="border-b border-slate-800 bg-slate-800/40 p-5 sm:border-r sm:border-b-0">
+      <div class="border-b border-slate-800 bg-slate-800/35 p-5 sm:border-r sm:border-b-0">
         <div class="flex h-full min-h-[7rem] items-center justify-center rounded-lg border border-slate-700 bg-slate-900/60 p-4">
           <img
             v-if="provider.imageUrl"
@@ -32,8 +32,8 @@ function formatUpdatedAt(value: string): string {
         </div>
       </div>
 
-      <div class="p-5">
-        <div class="mb-3 flex flex-wrap gap-2">
+      <div class="p-4 py-sm-4 sm:p-5">
+        <div class="mb-4 flex flex-wrap gap-2">
           <span
             class="rounded-full border px-2.5 py-1 text-xs font-medium"
             :class="
@@ -52,8 +52,8 @@ function formatUpdatedAt(value: string): string {
           </span>
         </div>
 
-        <h3 class="mb-1 text-lg font-semibold text-primary">{{ provider.name }}</h3>
-        <p class="mb-3 text-sm text-slate-300">
+        <h3 class="mb-1 text-xl font-semibold text-primary">{{ provider.name }}</h3>
+        <p class="mb-3 text-sm text-slate-300/95">
           {{ provider.address }} {{ provider.city }}, {{ provider.state }} {{ provider.zip }}
         </p>
 

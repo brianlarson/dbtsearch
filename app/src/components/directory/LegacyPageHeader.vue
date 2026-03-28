@@ -14,18 +14,18 @@ withDefaults(
 </script>
 
 <template>
-  <section class="relative bg-slate-900 py-5">
+  <section class="relative bg-slate-900 py-5" aria-hidden="true">
     <div class="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8" />
     <div class="absolute inset-0 grid grid-cols-1 md:grid-cols-2">
       <div class="hidden md:block" />
-      <div class="relative" aria-hidden="true">
+      <div class="relative">
         <div class="absolute inset-0 bg-cover bg-center" :style="{ backgroundImage: `url('${heroImageUrl}')` }" />
       </div>
     </div>
     <div class="absolute inset-0 bg-black/50 md:hidden" aria-hidden="true" />
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-5 sm:px-6 md:py-7 lg:px-8">
+  <section class="mx-auto max-w-6xl px-4 py-4 sm:px-6 md:my-5 md:py-0 lg:px-8">
     <div class="grid grid-cols-1 items-end gap-2 md:grid-cols-2">
       <h1 class="text-3xl font-bold tracking-tight text-white">{{ pageHeading }}</h1>
       <h2 class="text-base font-medium text-slate-300 md:text-right">{{ pageSubheading }}</h2>

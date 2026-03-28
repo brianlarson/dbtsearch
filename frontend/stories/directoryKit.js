@@ -192,7 +192,7 @@ export function renderTextInput({ id = 'text', label = 'Label', placeholder = ''
 
 export function renderDirectoryFilters({ resultCount = 24, onlyAvailable = true, search = '' } = {}) {
   return `
-    <section class="space-y-4 rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
+    <section class="space-y-4 rounded-xl border border-slate-800 bg-slate-900/60 p-4 md:p-5">
       <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <label class="inline-flex items-center gap-2 text-sm text-slate-300">
           <input type="checkbox" class="rounded border-slate-700 bg-slate-800 text-primary focus:ring-primary" ${onlyAvailable ? 'checked' : ''} />
@@ -215,26 +215,27 @@ export function renderDirectoryFilters({ resultCount = 24, onlyAvailable = true,
 
 export function renderProviderCard(provider = sampleProviders[0]) {
   return `
-    <article class="overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
+    <article class="w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
       <div class="grid grid-cols-1 gap-0 sm:grid-cols-[12rem_1fr]">
-        <div class="border-b border-slate-800 bg-slate-800/40 p-5 sm:border-r sm:border-b-0">
-          <div class="flex h-full min-h-[7rem] items-center justify-center rounded-lg border border-slate-700 bg-slate-900/60 p-4">
+        <div class="rounded overflow-hidden border-b border-slate-800 p-4 sm:border-r sm:border-b-0 sm:p-5">
+          <div class="relative flex h-full min-h-[10.875rem] items-center justify-center bg-slate-800/50 p-5">
             ${
               provider.imageUrl
-                ? `<img src="${provider.imageUrl}" alt="${provider.name} logo" class="max-h-20 w-auto object-contain" />`
+                ? `<img src="${provider.imageUrl}" alt="${provider.name} logo" class="max-h-20 w-auto object-contain px-3 py-3" />`
                 : '<span class="text-3xl text-primary" aria-hidden="true">❤</span>'
             }
           </div>
         </div>
-        <div class="p-5">
-          <div class="mb-3 flex flex-wrap gap-2">
+        <div class="self-center">
+          <div class="p-3 pt-4 sm:p-4 md:p-5">
+          <div class="mb-4 flex flex-wrap items-center gap-2">
             ${renderBadge({
               label: provider.availability ? 'Availability' : 'No Availability',
               tone: provider.availability ? 'success' : 'neutral',
             })}
             ${provider.dbtaCertified ? renderBadge({ label: 'DBT-A Certified', tone: 'info' }) : ''}
           </div>
-          <h3 class="mb-1 text-lg font-semibold text-primary">${provider.name}</h3>
+          <h3 class="mb-1 text-xl font-semibold text-primary">${provider.name}</h3>
           <p class="mb-3 text-sm text-slate-300">${provider.address} ${provider.city}, ${provider.state} ${provider.zip}</p>
           <div class="mb-4 text-sm">
             ${
@@ -260,6 +261,7 @@ export function renderProviderCard(provider = sampleProviders[0]) {
               <span class="font-medium text-slate-200">${formatUpdatedAt(provider.updatedAt)}</span>
             </div>
           </div>
+          </div>
         </div>
       </div>
     </article>
@@ -277,7 +279,7 @@ export function renderProviderList({ providers = sampleProviders, empty = false 
   }
 
   return `
-    <ul class="space-y-4">
+    <ul class="space-y-5 px-0">
       ${providers.map((provider) => `<li>${renderProviderCard(provider)}</li>`).join('')}
     </ul>
   `;
@@ -316,7 +318,7 @@ export function renderDirectoryPageFrame({
       })}
 
       <main class="pb-12">
-        <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 lg:px-8">
+        <section class="mx-auto max-w-6xl px-4 pt-2 sm:px-6 lg:px-8">
           ${renderDirectoryFilters({ resultCount, onlyAvailable, search })}
           <section class="mt-6">
             ${
