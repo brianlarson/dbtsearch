@@ -2,6 +2,8 @@
 
 Component checklist for the Vue + Craft GraphQL directory MVP, based on legacy layout.
 
+Use `docs/LEGACY-DIRECTORY-PARITY-CHECKLIST.md` as the source-of-truth parity guide while refining Storybook and Vue.
+
 ## Atoms
 
 - **Buttons**
@@ -37,6 +39,15 @@ Component checklist for the Vue + Craft GraphQL directory MVP, based on legacy l
   - Name/address/phone
   - Website/email actions
   - Last updated
+- **Legacy header chrome**
+  - Logo
+  - Nav links
+  - Contact/Login actions
+- **Legacy decorative page header**
+  - Right-side hero image treatment
+  - H1/H2 and divider
+- **Legacy footer**
+  - Tiny Tree attribution + copyright
 - **List states**
   - Loading
   - Error + retry
@@ -45,20 +56,33 @@ Component checklist for the Vue + Craft GraphQL directory MVP, based on legacy l
 ## Page
 
 - **Directory layout frame**
-  - Header
-  - Page intro
+  - Legacy-style header (logo + nav/actions)
+  - Legacy-style decorative page header/hero image treatment
   - Filters
   - Provider card list
+  - Footer (Tiny Tree attribution + copyright)
 
 ## Storybook mapping
 
-- `Atoms/Directory/ButtonsBadges`
+- `Atoms/Directory/ButtonBadge`
 - `Atoms/Directory/FormControls`
 - `Molecules/Directory/DirectoryFilters`
 - `Organisms/Directory/ProviderCard`
 - `Organisms/Directory/ProviderList`
 - `Organisms/Directory/ListStates`
-- `Pages/Directory/DirectoryPageView`
+- `Organisms/Directory/LegacyHeader`
+- `Organisms/Directory/LegacyPageHeader`
+- `Organisms/Directory/LegacyFooter`
+- `Pages/DirectoryPageView`
+
+## Legacy source references (what to match)
+
+- `src/components/Header/Header.jsx` and `src/components/Nav/Nav.jsx`
+- `src/components/PageHeader/PageHeader.jsx`
+- `src/components/ProviderList/ProviderList.jsx`
+- `src/components/ProviderListItem/ProviderListItem.jsx`
+- `src/components/Footer/Footer.jsx`
+- `docs/reference-markup/admin-edit.html` (captured integrated markup reference)
 
 All stories are currently in `frontend/stories/` and use shared render helpers in `frontend/stories/directoryKit.js`.
 The helper file is intentionally aligned to class names and structure in:

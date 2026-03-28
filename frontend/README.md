@@ -22,14 +22,19 @@ Open http://localhost:6006. Logo and hero image are in `frontend/public/images/`
 
 - **Pages/Splash Page** — Landing/splash page with form fields: name, email, provider name. Content (heading, tagline, form heading, submit label) is driven by Craft Single section “Splash Page”; see `docs/SPLASH-PAGE-CRAFT.md`.
 - **Directory UI kit (atomic-style)** — Directory MVP stories:
-  - `Atoms/Directory/ButtonBadge`
+  - `Atoms/Directory/ButtonsBadges`
   - `Atoms/Directory/FormControls`
   - `Molecules/Directory/DirectoryFilters`
   - `Organisms/Directory/ProviderCard`
   - `Organisms/Directory/ProviderList`
   - `Organisms/Directory/ListStates`
-  - `Pages/DirectoryPageView`
-  Shared render helpers live in `stories/directoryKit.js` and are intentionally aligned to the Vue classes in `app/src/components/directory/*`. See `docs/DIRECTORY-PRELINE-COMPONENTS.md` for the component roundup.
+  - `Organisms/Directory/LegacyHeader`
+  - `Organisms/Directory/LegacyPageHeader`
+  - `Organisms/Directory/LegacyFooter`
+  - `Pages/Directory/DirectoryPageView` (includes legacy-style header / image page-header / footer toggles)
+  Shared render helpers live in `stories/directoryKit.js` and are intentionally aligned to the Vue classes in `app/src/components/directory/*`.
+  - Legacy source-of-truth checklist: `docs/LEGACY-DIRECTORY-PARITY-CHECKLIST.md`
+  - Component roundup: `docs/DIRECTORY-PRELINE-COMPONENTS.md`
 
 ## Build static Storybook
 
