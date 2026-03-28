@@ -7,7 +7,13 @@ export default {
     docs: {
       description: {
         component:
-          'Legacy-style footer organism used in directory page frame: Tiny Tree attribution and copyright.',
+          [
+            'Legacy-style footer organism used in directory page frame: Tiny Tree attribution and copyright.',
+            '',
+            'Legacy source references:',
+            '- src/components/Footer/Footer.jsx',
+            '- docs/reference-markup/admin-edit.html (footer block)',
+          ].join('\n'),
       },
     },
   },

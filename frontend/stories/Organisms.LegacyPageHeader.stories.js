@@ -7,7 +7,7 @@ export default {
     docs: {
       description: {
         component:
-          'Legacy-inspired internal page hero/header strip with right-side image treatment and heading/subheading row.',
+          'Legacy-inspired internal page hero/header strip with right-side image treatment and heading/subheading row. Source parity: src/components/PageHeader/PageHeader.jsx and docs/reference-markup/admin-edit.html.',
       },
     },
   },

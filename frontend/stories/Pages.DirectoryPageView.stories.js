@@ -9,6 +9,17 @@ export default {
         component:
           'Direct page-level mirror of app/src/views/DirectoryPageView.vue with legacy-inspired header hero, logo, and footer chrome.',
       },
+      source: {
+        code: [
+          'Legacy parity references:',
+          '- src/components/Header/Header.jsx',
+          '- src/components/PageHeader/PageHeader.jsx',
+          '- src/components/ProviderList/ProviderList.jsx',
+          '- src/components/ProviderListItem/ProviderListItem.jsx',
+          '- src/components/Footer/Footer.jsx',
+          '- docs/reference-markup/admin-edit.html',
+        ].join('\n'),
+      },
     },
   },
   argTypes: {

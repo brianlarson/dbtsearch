@@ -2,6 +2,8 @@
 
 Component checklist for the Vue + Craft GraphQL directory MVP, based on legacy layout.
 
+Use `docs/LEGACY-DIRECTORY-PARITY-CHECKLIST.md` as the source-of-truth parity guide while refining Storybook and Vue.
+
 ## Atoms
 
 - **Buttons**
@@ -72,6 +74,15 @@ Component checklist for the Vue + Craft GraphQL directory MVP, based on legacy l
 - `Organisms/Directory/LegacyPageHeader`
 - `Organisms/Directory/LegacyFooter`
 - `Pages/DirectoryPageView`
+
+## Legacy source references (what to match)
+
+- `src/components/Header/Header.jsx` and `src/components/Nav/Nav.jsx`
+- `src/components/PageHeader/PageHeader.jsx`
+- `src/components/ProviderList/ProviderList.jsx`
+- `src/components/ProviderListItem/ProviderListItem.jsx`
+- `src/components/Footer/Footer.jsx`
+- `docs/reference-markup/admin-edit.html` (captured integrated markup reference)
 
 All stories are currently in `frontend/stories/` and use shared render helpers in `frontend/stories/directoryKit.js`.
 The helper file is intentionally aligned to class names and structure in:

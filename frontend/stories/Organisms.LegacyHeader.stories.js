@@ -7,7 +7,7 @@ export default {
     docs: {
       description: {
         component:
-          'Legacy-inspired global header chrome: logo, nav links, mobile toggle, and contact/login action buttons.',
+          'Legacy-inspired global header chrome: logo, nav links, mobile toggle, and contact/login action buttons. Source: src/components/Header/Header.jsx and docs/reference-markup/admin-edit.html (header block).',
       },
     },
   },
