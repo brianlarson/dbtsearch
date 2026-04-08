@@ -1,12 +1,12 @@
-dateModified: 1775616280
+dateModified: 1775618725
 email:
-  fromEmail: support@tinytreecounseling.com
+  fromEmail: system@dbtsearch.org
   fromName: 'DBT Search'
-  replyToEmail: null
-  template: ''
+  replyToEmail: no-reply@dbtsearch.org
+  template: null
   transportSettings:
-    command: '/usr/sbin/sendmail -bs'
-  transportType: craft\mail\transportadapters\Sendmail
+    apiKey: $RESEND_API_KEY
+  transportType: superbig\resend\Adapter
 fs:
   assets:
     hasUrls: true
@@ -88,6 +88,10 @@ plugins:
       useQueueForIntegrations: true
       useQueueForNotifications: true
       validateCustomTemplates: true
+  resend:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
 system:
   edition: team
   live: true
