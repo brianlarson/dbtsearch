@@ -1,13 +1,12 @@
 import { renderListState } from './directoryKit.js';
 
 export default {
-  title: 'Organisms/DirectoryPageViewStates',
+  title: 'Organisms/Directory/PageStates',
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
-        component:
-          'List-level states for directory MVP: loading, error, and empty. Keeps UX consistent before data wiring is finalized.',
+        component: 'Loading / error / empty affordances using Bootstrap alerts and spinner.',
       },
     },
   },
@@ -15,10 +14,8 @@ export default {
 
 function frame(state) {
   return `
-    <div class="dark min-h-screen bg-slate-950 text-white p-8" data-theme="dbtsearch">
-      <div class="mx-auto max-w-4xl">
-        ${renderListState({ state })}
-      </div>
+    <div class="finder-directory min-h-screen bg-body text-body p-4" data-bs-theme="dark" data-theme="dbtsearch">
+      <div class="container">${renderListState({ state })}</div>
     </div>
   `;
 }

@@ -25,11 +25,13 @@
     "client": "vite",
     "server": "nodemon --watch server server/server.js",
     "build": "vite build",
-    "test": "vitest"
+    "test": "vitest",
+    "capture:markup": "node scripts/capture-reference-markup.mjs"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",
     "nodemon": "^3.1.14",
+    "playwright": "^1.49.1",
     "vite": "^5.4.21",
     "vitest": "^1.6.1"
   },

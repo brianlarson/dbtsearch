@@ -1,7 +1,7 @@
 # Legacy Directory Parity Checklist (Source of Truth)
 
 Use this checklist when refining the Vue + Preline directory UI.  
-**Goal:** match legacy look-and-feel as closely as practical while using current Tailwind/Preline architecture.
+**Goal:** match legacy look-and-feel as closely as practical while using current Tailwind/Preline architecture — **not** pixel-perfect parity with Bootstrap reference HTML; `docs/reference-markup/` is structure/copy guidance. Prefer locking changes in **Tailwind** Storybook stories (`Layouts/Vue/LegacyContent`, directory kit), then applying in `app/`.
 
 ## Legacy source files
 
@@ -10,7 +10,7 @@ Use this checklist when refining the Vue + Preline directory UI.
 - `src/components/ProviderList/ProviderList.jsx`
 - `src/components/ProviderListItem/ProviderListItem.jsx`
 - `src/components/Footer/Footer.jsx`
-- snapshot markup: `docs/reference-markup/admin-edit.html`
+- snapshot markup: `docs/reference-markup/` (`README.md` indexes files; regenerate with `npm run capture:markup`)
 
 ## Storybook targets
 
@@ -26,10 +26,10 @@ Use this checklist when refining the Vue + Preline directory UI.
 
 ### 1) Global header
 
-- [ ] Logo scale and placement match legacy intent (compact mobile, larger desktop)
-- [ ] Sticky header behavior and divider treatment are visually equivalent
-- [ ] Nav order/labels match legacy (`Providers`, `About`, `FAQs`)
-- [ ] Right-side action cluster mirrors legacy priority (`Contact`, `Login/Admin`)
+- [x] Logo scale and placement match legacy intent (compact mobile, larger desktop)
+- [x] Sticky header behavior and divider treatment are visually equivalent
+- [x] Nav order/labels match legacy (`Providers`, `About`, `FAQs`)
+- [x] Right-side action cluster mirrors legacy priority (`Contact`, `Login/Admin`)
 
 ### 2) Decorative page header strip
 

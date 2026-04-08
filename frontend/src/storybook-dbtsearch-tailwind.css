@@ -1,0 +1,29 @@
+/**
+ * Storybook: Tailwind + `data-theme="dbtsearch"` stories (Foundations, Splash scaffolding, etc.)
+ * Preline/Tailwind utilities like `text-foreground` can resolve to low-contrast values when
+ * variable inheritance breaks in the iframe. Force readable light text on dark surfaces.
+ */
+.dark[data-theme='dbtsearch'],
+[data-theme='dbtsearch'].dark {
+  color: var(--color-foreground-dark, #e8eef5);
+}
+
+.dark[data-theme='dbtsearch'] h1,
+.dark[data-theme='dbtsearch'] h2,
+.dark[data-theme='dbtsearch'] h3,
+.dark[data-theme='dbtsearch'] .text-foreground {
+  color: var(--color-foreground-dark, #e8eef5);
+}
+
+.dark[data-theme='dbtsearch'] .text-muted-foreground,
+.dark[data-theme='dbtsearch'] p.text-muted-foreground {
+  color: var(--color-foreground-dark-muted, #94a8c4);
+}
+
+.dark[data-theme='dbtsearch'] code {
+  color: var(--color-primary-400, #7c9cfd);
+}
+
+.dark[data-theme='dbtsearch'] strong {
+  color: var(--color-foreground-dark, #e8eef5);
+}

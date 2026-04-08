@@ -7,7 +7,7 @@ export default {
     docs: {
       description: {
         component:
-          'Primary directory organism. Replicates legacy provider row structure with badges, contact CTAs, and last updated.',
+          'Single provider row — Bootstrap `card` + grid per `docs/reference-markup/providers.html` and `ProviderListItem.jsx`.',
       },
     },
   },
@@ -15,9 +15,11 @@ export default {
 
 function wrap(content) {
   return `
-    <div class="dark min-h-screen bg-slate-950 text-white p-8" data-theme="dbtsearch">
-      <div class="mx-auto max-w-5xl">
-        ${content}
+    <div class="finder-directory min-h-screen bg-body text-body py-4" data-bs-theme="dark" data-theme="dbtsearch">
+      <div class="container">
+        <ul class="provider-card-stack px-0">
+          ${content}
+        </ul>
       </div>
     </div>
   `;

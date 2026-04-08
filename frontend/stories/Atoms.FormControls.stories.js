@@ -1,4 +1,4 @@
-import { renderTextInput } from './directoryKit.js';
+import { renderTextInput, renderAvailabilitySwitch } from './directoryKit.js';
 
 export default {
   title: 'Atoms/Directory/FormControls',
@@ -41,10 +41,7 @@ function renderFormControls() {
             <option value="2">Associated Clinic of Psychology</option>
           </select>
         </div>
-        <label class="inline-flex items-center gap-2 text-sm text-slate-300">
-          <input type="checkbox" checked class="rounded border-slate-700 bg-slate-800 text-primary focus:ring-primary" />
-          <span>Only show providers with availability</span>
-        </label>
+        ${renderAvailabilitySwitch({ checked: true, id: 'availability-atom-demo' })}
       </div>
     </div>
   `;

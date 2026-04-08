@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DirectoryListNotice from '@/components/directory/DirectoryListNotice.vue'
 import ProviderCard from '@/components/directory/ProviderCard.vue'
 import type { Provider } from '@/types/provider'
 
@@ -13,18 +14,15 @@ const emit = defineEmits<{
 
 <template>
   <section class="mt-6">
-    <div v-if="providers.length === 0" class="rounded-xl border border-slate-800 bg-slate-900/70 p-6 text-center">
-      <p class="mb-4 text-slate-300">No providers match your current filters.</p>
-      <button
-        type="button"
-        class="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground hover:opacity-90"
-        @click="emit('resetFilters')"
-      >
-        Reset filters
-      </button>
-    </div>
+    <DirectoryListNotice
+      v-if="providers.length === 0"
+      title="No providers match your current filters."
+      button-label="Reset filters"
+      @action="emit('resetFilters')"
+    />
 
-    <ul v-else class="space-y-4">
+    <!-- Storybook `provider-card-stack`: gap 2.5rem between cards -->
+    <ul v-else class="list-none space-y-[2.5rem] p-0">
       <li v-for="provider in providers" :key="provider.id">
         <ProviderCard :provider="provider" />
       </li>

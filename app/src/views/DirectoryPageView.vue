@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import DirectoryFilters from '@/components/directory/DirectoryFilters.vue'
+import DirectoryListLoading from '@/components/directory/DirectoryListLoading.vue'
+import DirectoryListNotice from '@/components/directory/DirectoryListNotice.vue'
 import ProviderList from '@/components/directory/ProviderList.vue'
 import LegacyFooter from '@/components/directory/LegacyFooter.vue'
 import LegacyHeader from '@/components/directory/LegacyHeader.vue'
@@ -50,38 +52,28 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-white">
+  <div class="dark min-h-screen bg-slate-950 text-white" data-theme="dbtsearch">
     <LegacyHeader />
     <LegacyPageHeader page-heading="Providers" page-subheading="DBT Providers in Minnesota" />
 
     <main class="pb-12">
-      <section class="mx-auto max-w-6xl px-4 pt-2 sm:px-6 lg:px-8">
+      <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 md:pt-8 lg:px-8">
         <DirectoryFilters
           v-model:search-term="searchTerm"
           v-model:only-available="onlyAvailable"
           :result-count="resultCount"
         />
 
-        <div
-          v-if="isLoading"
-          class="mt-6 rounded-xl border border-slate-800 bg-slate-900/70 p-6 text-slate-300"
-        >
-          Loading providers...
-        </div>
+        <DirectoryListLoading v-if="isLoading" />
 
-        <div
-          v-else-if="errorMessage"
-          class="mt-6 rounded-xl border border-red-500/40 bg-red-500/10 p-6 text-red-200"
-          role="alert"
-        >
-          <p class="mb-4">{{ errorMessage }}</p>
-          <button
-            type="button"
-            class="rounded-lg border border-red-400/50 px-3 py-2 text-sm hover:bg-red-500/20"
-            @click="loadProviders"
-          >
-            Retry
-          </button>
+        <div v-else-if="errorMessage" class="mt-6">
+          <DirectoryListNotice
+            title="Failed to load providers."
+            :detail="errorMessage"
+            button-label="Retry"
+            role="alert"
+            @action="loadProviders"
+          />
         </div>
 
         <ProviderList

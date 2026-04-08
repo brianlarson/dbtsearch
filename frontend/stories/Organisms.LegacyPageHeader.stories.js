@@ -1,13 +1,13 @@
-import { renderLegacyPageHeader } from './directoryKit.js';
+import { renderDirectoryPageHeader } from './directoryKit.js';
 
 export default {
-  title: 'Organisms/Directory/LegacyPageHeader',
+  title: 'Organisms/Directory/PageHeader',
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'Legacy-inspired internal page hero/header strip with right-side image treatment and heading/subheading row. Source parity: src/components/PageHeader/PageHeader.jsx and docs/reference-markup/admin-edit.html.',
+          'Hero strip + title row — same structure as `docs/reference-markup/providers.html` (image column, H1 / H2, `hr`).',
       },
     },
   },
@@ -19,14 +19,14 @@ export default {
 
 function frame(content) {
   return `
-    <div class="dark min-h-screen bg-slate-950 text-white" data-theme="dbtsearch">
+    <div class="finder-directory min-h-screen bg-body text-body" data-bs-theme="dark" data-theme="dbtsearch">
       ${content}
     </div>
   `;
 }
 
 export const Default = {
-  render: (args) => frame(renderLegacyPageHeader(args)),
+  render: (args) => frame(renderDirectoryPageHeader(args)),
   args: {
     pageHeading: 'Providers',
     pageSubheading: 'DBT Providers in Minnesota',

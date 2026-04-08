@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!-- Reference capture — see docs/CAPTURE-MARKUP.md -->
+<html lang="en" data-bs-theme="dark" data-pwa="true"><head>
+  <meta charset="utf-8">
+
+	<!-- Viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+
+	<!-- SEO Meta Tags -->
+	<title>DBTsearch - Find DBT Providers - Minneapolis/St. Paul, Minnesota</title>
+	<meta name="description" content="Search for DBT providers and their availability">
+
+	<!-- Favicon / App icons -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="apple-touch-icon" sizes="180x180" href="../../public/app-icons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../../public/app-icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../../public/app-icons/favicon-16x16.png">
+	<link rel="manifest" href="../../public/app-icons/site.webmanifest">
+
+
+	<!-- Preloaded local web font (Inter) -->
+	<link rel="preload" href="../../public/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin="">
+
+	<!-- Provider card icons: inline SVG (same as frontend/stories/directoryIcons.js) — no finder-icons font -->
+
+	<!-- Vendor styles -->
+	<!-- <link rel="stylesheet" href="../../public/js/swiper/swiper-bundle.min.css"> -->
+
+	<!-- Bootstrap + Theme styles -->
+	<link rel="preload" href="../../public/css/theme.min.css" as="style">
+	<link rel="stylesheet" href="../../public/css/theme.min.css" id="theme-styles">
+<style type="text/css">/* 
+ * Bootstrap 5 "Finder" theme overrides 
+ * https://themes.getbootstrap.com/product/finder-directory-listings-template-ui-kit
+*/
+
+.text-brand {
+  color: #bbcefd !important;
+}</style></head>
+
+<body>
+	<div id="root"><header class="navbar navbar-expand-lg bg-body navbar-sticky sticky-top z-fixed px-0" data-sticky-element="true"><div class="container"><button type="button" class="navbar-toggler me-3 me-lg-0" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><a class="navbar-brand py-1 py-md-2 py-xl-1 me-2 me-sm-n4 me-md-n5 me-lg-0" href="/"><span class="d-flex flex-shrink-0 text-secondary rtl-flip me-2"><img src="../../public/images/dbtsearch-logo.svg" alt="DBTsearch" class="d-md-none" style="max-width: 170px;"><img src="../../public/images/dbtsearch-logo.svg" alt="DBTsearch" class="d-none d-md-block" style="max-width: 280px;"></span><div class="visually-hidden">DBTsearch</div></a><nav class="offcanvas offcanvas-start" id="navbarNav" tabindex="-1" aria-labelledby="navbarNavLabel"><div class="offcanvas-header py-3"><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div><div class="offcanvas-body pt-2 pb-4 py-lg-0 mx-lg-auto"><ul class="navbar-nav position-relative"><li class="nav-item py-lg-2 me-lg-n2 me-xl-0"><a aria-current="page" class="nav-link active" href="/providers">Providers</a></li><li class="nav-item py-lg-2 me-lg-n2 me-xl-0"><a class="nav-link" href="/about">About</a></li><li class="nav-item py-lg-2 me-lg-n2 me-xl-0"><a class="nav-link" href="/faqs">FAQs</a></li></ul></div></nav><div class="d-flex gap-sm-1"><a class="btn btn-outline-secondary me-2 d-none d-md-inline" href="/contact">Contact</a><a class="btn btn-secondary fw-semibold" href="/login">Login</a></div></div></header><main class="content-wrapper"><div class="position-relative bg-dark py-5" aria-hidden="true"><div class="container position-relative z-2 py-2 py-sm-1"></div><div class="row position-absolute top-0 end-0 w-100 h-100 justify-content-end g-0"><div class="col-md-6 position-relative"><img src="../../public/images/pexels-steve-1690351.jpg" class="position-absolute top-0 end-0 w-100 h-100 object-fit-cover" alt="Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'"></div><div class="position-absolute top-0 start-0 w-100 h-100 bg-black z-1 opacity-50 d-md-none"></div></div></div><div class="container my-4 my-md-5"><div class="row justify-content-center"><div class="col-lg-11 col-xl-10 col-xxl-9"><div class="row"><div class="col-md-6 pb-1"><h1 class="h1 m-0">Providers</h1></div><div class="col-md-6 row mx-0 pb-1 align-items-end justify-content-end px-0"><h2 class="h5 text-secondary fw-medium m-0 text-md-end">DBT Providers in Minnesota</h2></div></div><hr class="mt-0"></div></div></div><div class="container mb-2 mb-md-3 mb-lg-4 mb-xl-5"><div class="row justify-content-center"><div class="col-lg-11 col-xl-10 col-xxl-9"><div class="form-check form-switch pb-2 mb-lg-4"><input type="checkbox" class="form-check-input" role="switch" id="availability-input" checked=""><label for="availability-input" class="form-check-label ms-1">Only show providers with availability</label></div><ul class="vstack gap-5 px-0"><!-- Static samples — same structure as src/components/ProviderListItem/ProviderListItem.jsx -->
+<li class="d-sm-flex align-items-center">
+<article class="card w-100">
+<div class="row g-0">
+<div class="col-sm-4 col-md-3 rounded overflow-hidden pb-2 pb-sm-0 pe-sm-2">
+<div class="position-relative d-flex h-100 p-5 bg-white" style="min-height:174px">
+<img src="../../public/images/logos/meridian-behavioral-health.svg" class="position-absolute top-0 start-0 w-100 h-100 object-fit-contain px-3 py-3" alt="Meridian Behavioral Health logo">
+<div class="ratio d-none d-sm-block" style="--bs-aspect-ratio:75%"></div>
+<div class="ratio ratio-16x9 d-sm-none"></div>
+</div>
+</div>
+<div class="col-sm-8 col-md-9 align-self-center">
+<div class="card-body d-flex justify-content-between p-3 py-sm-4 ps-sm-2 ps-md-3 pe-md-4 mt-n1 mt-sm-0">
+<div class="position-relative pe-3">
+<div class="d-flex gap-2 align-items-center mb-4">
+<div class="mr-4"><span class="badge fs-sm text-success border border-success">Availability</span></div>
+<div class="mr-4"><span class="badge fs-sm text-info border border-info">DBT-A Certified</span></div>
+</div>
+<div class="h3 mb-1 text-brand">Meridian Behavioral Health</div>
+<div class="d-block fs-md text-body text-decoration-none mb-3">123 Example St Minneapolis, MN 55401</div>
+<div class="mb-0"><a href="tel:6125550100" class="text-primary fs-base text-light border-bottom-0">612-555-0100</a></div>
+</div>
+<div class="text-end">
+<div class="text-body-secondary mb-3 --font-monospace"><span class="fs-xs">Last updated</span><br><span class="fs-sm text-info fw-semibold">Mar 15, 2026</span></div>
+<div class="d-flex flex-column justify-content-end gap-3 mb-3">
+<a href="https://example.org" class="btn btn-outline-secondary d-inline-flex align-items-center" target="_blank" rel="noopener" title="Visit https://example.org"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18" class="me-2 ms-n1 shrink-0 align-text-bottom" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" /></svg>Website</a>
+<a href="mailto:hello@example.org?subject=Inquiry%20from%20DBTsearch.org" class="btn btn-outline-secondary d-inline-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18" class="me-2 ms-n1 shrink-0 align-text-bottom" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>Email</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</li>
+<li class="d-sm-flex align-items-center">
+<article class="card w-100">
+<div class="row g-0">
+<div class="col-sm-4 col-md-3 rounded overflow-hidden pb-2 pb-sm-0 pe-sm-2">
+<div class="position-relative d-flex h-100 p-5 bg-dark-subtle" style="min-height:174px">
+<div class="w-100 d-flex align-items-center justify-content-center mb-0" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="2.5rem" height="2.5rem" class="text-brand" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg></div>
+</div>
+</div>
+<div class="col-sm-8 col-md-9 align-self-center">
+<div class="card-body d-flex justify-content-between p-3 py-sm-4 ps-sm-2 ps-md-3 pe-md-4 mt-n1 mt-sm-0">
+<div class="position-relative pe-3">
+<div class="d-flex gap-2 align-items-center mb-4">
+<div class="mr-4"><span class="badge fs-sm text-secondary border border-secondary">No Availability</span></div>
+<div class="mr-4"><span class="badge fs-sm text-info border border-info">DBT-A Certified</span></div>
+</div>
+<div class="h3 mb-1 text-brand">Associated Clinic of Psychology</div>
+<div class="d-block fs-md text-body text-decoration-none mb-3">4027 County Road 25 Minneapolis, MN 55416</div>
+<div class="mb-0"><a href="tel:6129256033" class="text-primary fs-base text-light border-bottom-0">612-925-6033</a></div>
+</div>
+<div class="text-end">
+<div class="text-body-secondary mb-3 --font-monospace"><span class="fs-xs">Last updated</span><br><span class="fs-sm text-info fw-semibold">Mar 10, 2026</span></div>
+<div class="d-flex flex-column justify-content-end gap-3 mb-3">
+<a href="https://example.org" class="btn btn-outline-secondary d-inline-flex align-items-center" target="_blank" rel="noopener" title="Visit https://example.org"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18" class="me-2 ms-n1 shrink-0 align-text-bottom" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" /></svg>Website</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</li>
+</ul></div></div></div></main><footer class="footer bg-body border-top my-5"><div class="container pt-5"><p class="text-center fw-thin fs-6 mb-3"><span class="fw-bold">DBTsearch</span> is powered by <a href="https://www.tinytreecounseling.com/" class="text-brand" target="_blank" style="text-decoration-thickness: 1px;">Tiny Tree Counseling &amp; Consulting</a></p><p class="text-body-secondary fs-sm text-center mb-0">Copyright ©2026 DBTsearch.org. All rights reserved.</p></div></footer></div>
+	<script src="../../public/js/theme.min.js"></script>
+	</body></html>

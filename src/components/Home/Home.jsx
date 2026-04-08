@@ -32,7 +32,7 @@ function Home() {
         <div className="row position-absolute top-0 end-0 w-100 h-100 justify-content-end g-0">
           <div className="col-md-6 position-relative">
             <img
-              src="/public/images/pexels-steve-1690351.jpg"
+              src="/images/pexels-hero-1440.webp"
               className="position-absolute top-0 end-0 w-100 h-100 object-fit-cover"
               alt="Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'"
             />

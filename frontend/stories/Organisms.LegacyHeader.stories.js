@@ -1,13 +1,13 @@
-import { renderLegacyHeader } from './directoryKit.js';
+import { renderDirectoryHeader } from './directoryKit.js';
 
 export default {
-  title: 'Organisms/Legacy Header',
+  title: 'Organisms/Directory/Header',
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'Legacy-inspired global header chrome: logo, nav links, mobile toggle, and contact/login action buttons. Source: src/components/Header/Header.jsx and docs/reference-markup/admin-edit.html (header block).',
+          'Finder/Bootstrap navbar + offcanvas — same markup as `docs/reference-markup/providers.html`. Mobile menu uses `theme.min.js` (see `.storybook/preview-head.html`).',
       },
     },
   },
@@ -15,15 +15,19 @@ export default {
 
 function frame(content) {
   return `
-    <div class="dark min-h-screen bg-slate-950 text-white" data-theme="dbtsearch">
+    <div class="finder-directory min-h-screen bg-body text-body" data-bs-theme="dark" data-theme="dbtsearch">
       ${content}
-      <main class="mx-auto max-w-6xl px-4 py-8 text-slate-300 sm:px-6 lg:px-8">
-        Header preview canvas
+      <main class="container py-5">
+        <p class="text-body-secondary small">Narrow the viewport to open the offcanvas menu (Bootstrap).</p>
       </main>
     </div>
   `;
 }
 
 export const Default = {
-  render: () => frame(renderLegacyHeader()),
+  render: () => frame(renderDirectoryHeader()),
+};
+
+export const LoggedIn = {
+  render: () => frame(renderDirectoryHeader({ loggedIn: true })),
 };

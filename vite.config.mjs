@@ -10,7 +10,11 @@ export default defineConfig(() => {
     server: {
       proxy: {
         "/api":'http://localhost:5001',
-      }
+      },
+      // Avoid HMR churn when npm run capture:markup writes docs/reference-markup/*.html
+      watch: {
+        ignored: ['**/docs/reference-markup/**'],
+      },
     },
     plugins: [react()],
   };

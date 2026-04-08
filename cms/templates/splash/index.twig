@@ -23,7 +23,7 @@
     submitMethod: 'page-reload',
   }) %}
 {% endif %}
-{% set heroImageSrDefault = url('/uploads/pexels-steve-1690351.jpg') %}
+{% set heroImageSrDefault = url('/images/pexels-hero-1440.webp') %}
 {% set heroImageSrc = entry ? (entry.heroImage.all().getUrl() ?? heroImageSrDefault) : (heroImageSrDefault) %}
 
 <!DOCTYPE html>

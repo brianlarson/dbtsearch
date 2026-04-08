@@ -7,7 +7,7 @@ export default {
     docs: {
       description: {
         component:
-          'Filter bar molecule for the directory page. Includes availability toggle, result count, and provider search.',
+          'Extended filter bar (availability + result count + search) for app/Storybook iteration — not present on the static `providers.html` capture, which only shows the availability switch.',
       },
     },
   },
@@ -20,8 +20,8 @@ export default {
 
 function renderStory(args) {
   return `
-    <div class="dark min-h-screen bg-slate-950 text-white p-8" data-theme="dbtsearch">
-      <div class="mx-auto max-w-5xl">
+    <div class="finder-directory min-h-screen bg-body text-body p-4" data-bs-theme="dark" data-theme="dbtsearch">
+      <div class="container">
         ${renderDirectoryFilters(args)}
       </div>
     </div>

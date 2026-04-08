@@ -1,6 +1,6 @@
 /**
- * DBT Search theme — blues, golds, texture, typography.
- * Primary (blue) and accent (gold) are distinct; palette includes variations.
+ * DBT Search theme — Tailwind/Preline tokens aligned with legacy Finder capture.
+ * Brand link color matches reference markup (.text-brand → #bbcefd).
  */
 @theme {
   /* Font: Google Sans (add @font-face to use it); DM Sans fallback when Google Sans not loaded */
@@ -9,8 +9,8 @@
   /* Container (match Storybook header width) */
   --container-8xl: 96rem;
 
-  /* Brand primaries */
-  --color-brand: #7c9cfd;
+  /* Brand — legacy footer / attribution links (see docs/reference-markup/*.html) */
+  --color-brand: #bbcefd;
   --color-brand-accent: #b8860b;
 
   /* Blue palette (primary) — clearer blue, not lavender */
@@ -146,6 +146,11 @@
 }
 
 /* Typography accents use primary (blue): code, links */
+/* Legacy parity: Tiny Tree and brand links */
+[data-theme="dbtsearch"] .text-brand {
+  color: var(--color-brand);
+}
+
 [data-theme="dbtsearch"] code {
   color: var(--color-primary-500);
 }

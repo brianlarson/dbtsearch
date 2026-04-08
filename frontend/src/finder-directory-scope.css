@@ -1,0 +1,56 @@
+/**
+ * Storybook: directory stories use Finder + Tailwind/Preline together.
+ * Reinforce Finder’s `[data-bs-theme=dark]` token values on the wrapper so
+ * `--fn-body-color-rgb` etc. never fall back to `:root` (light) grays — which
+ * read as “dark text on dark blue”.
+ */
+.finder-directory[data-bs-theme='dark'] {
+  color-scheme: dark;
+  --fn-body-color: #cad0d9;
+  --fn-body-color-rgb: 202, 208, 217;
+  --fn-body-bg: #111827;
+  --fn-body-bg-rgb: 17, 24, 39;
+  --fn-emphasis-color: #eef1f6;
+  --fn-emphasis-color-rgb: 238, 241, 246;
+  --fn-secondary-color: #9ca3af;
+  --fn-secondary-color-rgb: 156, 163, 175;
+  --fn-tertiary-color: #6c727f;
+  --fn-tertiary-color-rgb: 108, 114, 127;
+  --fn-heading-color: #fff;
+  --fn-link-color: #e89797;
+  --fn-link-hover-color: #e89797;
+  --fn-link-color-rgb: 232, 151, 151;
+  --fn-link-hover-color-rgb: 232, 151, 151;
+  --fn-border-color: #333d4c;
+  --fn-card-color: #cad0d9;
+  /* Info / success text on cards (badges, “Last updated”) */
+  --fn-info-rgb: 61, 122, 129;
+  --fn-success-rgb: 51, 179, 107;
+  color: var(--fn-body-color);
+}
+
+.finder-directory[data-bs-theme='dark'] .text-muted,
+.finder-directory[data-bs-theme='dark'] .text-body-secondary {
+  color: var(--fn-secondary-color) !important;
+}
+
+.finder-directory[data-bs-theme='dark'] .navbar,
+.finder-directory[data-bs-theme='dark'] .offcanvas {
+  --fn-navbar-color: rgba(255, 255, 255, 0.85);
+  --fn-nav-link-color: rgba(255, 255, 255, 0.85);
+  --fn-nav-link-hover-color: #fff;
+}
+
+/* Theme ships gap/padding only through 5 — extra breathing room for provider cards */
+.finder-directory .provider-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.finder-directory .provider-card-logo-well {
+  padding: 2.25rem;
+}

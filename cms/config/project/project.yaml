@@ -1,4 +1,4 @@
-dateModified: 1773722118
+dateModified: 1775616280
 email:
   fromEmail: support@tinytreecounseling.com
   fromName: 'DBT Search'
@@ -89,7 +89,7 @@ plugins:
       useQueueForNotifications: true
       validateCustomTemplates: true
 system:
-  edition: pro
+  edition: team
   live: true
   name: 'DBT Search'
   retryDuration: null

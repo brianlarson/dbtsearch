@@ -44,7 +44,7 @@ const sortedProviders = computed(() =>
 
     <div class="md:hidden h-20 w-full overflow-hidden flex-shrink-0 p-0 m-0">
       <img
-        src="/images/pexels-steve-1690351.jpg"
+        src="/images/pexels-hero-1440.webp"
         alt=""
         class="w-full h-full object-cover object-center block"
       />
@@ -132,7 +132,7 @@ const sortedProviders = computed(() =>
           aria-hidden="true"
         >
           <img
-            src="/images/pexels-steve-1690351.jpg"
+            src="/images/pexels-hero-1440.webp"
             alt=""
             class="absolute inset-0 w-full h-full object-cover"
           />

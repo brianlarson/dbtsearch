@@ -1,13 +1,13 @@
 import { renderProviderList, sampleProviders } from './directoryKit.js';
 
 export default {
-  title: 'Organisms/Directory/ProviderList.vue',
+  title: 'Organisms/Directory/ProviderList',
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'Direct Storybook mirror of app/src/components/directory/ProviderList.vue including populated and empty states.',
+          'Provider list (`ul.vstack`) — matches `docs/reference-markup/providers.html` list wrapper.',
       },
     },
   },
@@ -15,11 +15,9 @@ export default {
 
 function frame(content) {
   return `
-    <div class="dark min-h-screen bg-slate-950 text-white p-8" data-theme="dbtsearch">
-      <div class="mx-auto max-w-6xl">
-        <section class="mt-6">
-          ${content}
-        </section>
+    <div class="finder-directory min-h-screen bg-body text-body p-4" data-bs-theme="dark" data-theme="dbtsearch">
+      <div class="container">
+        ${content}
       </div>
     </div>
   `;

@@ -151,7 +151,7 @@ function withArgs(args) {
   return { ...defaultArgs, ...args };
 }
 
-const heroImageSrc = '/images/pexels-steve-1690351.jpg';
+const heroImageSrc = '/images/pexels-hero-1440.webp';
 
 /** Default splash layout: image flush left (viewport edge), form + copy right. */
 export function renderImageFlushLeft(args = {}) {

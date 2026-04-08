@@ -1,63 +1,61 @@
 # Capture legacy page markup
 
-**Summary:** On `main`, set `VITE_CAPTURE_MARKUP=true`, run client only (no server/DB). Visit each route and save HTML to `docs/reference-markup/`. Use as reference for Bootstrap → Tailwind + Vue rebuild.
+**Summary:** Save rendered HTML from the legacy React app (`npm run client`) into `docs/reference-markup/` for Bootstrap → Tailwind + Vue parity. Asset paths in saved files are rewritten to `../../public/` so CSS and images work when you open a file from disk (see each file’s comment).
 
 ---
 
-## When to do this
+## Automated capture (recommended)
 
-- **Branch:** `main` (legacy app uses Bootstrap 5 + Finder theme).
-- **Before or in parallel with:** Nuxt scaffold and first directory page. Having the markup helps match structure and copy when converting to Tailwind.
+From the **repo root**:
 
----
+```bash
+npm install   # once; includes Playwright
+npx playwright install chromium   # once; downloads browser
+npm run capture:markup
+```
 
-## No database required: auth bypass for capture
+This starts Vite, uses Playwright to visit each route, saves one `.html` file per screen, and strips Vite dev injections. **No database** is required. The API on port 5001 does not need to be running; `/providers` may show an empty list.
 
-The app can run with **auth disabled** so you can capture every page (including `/login` and `/admin`) without logging in or running the database.
+**Output:** `docs/reference-markup/home.html`, `providers.html`, `about.html`, `faqs.html`, `contact.html`, `register.html`, `login.html`, `logout.html`, `404.html`, plus `README.md`. Use **`http://localhost:5173`** only (not `127.0.0.1`) when testing manually—Vite can return 404 for the latter.
 
-1. **Set in `.env` (repo root):**
-   ```env
-   VITE_CAPTURE_MARKUP=true
-   ```
-2. **Run only the client** (no server/DB needed):
+**Admin list + admin edit** are *not* included unless login works. To capture them:
+
+1. Start the API: `npm run server` (port **5001**, with Postgres as usual).
+2. Run:
+
    ```bash
-   git checkout main
-   npm run client
+   CAPTURE_MARKUP_USER=youruser CAPTURE_MARKUP_PASSWORD=yourpass npm run capture:markup
    ```
-3. Open http://localhost:5173 and visit each route. `/admin` and `/login` render without a real user. Admin may show an empty list (no API); you’re capturing layout and structure.
-4. **When you’re done capturing,** remove `VITE_CAPTURE_MARKUP` from `.env` or set it to `false`, so the app uses normal auth again.
+
+   Or use the older focused script (admin only): `node scripts/capture-markup-auth.mjs` with the same env vars while client + server are running.
+
+**Env:**
+
+| Variable | Meaning |
+|----------|---------|
+| `CAPTURE_BASE_URL` | Default `http://localhost:5173` |
+| `CAPTURE_MARKUP_USER` / `CAPTURE_MARKUP_PASSWORD` | Optional; enables `admin.html` + `admin-edit.html` after login |
+| `CAPTURE_SKIP_VITE=1` | Do not spawn Vite; use an already-running dev server at `CAPTURE_BASE_URL` |
 
 ---
 
-## Steps (with auth bypass)
+## Manual capture (optional)
 
-1. **Switch to main, set env, run client**
-   ```bash
-   git checkout main
-   echo "VITE_CAPTURE_MARKUP=true" >> .env
-   npm run client
-   ```
-   Open http://localhost:5173. No server or database required.
+1. `npm run client` → open **http://localhost:5173** (not `127.0.0.1:5173`).
+2. Visit each route and save HTML into `docs/reference-markup/`, or use a headless browser to dump `document.documentElement.outerHTML` (plain `fetch()` returns the SPA shell only).
 
-2. **Routes to capture**
-   - `/` — Home
-   - `/providers` — Provider list (may be empty without API)
-   - `/about` — About
-   - `/faqs` — FAQs
-   - `/contact` — Contact
-   - `/register` — Register
-   - `/login` — Login (renders directly)
-   - `/admin` — Admin (renders directly; list may be empty)
-   - `/logout` — Redirect; optional
-   - Any 404 page (e.g. `/nonexistent`)
+**Routes:**
 
-3. **How to capture**
-   - **Option A (manual):** For each URL, open in browser → right‑click → “Save as” → “Webpage, Complete” or “Webpage, HTML only”. Save into `docs/reference-markup/` (e.g. `home.html`, `providers.html`, …).
-   - **Option B (script):** Use a small Node script with `fetch()` of each route and write the response HTML to files. (SPA: you may get the shell only; for full DOM use a headless browser like Puppeteer/Playwright to visit each URL and export `document.documentElement.outerHTML`.)
+- `/` — Home  
+- `/providers` — Provider list  
+- `/about`, `/faqs`, `/contact`, `/register`, `/login`, `/logout`  
+- `/admin` — requires auth + API  
+- Any unknown path — 404  
 
-4. **Where to save**
-   - `docs/reference-markup/` — one `.html` per route (e.g. `home.html`, `providers.html`, `about.html`, `faqs.html`, `contact.html`, `register.html`, `login.html`, `admin.html`, `404.html`). Add to `.gitignore` if the files are large or you prefer not to commit them; otherwise commit for reference.
+---
 
-5. **Notes**
-   - Current stack: React, Bootstrap 5, Finder theme (`public/css/theme.min.css`), dark theme (`data-bs-theme="dark"`).
-   - When rebuilding: replace Bootstrap classes with Tailwind equivalents; keep structure and content; use Vue for forms, toggles, and other interactivity.
+## Notes
+
+- Stack: React, Bootstrap 5, Finder theme (`public/css/theme.min.css`), dark theme (`data-bs-theme="dark"`).
+- **`VITE_CAPTURE_MARKUP`** in older notes was planned as an auth bypass; it is **not implemented** in the app. Use the automated script or manual capture instead.
+- When rebuilding: replace Bootstrap classes with Tailwind equivalents; keep structure and copy; use Vue for interactivity.
