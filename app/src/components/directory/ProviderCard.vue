@@ -1,9 +1,21 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Provider } from '@/types/provider'
 
-defineProps<{
+const props = defineProps<{
   provider: Provider
 }>()
+
+const primaryLocation = computed(() => props.provider.locations[0] ?? null)
+
+function formatAddress(provider: Provider): string {
+  const location = provider.locations[0]
+  if (!location) return ''
+
+  const line1 = location.address?.trim() ?? ''
+  const cityStateZip = [location.city, location.state, location.zip].filter(Boolean).join(' ').trim()
+  return [line1, cityStateZip].filter(Boolean).join(', ')
+}
 
 function formatUpdatedAt(value: string): string {
   if (!value) return 'Unknown'
@@ -53,25 +65,23 @@ function formatUpdatedAt(value: string): string {
         </div>
 
         <h3 class="mb-1 text-xl font-semibold text-primary">{{ provider.name }}</h3>
-        <p class="mb-3 text-sm text-slate-300/95">
-          {{ provider.address }} {{ provider.city }}, {{ provider.state }} {{ provider.zip }}
-        </p>
+        <p class="mb-3 text-sm text-slate-300/95">{{ formatAddress(provider) }}</p>
 
         <div class="mb-4 text-sm">
           <a
-            v-if="provider.phone"
-            :href="`tel:${provider.phone}`"
+            v-if="primaryLocation?.phone"
+            :href="`tel:${primaryLocation.phone}`"
             class="text-primary underline decoration-primary/40 underline-offset-2 hover:opacity-90"
           >
-            {{ provider.phone }}
+            {{ primaryLocation.phone }}
           </a>
         </div>
 
         <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div class="flex flex-wrap gap-2">
             <a
-              v-if="provider.website"
-              :href="provider.website"
+              v-if="primaryLocation?.website"
+              :href="primaryLocation.website"
               target="_blank"
               rel="noopener noreferrer"
               class="rounded-lg border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary hover:text-white"
@@ -79,8 +89,8 @@ function formatUpdatedAt(value: string): string {
               Website
             </a>
             <a
-              v-if="provider.email"
-              :href="`mailto:${provider.email}?subject=Inquiry%20from%20DBT%20Search`"
+              v-if="primaryLocation?.email"
+              :href="`mailto:${primaryLocation.email}?subject=Inquiry%20from%20DBT%20Search`"
               class="rounded-lg border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary hover:text-white"
             >
               Email

@@ -1,13 +1,10 @@
 import { ref } from 'vue'
 import type { Provider, ProvidersQueryOptions } from '@/types/provider'
 
-interface CraftProviderEntry {
+interface CraftLocationEntry {
   id?: string | number
   title?: string
-  name?: string
-  availability?: boolean
-  dbtaCertified?: boolean
-  dbta_certified?: boolean
+  locationName?: string
   address?: string
   city?: string
   state?: string
@@ -15,9 +12,23 @@ interface CraftProviderEntry {
   phone?: string
   email?: string
   website?: string
+}
+
+interface CraftProviderEntry {
+  id?: string | number
+  title?: string
+  name?: string
+  phone?: string
+  email?: string
+  website?: string
+  availability?: boolean
+  dbtaCertified?: boolean
+  dbta_certified?: boolean
   dateUpdated?: string
   updatedAt?: string
   updated_at?: string
+  locations?: CraftLocationEntry[]
+  providerLocations?: CraftLocationEntry[]
   providerLogo?: Array<{ url?: string | null }> | { url?: string | null } | null
   image?: Array<{ url?: string | null }> | { url?: string | null } | string | null
 }
@@ -36,16 +47,26 @@ const DIRECTORY_PROVIDERS_QUERY = `
         id
         title
         name
-        availability
-        dbtaCertified
-        address
-        city
-        state
-        zip
         phone
         email
         website
+        availability
+        dbtaCertified
         dateUpdated
+        locations {
+          ... on locations_default_Entry {
+            id
+            title
+            locationName
+            address
+            city
+            state
+            zip
+            phone
+            email
+            website
+          }
+        }
         providerLogo {
           url
         }
@@ -68,12 +89,10 @@ function getImageUrl(entry: CraftProviderEntry): string {
   return asString(candidate.url)
 }
 
-function mapEntryToProvider(entry: CraftProviderEntry): Provider {
+function mapLocation(entry: CraftLocationEntry): Provider['locations'][number] {
   return {
-    id: asString(entry.id) || crypto.randomUUID(),
-    name: asString(entry.name) || asString(entry.title),
-    availability: Boolean(entry.availability),
-    dbtaCertified: Boolean(entry.dbtaCertified ?? entry.dbta_certified),
+    id: asString(entry.id),
+    name: asString(entry.locationName) || asString(entry.title),
     address: asString(entry.address),
     city: asString(entry.city),
     state: asString(entry.state),
@@ -81,7 +100,25 @@ function mapEntryToProvider(entry: CraftProviderEntry): Provider {
     phone: asString(entry.phone),
     email: asString(entry.email),
     website: asString(entry.website),
+  }
+}
+
+function mapEntryToProvider(entry: CraftProviderEntry): Provider {
+  const rawLocations = entry.locations ?? entry.providerLocations ?? []
+  const locations = Array.isArray(rawLocations) ? rawLocations.map(mapLocation) : []
+  const primaryLocation = locations[0] ?? { id: '', name: '', address: '', city: '', state: '', zip: '', phone: '', email: '', website: '' }
+
+  return {
+    id: asString(entry.id) || crypto.randomUUID(),
+    name: asString(entry.name) || asString(entry.title),
+    availability: Boolean(entry.availability),
+    dbtaCertified: Boolean(entry.dbtaCertified ?? entry.dbta_certified),
+    phone: asString(entry.phone),
+    email: asString(entry.email),
+    website: asString(entry.website),
     imageUrl: getImageUrl(entry),
+    primaryLocation,
+    locations,
     updatedAt: asString(entry.dateUpdated ?? entry.updatedAt ?? entry.updated_at),
   }
 }
@@ -99,6 +136,7 @@ export function useProvidersQuery() {
   const providers = ref<Provider[]>([])
   const isLoading = ref(false)
   const errorMessage = ref('')
+  const activeDataSource = ref<'craft' | 'fallback'>('fallback')
 
   async function fetchFromCraft(options: ProvidersQueryOptions): Promise<Provider[]> {
     const endpoint = import.meta.env.VITE_CRAFT_GRAPHQL_ENDPOINT || '/api'
@@ -151,6 +189,7 @@ export function useProvidersQuery() {
       try {
         const craftItems = await fetchFromCraft(options)
         providers.value = applyClientFilters(craftItems, options)
+        activeDataSource.value = 'craft'
         return
       } catch (craftError) {
         console.warn('Craft GraphQL unavailable, using local provider JSON fallback.', craftError)
@@ -159,6 +198,7 @@ export function useProvidersQuery() {
       try {
         const fallbackItems = await fetchFromLocalJson()
         providers.value = applyClientFilters(fallbackItems, options)
+        activeDataSource.value = 'fallback'
       } catch (fallbackError) {
         errorMessage.value = fallbackError instanceof Error ? fallbackError.message : 'Failed to load providers.'
         providers.value = []
@@ -172,6 +212,7 @@ export function useProvidersQuery() {
     providers,
     isLoading,
     errorMessage,
+    activeDataSource,
     fetchProviders,
   }
 }

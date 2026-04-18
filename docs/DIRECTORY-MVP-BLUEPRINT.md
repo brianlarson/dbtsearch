@@ -9,6 +9,28 @@ This is the implementation blueprint for the **directory MVP** while the splash 
 - Provider data comes from **Craft GraphQL**.
 - Match legacy static layout and behavior before adding new UX ideas.
 
+## Data model decision (MVP)
+
+Use separate Craft sections:
+
+- **Providers** (primary profile data):
+  - name
+  - availability
+  - dbtaCertified
+  - providerLogo
+  - relation field to one-or-many **Locations**
+- **Locations** (address/contact records):
+  - locationName
+  - address
+  - city
+  - state
+  - zip
+  - phone
+  - email
+  - website
+
+Use Craft's built-in `dateUpdated` for "Last updated" display.
+
 ## Legacy-inspired wireframes
 
 ### 1) Directory page (desktop)
@@ -91,6 +113,13 @@ Empty: "No providers match your filters" + reset filters button
 
 ## GraphQL contract (MVP)
 
+Data model decision:
+
+- `providers` = one entry per provider/organization
+- `locations` = one entry per physical location/contact record
+- Provider entries relate to one-or-more location entries via a relation field (recommended handle: `providerLocations`)
+- "Last updated" should use Craft's built-in entry date (`dateUpdated`) for provider entries
+
 ### Query
 
 ```graphql
@@ -102,14 +131,21 @@ query DirectoryProviders($search: String, $limit: Int) {
       name
       availability
       dbtaCertified
-      address
-      city
-      state
-      zip
-      phone
-      email
-      website
       dateUpdated
+      providerLocations {
+        ... on locations_default_Entry {
+          id
+          title
+          locationName
+          address
+          city
+          state
+          zip
+          phone
+          email
+          website
+        }
+      }
       providerLogo {
         url
       }
@@ -126,15 +162,19 @@ type Provider = {
   name: string
   availability: boolean
   dbtaCertified: boolean
-  address: string
-  city: string
-  state: string
-  zip: string
-  phone: string
-  email: string
-  website: string
   imageUrl: string
   updatedAt: string
+  locations: {
+    id: string
+    name: string
+    address: string
+    city: string
+    state: string
+    zip: string
+    phone: string
+    email: string
+    website: string
+  }[]
 }
 ```
 
@@ -149,11 +189,13 @@ VITE_CRAFT_GQL_TOKEN=<public-schema-token-if-required>
 
 For local MVP development before Craft provider fields are complete, the composable can fallback to `public/data/dbt-providers.json`.
 
-## Definition of done (MVP layout pass)
+## Definition of done (MVP layout + data pass)
 
 - `/directory` route renders with legacy-aligned card structure.
 - Availability toggle defaults to ON and updates list.
 - Search by name updates list.
 - Optional fields (website/email/logo) gracefully hide when missing.
+- Provider entries resolve one-or-more related location entries from Craft GraphQL.
+- Card address/contact values are derived from the provider's primary (first) location relation.
 - Loading, empty, and error states are visible and testable.
 - Splash route (`/`) remains unchanged.

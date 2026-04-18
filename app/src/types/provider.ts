@@ -3,6 +3,18 @@ export interface Provider {
   name: string
   availability: boolean
   dbtaCertified: boolean
+  imageUrl: string
+  updatedAt: string
+  phone: string
+  email: string
+  website: string
+  primaryLocation: ProviderLocation
+  locations: ProviderLocation[]
+}
+
+export interface ProviderLocation {
+  id: string
+  name: string
   address: string
   city: string
   state: string
@@ -10,8 +22,6 @@ export interface Provider {
   phone: string
   email: string
   website: string
-  imageUrl: string
-  updatedAt: string
 }
 
 export interface ProvidersQueryOptions {
