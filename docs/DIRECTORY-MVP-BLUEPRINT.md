@@ -189,6 +189,10 @@ VITE_CRAFT_GQL_TOKEN=<public-schema-token-if-required>
 
 For local MVP development before Craft provider fields are complete, the composable can fallback to `public/data/dbt-providers.json`.
 
+For an exact Craft CP setup checklist (sections, field handles, relation setup, GraphQL smoke test), see:
+
+- `docs/CRAFT-DIRECTORY-SETUP.md`
+
 ## Definition of done (MVP layout + data pass)
 
 - `/directory` route renders with legacy-aligned card structure.

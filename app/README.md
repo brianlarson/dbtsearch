@@ -44,6 +44,14 @@ VITE_CRAFT_GQL_TOKEN=<public-schema-token-if-required>
 
 If GraphQL is unavailable, the directory composable falls back to `public/data/dbt-providers.json` for local layout work.
 
+## Craft setup checklist (Providers + Locations)
+
+Use `docs/CRAFT-DIRECTORY-SETUP.md` for the copy/paste Craft CP setup:
+- sections (`providers`, `locations`)
+- field handles
+- relation wiring (`providerLocations`)
+- GraphQL smoke query
+
 ## Relation to `frontend/`
 
 **`frontend/`** is Storybook (HTML + Tailwind v4 + Preline) for markup-only stories. Use it to design layout and copy. This app implements the same UI as Vue components with Tailwind + Preline.
