@@ -23,6 +23,7 @@
   "require": {
     "craftcms/ckeditor": "^5.2.0",
     "craftcms/cms": "^5.9.0",
+    "stimmt/craft-mcp": "^v1.2.2",
     "verbb/formie": "^3.1.17",
     "vlucas/phpdotenv": "^5.4.0"
   },
@@ -33,6 +34,7 @@
   "config": {
     "allow-plugins": {
       "craftcms/plugin-installer": true,
+      "php-http/discovery": true,
       "yiisoft/yii2-composer": true
     },
     "sort-packages": true,
