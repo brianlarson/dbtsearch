@@ -1,0 +1,7 @@
+{% if entry.type.handle == 'homeSplash' %}
+  {% include 'pages/home.twig' %}
+{% elseif entry.type.handle == 'directoryListing' %}
+  {% include 'pages/directory.twig' %}
+{% else %}
+  {% include 'pages/content.twig' %}
+{% endif %}

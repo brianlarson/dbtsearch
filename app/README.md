@@ -20,13 +20,13 @@ npm run dev
 
 Open http://localhost:3000. The splash page (name, email, provider dropdown) is at `/`.
 
-The directory MVP route is at `/directory`.
+The directory MVP route is at `/providers` (legacy `/directory` redirects there).
 
 ## Structure
 
 - **`src/components/SplashPage.vue`** — Splash layout and form (props: `heading`, `tagline`, `formHeading`, `submitLabel`, `providers`)
 - **`src/views/SplashPageView.vue`** — Fetches `/data/dbt-providers.json`, dedupes by name, passes to `<SplashPage />`
-- **`src/router/index.ts`** — Routes: `/` (splash), `/directory` (directory MVP scaffold)
+- **`src/router/index.ts`** — Routes: `/` (splash), `/providers` (directory MVP scaffold)
 - **`src/views/DirectoryPageView.vue`** — Directory page scaffold (legacy-inspired layout)
 - **`src/components/directory/*`** — Filters, list, and provider card components
 - **`src/composables/useProvidersQuery.ts`** — Craft GraphQL query + local JSON fallback

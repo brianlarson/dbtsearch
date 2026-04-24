@@ -5,7 +5,7 @@ This is the implementation blueprint for the **directory MVP** while the splash 
 ## Product boundary
 
 - Keep splash live on `/` (Craft Twig).
-- Build directory MVP on `/directory` (Vue app).
+- Build directory MVP on `/providers` (Vue app); `/directory` redirects to `/providers`.
 - Provider data comes from **Craft GraphQL**.
 - Match legacy static layout and behavior before adding new UX ideas.
 
@@ -15,7 +15,6 @@ Use separate Craft sections:
 
 - **Providers** (primary profile data):
   - name
-  - availability
   - dbtaCertified
   - providerLogo
   - relation field to one-or-many **Locations**
@@ -28,6 +27,7 @@ Use separate Craft sections:
   - phone
   - email
   - website
+  - **availability** (per location; provider is “available” in search if any location is on)
 
 Use Craft's built-in `dateUpdated` for "Last updated" display.
 
@@ -129,7 +129,6 @@ query DirectoryProviders($search: String, $limit: Int) {
       id
       title
       name
-      availability
       dbtaCertified
       dateUpdated
       providerLocations {
@@ -144,6 +143,7 @@ query DirectoryProviders($search: String, $limit: Int) {
           phone
           email
           website
+          availability
         }
       }
       providerLogo {
@@ -160,6 +160,7 @@ query DirectoryProviders($search: String, $limit: Int) {
 type Provider = {
   id: string
   name: string
+  /** True if any related location has availability */
   availability: boolean
   dbtaCertified: boolean
   imageUrl: string
@@ -174,6 +175,7 @@ type Provider = {
     phone: string
     email: string
     website: string
+    availability: boolean
   }[]
 }
 ```
@@ -195,7 +197,7 @@ For an exact Craft CP setup checklist (sections, field handles, relation setup, 
 
 ## Definition of done (MVP layout + data pass)
 
-- `/directory` route renders with legacy-aligned card structure.
+- `/providers` route renders with legacy-aligned card structure.
 - Availability toggle defaults to ON and updates list.
 - Search by name updates list.
 - Optional fields (website/email/logo) gracefully hide when missing.

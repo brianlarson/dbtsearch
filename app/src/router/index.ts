@@ -11,9 +11,13 @@ export const router = createRouter({
       component: SplashPageView,
     },
     {
-      path: '/directory',
+      path: '/providers',
       name: 'directory',
       component: DirectoryPageView,
+    },
+    {
+      path: '/directory',
+      redirect: '/providers',
     },
   ],
 })

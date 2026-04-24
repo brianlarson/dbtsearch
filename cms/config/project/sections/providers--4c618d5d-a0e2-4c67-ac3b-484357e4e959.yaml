@@ -1,0 +1,17 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: e39ba0fb-a676-4318-98f7-8ad50f557c6d # Providers
+handle: providers
+maxAuthors: null
+name: Providers
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  0e198a9f-3b1b-487f-80ee-3c2aeed6d349: # DBT Search
+    enabledByDefault: true
+    hasUrls: false
+    template: null
+    uriFormat: null
+type: channel

@@ -12,6 +12,7 @@ interface CraftLocationEntry {
   phone?: string
   email?: string
   website?: string
+  availability?: boolean
 }
 
 interface CraftProviderEntry {
@@ -21,7 +22,12 @@ interface CraftProviderEntry {
   phone?: string
   email?: string
   website?: string
+  /** Legacy flat JSON / old schema only; Craft uses per-location availability */
   availability?: boolean
+  address?: string
+  city?: string
+  state?: string
+  zip?: string | number
   dbtaCertified?: boolean
   dbta_certified?: boolean
   dateUpdated?: string
@@ -50,10 +56,9 @@ const DIRECTORY_PROVIDERS_QUERY = `
         phone
         email
         website
-        availability
         dbtaCertified
         dateUpdated
-        locations {
+        providerLocations {
           ... on locations_default_Entry {
             id
             title
@@ -65,6 +70,7 @@ const DIRECTORY_PROVIDERS_QUERY = `
             phone
             email
             website
+            availability
           }
         }
         providerLogo {
@@ -100,18 +106,52 @@ function mapLocation(entry: CraftLocationEntry): Provider['locations'][number] {
     phone: asString(entry.phone),
     email: asString(entry.email),
     website: asString(entry.website),
+    availability: Boolean(entry.availability),
+  }
+}
+
+function emptyLocation(): Provider['locations'][number] {
+  return {
+    id: '',
+    name: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+    phone: '',
+    email: '',
+    website: '',
+    availability: false,
   }
 }
 
 function mapEntryToProvider(entry: CraftProviderEntry): Provider {
-  const rawLocations = entry.locations ?? entry.providerLocations ?? []
+  let rawLocations = entry.locations ?? entry.providerLocations ?? []
+  if ((!Array.isArray(rawLocations) || rawLocations.length === 0) && entry.address) {
+    rawLocations = [
+      {
+        id: `${entry.id ?? 'row'}-loc`,
+        locationName: entry.title,
+        address: entry.address,
+        city: entry.city,
+        state: entry.state,
+        zip: entry.zip,
+        phone: entry.phone,
+        email: entry.email,
+        website: entry.website,
+        availability: entry.availability,
+      },
+    ]
+  }
   const locations = Array.isArray(rawLocations) ? rawLocations.map(mapLocation) : []
-  const primaryLocation = locations[0] ?? { id: '', name: '', address: '', city: '', state: '', zip: '', phone: '', email: '', website: '' }
+  const primaryLocation = locations[0] ?? emptyLocation()
+
+  const availabilityAggregate = locations.some((l) => l.availability)
 
   return {
     id: asString(entry.id) || crypto.randomUUID(),
     name: asString(entry.name) || asString(entry.title),
-    availability: Boolean(entry.availability),
+    availability: availabilityAggregate,
     dbtaCertified: Boolean(entry.dbtaCertified ?? entry.dbta_certified),
     phone: asString(entry.phone),
     email: asString(entry.email),

@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: providerLocations
+instructions: null
+name: 'Provider Locations'
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  selectionLabel: 'Add a location'
+  showSiteMenu: true
+  sources:
+    - 'section:ea4a7d29-5dee-4e91-b48b-181666006b36' # Locations
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Entries

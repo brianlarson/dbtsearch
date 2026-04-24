@@ -40,6 +40,7 @@ Add these fields to the Locations entry type layout:
 | Phone          | `phone`        | Plain Text              |  |
 | Email          | `email`        | Plain Text              |  |
 | Website        | `website`      | Plain Text              | URL string |
+| Availability   | `availability` | Lightswitch             | Per location; parent provider is “available” in search if **any** linked location is on |
 
 ---
 
@@ -61,10 +62,16 @@ Add these fields to the Providers entry type layout:
 | Field name        | Handle              | Type                 | Notes |
 |-------------------|---------------------|----------------------|------|
 | Name              | `name`              | Plain Text           | Provider/org display name |
-| Availability      | `availability`      | Lightswitch          | Used by default filter |
 | DBT-A Certified   | `dbtaCertified`     | Lightswitch          | Badge |
 | Provider Logo     | `providerLogo`      | Assets               | Single asset preferred |
 | Provider Locations| `providerLocations` | Entries (Relations)  | Source = `Locations` section, allow multiple |
+
+### User group: Provider editors
+
+- **Handle:** `providerEditors`
+- **Purpose:** Assign provider reps here, then grant them the minimum CP permissions needed for the alpha/beta workflow. For MVP, keep strict per-entry scoping manual; future self-service can add user-managed locations plus an element permission plugin or small custom module.
+
+> **Model:** One **provider** entry = one organization. **Availability** lives on each **location** so multi-site clinics can differ by office. The user group is just a role bucket; future location-specific editor scoping should live on users, not Providers.
 
 > Keep title enabled or auto-generated; UI reads `name` first and can fall back to title.
 
@@ -101,7 +108,6 @@ query DirectoryProviders($search: String, $limit: Int) {
       id
       title
       name
-      availability
       dbtaCertified
       dateUpdated
       providerLocations {
@@ -116,6 +122,7 @@ query DirectoryProviders($search: String, $limit: Int) {
           phone
           email
           website
+          availability
         }
       }
       providerLogo {
@@ -148,7 +155,7 @@ The Vue app currently expects:
 
 In the UI:
 
-- badges come from provider booleans
+- badges: **DBT-A certified** from provider; **availability** is true if **any** related location has `availability` on
 - address/contact render from the **first related location**
 - "Last updated" renders from provider `dateUpdated`
 
@@ -159,6 +166,6 @@ In the UI:
 - [ ] Provider with 1 location renders full card details
 - [ ] Provider with multiple locations still renders first location cleanly
 - [ ] Provider with no website/email hides those buttons
-- [ ] Availability toggle works
+- [ ] Availability filter respects per-location lightswitches (provider shows if any location is on)
 - [ ] Search by provider name works
 - [ ] Last updated shows date (not "Unknown")

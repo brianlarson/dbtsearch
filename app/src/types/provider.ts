@@ -1,6 +1,7 @@
 export interface Provider {
   id: string
   name: string
+  /** True if any related location has availability */
   availability: boolean
   dbtaCertified: boolean
   imageUrl: string
@@ -22,6 +23,7 @@ export interface ProviderLocation {
   phone: string
   email: string
   website: string
+  availability: boolean
 }
 
 export interface ProvidersQueryOptions {

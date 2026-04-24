@@ -1,0 +1,7 @@
+{# Shared primary nav — use full page loads for Craft-rendered routes. #}
+<nav class="ml-auto flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm text-muted-foreground" aria-label="Primary">
+  <a href="{{ url('/') }}" class="hover:text-foreground{% if craft.app.request.pathInfo == '' %} font-medium text-foreground{% endif %}">Home</a>
+  <a href="{{ url('/about') }}" class="hover:text-foreground{% if craft.app.request.pathInfo == 'about' %} font-medium text-foreground{% endif %}">About</a>
+  <a href="{{ url('/contact') }}" class="hover:text-foreground{% if craft.app.request.pathInfo == 'contact' %} font-medium text-foreground{% endif %}">Contact</a>
+  <a href="{{ url('/providers') }}" class="hover:text-foreground{% if craft.app.request.pathInfo == 'providers' %} font-medium text-foreground{% endif %}">Providers</a>
+</nav>

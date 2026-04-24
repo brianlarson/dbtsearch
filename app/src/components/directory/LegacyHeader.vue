@@ -14,7 +14,7 @@
       </RouterLink>
 
       <nav class="ml-3 hidden items-center gap-4 text-sm text-slate-300 md:flex">
-        <RouterLink to="/directory" class="text-white">Providers</RouterLink>
+        <RouterLink to="/providers" class="text-white">Providers</RouterLink>
         <a href="#" class="hover:text-white">About</a>
         <a href="#" class="hover:text-white">FAQs</a>
       </nav>
