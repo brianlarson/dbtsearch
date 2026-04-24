@@ -58,6 +58,9 @@ When prompted, use MySQL: server `mysql8`, port `3306`, database `craft`, user `
 
 ## Troubleshooting
 
+**`php craft` on your Mac fails to connect / DSN `host=;` / SQLSTATE [2002]**  
+See **[TROUBLESHOOTING-CRAFT.md](TROUBLESHOOTING-CRAFT.md)** (host `.env`, immutable Dotenv, DDEV vs production).
+
 **Craft used Postgres and failed with “relation already exists” (e.g. `users`)**  
 Craft was using DDEV’s primary DB (Postgres) instead of MySQL. Ensure `cms/.env` has `DB_DRIVER=mysql`, `DB_SERVER=mysql8`, `DB_DATABASE=craft`, `DB_USER=craft`, `DB_PASSWORD=craft`. Then remove the Craft tables that were created in Postgres and run the installer again:
 

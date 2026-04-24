@@ -16,7 +16,7 @@ DBTsearch&trade; is a searchable directory of certified DBT (Dialectical Behavio
 
 **Data:** Providers list (name, certification, availability, contact, locations); admin users can manage providers they’re assigned to. Reference markup for all pages lives in `docs/reference-markup/` for the restack.
 
-**Branches:** Legacy app on `main` and `legacy` (same content; use either to run the old stack). Restack (Craft + Nuxt + Tailwind) on `stack-rewrite`. **Next step:** install Craft in `./cms` per [docs/STACK-REWRITE-SETUP.md](docs/STACK-REWRITE-SETUP.md). See [docs/ROADMAP.md](docs/ROADMAP.md). For a short guide for AI/agents: [docs/NOTES-FOR-AGENTS.md](docs/NOTES-FOR-AGENTS.md).
+**Branches:** Legacy app on `main` and `legacy` (same content; use either to run the old stack). Restack (Craft + Nuxt + Tailwind) on `stack-rewrite`. **Next step:** install Craft in `./cms` per [docs/STACK-REWRITE-SETUP.md](docs/STACK-REWRITE-SETUP.md). See [docs/ROADMAP.md](docs/ROADMAP.md). For a short guide for AI/agents: [docs/NOTES-FOR-AGENTS.md](docs/NOTES-FOR-AGENTS.md). **Craft CLI / `.env` on Mac vs DDEV vs production:** [docs/TROUBLESHOOTING-CRAFT.md](docs/TROUBLESHOOTING-CRAFT.md).
 
 ---
 
@@ -34,7 +34,7 @@ Quick: `ddev start` → set `SERVER_SESSION_SECRET` and `DATABASE_URL` in `.env`
 - `server/` — Express API, Passport
 - `public/` — Static assets (Bootstrap/Finder theme)
 - `data/` — Schema (`database.sql`) and seed data
-- `docs/` — ROADMAP, GETTING-STARTED, STACK-REWRITE-SETUP, HOSTING, reference markup
+- `docs/` — ROADMAP, GETTING-STARTED, STACK-REWRITE-SETUP, HOSTING, TROUBLESHOOTING-CRAFT, reference markup
 
 Restack and milestones are tracked in **GitHub Issues**; use issue numbers in commits (e.g. `#12`). See [docs/ROADMAP.md](docs/ROADMAP.md).
 

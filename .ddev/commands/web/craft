@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+## Description: Run Craft CMS console (uses DB env from the web container)
+## Usage: craft [arguments]
+## Example: "ddev craft sync/sync/provider-locations" or "ddev craft help"
+
+set -euo pipefail
+CMS_ROOT="${DDEV_COMPOSER_ROOT:-${DDEV_APPROOT}/cms}"
+cd "$CMS_ROOT"
+exec php craft "$@"

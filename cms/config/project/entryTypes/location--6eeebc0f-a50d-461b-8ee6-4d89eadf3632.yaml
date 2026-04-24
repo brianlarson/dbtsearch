@@ -6,6 +6,7 @@ fieldLayouts:
     cardThumbAlignment: end
     cardView:
       - 'layoutElement:6efe8b7f-2e25-4aca-8b5c-677786653aa6'
+      - 'layoutElement:d1ed50de-6558-41e1-b42f-4c7be68b5025'
     tabs:
       -
         elementCondition: null
@@ -133,7 +134,7 @@ fieldLayouts:
         name: Content
         uid: 834302d7-a389-48ca-8d59-78f92c21c194
         userCondition: null
-    thumbFieldKey: null
+    thumbFieldKey: 'layoutElement:365cd33d-1fe9-4710-a6fb-35fa8ecefa51'
 handle: location
 hasTitleField: true
 icon: location-dot

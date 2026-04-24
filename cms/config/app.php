@@ -21,7 +21,14 @@
  */
 
 use craft\helpers\App;
+use modules\sync\Module as SyncModule;
 
 return [
     'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS',
+    'modules' => [
+        'sync' => [
+            'class' => SyncModule::class,
+        ],
+    ],
+    'bootstrap' => ['sync'],
 ];

@@ -15,7 +15,7 @@ require_once CRAFT_VENDOR_PATH . '/autoload.php';
 
 // Load dotenv?
 if (class_exists(Dotenv\Dotenv::class)) {
-    // By default, this will allow .env file values to override environment variables
-    // with matching names. Use `createUnsafeImmutable` to disable this.
-    Dotenv\Dotenv::createUnsafeMutable(CRAFT_BASE_PATH)->safeLoad();
+    // Immutable: variables already set in the environment (e.g. DDEV CRAFT_DB_SERVER=mysql8) are not
+    // replaced by .env. Missing vars are filled from .env so host-side `php craft` can use 127.0.0.1.
+    Dotenv\Dotenv::createUnsafeImmutable(CRAFT_BASE_PATH)->safeLoad();
 }
