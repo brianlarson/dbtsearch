@@ -25,7 +25,8 @@
     "client": "vite",
     "server": "nodemon --watch server server/server.js",
     "build": "vite build",
-    "test": "vitest"
+    "test": "vitest",
+    "mm": "python3 scripts/migrate/mm.py"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",
