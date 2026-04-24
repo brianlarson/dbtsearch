@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { Provider } from '@/types/provider'
 
-const props = defineProps<{
+defineProps<{
   provider: Provider
 }>()
-
-const primaryLocation = computed(() => props.provider.locations[0] ?? null)
 
 function formatAddress(provider: Provider): string {
   const location = provider.locations[0]
@@ -69,19 +66,19 @@ function formatUpdatedAt(value: string): string {
 
         <div class="mb-4 text-sm">
           <a
-            v-if="primaryLocation?.phone"
-            :href="`tel:${primaryLocation.phone}`"
+            v-if="provider.phone"
+            :href="`tel:${provider.phone}`"
             class="text-primary underline decoration-primary/40 underline-offset-2 hover:opacity-90"
           >
-            {{ primaryLocation.phone }}
+            {{ provider.phone }}
           </a>
         </div>
 
         <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div class="flex flex-wrap gap-2">
             <a
-              v-if="primaryLocation?.website"
-              :href="primaryLocation.website"
+              v-if="provider.website"
+              :href="provider.website"
               target="_blank"
               rel="noopener noreferrer"
               class="rounded-lg border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary hover:text-white"
@@ -89,8 +86,8 @@ function formatUpdatedAt(value: string): string {
               Website
             </a>
             <a
-              v-if="primaryLocation?.email"
-              :href="`mailto:${primaryLocation.email}?subject=Inquiry%20from%20DBT%20Search`"
+              v-if="provider.email"
+              :href="`mailto:${provider.email}?subject=Inquiry%20from%20DBT%20Search`"
               class="rounded-lg border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary hover:text-white"
             >
               Email

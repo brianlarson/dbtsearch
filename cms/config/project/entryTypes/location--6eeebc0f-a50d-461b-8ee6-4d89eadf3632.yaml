@@ -4,42 +4,62 @@ description: null
 fieldLayouts:
   c7fb1163-4c38-438c-9223-01f76036fc40:
     cardThumbAlignment: end
+    cardView:
+      - 'layoutElement:6efe8b7f-2e25-4aca-8b5c-677786653aa6'
     tabs:
       -
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-04-24T12:00:00+00:00'
+            dateAdded: '2026-04-24T19:21:15+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
-            handle: locationName
+            fieldUid: 013af865-2f84-430b-be6b-dedc48ddc923 # Provider
+            handle: null
             instructions: null
-            label: 'Location name'
-            required: false
+            label: Provider
+            required: true
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: acc70656-cfe4-4136-9830-1a806a5a8f4f
+            uid: 365cd33d-1fe9-4710-a6fb-35fa8ecefa51
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-04-24T12:00:00+00:00'
-            editCondition: null
+            dateAdded: '2026-04-24T19:12:04+00:00'
             elementCondition: null
-            elementEditCondition: null
-            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
-            handle: address
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: d6084494-fed5-4a15-9850-c75c054b8362
+            userCondition: null
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2026-04-24T19:06:26+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
             instructions: null
             label: Address
-            required: false
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            required: true
+            size: null
+            step: null
             tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: e6de46a0-a118-454d-8e49-6133b8c13491
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 684fa0cc-327a-4495-b97a-bbfcc57af813
             userCondition: null
             warning: null
-            width: 100
+            width: 75
           -
             dateAdded: '2026-04-24T12:00:00+00:00'
             editCondition: null
@@ -49,7 +69,7 @@ fieldLayouts:
             handle: city
             instructions: null
             label: City
-            required: false
+            required: true
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 6efe8b7f-2e25-4aca-8b5c-677786653aa6
@@ -65,7 +85,7 @@ fieldLayouts:
             handle: state
             instructions: null
             label: State
-            required: false
+            required: true
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 79cc4ce6-d4f8-43e1-89e7-239147435d69
@@ -81,61 +101,19 @@ fieldLayouts:
             handle: zip
             instructions: null
             label: Zip
-            required: false
+            required: true
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 186526e5-3e4c-4076-98ff-324585c26b52
             userCondition: null
             warning: null
-            width: 100
+            width: 50
           -
-            dateAdded: '2026-04-24T12:00:00+00:00'
-            editCondition: null
+            dateAdded: '2026-04-24T19:48:10+00:00'
             elementCondition: null
-            elementEditCondition: null
-            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
-            handle: phone
-            instructions: null
-            label: Phone
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: d3dab7de-dfd7-4bed-ae33-0ad7644d9430
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: f898801e-2f63-4017-ab45-854a924c8c4e
             userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: '2026-04-24T12:00:00+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
-            handle: email
-            instructions: null
-            label: Email
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 01b81bad-4ddc-4618-9671-95a68ad55167
-            userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: '2026-04-24T12:00:00+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
-            handle: website
-            instructions: null
-            label: Website
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 2f52e6eb-e2b5-4b2c-b0cd-51d56bdacb35
-            userCondition: null
-            warning: null
-            width: 100
           -
             dateAdded: '2026-04-24T20:00:00+00:00'
             editCondition: null
@@ -150,21 +128,21 @@ fieldLayouts:
             type: craft\fieldlayoutelements\CustomField
             uid: d1ed50de-6558-41e1-b42f-4c7be68b5025
             userCondition: null
-            warning: null
-            width: 100
+            warning: 'Enable only if this location is currently accepting new clients'
+            width: 50
         name: Content
         uid: 834302d7-a389-48ca-8d59-78f92c21c194
         userCondition: null
     thumbFieldKey: null
-handle: locations
+handle: location
 hasTitleField: true
-icon: null
-name: Locations
-showSlugField: true
+icon: location-dot
+name: Location
+showSlugField: false
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site
-titleFormat: null
+titleFormat: '{provider.title}'
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
-uiLabelFormat: null
+uiLabelFormat: '{title}'

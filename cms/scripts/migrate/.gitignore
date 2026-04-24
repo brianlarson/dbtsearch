@@ -1,3 +1,5 @@
 *
 !.gitignore
 !README.md
+!import-providers-csv.php
+!move-contact-fields.php

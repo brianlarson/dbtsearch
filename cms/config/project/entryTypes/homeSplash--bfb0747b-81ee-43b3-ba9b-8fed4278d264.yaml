@@ -122,7 +122,7 @@ fieldLayouts:
     thumbFieldKey: null
 handle: homeSplash
 hasTitleField: false
-icon: null
+icon: droplet
 name: 'Home (splash)'
 showSlugField: true
 showStatusField: true

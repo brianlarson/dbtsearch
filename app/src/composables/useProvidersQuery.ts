@@ -9,6 +9,7 @@ interface CraftLocationEntry {
   city?: string
   state?: string
   zip?: string | number
+  /** Legacy flat JSON only; Craft keeps contact fields on providers */
   phone?: string
   email?: string
   website?: string
@@ -21,7 +22,7 @@ interface CraftProviderEntry {
   name?: string
   phone?: string
   email?: string
-  website?: string
+  website?: string | { url?: string | null } | null
   /** Legacy flat JSON / old schema only; Craft uses per-location availability */
   availability?: boolean
   address?: string
@@ -36,6 +37,7 @@ interface CraftProviderEntry {
   locations?: CraftLocationEntry[]
   providerLocations?: CraftLocationEntry[]
   providerLogo?: Array<{ url?: string | null }> | { url?: string | null } | null
+  logo?: Array<{ url?: string | null }> | { url?: string | null } | null
   image?: Array<{ url?: string | null }> | { url?: string | null } | string | null
 }
 
@@ -49,31 +51,27 @@ interface GraphQlPayload {
 const DIRECTORY_PROVIDERS_QUERY = `
   query DirectoryProviders($search: String, $limit: Int) {
     entries(section: ["providers"], limit: $limit, search: $search) {
-      ... on providers_default_Entry {
+      ... on providers_Entry {
         id
         title
-        name
         phone
         email
-        website
+        website {
+          url
+        }
         dbtaCertified
         dateUpdated
-        providerLocations {
-          ... on locations_default_Entry {
+        locations {
+          ... on location_Entry {
             id
             title
-            locationName
-            address
             city
             state
             zip
-            phone
-            email
-            website
             availability
           }
         }
-        providerLogo {
+        logo {
           url
         }
       }
@@ -87,8 +85,14 @@ function asString(value: unknown): string {
   return ''
 }
 
+function getLinkUrl(value: CraftProviderEntry['website']): string {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  return asString(value.url)
+}
+
 function getImageUrl(entry: CraftProviderEntry): string {
-  const candidate = entry.providerLogo ?? entry.image
+  const candidate = entry.logo ?? entry.providerLogo ?? entry.image
   if (!candidate) return ''
   if (Array.isArray(candidate)) return asString(candidate[0]?.url)
   if (typeof candidate === 'string') return candidate
@@ -138,7 +142,7 @@ function mapEntryToProvider(entry: CraftProviderEntry): Provider {
         zip: entry.zip,
         phone: entry.phone,
         email: entry.email,
-        website: entry.website,
+        website: getLinkUrl(entry.website),
         availability: entry.availability,
       },
     ]
@@ -155,7 +159,7 @@ function mapEntryToProvider(entry: CraftProviderEntry): Provider {
     dbtaCertified: Boolean(entry.dbtaCertified ?? entry.dbta_certified),
     phone: asString(entry.phone),
     email: asString(entry.email),
-    website: asString(entry.website),
+    website: getLinkUrl(entry.website),
     imageUrl: getImageUrl(entry),
     primaryLocation,
     locations,

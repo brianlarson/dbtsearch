@@ -1,7 +1,7 @@
 columnSuffix: null
-handle: providerLogo
+handle: logo
 instructions: null
-name: 'Provider Logo'
+name: Logo
 searchable: false
 settings:
   allowSelfRelations: false
@@ -11,7 +11,7 @@ settings:
   branchLimit: null
   defaultPlacement: end
   defaultUploadLocationSource: 'volume:288c542e-3541-4e24-96ee-aa5fa0bea135' # General
-  defaultUploadLocationSubpath: null
+  defaultUploadLocationSubpath: providers/logos
   maintainHierarchy: false
   maxRelations: 1
   minRelations: null
@@ -29,7 +29,7 @@ settings:
   sources: '*'
   targetSiteId: null
   validateRelatedElements: false
-  viewMode: large
+  viewMode: list
 translationKeyFormat: null
 translationMethod: none
 type: craft\fields\Assets

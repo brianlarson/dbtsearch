@@ -1,7 +1,7 @@
 columnSuffix: null
-handle: providerLocations
+handle: specialties
 instructions: null
-name: 'Provider Locations'
+name: Specialties
 searchable: false
 settings:
   allowSelfRelations: false
@@ -10,13 +10,13 @@ settings:
   maintainHierarchy: false
   maxRelations: null
   minRelations: null
-  selectionLabel: 'Add a location'
-  showSiteMenu: true
-  sources:
-    - 'section:ea4a7d29-5dee-4e91-b48b-181666006b36' # Locations
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: false
+  source: 'group:6257adb7-e17d-4aa3-9129-015deea64b68' # Specialties
   targetSiteId: null
   validateRelatedElements: false
-  viewMode: list
+  viewMode: list-inline
 translationKeyFormat: null
 translationMethod: none
-type: craft\fields\Entries
+type: craft\fields\Categories

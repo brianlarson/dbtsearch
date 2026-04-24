@@ -10,7 +10,6 @@ entryTypes:
 handle: pages
 maxAuthors: null
 name: Pages
-previewTargets: null
 propagationMethod: all
 siteSettings:
   0e198a9f-3b1b-487f-80ee-3c2aeed6d349: # DBT Search

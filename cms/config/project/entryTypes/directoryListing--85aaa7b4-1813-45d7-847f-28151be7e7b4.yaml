@@ -9,6 +9,34 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2026-04-24T19:40:31+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: c679e01e-64fd-479c-a784-3fe23962ac8b
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2026-04-24T18:00:00+00:00'
             editCondition: null
             elementCondition: null
@@ -30,7 +58,7 @@ fieldLayouts:
     thumbFieldKey: null
 handle: directoryListing
 hasTitleField: true
-icon: null
+icon: address-book
 name: 'Directory listing'
 showSlugField: true
 showStatusField: true
@@ -39,4 +67,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
-uiLabelFormat: null
+uiLabelFormat: '{title}'
