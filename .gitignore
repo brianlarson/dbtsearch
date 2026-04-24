@@ -79,3 +79,5 @@ cms/config/license.key
 cms/web/cpresources/
 /storage
 !/storage/rebrand/**/*
+/cms/scripts/migrate
+/data
