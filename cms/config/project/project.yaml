@@ -1,4 +1,4 @@
-dateModified: 1773606167
+dateModified: 1777056499
 email:
   fromEmail: support@tinytreecounseling.com
   fromName: 'DBT Search'
@@ -19,19 +19,39 @@ meta:
   __names__:
     0e198a9f-3b1b-487f-80ee-3c2aeed6d349: 'DBT Search' # DBT Search
     1f048049-d0c9-4364-8a8d-736b4d508537: Pending # Pending
+    4c618d5d-a0e2-4c67-ac3b-484357e4e959: Providers # Providers
+    5ce9554a-ea2e-4de5-a321-7f1b9d240999: 'Provider Locations' # Provider Locations
+    6eeebc0f-a50d-461b-8ee6-4d89eadf3632: Locations # Locations
+    68f6aaed-7edc-4e91-9996-3a86c16baf2f: 'Basic Editor' # Basic Editor
+    85aaa7b4-1813-45d7-847f-28151be7e7b4: 'Directory listing' # Directory listing
     98fab9df-c419-4085-9a57-5c61f96573c2: Form # Form
     288c542e-3541-4e24-96ee-aa5fa0bea135: General # General
     3220f3b5-89ff-450e-9a8c-83bd4b04bdf5: 'Public Schema' # Public Schema
+    6257adb7-e17d-4aa3-9129-015deea64b68: Services # Services
+    92889ba0-0a36-4fbe-a01a-db3f203ee643: 'Provider editors' # Provider editors
+    a2586b7e-9bb3-43af-bd80-784c8d064e9d: 'Content page' # Content page
     acef0518-5cc6-4dd0-9231-234846cfc200: Approved # Approved
     bcf50025-2188-4126-a360-29999caeae89: 'Splash Page' # Splash Page
+    bd86e753-8d68-45ea-87e2-0d31847956a5: 'Pages structure' # Pages structure
+    bea9cc9c-6390-413d-ba6e-35e2d30805ca: Availability # Availability
+    bfb0747b-81ee-43b3-ba9b-8fed4278d264: 'Home (splash)' # Home (splash)
     cc0c373f-6532-483b-831f-3c8878b9bb8e: 'DBT Search' # DBT Search
+    d5ae5dfe-b4f7-487a-8ba4-6fbd94e54839: 'Provider Logo' # Provider Logo
     d7cbe0ad-28b6-4a03-ace9-d634d2072400: 'Contact Form' # Contact Form
     ddb25fd5-a759-494a-9d4d-96a6e44c941e: 'Plain Text' # Plain Text
     ddb17090-e3f7-41d7-aab7-b1729da37d11: Subscriber # Subscriber
     e37b7064-6cc1-44c5-a156-52caa30e8b65: 'Splash Page' # Splash Page
+    e39ba0fb-a676-4318-98f7-8ad50f557c6d: Providers # Providers
+    ea4a7d29-5dee-4e91-b48b-181666006b36: Locations # Locations
     eb8a7a70-63cb-4cc1-bae4-e3516a6766ee: Splash # Splash
+    f47ac64d-c03f-4687-b2b3-ac84dd6f0142: Pages # Pages
+    f77e21c5-ded4-4082-86c6-5df3b28a7316: 'DBT-A Certified' # DBT-A Certified
     fe417a71-4d1b-460f-8a63-7ac81c0e5092: Images # Images
 plugins:
+  ckeditor:
+    edition: standard
+    enabled: true
+    schemaVersion: 5.0.0.1
   formie:
     edition: standard
     enabled: true
@@ -83,12 +103,17 @@ plugins:
       useQueueForIntegrations: true
       useQueueForNotifications: true
       validateCustomTemplates: true
+  mcp:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
 system:
   edition: pro
   live: true
   name: 'DBT Search'
+  retryDuration: null
   schemaVersion: 5.9.0.8
-  timeZone: America/Los_Angeles
+  timeZone: America/Chicago
 users:
   allowPublicRegistration: false
   defaultGroup: null

@@ -18,6 +18,10 @@
 
   {{ formieInclude('_includes/instructions', { position: 'above' }) }}
 
+  {% if labelPosition.shouldDisplay('above') %}
+    {{ formieInclude('_includes/label', { position: 'above' }) }}
+  {% endif %}
+
   <div class="formie-input-block">
     {% hook 'formie.field.input-before' %}
     {{ field.getFrontEndInputHtml(form, value, renderOptions | merge({

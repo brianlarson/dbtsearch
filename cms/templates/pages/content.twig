@@ -1,0 +1,48 @@
+{# About, Contact, etc. — aligns with legacy PageHeader + Container body. #}
+<!DOCTYPE html>
+<html lang="{{ craft.app.language }}" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>{{ entry.title }} | {{ siteName ?? 'DBT Search' }}</title>
+  <link rel="icon" type="image/x-icon" href="{{ url('favicon.ico') }}" />
+  <link rel="stylesheet" href="{{ url('/css/splash.css') }}" />
+</head>
+<body class="dark min-h-screen bg-background bg-texture-mesh text-foreground flex flex-col font-sans antialiased" data-theme="dbtsearch">
+  <header class="sticky top-0 z-50 w-full border-b border-navbar-line bg-navbar">
+    <div class="mx-auto flex max-w-8xl items-center gap-x-4 px-4 py-3 sm:px-6 lg:px-8">
+      <a href="{{ url('/') }}" class="flex shrink-0 items-center">
+        <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-10 w-auto sm:h-16" />
+      </a>
+      {% include '_partials/site-nav.twig' %}
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <div class="border-b border-border bg-layer/30">
+      <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">{{ entry.title }}</h1>
+        {% if entry.subheading %}
+          <p class="mt-2 text-lg text-muted-foreground">{{ entry.subheading }}</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 max-w-3xl space-y-4 text-muted-foreground leading-relaxed">
+      {% if entry.body %}
+        {{ entry.body|raw }}
+      {% else %}
+        <p class="text-muted-foreground">Add body content in the control panel.</p>
+      {% endif %}
+      <p class="mt-8">
+        <a href="{{ url('/providers') }}" class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">Find DBT Providers</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="border-t border-border py-6">
+    <div class="mx-auto max-w-7xl px-4 pt-5 text-center sm:px-6 lg:px-8">
+      <p class="mb-0 text-xs text-muted-foreground">Copyright &copy; {{ "now"|date("Y") }} DBT Search and dbtsearch.org. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

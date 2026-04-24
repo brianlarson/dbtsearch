@@ -3,18 +3,28 @@
   Content from Splash Single entry if present, else defaults.
   Form: Formie form handle "splashSignup" (create in CP with fields: name, organization, email, provider_listing).
 #}
-{% set entry = craft.entries.section('splash').one() %}
+{% set entry = craft.entries.section('splashPage').one() ?? null %}
 {% set defaultCopy = "Our single mission is to increase access for those in need of DBT. We're building a directory for anyone to find certified DBT providers in Minnesota and see who has current openings." %}
-{% set heading = entry ? (entry.splashHeading ?? entry.title ?? 'Find Available DBT Programs in Minnesota') : (heading ?? 'Find Available DBT Programs in Minnesota') %}
-{% set tagline = entry ? (entry.splashTagline ?? 'Coming Soon') : (tagline ?? 'Coming Soon') %}
-{% set copy = entry ? (entry.splashCopy ?? defaultCopy) : (copy ?? defaultCopy) %}
-{% set formHeading = entry ? (entry.splashFormHeading ?? '✨ Get notified when we launch…') : (formHeading ?? '✨ Get notified when we launch…') %}
-{% set submitLabel = entry ? (entry.splashSubmitLabel ?? 'Notify Me') : (submitLabel ?? 'Notify Me') %}
-{% set successMessage = entry ? (entry.splashSuccessMessage ?? "You're on the list! We'll notify you when we launch.") : (successMessage ?? "You're on the list! We'll notify you when we launch.") %}
+{% set heading = entry ? (entry.heading ?? entry.title ?? 'Find Available DBT Programs in Minnesota') : (heading ?? 'Find Available DBT Programs in Minnesota') %}
+{% set tagline = entry ? (entry.label ?? 'Coming Soon') : (tagline ?? 'Coming Soon') %}
+{% set copy = entry ? (entry.content ?? defaultCopy) : (copy ?? defaultCopy) %}
+{% set formHeading = entry ? (entry.formHeading ?? '✨ Get notified when we launch…') : (formHeading ?? '✨ Get notified when we launch…') %}
+{% set submitLabel = submitLabel ?? 'Notify Me' %}
+{% set successMessage = successMessage ?? "You're on the list! We'll notify you when we launch." %}
 {% set showSuccess = showSuccess ?? (craft.app.request.getParam('signedup') == '1') %}
 {% set formHandle = formHandle ?? 'splashSignup' %}
-{% set form = craft.formie.forms.handle(formHandle).one() %}
-{% set heroImageSrc = url('/images/pexels-steve-1690351.jpg') %}
+{# Form field is a relation: use .one() to get the Formie form element (or null if none selected) #}
+{% set form = entry ? entry.form.one() : null %}
+{% if form %}
+  {# Redirect back to current URL with ?signedup=1 so success message shows. Page Reload required for redirect to work. #}
+  {% set successRedirectUrl = craft.app.request.url ~ ('?' in craft.app.request.url ? '&' : '?') ~ 'signedup=1' %}
+  {% do form.setSettings({
+    redirectUrl: successRedirectUrl,
+    submitMethod: 'page-reload',
+  }) %}
+{% endif %}
+{% set heroImageSrDefault = url('/uploads/pexels-steve-1690351.jpg') %}
+{% set heroImageSrc = entry ? (entry.heroImage.all().getUrl() ?? heroImageSrDefault) : (heroImageSrDefault) %}
 
 <!DOCTYPE html>
 <html lang="{{ craft.app.language }}" class="dark">
@@ -22,15 +32,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="referrer" content="origin-when-cross-origin" />
-  <title>{{ siteName ?? 'DBT Search' }} — Find Certified DBT Providers in Minnesota</title>
+  <title>{{ siteName ?? 'DBT Search' }} | Find Certified DBT Providers in Minnesota</title>
+  <link rel="icon" type="image/x-icon" href="{{ url('favicon.ico') }}" />
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url('favicon-32x32.png') }}" />
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url('favicon-16x16.png') }}" />
   <link rel="stylesheet" href="{{ url('/css/splash.css') }}" />
-  {% if form %}{% do craft.formie.registerAssets(form.handle) %}{% endif %}
+  
+  {% if form %}{% do craft.formie.registerAssets(form) %}{% endif %}
 </head>
 <body class="dark min-h-screen bg-background bg-texture-mesh text-foreground flex flex-col font-sans antialiased" data-theme="dbtsearch">
   <header class="sticky top-0 z-50 w-full border-b border-navbar-line bg-navbar">
     <div class="mx-auto flex max-w-8xl items-center gap-x-4 px-4 py-3 sm:px-6 lg:px-8">
       <a href="{{ url('/') }}" class="flex shrink-0 items-center">
-        <img src="{{ url('/images/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-10 w-auto sm:h-16" />
+        <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-10 w-auto sm:h-16" />
       </a>
     </div>
   </header>
@@ -85,35 +99,25 @@
               {{ actionInput('formie/submissions/submit') }}
               {{ hiddenInput('handle', form.handle) }}
               {{ csrfInput() }}
-              {{ redirectInput(url(craft.app.request.pathInfo) ~ '?signedup=1') }}
+              {{ redirectInput(successRedirectUrl) }}
               {% if submission and submission.id %}{{ hiddenInput('submissionId', submission.id) }}{% endif %}
 
               {% set fields = form.getFields() %}
               {% if fields|length >= 4 %}
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {% for field in fields[0:2] %}
-                    {% set value = attribute(submission, field.handle) ?? field.defaultValue ?? null %}
-                    <div>
-                      <label for="{{ field.getHtmlId(form) }}" class="splash-label">{{ field.label|t('formie')|raw }}{% if not field.required %} <small class="ml-px"><i>(optional)</i></small>{% endif %}</label>
-                      {{ field.getFrontEndInputHtml(form, value)|raw }}
-                    </div>
+                    <div>{{ craft.formie.renderField(form, field) }}</div>
                   {% endfor %}
                 </div>
                 <div class="mt-4">
-                  {% set field = fields[2] %}
-                  {% set value = attribute(submission, field.handle) ?? field.defaultValue ?? null %}
-                  <label for="{{ field.getHtmlId(form) }}" class="splash-label">{{ field.label|t('formie')|raw }}{% if not field.required %} <small class="ml-px"><i>(optional)</i></small>{% endif %}</label>
-                  {{ field.getFrontEndInputHtml(form, value)|raw }}
+                  {{ craft.formie.renderField(form, fields[2]) }}
                 </div>
-                <div class="pt-2 mt-3">
-                  {% set field = fields[3] %}
-                  {% set value = attribute(submission, field.handle) ?? field.defaultValue ?? null %}
-                  {{ field.getFrontEndInputHtml(form, value)|raw }}
+                <div class="pt-2">
+                  {{ craft.formie.renderField(form, fields[3]) }}
                 </div>
               {% else %}
                 {% for field in fields %}
-                  {% set value = attribute(submission, field.handle) ?? field.defaultValue ?? null %}
-                  {{ field.getFrontEndInputHtml(form, value)|raw }}
+                  {{ craft.formie.renderField(form, field) }}
                 {% endfor %}
               {% endif %}
 
@@ -143,10 +147,10 @@
   <footer class="border-t border-border py-6">
     <div class="mx-auto max-w-7xl px-4 pt-5 text-center sm:px-6 lg:px-8">
       <p class="mb-3 text-sm text-muted-foreground">
-        <span class="font-semibold text-foreground">DBTsearch</span> is powered by
+        <span class="font-semibold text-foreground">DBT Search is powered by</span>
         <a href="https://www.tinytreecounseling.com/" target="_blank" rel="noopener noreferrer" class="text-primary underline decoration-1 hover:opacity-90">Tiny Tree Counseling &amp; Consulting</a>
       </p>
-      <p class="mb-0 text-xs text-muted-foreground">Copyright &copy; {{ "now"|date("Y") }} DBTsearch.org. All rights reserved.</p>
+      <p class="mb-0 text-xs text-muted-foreground">Copyright &copy; {{ "now"|date("Y") }} DBT Search and dbtsearch.org. All rights reserved.</p>
     </div>
   </footer>
 </body>

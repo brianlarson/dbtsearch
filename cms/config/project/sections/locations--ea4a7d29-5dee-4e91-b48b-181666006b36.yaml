@@ -1,0 +1,17 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 6eeebc0f-a50d-461b-8ee6-4d89eadf3632 # Locations
+handle: locations
+maxAuthors: null
+name: Locations
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  0e198a9f-3b1b-487f-80ee-3c2aeed6d349: # DBT Search
+    enabledByDefault: true
+    hasUrls: false
+    template: null
+    uriFormat: null
+type: channel

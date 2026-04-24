@@ -1,0 +1,170 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  c7fb1163-4c38-438c-9223-01f76036fc40:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-24T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: locationName
+            instructions: null
+            label: 'Location name'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: acc70656-cfe4-4136-9830-1a806a5a8f4f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: address
+            instructions: null
+            label: Address
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e6de46a0-a118-454d-8e49-6133b8c13491
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: city
+            instructions: null
+            label: City
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6efe8b7f-2e25-4aca-8b5c-677786653aa6
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-04-24T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: state
+            instructions: null
+            label: State
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 79cc4ce6-d4f8-43e1-89e7-239147435d69
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-04-24T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: zip
+            instructions: null
+            label: Zip
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 186526e5-3e4c-4076-98ff-324585c26b52
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: phone
+            instructions: null
+            label: Phone
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d3dab7de-dfd7-4bed-ae33-0ad7644d9430
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: email
+            instructions: null
+            label: Email
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 01b81bad-4ddc-4618-9671-95a68ad55167
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: website
+            instructions: null
+            label: Website
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2f52e6eb-e2b5-4b2c-b0cd-51d56bdacb35
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T20:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bea9cc9c-6390-413d-ba6e-35e2d30805ca # Availability
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d1ed50de-6558-41e1-b42f-4c7be68b5025
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 834302d7-a389-48ca-8d59-78f92c21c194
+        userCondition: null
+    thumbFieldKey: null
+handle: locations
+hasTitleField: true
+icon: null
+name: Locations
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: null

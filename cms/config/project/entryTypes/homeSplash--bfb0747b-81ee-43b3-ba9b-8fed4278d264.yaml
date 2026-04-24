@@ -1,0 +1,134 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  23e091c5-66ce-47d5-85b5-f217ab3c30b7:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: label
+            instructions: null
+            label: Label
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3b837fc6-a5b2-48d5-b48b-fd4e78dfabf4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: heading
+            instructions: null
+            label: Heading
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8c5ac747-7305-4f72-8a53-38e1760fb736
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 68f6aaed-7edc-4e91-9996-3a86c16baf2f # Basic Editor
+            handle: content
+            instructions: null
+            label: Content
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4f96f057-7ff8-4e9c-88fc-7edf4ed5ac13
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 475d6a19-43d5-4a7e-b5c0-ac6f5ede2639
+            userCondition: null
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: formHeading
+            instructions: null
+            label: 'Form Heading'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 454d433a-9c4f-4e55-a5ec-d6c3abd47db7
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 98fab9df-c419-4085-9a57-5c61f96573c2 # Form
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b40395ef-24d8-44f2-ba90-3eebf8ea76a5
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: c28aefb3-0da8-4d31-aa1f-b897fd348e78
+            userCondition: null
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: fe417a71-4d1b-460f-8a63-7ac81c0e5092 # Images
+            handle: null
+            instructions: null
+            label: Image(s)
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ab0ddfca-c594-4fe3-a929-79c1ddca2d42
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 08a6cdf5-5318-44e9-85c2-9cc060611d48
+        userCondition: null
+    thumbFieldKey: null
+handle: homeSplash
+hasTitleField: false
+icon: null
+name: 'Home (splash)'
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: '{heading}'
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{heading}'

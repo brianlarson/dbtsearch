@@ -15,7 +15,7 @@ propagationMethod: all
 siteSettings:
   0e198a9f-3b1b-487f-80ee-3c2aeed6d349: # DBT Search
     enabledByDefault: true
-    hasUrls: true
+    hasUrls: false
     template: splash/index.twig
-    uriFormat: __home__
+    uriFormat: null
 type: single

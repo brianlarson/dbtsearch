@@ -1,0 +1,58 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  58a177de-ee6b-4335-916b-42a9aa47d8d4:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: subheading
+            instructions: null
+            label: Subheading
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 99b34d64-a2ab-4512-b3a7-1878f9bd9f21
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-24T18:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 68f6aaed-7edc-4e91-9996-3a86c16baf2f # Basic Editor
+            handle: body
+            instructions: null
+            label: Body
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 62654c5c-5671-4fa4-89ae-6fde57fb7fd0
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 418954a6-eceb-497d-8ad0-8a63699aae86
+        userCondition: null
+    thumbFieldKey: null
+handle: contentPage
+hasTitleField: true
+icon: null
+name: 'Content page'
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: null

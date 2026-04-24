@@ -77,5 +77,5 @@ cms/vendor/
 cms/.env
 cms/config/license.key
 cms/web/cpresources/
-cms/storage/
-cms/node_modules/
+/storage
+!/storage/rebrand/**/*

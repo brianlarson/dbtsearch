@@ -1,7 +1,6 @@
 name: dbtsearch
 type: craftcms
 docroot: cms/web
-composer_root: cms
 php_version: "8.4"
 webserver_type: nginx-fpm
 xdebug_enabled: false
@@ -10,22 +9,21 @@ additional_fqdns: []
 database:
     type: postgres
     version: "14"
-use_dns_when_possible: true
-composer_version: "2"
-# Force Craft (in cms/) to use MySQL 8; DDEV primary DB stays Postgres for legacy.
-web_environment:
-  - DB_DRIVER=mysql
-  - DB_SERVER=mysql8
-  - DB_PORT=3306
-  - DB_DATABASE=craft
-  - DB_USER=craft
-  - DB_PASSWORD=craft
-corepack_enable: false
-# Prevent DDEV from overwriting cms/.env with Postgres; Craft uses MySQL via .env.web.
-disable_settings_management: true
 hooks:
   post-start:
-    - exec-host: "cp .ddev/craft-mysql.env.web .ddev/.env.web"
+    - exec-host: cp .ddev/craft-mysql.env.web .ddev/.env.web
+use_dns_when_possible: true
+composer_root: cms
+composer_version: "2"
+disable_settings_management: true
+web_environment:
+    - CRAFT_DB_DRIVER=mysql
+    - CRAFT_DB_SERVER=mysql8
+    - CRAFT_DB_PORT=3306
+    - CRAFT_DB_DATABASE=craft
+    - CRAFT_DB_USER=craft
+    - CRAFT_DB_PASSWORD=craft
+corepack_enable: false
 
 # Key features of DDEV's config.yaml:
 
