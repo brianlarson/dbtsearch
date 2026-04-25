@@ -88,6 +88,22 @@ fieldLayouts:
             warning: null
             width: 25
           -
+            dateAdded: '2026-04-25T17:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4f6e6a4e-3c30-4d4f-a0f0-9f6416f9d8c1 # Source Location ID
+            handle: sourceLocationId
+            instructions: null
+            label: 'Source Location ID'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c4a8f901-2b3d-4c67-8e9f-0a1b2c3d4e5f
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2026-04-25T16:24:20+00:00'
             elementCondition: null
             type: craft\fieldlayoutelements\HorizontalRule

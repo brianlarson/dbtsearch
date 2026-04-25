@@ -177,14 +177,27 @@ In the UI:
 
 When your source provides full address plus split city/state/zip fields:
 
-- Map source `Street Address` -> Craft entry `title` (Location title should be street-only)
+- Map source `Street Address` (or derived street line) -> Craft entry `title` (Location title should be street-only)
 - Map source `City` -> `city`
 - Map source `State` -> `state`
-- Map source `Zip` -> `zip`
-- Map source stable ID -> `sourceLocationId`
+- Map source `Zip` / `ZIP` -> `zip`
+- Map JSON `sourceLocationId` -> Craft field **Source Location ID** (`sourceLocationId`)
 
-Use Feed Me matching on `sourceLocationId` (or the equivalent unique source key), not title.
-That keeps imports idempotent when title formatting changes.
+### `sourceLocationId` (immutable match key)
+
+The handle is **`sourceLocationId`** (not `sourceLoctionId`).
+
+For `mn-dbt-providers.json`, `npm run imports:mn-providers` injects `sourceLocationId` on every row: **64-character hex SHA-256** of UTF-8 data built from, in order: `Provider Name`, `Full Address (DHS)`, `City`, `State`, `ZIP` (each trimmed, joined by a unit separator). Changing any of those in the source changes the id (same as changing the real-world row identity).
+
+**Feed Me (Locations feed):**
+
+1. Apply project config so the Location entry type has the **Source Location ID** field.
+2. **Field mapping:** map the JSON attribute `sourceLocationId` to the Craft field `sourceLocationId`.
+3. **Matching / duplicates:** set the feed to **update** existing entries, and set **match existing elements on** / **unique identifier** to **`sourceLocationId`** (the plain text field), not Title.
+
+If you already have Location entries **without** `sourceLocationId` populated, the first import matched only on `sourceLocationId` will not find them and may create duplicates. Fix by one-time backfilling `sourceLocationId` on existing rows (same hash as in JSON) or running a one-off match strategy; after every location has the field set, matching on `sourceLocationId` is safe.
+
+Use Feed Me matching on `sourceLocationId`, not title, so title and address formatting can change without breaking upserts.
 
 To clean old entries that still include city/state/zip in the title:
 
@@ -199,3 +212,15 @@ Then rerun Feed Me with the new mapping, and refresh provider-location rollups i
 ```bash
 php craft sync/sync/provider-locations
 ```
+
+---
+
+## 8) Import files (`cms/web/imports`)
+
+Provider rows for Feed Me (and manual edits) live as JSON under `cms/web/imports/`. Regenerate from the CSV when the sheet changes:
+
+```bash
+npm run imports:mn-providers
+```
+
+That writes `cms/web/imports/mn-dbt-providers.json` (array of objects: CSV columns plus leading `sourceLocationId`). Source CSV path: `cms/web/imports/mn_dbt_providers_final.csv`. Point Feed Me at the JSON URL path `/imports/mn-dbt-providers.json` on your Craft site, or upload the file in the CP.
