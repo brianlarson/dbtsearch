@@ -35,6 +35,8 @@ class Module extends BaseModule
     private const LOCATION_SECTION_HANDLE = 'locations';
 
     private bool $isComputingScope = false;
+    private ?array $cachedProviderIds = null;
+    private ?array $cachedAllScopedIds = null;
 
     public function init(): void
     {
@@ -203,10 +205,15 @@ class Module extends BaseModule
      */
     private function allowedEntryIdsForAllScopedSections(): array
     {
+        if ($this->cachedAllScopedIds !== null) {
+            return $this->cachedAllScopedIds;
+        }
+
         $providerIds = $this->allowedEntryIdsForSection(self::PROVIDER_SECTION_HANDLE) ?? [];
         $locationIds = $this->allowedEntryIdsForSection(self::LOCATION_SECTION_HANDLE) ?? [];
 
-        return array_values(array_unique(array_merge($providerIds, $locationIds)));
+        $this->cachedAllScopedIds = array_values(array_unique(array_merge($providerIds, $locationIds)));
+        return $this->cachedAllScopedIds;
     }
 
     private function extractEntryIdFromRequest(): ?int
@@ -293,6 +300,10 @@ class Module extends BaseModule
      */
     private function currentUserProviderIds(): array
     {
+        if ($this->cachedProviderIds !== null) {
+            return $this->cachedProviderIds;
+        }
+
         $user = Craft::$app->getUser()->getIdentity();
         if ($user === null) {
             return [];
@@ -301,9 +312,17 @@ class Module extends BaseModule
         $value = $user->getFieldValue(self::USER_PROVIDER_FIELD_HANDLE);
         // Entries fields return an element query object, which supports ids().
         if (method_exists($value, 'ids')) {
-            return array_values(array_map('intval', $value->ids()));
+            // Guard against our own EntryQuery hook while resolving the user->providers relation.
+            $this->isComputingScope = true;
+            try {
+                $this->cachedProviderIds = array_values(array_map('intval', $value->ids()));
+                return $this->cachedProviderIds;
+            } finally {
+                $this->isComputingScope = false;
+            }
         }
 
-        return [];
+        $this->cachedProviderIds = [];
+        return $this->cachedProviderIds;
     }
 }
