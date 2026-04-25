@@ -21,6 +21,8 @@
  */
 
 use craft\helpers\App;
+use craft\helpers\MailerHelper;
+use craft\mail\transportadapters\Smtp;
 use modules\sync\Module as SyncModule;
 
 return [
@@ -31,4 +33,37 @@ return [
         ],
     ],
     'bootstrap' => ['sync'],
+    'components' => [
+        /**
+         * Outbound mail:
+         * - Production/staging: set RESEND_API_KEY (Resend SMTP). See cms/.env.example.production.
+         * - DDEV without that key: Mailpit (ddev mailpit). Optional MAILPIT_SMTP_HOSTNAME / MAILPIT_SMTP_PORT.
+         * - Otherwise: project-config email transport (Sendmail by default).
+         *
+         * @see https://resend.com/docs/send-with-smtp
+         */
+        'mailer' => function () {
+            $config = App::mailerConfig();
+
+            if (App::env('RESEND_API_KEY')) {
+                $adapter = MailerHelper::createTransportAdapter(Smtp::class, [
+                    'host' => App::env('RESEND_SMTP_HOST') ?: 'smtp.resend.com',
+                    'port' => (int) (App::env('RESEND_SMTP_PORT') ?: 587),
+                    'useAuthentication' => true,
+                    'username' => App::env('RESEND_SMTP_USERNAME') ?: 'resend',
+                    'password' => App::env('RESEND_API_KEY'),
+                ]);
+                $config['transport'] = $adapter->defineTransport();
+            } elseif (filter_var(App::env('IS_DDEV_PROJECT'), FILTER_VALIDATE_BOOLEAN)) {
+                $adapter = MailerHelper::createTransportAdapter(Smtp::class, [
+                    'host' => App::env('MAILPIT_SMTP_HOSTNAME') ?: '127.0.0.1',
+                    'port' => (int) (App::env('MAILPIT_SMTP_PORT') ?: 1025),
+                    'useAuthentication' => false,
+                ]);
+                $config['transport'] = $adapter->defineTransport();
+            }
+
+            return \Craft::createObject($config);
+        },
+    ],
 ];

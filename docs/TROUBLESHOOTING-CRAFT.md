@@ -28,6 +28,22 @@ If the CP or front site suddenly cannot connect from **inside** DDEV, check that
 
 **Do not deploy your laptop’s `cms/.env`** to production. Production should have its own credentials and DB host (see `cms/.env.example.production` and [HOSTING.md](HOSTING.md)).
 
+**Deploy order (custom `modules/` code):** After `git pull`, run **`composer install`** (or at least **`composer dump-autoload`**) **inside `cms/` before any `php craft …` command.** The `sync` module is registered in `config/app.php` and PSR-4 autoloaded via `composer.json`; until Composer regenerates `vendor/composer/autoload_*.php`, PHP cannot load `modules\sync\Module`, and Craft fails with *Failed to instantiate component or class "modules\sync\Module"*. Also confirm the deploy artifact actually contains `cms/modules/sync/`.
+
+---
+
+## `Failed to instantiate component or class "modules\sync\Module"`
+
+**Meaning:** PHP’s autoloader does not know that class when Craft merges `config/app.php` (the `sync` module is in `bootstrap`).
+
+**Checklist:**
+
+1. **Run Composer in `cms/` first** after every deploy that changes `composer.json` autoload or adds files under `cms/modules/`:
+   `cd cms && composer install --no-dev --optimize-autoloader`
+2. **Do not run `php craft` before that** on a fresh machine or right after pull (e.g. avoid `php craft db/restore … && composer install …` — swap the order, or run Composer before the whole chain).
+3. **Verify `cms/modules/sync/Module.php` exists** on the server (rsync/git archive did not exclude `modules/`).
+4. Use **`composer install`**, not `php composer install`, unless your host really exposes Composer that way.
+
 ---
 
 ## Optional: sync console commands

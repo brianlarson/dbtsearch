@@ -2,9 +2,7 @@ defaultPlacement: end
 enableVersioning: true
 entryTypes:
   -
-    uid: bfb0747b-81ee-43b3-ba9b-8fed4278d264 # Home (splash)
-  -
-    uid: a2586b7e-9bb3-43af-bd80-784c8d064e9d # Content page
+    uid: a2586b7e-9bb3-43af-bd80-784c8d064e9d # Content Page
   -
     uid: 85aaa7b4-1813-45d7-847f-28151be7e7b4 # Directory listing
 handle: pages
@@ -16,7 +14,7 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: pages/_entry.twig
-    uriFormat: "{% if object.type.handle == 'homeSplash' %}__home__{% else %}{slug}{% endif %}"
+    uriFormat: '{parent.uri}/{entry.slug}'
 structure:
   maxLevels: 1
   uid: bd86e753-8d68-45ea-87e2-0d31847956a5 # Pages structure

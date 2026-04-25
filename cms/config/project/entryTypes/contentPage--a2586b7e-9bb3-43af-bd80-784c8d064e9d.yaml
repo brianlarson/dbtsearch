@@ -75,7 +75,7 @@ fieldLayouts:
 handle: contentPage
 hasTitleField: true
 icon: memo
-name: 'Content page'
+name: 'Content Page'
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null
