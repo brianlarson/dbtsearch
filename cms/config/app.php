@@ -23,16 +23,20 @@
 use craft\helpers\App;
 use craft\helpers\MailerHelper;
 use craft\mail\transportadapters\Smtp;
+use modules\provideraccess\Module as ProviderAccessModule;
 use modules\sync\Module as SyncModule;
 
 return [
     'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS',
     'modules' => [
+        'provideraccess' => [
+            'class' => ProviderAccessModule::class,
+        ],
         'sync' => [
             'class' => SyncModule::class,
         ],
     ],
-    'bootstrap' => ['sync'],
+    'bootstrap' => ['provideraccess', 'sync'],
     'components' => [
         /**
          * Outbound mail:
