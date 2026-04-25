@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import DirectoryFilters from '@/components/directory/DirectoryFilters.vue'
 import ProviderList from '@/components/directory/ProviderList.vue'
 import LegacyFooter from '@/components/directory/LegacyFooter.vue'
 import LegacyHeader from '@/components/directory/LegacyHeader.vue'
@@ -27,12 +26,11 @@ function resetFilters() {
 
     <main class="pb-12">
       <section class="mx-auto max-w-6xl px-4 pt-1 sm:px-6 lg:px-8">
-        <DirectoryFilters
-          v-model:only-available="onlyAvailable"
-          :result-count="resultCount"
-        />
         <ProviderList
           :providers="filteredProviders"
+          :only-available="onlyAvailable"
+          :result-count="resultCount"
+          @update:only-available="onlyAvailable = $event"
           @reset-filters="resetFilters"
         />
       </section>
