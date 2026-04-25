@@ -118,6 +118,9 @@ class Module extends BaseModule
 
         $sectionHandle = $this->resolveScopedSectionHandleFromQuery($query);
         if ($sectionHandle === null) {
+            // "All Entries" view (no section filter): constrain to the union of scoped sections.
+            $allowedIds = $this->allowedEntryIdsForAllScopedSections();
+            $query->id($allowedIds === [] ? [0] : $allowedIds);
             return;
         }
 
@@ -193,6 +196,17 @@ class Module extends BaseModule
         }
 
         return $section;
+    }
+
+    /**
+     * @return int[]
+     */
+    private function allowedEntryIdsForAllScopedSections(): array
+    {
+        $providerIds = $this->allowedEntryIdsForSection(self::PROVIDER_SECTION_HANDLE) ?? [];
+        $locationIds = $this->allowedEntryIdsForSection(self::LOCATION_SECTION_HANDLE) ?? [];
+
+        return array_values(array_unique(array_merge($providerIds, $locationIds)));
     }
 
     private function extractEntryIdFromRequest(): ?int
