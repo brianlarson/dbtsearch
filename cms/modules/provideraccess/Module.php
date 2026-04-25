@@ -121,24 +121,13 @@ class Module extends BaseModule
             return;
         }
 
-        $providerIds = $this->currentUserProviderIds();
-
-        if ($sectionHandle === self::PROVIDER_SECTION_HANDLE) {
-            $query->id($providerIds === [] ? [0] : $providerIds);
+        $allowedIds = $this->allowedEntryIdsForSection($sectionHandle);
+        if ($allowedIds === null) {
             return;
         }
 
-        if ($sectionHandle === self::LOCATION_SECTION_HANDLE) {
-            if ($providerIds === []) {
-                $query->id([0]);
-                return;
-            }
-
-            $query->relatedTo([
-                'targetElement' => $providerIds,
-                'field' => self::LOCATION_PROVIDER_FIELD_HANDLE,
-            ]);
-        }
+        // Hard id constraint is reliable across indexes and relation modals.
+        $query->id($allowedIds === [] ? [0] : $allowedIds);
     }
 
     private function shouldScopeCurrentUser(): bool
@@ -155,7 +144,8 @@ class Module extends BaseModule
     {
         $sectionIds = $query->sectionId;
         if ($sectionIds === null || $sectionIds === '') {
-            return null;
+            // Some CP index queries don't carry sectionId yet at this stage; fall back to request context.
+            return $this->resolveScopedSectionHandleFromRequest();
         }
 
         if (!is_array($sectionIds)) {
@@ -188,6 +178,21 @@ class Module extends BaseModule
         }
 
         return $handle;
+    }
+
+    private function resolveScopedSectionHandleFromRequest(): ?string
+    {
+        $request = Craft::$app->getRequest();
+        $section = $request->getQueryParam('section') ?? $request->getBodyParam('section');
+        if (!is_string($section) || $section === '') {
+            return null;
+        }
+
+        if (!in_array($section, [self::PROVIDER_SECTION_HANDLE, self::LOCATION_SECTION_HANDLE], true)) {
+            return null;
+        }
+
+        return $section;
     }
 
     private function extractEntryIdFromRequest(): ?int
