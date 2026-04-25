@@ -32,6 +32,7 @@ Add these fields to the Locations entry type layout:
 
 | Field name     | Handle         | Type                    | Notes |
 |----------------|----------------|-------------------------|------|
+| Source Location ID | `sourceLocationId` | Plain Text (single-line) | Stable external key for imports/upserts; use this as Feed Me match field |
 | Location Name  | `locationName` | Plain Text (single-line)| Optional display label |
 | Address        | `address`      | Plain Text              | Street address |
 | City           | `city`         | Plain Text              |  |
@@ -169,3 +170,32 @@ In the UI:
 - [ ] Availability filter respects per-location lightswitches (provider shows if any location is on)
 - [ ] Search by provider name works
 - [ ] Last updated shows date (not "Unknown")
+
+---
+
+## 7) Feed Me mapping for location titles
+
+When your source provides full address plus split city/state/zip fields:
+
+- Map source `Street Address` -> Craft entry `title` (Location title should be street-only)
+- Map source `City` -> `city`
+- Map source `State` -> `state`
+- Map source `Zip` -> `zip`
+- Map source stable ID -> `sourceLocationId`
+
+Use Feed Me matching on `sourceLocationId` (or the equivalent unique source key), not title.
+That keeps imports idempotent when title formatting changes.
+
+To clean old entries that still include city/state/zip in the title:
+
+```bash
+cd cms
+php craft sync/sync/normalize-location-titles
+php craft sync/sync/normalize-location-titles --dry-run=0
+```
+
+Then rerun Feed Me with the new mapping, and refresh provider-location rollups if needed:
+
+```bash
+php craft sync/sync/provider-locations
+```

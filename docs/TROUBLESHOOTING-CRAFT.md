@@ -54,6 +54,7 @@ Bulk maintenance commands live in the `sync` module (`cms/modules/sync/`). Examp
 cd cms
 php craft sync/sync/provider-locations
 php craft sync/sync/repair-provider-emails
+php craft sync/sync/normalize-location-titles
 ```
 
 Run them from the host (with `.env` as above) or via `ddev craft …`.

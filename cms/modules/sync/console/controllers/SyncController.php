@@ -14,6 +14,69 @@ use yii\console\ExitCode;
 class SyncController extends Controller
 {
     /**
+     * Converts Location titles from full-address format to street-only format.
+     *
+     * By default this command runs in dry-run mode; pass `--dry-run=0` to save changes.
+     */
+    public function actionNormalizeLocationTitles(bool $dryRun = true): int
+    {
+        $locations = Entry::find()->section('locations')->all();
+
+        if ($locations === []) {
+            $this->stdout("No location entries found.\n", Console::FG_YELLOW);
+            return ExitCode::OK;
+        }
+
+        $changed = 0;
+        $skipped = 0;
+        $failed = 0;
+
+        foreach ($locations as $location) {
+            $currentTitle = trim((string) $location->title);
+            $city = trim((string) $location->getFieldValue('city'));
+            $state = trim((string) $location->getFieldValue('state'));
+            $zip = trim((string) $location->getFieldValue('zip'));
+
+            $streetTitle = $this->deriveStreetAddress($currentTitle, $city, $state, $zip);
+
+            if ($streetTitle === '' || $streetTitle === $currentTitle) {
+                $skipped++;
+                continue;
+            }
+
+            if ($dryRun) {
+                $this->stdout("DRY RUN: {$currentTitle}  =>  {$streetTitle}\n");
+                $changed++;
+                continue;
+            }
+
+            $location->title = $streetTitle;
+            if (!Craft::$app->getElements()->saveElement($location)) {
+                $this->stderr(
+                    'Could not save location ' . $location->id . ' (' . $currentTitle . '): '
+                    . json_encode($location->getErrors(), JSON_UNESCAPED_UNICODE) . PHP_EOL,
+                    Console::FG_RED
+                );
+                $failed++;
+                continue;
+            }
+
+            $this->stdout("UPDATED: {$currentTitle}  =>  {$streetTitle}\n");
+            $changed++;
+        }
+
+        $this->stdout(sprintf(
+            "\nDone: %d changed, %d skipped, %d error(s). Mode: %s.\n",
+            $changed,
+            $skipped,
+            $failed,
+            $dryRun ? 'dry-run' : 'write'
+        ));
+
+        return $failed > 0 ? ExitCode::UNSPECIFIED_ERROR : ExitCode::OK;
+    }
+
+    /**
      * Sets each provider’s Locations field from Location entries whose Provider field points at that provider.
      *
      * Safe to re-run after each bulk import (new states, Feed Me runs, etc.). Day-to-day edits in
@@ -162,5 +225,39 @@ class SyncController extends Controller
         }
 
         return filter_var($lower, FILTER_VALIDATE_EMAIL) !== false;
+    }
+
+    private function deriveStreetAddress(string $title, string $city, string $state, string $zip): string
+    {
+        $street = trim($title);
+
+        if ($street === '') {
+            return '';
+        }
+
+        if ($city !== '' && $state !== '' && $zip !== '') {
+            $cityEscaped = preg_quote($city, '/');
+            $stateEscaped = preg_quote($state, '/');
+            $zipEscaped = preg_quote($zip, '/');
+
+            $patterns = [
+                '/,\s*' . $cityEscaped . '\s*,\s*' . $stateEscaped . '\s+' . $zipEscaped . '$/iu',
+                '/,\s*' . $cityEscaped . '\s*,\s*' . $stateEscaped . '$/iu',
+            ];
+
+            foreach ($patterns as $pattern) {
+                $candidate = preg_replace($pattern, '', $street);
+                if (is_string($candidate) && trim($candidate) !== $street) {
+                    return rtrim(trim($candidate), ',');
+                }
+            }
+        }
+
+        $fallback = preg_replace('/,\s*[^,]+,\s*[A-Z]{2}\s+\d{5}(?:-\d{4})?$/u', '', $street);
+        if (is_string($fallback) && trim($fallback) !== $street) {
+            return rtrim(trim($fallback), ',');
+        }
+
+        return $street;
     }
 }

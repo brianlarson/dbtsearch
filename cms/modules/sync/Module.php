@@ -12,7 +12,8 @@ use yii\base\Module as BaseModule;
  * providers/locations via Feed Me or scripts). Add new `console/controllers/*Controller.php`
  * actions here as needed.
  *
- * Commands: `sync/sync/provider-locations`, `sync/sync/repair-provider-emails`.
+ * Commands: `sync/sync/provider-locations`, `sync/sync/repair-provider-emails`,
+ * `sync/sync/normalize-location-titles`.
  */
 class Module extends BaseModule
 {
