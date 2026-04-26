@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import LegacyPageLayout from '@/components/directory/LegacyPageLayout.vue'
+import { clearProviderPortalSession } from '@/lib/providerSession'
+
+onMounted(() => {
+  clearProviderPortalSession()
+})
 </script>
 
 <template>
