@@ -9,6 +9,7 @@ import LoginPageView from '@/views/LoginPageView.vue'
 import LogoutPageView from '@/views/LogoutPageView.vue'
 import NotFoundPageView from '@/views/NotFoundPageView.vue'
 import ProviderPortalPageView from '@/views/ProviderPortalPageView.vue'
+import { isProviderPortalLoggedIn } from '@/lib/providerSession'
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -68,6 +69,12 @@ export const router = createRouter({
       component: NotFoundPageView,
     },
   ],
+})
+
+router.beforeEach((to) => {
+  if (to.name !== 'provider-portal') return true
+  if (isProviderPortalLoggedIn()) return true
+  return { name: 'login', query: { redirect: to.fullPath } }
 })
 
 export default router

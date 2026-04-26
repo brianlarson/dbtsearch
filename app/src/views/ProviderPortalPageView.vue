@@ -5,10 +5,11 @@ import LegacyFooter from '@/components/directory/LegacyFooter.vue'
 import LegacyHeader from '@/components/directory/LegacyHeader.vue'
 import LegacyPageHeader from '@/components/directory/LegacyPageHeader.vue'
 import { applyDraftToProvider, draftFromProvider, type ProviderSelfEditDraft } from '@/lib/providerPortalAllowlist'
+import { getProviderPortalUsername } from '@/lib/providerSession'
 import { providerSelfEditMock } from '@/mocks/providerSelfEditMock'
 import type { Provider } from '@/types/provider'
 
-const username = 'asc-clinic'
+const username = getProviderPortalUsername() ?? 'Provider'
 
 function formatLocationAddress(loc: {
   address?: string
