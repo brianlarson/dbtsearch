@@ -3,7 +3,6 @@ import SplashPageView from '@/views/SplashPageView.vue'
 import DirectoryPageView from '@/views/DirectoryPageView.vue'
 import AdminPageView from '@/views/AdminPageView.vue'
 import AboutPageView from '@/views/AboutPageView.vue'
-import FaqsPageView from '@/views/FaqsPageView.vue'
 import ContactPageView from '@/views/ContactPageView.vue'
 import RegisterPageView from '@/views/RegisterPageView.vue'
 import LoginPageView from '@/views/LoginPageView.vue'
@@ -32,11 +31,6 @@ export const router = createRouter({
       path: '/about',
       name: 'about',
       component: AboutPageView,
-    },
-    {
-      path: '/faqs',
-      name: 'faqs',
-      component: FaqsPageView,
     },
     {
       path: '/contact',

@@ -5,7 +5,6 @@ import type { Provider, ProvidersQueryOptions } from '@/types/provider'
 interface CraftLocationEntry {
   id?: string | number
   title?: string
-  locationName?: string
   address?: string
   city?: string
   state?: string
@@ -104,10 +103,28 @@ function getImageUrl(entry: CraftProviderEntry): string {
   return resolveProviderLogoUrl(rawImageField(entry), getLinkUrl(entry.website))
 }
 
+function normalizeWebsiteHost(website: string): string {
+  try {
+    const { hostname } = new URL(website)
+    return hostname.toLowerCase().replace(/^www\./, '')
+  } catch {
+    return ''
+  }
+}
+
+function normalizeProviderName(name: string, website: string): string {
+  const normalizedHost = normalizeWebsiteHost(website)
+  if (normalizedHost === 'nystromcounseling.com' && /nystrom/i.test(name)) {
+    return 'Sagent Behavioral Health'
+  }
+  return name
+}
+
 function mapLocation(entry: CraftLocationEntry): Provider['locations'][number] {
   return {
     id: asString(entry.id),
-    name: asString(entry.locationName) || asString(entry.title),
+    // Provider portal "Location name" edits map to this location entry title.
+    name: asString(entry.title),
     address: asString(entry.address),
     city: asString(entry.city),
     state: asString(entry.state),
@@ -140,7 +157,7 @@ function mapEntryToProvider(entry: CraftProviderEntry): Provider {
     rawLocations = [
       {
         id: `${entry.id ?? 'row'}-loc`,
-        locationName: entry.title,
+        title: entry.title,
         address: entry.address,
         city: entry.city,
         state: entry.state,
@@ -159,7 +176,10 @@ function mapEntryToProvider(entry: CraftProviderEntry): Provider {
 
   return {
     id: asString(entry.id) || crypto.randomUUID(),
-    name: asString(entry.name) || asString(entry.title),
+    name: normalizeProviderName(
+      asString(entry.name) || asString(entry.title),
+      getLinkUrl(entry.website),
+    ),
     availability: availabilityAggregate,
     dbtaCertified: Boolean(entry.dbtaCertified ?? entry.dbta_certified),
     phone: asString(entry.phone),
@@ -181,8 +201,25 @@ function applyClientFilters(items: Provider[], options: ProvidersQueryOptions): 
   })
 }
 
+function updatedAtTimestamp(value: string): number {
+  if (!value) return 0
+  const t = Date.parse(value)
+  return Number.isNaN(t) ? 0 : t
+}
+
+/** Newest `updatedAt` first; missing/invalid dates sort last; stable tie-breaker on name. */
+function sortByUpdatedAtDesc(items: Provider[]): Provider[] {
+  return [...items].sort((a, b) => {
+    const tb = updatedAtTimestamp(b.updatedAt)
+    const ta = updatedAtTimestamp(a.updatedAt)
+    if (tb !== ta) return tb - ta
+    return a.name.localeCompare(b.name)
+  })
+}
+
 export function useProvidersQuery() {
   const providers = ref<Provider[]>([])
+  const totalProviders = ref(0)
   const isLoading = ref(false)
   const errorMessage = ref('')
   const activeDataSource = ref<'craft' | 'fallback'>('fallback')
@@ -237,7 +274,8 @@ export function useProvidersQuery() {
     try {
       try {
         const craftItems = await fetchFromCraft(options)
-        providers.value = applyClientFilters(craftItems, options)
+        totalProviders.value = craftItems.length
+        providers.value = sortByUpdatedAtDesc(applyClientFilters(craftItems, options))
         activeDataSource.value = 'craft'
         return
       } catch (craftError) {
@@ -246,10 +284,12 @@ export function useProvidersQuery() {
 
       try {
         const fallbackItems = await fetchFromLocalJson()
-        providers.value = applyClientFilters(fallbackItems, options)
+        totalProviders.value = fallbackItems.length
+        providers.value = sortByUpdatedAtDesc(applyClientFilters(fallbackItems, options))
         activeDataSource.value = 'fallback'
       } catch (fallbackError) {
         errorMessage.value = fallbackError instanceof Error ? fallbackError.message : 'Failed to load providers.'
+        totalProviders.value = 0
         providers.value = []
       }
     } finally {
@@ -259,6 +299,7 @@ export function useProvidersQuery() {
 
   return {
     providers,
+    totalProviders,
     isLoading,
     errorMessage,
     activeDataSource,

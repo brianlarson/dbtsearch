@@ -33,3 +33,9 @@
 .text-brand {
   color: #bbcefd !important;
 }
+
+/* Bootstrap form-switch: pointer on hover for input + label */
+.form-check.form-switch .form-check-input,
+.form-check.form-switch .form-check-label {
+  cursor: pointer;
+}

@@ -1,12 +1,35 @@
 <script setup lang="ts">
-withDefaults(
+import { computed } from 'vue'
+
+const props = withDefaults(
   defineProps<{
     isAdmin?: boolean
+    /** When true, primary auth control is Logout (e.g. provider portal). `isAdmin` wins if both set. */
+    showLogout?: boolean
   }>(),
   {
     isAdmin: false,
+    showLogout: false,
   },
 )
+
+const authHref = computed(() => {
+  if (props.isAdmin) return '/admin'
+  if (props.showLogout) return '/logout'
+  return '/login'
+})
+
+const authLabel = computed(() => {
+  if (props.isAdmin) return 'Admin'
+  if (props.showLogout) return 'Logout'
+  return 'Login'
+})
+
+/** Logout is outline (like Contact) to de-emphasize ending the session; Login/Admin stay solid. */
+const authButtonModifier = computed(() => {
+  if (props.showLogout && !props.isAdmin) return 'btn-outline-secondary'
+  return 'btn-secondary fw-semibold'
+})
 </script>
 
 <template>
@@ -31,28 +54,35 @@ withDefaults(
         <div class="visually-hidden">DBTsearch</div>
       </a>
 
-      <nav id="navbarNav" class="offcanvas offcanvas-start" tabindex="-1" aria-labelledby="navbarNavLabel">
-        <div class="offcanvas-header py-3">
+      <nav
+        id="navbarNav"
+        class="offcanvas offcanvas-start flex-grow-1"
+        tabindex="-1"
+        aria-labelledby="navbarNavLabel"
+      >
+        <div class="offcanvas-header py-3 d-lg-none">
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" />
         </div>
-        <div class="offcanvas-body pt-2 pb-4 py-lg-0 mx-lg-auto">
-          <ul class="navbar-nav position-relative">
-            <li class="nav-item py-lg-2 me-lg-n2 me-xl-0"><a class="nav-link" href="/providers">Providers</a></li>
-            <li class="nav-item py-lg-2 me-lg-n2 me-xl-0"><a class="nav-link" href="/about">About</a></li>
-            <li class="nav-item py-lg-2 me-lg-n2 me-xl-0"><a class="nav-link" href="/faqs">FAQs</a></li>
+        <div
+          class="offcanvas-body pt-2 pb-4 py-lg-0 d-lg-flex align-items-lg-center justify-content-lg-end flex-grow-1 gap-3"
+        >
+          <ul class="navbar-nav flex-lg-row align-items-lg-center">
+            <li class="nav-item py-lg-2">
+              <a class="nav-link" href="/providers">Providers</a>
+            </li>
+            <li class="nav-item py-lg-2">
+              <a class="nav-link" href="/about">About</a>
+            </li>
           </ul>
+          <div class="d-flex flex-wrap gap-sm-1 align-items-center">
+            <a class="btn btn-outline-secondary me-2" href="/contact">Contact</a>
+            <a class="btn" :class="[authButtonModifier, { active: isAdmin }]" :href="authHref">
+              <i v-if="isAdmin" class="fi-unlock fs-base ms-n1 me-2" />
+              {{ authLabel }}
+            </a>
+          </div>
         </div>
       </nav>
-
-      <div class="d-flex gap-sm-1">
-        <a class="btn btn-outline-secondary me-2 d-none d-md-inline" href="/contact">Contact</a>
-        <div>
-          <a class="btn btn-secondary fw-semibold" :class="{ active: isAdmin }" :href="isAdmin ? '/admin' : '/login'">
-            <i v-if="isAdmin" class="fi-unlock fs-base ms-n1 me-2" />
-            {{ isAdmin ? 'Admin' : 'Login' }}
-          </a>
-        </div>
-      </div>
     </div>
   </header>
 </template>
