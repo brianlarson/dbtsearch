@@ -6,6 +6,9 @@ const LOGOS_BASE = '/images/logos'
  * (e.g. acp-mn.com → acp-mn-com). Filenames match app/public/images/providers/.
  */
 export const PROVIDER_SCREENSHOT_BY_SLUG: Readonly<Record<string, string>> = {
+  'healthyminds-io': '/images/providers/healthyminds-io.png',
+  'hppsychological-com': '/images/providers/hppsychological-com.png',
+  'lmhc-org': '/images/providers/lmhc-org.png',
   'acp-mn-com': '/images/providers/acp-mn-com.png',
   'artofcounselingstpaul-com': '/images/providers/artofcounselingstpaul-com.jpg',
   'autonomycounseling-com': '/images/providers/autonomycounseling-com.png',
@@ -27,7 +30,8 @@ export const PROVIDER_SCREENSHOT_BY_SLUG: Readonly<Record<string, string>> = {
   'natalispsychology-com': '/images/providers/natalispsychology-com.jpg',
   'nbminnesota-com': '/images/providers/nbminnesota-com.png',
   'npmh-org': '/images/providers/npmh-org.png',
-  'nystromcounseling-com': '/images/providers/nystromcounseling-com.png',
+  'nystromcounseling-com': '/images/providers/nystromcounseling-com.svg',
+  'securebasecounselingcenter-com': '/images/providers/securebasecounselingcenter-com.png',
   'olmstedcounty-gov': '/images/providers/olmstedcounty-gov.png',
   'omnimentalhealth-com': '/images/providers/omnimentalhealth-com.png',
   'parkercollins-com': '/images/providers/parkercollins-com.png',

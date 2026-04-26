@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { inferLogoBackdropTone } from '@/lib/logoBackdrop'
 import type { Provider } from '@/types/provider'
 
 const props = defineProps<{
@@ -7,16 +8,27 @@ const props = defineProps<{
 }>()
 
 const logoLoadFailed = ref(false)
+/** Tile behind logo: light (default) or dark when the mark reads mostly light. */
+const logoBackdrop = ref<'light' | 'dark'>('light')
 
 watch(
   () => props.provider.imageUrl,
   () => {
     logoLoadFailed.value = false
+    logoBackdrop.value = 'light'
   },
 )
 
 function onLogoError() {
   logoLoadFailed.value = true
+}
+
+function onLogoLoad(event: Event) {
+  const img = event.target
+  if (!(img instanceof HTMLImageElement)) return
+  const tone = inferLogoBackdropTone(img)
+  if (tone === 'dark') logoBackdrop.value = 'dark'
+  else if (tone === 'light') logoBackdrop.value = 'light'
 }
 
 function formatAddress(provider: Provider): string {
@@ -45,7 +57,10 @@ function formatUpdatedAt(value: string): string {
     <article class="card w-100">
       <div class="row g-0">
         <div class="col-sm-4 col-md-3 rounded overflow-hidden pb-2 pb-sm-0 pe-sm-2">
-          <div class="provider-card-logo-wrap position-relative d-flex h-100 bg-white p-3 p-sm-5">
+          <div
+            class="provider-card-logo-wrap position-relative d-flex h-100 p-3 p-sm-5"
+            :class="logoBackdrop === 'dark' ? 'provider-card-logo-wrap--dark' : 'bg-white'"
+          >
             <template v-if="provider.imageUrl && !logoLoadFailed">
               <img
                 :src="provider.imageUrl"
@@ -54,6 +69,7 @@ function formatUpdatedAt(value: string): string {
                 style="max-width: 75%; max-height: 75%; width: auto; height: auto"
                 loading="lazy"
                 decoding="async"
+                @load="onLogoLoad"
                 @error="onLogoError"
               />
               <div class="ratio d-none d-sm-block" style="aspect-ratio: calc(180 / 240 * 100%)" />
@@ -139,5 +155,9 @@ function formatUpdatedAt(value: string): string {
   .provider-card-logo-wrap {
     min-height: 174px;
   }
+}
+
+.provider-card-logo-wrap--dark {
+  background-color: #252b38;
 }
 </style>

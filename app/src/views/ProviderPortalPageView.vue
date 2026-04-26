@@ -6,11 +6,16 @@ import LegacyHeader from '@/components/directory/LegacyHeader.vue'
 import LegacyPageHeader from '@/components/directory/LegacyPageHeader.vue'
 import { applyDraftToProvider, draftFromProvider, type ProviderSelfEditDraft } from '@/lib/providerPortalAllowlist'
 import { providerSelfEditMock } from '@/mocks/providerSelfEditMock'
-import type { Provider, ProviderLocation } from '@/types/provider'
+import type { Provider } from '@/types/provider'
 
 const username = 'asc-clinic'
 
-function formatLocationAddress(loc: Pick<ProviderLocation, 'address' | 'city' | 'state' | 'zip'>): string {
+function formatLocationAddress(loc: {
+  address?: string
+  city?: string
+  state?: string
+  zip?: string
+}): string {
   const line1 = loc.address?.trim() ?? ''
   const cityStateZip = [loc.city, loc.state, loc.zip].filter(Boolean).join(' ').trim()
   return [line1, cityStateZip].filter(Boolean).join(', ')
@@ -27,9 +32,6 @@ const hasUnsavedChanges = ref(false)
 
 /** Rarely edited: practice phone / email / website */
 const practiceDetailsOpen = ref(false)
-/** Per location: address + location contact fields */
-const locationDetailsOpen = reactive<Record<string, boolean>>({})
-
 let suppressDirtyWatch = 0
 const lastSavedDraftSignature = ref('')
 
@@ -42,20 +44,17 @@ const sessionStatusLine = computed(() => {
   return `No session save yet · preview opened ${fmt(sessionOpenedAt.value)}`
 })
 
+const listingPageHeading = computed(() => {
+  const name = draft.name.trim()
+  return name || 'My listing'
+})
+
 function serializeDraft(): string {
   return JSON.stringify(draft)
 }
 
 function togglePracticeDetails() {
   practiceDetailsOpen.value = !practiceDetailsOpen.value
-}
-
-function isLocationDetailsOpen(id: string): boolean {
-  return Boolean(locationDetailsOpen[id])
-}
-
-function toggleLocationDetails(id: string) {
-  locationDetailsOpen[id] = !isLocationDetailsOpen(id)
 }
 
 function persistToSession() {
@@ -112,9 +111,6 @@ function resetDraft() {
   savedFlash.value = false
   sessionOpenedAt.value = Date.now()
   practiceDetailsOpen.value = false
-  for (const key of Object.keys(locationDetailsOpen)) {
-    delete locationDetailsOpen[key]
-  }
 }
 
 function dismissSaveBanner() {
@@ -122,6 +118,7 @@ function dismissSaveBanner() {
 }
 
 function handleSave() {
+  if (!hasUnsavedChanges.value) return
   persistToSession()
   savedFlash.value = true
   nextTick(() => {
@@ -136,12 +133,12 @@ onBeforeRouteLeave(() => {
 </script>
 
 <template>
-  <LegacyHeader />
+  <LegacyHeader show-logout />
 
   <main class="content-wrapper">
     <LegacyPageHeader
-      page-heading="My listing"
-      page-subheading="Update your directory entry"
+      :page-heading="listingPageHeading"
+      page-subheading="Listing Management"
       compact-below
     />
 
@@ -155,26 +152,51 @@ onBeforeRouteLeave(() => {
             <div class="d-md-flex align-items-start justify-content-between w-100 gap-3">
               <div class="flex-grow-1 min-w-0">
                 <h1 class="h3 mb-2">Edit your listing</h1>
-                <div class="d-flex flex-wrap align-items-center gap-2 mt-1">
-                  <span
-                    v-if="hasUnsavedChanges"
-                    class="badge border border-warning-subtle text-warning-emphasis bg-warning-subtle fw-normal"
-                  >
-                    Unsaved changes
-                  </span>
-                  <p class="small text-body-secondary mb-0">{{ sessionStatusLine }}</p>
-                </div>
+                <p class="portal-session-status small text-body-secondary mb-0 mt-1">{{ sessionStatusLine }}</p>
+                <span
+                  class="portal-pending-chip badge border fs-sm fw-normal d-inline-block"
+                  :class="
+                    hasUnsavedChanges
+                      ? 'border-warning-subtle text-warning-emphasis bg-warning-subtle'
+                      : 'border-secondary-subtle text-body-secondary bg-body-secondary bg-opacity-25'
+                  "
+                  role="status"
+                  aria-live="polite"
+                >
+                  {{ hasUnsavedChanges ? 'Pending changes' : 'No changes pending' }}
+                </span>
               </div>
               <div class="text-light-subtle mb-n1 flex-shrink-0 text-md-end">
-                <em>Logged in as {{ username }}</em>
-                <a class="btn btn-sm btn-outline-secondary ms-3" href="/logout">Logout</a>
+                <div>
+                  <em>Logged in as {{ username }}</em>
+                </div>
+                <div
+                  class="d-flex flex-wrap gap-2 justify-content-md-end align-items-center portal-toolbar-actions"
+                >
+                  <button
+                    type="submit"
+                    form="provider-portal-form"
+                    class="btn fw-semibold"
+                    :class="hasUnsavedChanges ? 'btn-portal-save-active' : 'btn-secondary'"
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    form="provider-portal-form"
+                    class="btn btn-outline-secondary"
+                    @click="resetDraft"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
             </div>
 
             <div
               v-if="savedFlash"
               ref="saveAlertRef"
-              class="alert alert-success border border-success shadow-sm mt-3 mb-0 py-3 px-3 px-md-4"
+              class="alert alert-success border border-success rounded shadow-sm mt-3 mb-0 py-3 px-3 px-md-4"
               style="scroll-margin-top: 6rem"
               role="status"
               aria-live="polite"
@@ -193,27 +215,14 @@ onBeforeRouteLeave(() => {
             <div class="list-group">
               <div class="list-group-item p-4 p-md-5">
                 <div>
-                  <form class="form" @submit.prevent="handleSave">
+                  <form id="provider-portal-form" class="form" @submit.prevent="handleSave">
                     <div class="row">
-                      <div class="col-md-8 mb-3">
+                      <div class="col-12 mb-3">
                         <label for="portal-name" class="form-label">Practice / listing name</label>
-                        <input id="portal-name" v-model="draft.name" type="text" class="form-control w-full" required />
+                        <input id="portal-name" v-model="draft.name" type="text" class="form-control w-100" required />
                       </div>
 
-                      <div class="col-md-8 mb-3">
-                        <div class="form-check form-switch pb-2 mb-lg-2">
-                          <input
-                            id="portal-dbta"
-                            v-model="draft.dbtaCertified"
-                            type="checkbox"
-                            class="form-check-input"
-                            role="switch"
-                          />
-                          <label for="portal-dbta" class="form-check-label ms-1">DBT-A Certified</label>
-                        </div>
-                      </div>
-
-                      <div class="col-md-8 mb-2">
+                      <div class="col-12 mb-2">
                         <button
                           type="button"
                           class="btn btn-sm btn-outline-secondary"
@@ -259,12 +268,6 @@ onBeforeRouteLeave(() => {
                             <div class="border rounded p-3 p-md-4 h-100">
                               <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-2">
                                 <div class="h3 mb-0 text-brand min-w-0">{{ loc.name }}</div>
-                                <span
-                                  v-if="loc.id === provider.primaryLocation.id"
-                                  class="badge text-secondary border border-secondary flex-shrink-0"
-                                >
-                                  Primary
-                                </span>
                               </div>
                               <div class="d-block fs-md text-body mb-3">
                                 {{ formatLocationAddress(loc) }}
@@ -283,23 +286,7 @@ onBeforeRouteLeave(() => {
                                 </label>
                               </div>
 
-                              <div class="mb-2">
-                                <button
-                                  type="button"
-                                  class="btn btn-sm btn-outline-secondary"
-                                  :aria-expanded="isLocationDetailsOpen(loc.id)"
-                                  :aria-controls="`portal-loc-details-${loc.id}`"
-                                  @click="toggleLocationDetails(loc.id)"
-                                >
-                                  {{ isLocationDetailsOpen(loc.id) ? 'Hide details' : 'Edit details' }}
-                                </button>
-                              </div>
-
-                              <div
-                                v-show="isLocationDetailsOpen(loc.id)"
-                                :id="`portal-loc-details-${loc.id}`"
-                                class="row g-3 pt-3 mt-2"
-                              >
+                              <div class="row g-3 pt-2 mt-1">
                                 <div class="col-12">
                                   <label class="form-label" :for="`portal-loc-name-${loc.id}`">Location name</label>
                                   <input
@@ -309,83 +296,12 @@ onBeforeRouteLeave(() => {
                                     class="form-control w-full"
                                   />
                                 </div>
-                                <div class="col-12">
-                                  <label class="form-label" :for="`portal-loc-address-${loc.id}`">Street address</label>
-                                  <input
-                                    :id="`portal-loc-address-${loc.id}`"
-                                    v-model="loc.address"
-                                    type="text"
-                                    class="form-control w-full"
-                                  />
-                                </div>
-                                <div class="col-12 col-md-5">
-                                  <label class="form-label" :for="`portal-loc-city-${loc.id}`">City</label>
-                                  <input
-                                    :id="`portal-loc-city-${loc.id}`"
-                                    v-model="loc.city"
-                                    type="text"
-                                    class="form-control w-full"
-                                  />
-                                </div>
-                                <div class="col-6 col-md-3">
-                                  <label class="form-label" :for="`portal-loc-state-${loc.id}`">State</label>
-                                  <input
-                                    :id="`portal-loc-state-${loc.id}`"
-                                    v-model="loc.state"
-                                    type="text"
-                                    class="form-control w-full"
-                                  />
-                                </div>
-                                <div class="col-6 col-md-4">
-                                  <label class="form-label" :for="`portal-loc-zip-${loc.id}`">ZIP</label>
-                                  <input
-                                    :id="`portal-loc-zip-${loc.id}`"
-                                    v-model="loc.zip"
-                                    type="text"
-                                    class="form-control w-full"
-                                  />
-                                </div>
-                                <div class="col-12 col-md-6">
-                                  <label class="form-label" :for="`portal-loc-phone-${loc.id}`">Location phone</label>
-                                  <input
-                                    :id="`portal-loc-phone-${loc.id}`"
-                                    v-model="loc.phone"
-                                    type="text"
-                                    class="form-control w-full"
-                                  />
-                                </div>
-                                <div class="col-12 col-md-6">
-                                  <label class="form-label" :for="`portal-loc-email-${loc.id}`">Location email</label>
-                                  <input
-                                    :id="`portal-loc-email-${loc.id}`"
-                                    v-model="loc.email"
-                                    type="email"
-                                    class="form-control w-full"
-                                  />
-                                </div>
-                                <div class="col-12">
-                                  <label class="form-label" :for="`portal-loc-website-${loc.id}`">Location website</label>
-                                  <input
-                                    :id="`portal-loc-website-${loc.id}`"
-                                    v-model="loc.website"
-                                    type="url"
-                                    class="form-control w-full"
-                                  />
-                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div class="col-12 mb-3 mt-4">
-                        <div>
-                          <button type="submit" class="btn btn-secondary d-inline me-3">Save changes</button>
-                          <button type="button" class="btn btn-outline-secondary d-inline me-3" @click="resetDraft">
-                            Reset
-                          </button>
-                        </div>
-                      </div>
                     </div>
                   </form>
                 </div>
@@ -402,3 +318,41 @@ onBeforeRouteLeave(() => {
 
   <LegacyFooter />
 </template>
+
+<style scoped>
+.portal-session-status {
+  padding-top: 7px;
+  padding-bottom: 16px;
+}
+
+/* Width hugs label text; not full column */
+.portal-pending-chip {
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 8px;
+}
+
+.portal-toolbar-actions {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.btn-portal-save-active {
+  --portal-save-fg: #0b2239;
+  background-color: #2ba471;
+  border-color: #258a5f;
+  color: var(--portal-save-fg);
+}
+
+.btn-portal-save-active:hover:not(:disabled) {
+  background-color: #248f62;
+  border-color: #1e7a54;
+  color: var(--portal-save-fg);
+}
+
+.btn-portal-save-active:focus-visible {
+  box-shadow: 0 0 0 0.25rem rgba(43, 164, 113, 0.45);
+  color: var(--portal-save-fg);
+}
+</style>
