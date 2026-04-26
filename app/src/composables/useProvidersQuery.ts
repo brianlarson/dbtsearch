@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { resolveProviderLogoUrl } from '@/lib/providerLogo'
+import { publicPath } from '@/lib/publicPath'
 import type { Provider, ProvidersQueryOptions } from '@/types/provider'
 
 interface CraftLocationEntry {
@@ -258,7 +259,7 @@ export function useProvidersQuery() {
   }
 
   async function fetchFromLocalJson(): Promise<Provider[]> {
-    const response = await fetch('/data/dbt-providers.json')
+    const response = await fetch(publicPath('data/dbt-providers.json'))
     if (!response.ok) {
       throw new Error(`Local provider fallback failed with HTTP ${response.status}`)
     }

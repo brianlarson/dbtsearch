@@ -61,6 +61,11 @@ Current MVP roadmap for DBTsearch directory + provider portal.
 
 ## Post-MVP Backlog
 
+- **Public contact form (not MVP)**
+  - Simple fields: Name, Email, Comments — all required.
+  - **Formie first** in Craft (handles, notifications, spam); then wire the UI.
+  - If the form lives in the Vue SPA, plan for CSRF + POST to Formie (or Craft-rendered form / same pattern as splash) — see prior discussion; no GraphQL form path in repo today.
+
 - **Provider logo & logo tile (portal + Craft)**
   - Let provider users change their listing logo: Craft Assets field on the provider entry, volume/permissions scoped to provider users (or CP-only uploads in a first phase); optional lighter “logo URL” field if upload API is deferred.
   - **Dark vs light logo background:** Lightswitch (or equivalent) on the provider entry so the directory can force the white or dark tile; when set, override the client-side luminance heuristic on cards.

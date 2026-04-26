@@ -12,7 +12,7 @@ import ProviderPortalPageView from '@/views/ProviderPortalPageView.vue'
 import { isProviderPortalLoggedIn } from '@/lib/providerSession'
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
