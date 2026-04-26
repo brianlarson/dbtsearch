@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 import LegacyPageLayout from '@/components/directory/LegacyPageLayout.vue'
 import { clearProviderPortalSession } from '@/lib/providerSession'
 
@@ -13,7 +14,7 @@ onMounted(() => {
     <p class="fs-base">
       You are now logged out of the system.
       <br />
-      <a class="text-brand" href="/login">Click here</a> if you would like to login again.
+      <RouterLink class="text-brand" to="/login">Click here</RouterLink> if you would like to login again.
     </p>
   </LegacyPageLayout>
 </template>

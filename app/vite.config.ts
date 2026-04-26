@@ -2,12 +2,12 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 
-const craftWebVue = fileURLToPath(new URL('../cms/web/vue', import.meta.url))
+const craftWebFind = fileURLToPath(new URL('../cms/web/find', import.meta.url))
 
 export default defineConfig(({ mode }) => ({
   plugins: [vue()],
-  /** Production build is served under Craft at https://www.dbtsearch.org/vue/ */
-  base: mode === 'production' ? '/vue/' : '/',
+  /** Production SPA lives at https://www.dbtsearch.org/find/ (Craft on same host). */
+  base: mode === 'production' ? '/find/' : '/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => ({
   build:
     mode === 'production'
       ? {
-          outDir: craftWebVue,
+          outDir: craftWebFind,
           emptyOutDir: true,
         }
       : undefined,

@@ -87,9 +87,9 @@ function formatUpdatedAt(value: string): string {
         </div>
         <div class="col-sm-8 col-md-9 align-self-center">
           <div
-            class="card-body d-flex flex-column flex-sm-row justify-content-between align-items-start p-3 py-sm-4 ps-sm-2 ps-md-3 pe-md-4 mt-n1 mt-sm-0 gap-3"
+            class="card-body d-flex flex-column flex-md-row justify-content-between align-items-start p-3 py-sm-4 ps-sm-2 ps-md-3 pe-md-4 mt-n1 mt-sm-0 gap-3"
           >
-            <div class="position-relative pe-sm-3 flex-grow-1 min-w-0">
+            <div class="position-relative pe-md-3 flex-grow-1 min-w-0">
               <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
                 <span
                   class="badge fs-sm border"
@@ -132,7 +132,7 @@ function formatUpdatedAt(value: string): string {
                 </a>
               </div>
             </div>
-            <div class="text-start text-sm-end flex-shrink-0 align-self-sm-start ms-sm-auto">
+            <div class="text-start text-md-end flex-shrink-0 align-self-md-start ms-md-auto">
               <div class="text-body-secondary font-monospace">
                 <span class="fs-xs">Last updated</span>
                 <br />

@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { RouterLink } from 'vue-router'
+import { publicPath } from '@/lib/publicPath'
+</script>
+
 <template>
   <section class="position-relative bg-dark py-5">
     <div class="container position-relative z-2 py-2 py-sm-4">
@@ -10,17 +15,17 @@
             DBTsearch is a website that allows clinicians and prospective clients to search for certified DBT providers in
             Minnesota and more specifically, locate providers that have current availability.
           </p>
-          <a href="/providers" class="btn btn-lg btn-primary mt-3">
+          <RouterLink to="/providers" class="btn btn-lg btn-primary mt-3">
             Find DBT Providers
             <i class="fi-arrow-right fs-base ms-2" />
-          </a>
+          </RouterLink>
         </div>
       </div>
     </div>
     <div class="row position-absolute top-0 end-0 w-100 h-100 justify-content-end g-0">
       <div class="col-md-6 position-relative">
         <img
-          src="/images/pexels-steve-1690351.jpg"
+          :src="publicPath('images/pexels-steve-1690351.jpg')"
           class="position-absolute top-0 end-0 w-100 h-100 object-fit-cover"
           alt="Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'"
         />

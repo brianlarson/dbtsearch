@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router'
 import LegacyPageLayout from '@/components/directory/LegacyPageLayout.vue'
 </script>
 
@@ -26,9 +27,9 @@ import LegacyPageLayout from '@/components/directory/LegacyPageLayout.vue'
       with current availability appear first. Clients get faster access to treatment, providers have more time, and
       treatment programs remain full: win-win-win!
     </p>
-    <a href="/providers" class="btn btn-lg btn-primary mt-3">
+    <RouterLink to="/providers" class="btn btn-lg btn-primary mt-3">
       Find DBT Providers
       <i class="fi-arrow-right fs-base ms-2" />
-    </a>
+    </RouterLink>
   </LegacyPageLayout>
 </template>

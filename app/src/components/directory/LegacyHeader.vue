@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
+import { publicPath } from '@/lib/publicPath'
 
 const props = withDefaults(
   defineProps<{
@@ -46,13 +48,26 @@ const authButtonModifier = computed(() => {
         <span class="navbar-toggler-icon" />
       </button>
 
-      <a class="navbar-brand py-1 py-md-2 py-xl-1 me-2 me-sm-n4 me-md-n5 me-lg-0" href="/">
+      <RouterLink
+        class="navbar-brand py-1 py-md-2 py-xl-1 me-2 me-sm-n4 me-md-n5 me-lg-0"
+        to="/"
+      >
         <span class="d-flex flex-shrink-0 text-secondary rtl-flip me-2">
-          <img src="/images/dbtsearch-logo.svg" alt="DBTsearch" class="d-md-none" style="max-width: 170px" />
-          <img src="/images/dbtsearch-logo.svg" alt="DBTsearch" class="d-none d-md-block" style="max-width: 280px" />
+          <img
+            :src="publicPath('images/dbtsearch-logo.svg')"
+            alt="DBTsearch"
+            class="d-md-none"
+            style="max-width: 170px"
+          />
+          <img
+            :src="publicPath('images/dbtsearch-logo.svg')"
+            alt="DBTsearch"
+            class="d-none d-md-block"
+            style="max-width: 280px"
+          />
         </span>
         <div class="visually-hidden">DBTsearch</div>
-      </a>
+      </RouterLink>
 
       <nav
         id="navbarNav"
@@ -68,29 +83,29 @@ const authButtonModifier = computed(() => {
         >
           <ul class="navbar-nav flex-lg-row align-items-lg-center gap-1 gap-lg-0">
             <li class="nav-item py-1 py-lg-2">
-              <a class="nav-link" href="/providers">Providers</a>
+              <RouterLink class="nav-link" to="/providers">Providers</RouterLink>
             </li>
             <li class="nav-item py-1 py-lg-2">
-              <a class="nav-link" href="/about">About</a>
+              <RouterLink class="nav-link" to="/about">About</RouterLink>
             </li>
           </ul>
           <div
             class="d-flex flex-nowrap gap-2 align-items-center justify-content-between justify-content-lg-start w-100 w-lg-auto"
           >
-            <a
+            <RouterLink
               class="btn btn-outline-secondary flex-grow-1 flex-lg-grow-0 me-lg-2"
-              href="/contact"
+              to="/contact"
             >
               Contact
-            </a>
-            <a
+            </RouterLink>
+            <RouterLink
               class="btn flex-grow-1 flex-lg-grow-0"
               :class="[authButtonModifier, { active: isAdmin }]"
-              :href="authHref"
+              :to="authHref"
             >
               <i v-if="isAdmin" class="fi-unlock fs-base ms-n1 me-2" />
               {{ authLabel }}
-            </a>
+            </RouterLink>
           </div>
         </div>
       </nav>

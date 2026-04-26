@@ -128,7 +128,7 @@ watch(onlyAvailable, (value) => {
 
 /* Avoid Finder’s padding + negative margin switch math (clips at column / sticky edges). */
 .directory-toolbar-switch-wrap {
-  padding-inline-start: max(0.45rem, env(safe-area-inset-left, 0px));
+  padding-inline-start: 0;
   padding-block: 3px;
   overflow: visible;
 }

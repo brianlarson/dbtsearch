@@ -9,6 +9,7 @@ import LoginPageView from '@/views/LoginPageView.vue'
 import LogoutPageView from '@/views/LogoutPageView.vue'
 import NotFoundPageView from '@/views/NotFoundPageView.vue'
 import ProviderPortalPageView from '@/views/ProviderPortalPageView.vue'
+import { isFindDirectoryEngaged, setFindDirectoryEngaged } from '@/lib/findEngagementCookie'
 import { isProviderPortalLoggedIn } from '@/lib/providerSession'
 
 export const router = createRouter({
@@ -72,9 +73,20 @@ export const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  if (to.name === 'splash') {
+    const stayOnSplash = 'splash' in to.query || 'home' in to.query
+    if (!stayOnSplash && isFindDirectoryEngaged()) {
+      return { name: 'directory', replace: true }
+    }
+  }
+
   if (to.name !== 'provider-portal') return true
   if (isProviderPortalLoggedIn()) return true
   return { name: 'login', query: { redirect: to.fullPath } }
+})
+
+router.afterEach((to) => {
+  if (to.name === 'directory') setFindDirectoryEngaged()
 })
 
 export default router

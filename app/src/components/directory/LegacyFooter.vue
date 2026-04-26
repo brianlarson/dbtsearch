@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import CookieConsentBar from '@/components/CookieConsentBar.vue'
+
 const year = new Date().getFullYear()
 </script>
 
 <template>
   <footer class="footer bg-body border-top my-5">
     <div class="container pt-5">
+      <CookieConsentBar />
       <p class="text-center fw-thin fs-6 mb-3">
         <span class="fw-bold">DBTsearch</span> is powered by
         <a
