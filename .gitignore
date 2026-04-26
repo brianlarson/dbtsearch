@@ -72,6 +72,13 @@ frontend/storybook-static/
 frontend/test-results/
 frontend/playwright-report/
 
+# Vue app production build (run `pnpm --dir app build` before deploy)
+cms/web/find/
+cms/web/vue/
+
+# TypeScript incremental build info (local noise)
+*.tsbuildinfo
+
 # Craft CMS (stack-rewrite, cms/)
 cms/vendor/
 cms/.env

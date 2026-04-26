@@ -1,6 +1,14 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    RewriteRule ^find$ /find/ [R=301,L]
+
+    # Vue SPA at /find/: deep links and refresh must serve the static app (not Craft).
+    RewriteCond %{REQUEST_URI} ^/find/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^find/ find/index.html [L]
+
     # Route 404s to index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

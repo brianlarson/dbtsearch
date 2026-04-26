@@ -6,8 +6,8 @@ const year = new Date().getFullYear()
 
 <template>
   <footer class="footer bg-body border-top my-5">
+    <CookieConsentBar />
     <div class="container pt-5">
-      <CookieConsentBar />
       <p class="text-center fw-thin fs-6 mb-3">
         <span class="fw-bold">DBTsearch</span> is powered by
         <a

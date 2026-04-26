@@ -1,16 +1,30 @@
 <script setup lang="ts">
-withDefaults(
+import { computed } from 'vue'
+import { publicPath } from '@/lib/publicPath'
+
+const props = withDefaults(
   defineProps<{
     pageHeading?: string
     pageSubheading?: string
+    /** Path under `public/` (e.g. `images/foo.jpg` or `/images/foo.jpg`) or absolute http(s) URL */
     heroImageUrl?: string
     /** Less margin below the heading block (e.g. directory filter sits close under the rule) */
     compactBelow?: boolean
   }>(),
   {
-    heroImageUrl: '/images/pexels-steve-1690351.jpg',
+    compactBelow: false,
   },
 )
+
+const resolvedHeroImageUrl = computed(() => {
+  const url = props.heroImageUrl
+  if (url) {
+    if (/^https?:\/\//i.test(url)) return url
+    const path = url.startsWith('/') ? url.slice(1) : url
+    return publicPath(path)
+  }
+  return publicPath('images/pexels-steve-1690351.jpg')
+})
 </script>
 
 <template>
@@ -19,7 +33,7 @@ withDefaults(
     <div class="row position-absolute top-0 end-0 w-100 h-100 justify-content-end g-0">
       <div class="col-md-6 position-relative">
         <img
-          :src="heroImageUrl"
+          :src="resolvedHeroImageUrl"
           class="position-absolute top-0 end-0 w-100 h-100 object-fit-cover"
           alt="Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'"
         />
