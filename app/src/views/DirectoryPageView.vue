@@ -5,9 +5,13 @@ import LegacyFooter from '@/components/directory/LegacyFooter.vue'
 import LegacyHeader from '@/components/directory/LegacyHeader.vue'
 import LegacyPageHeader from '@/components/directory/LegacyPageHeader.vue'
 import { useProvidersQuery } from '@/composables/useProvidersQuery'
+import {
+  readDirectoryOnlyAvailableCookie,
+  writeDirectoryOnlyAvailableCookie,
+} from '@/lib/directoryOnlyAvailableCookie'
 
 const { providers, totalProviders, isLoading, errorMessage, fetchProviders } = useProvidersQuery()
-const onlyAvailable = ref(false)
+const onlyAvailable = ref(readDirectoryOnlyAvailableCookie() ?? true)
 const showBackToTop = ref(false)
 
 const resultsLabel = computed(() => {
@@ -34,6 +38,7 @@ function loadProviders() {
 }
 
 onMounted(() => {
+  writeDirectoryOnlyAvailableCookie(onlyAvailable.value)
   loadProviders()
   onScroll()
   window.addEventListener('scroll', onScroll, { passive: true })
@@ -45,7 +50,10 @@ onUnmounted(() => {
   window.removeEventListener('resize', onScroll)
 })
 
-watch(onlyAvailable, loadProviders)
+watch(onlyAvailable, (value) => {
+  writeDirectoryOnlyAvailableCookie(value)
+  loadProviders()
+})
 </script>
 
 <template>
@@ -57,28 +65,35 @@ watch(onlyAvailable, loadProviders)
       page-subheading="DBT Providers in Minnesota"
       compact-below
     />
-    <div class="directory-sticky-toolbar sticky-top bg-body shadow-sm mb-3">
+    <div
+      class="directory-sticky-toolbar sticky-top bg-body text-body border-bottom shadow-sm mb-3"
+    >
       <div class="container py-3">
-        <div class="d-flex align-items-center justify-content-between gap-3 mx-2">
-          <div class="d-flex align-items-center min-w-0">
-            <span
-              class="directory-sticky-toolbar__toggler-ghost flex-shrink-0 d-lg-none me-3"
-              aria-hidden="true"
-            />
-            <div class="form-check form-switch m-0">
-              <input
-                id="available-only"
-                v-model="onlyAvailable"
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-              />
-              <label class="form-check-label small text-body-secondary" for="available-only">
-                Availability only
-              </label>
+        <!-- Same grid as LegacyPageHeader so filter lines up with the h1 / col-12 copy -->
+        <div class="row justify-content-center overflow-visible">
+          <div class="col-12 overflow-visible">
+            <div class="d-flex align-items-center w-100 gap-3">
+              <div class="d-flex align-items-center justify-content-start flex-grow-0 flex-shrink-0 me-auto">
+                <div class="directory-toolbar-switch-wrap">
+                  <div class="form-check form-switch directory-toolbar-form-switch m-0">
+                    <input
+                      id="available-only"
+                      v-model="onlyAvailable"
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                    />
+                    <label class="form-check-label text-body fs-6 fw-medium" for="available-only">
+                      Has availability
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <p class="small text-body-secondary mb-0 text-end flex-shrink-1 min-w-0">
+                {{ resultsLabel }}
+              </p>
             </div>
           </div>
-          <p class="small text-body-secondary mb-0 text-end flex-shrink-0">{{ resultsLabel }}</p>
         </div>
       </div>
     </div>
@@ -107,14 +122,36 @@ watch(onlyAvailable, loadProviders)
 .directory-sticky-toolbar {
   top: var(--directory-sticky-navbar-offset);
   z-index: 1020;
+  /* Finder switch uses negative margin-left; avoid clipping when flex ancestors shrink. */
+  overflow-x: visible;
 }
 
-/* Same horizontal inset as DBTsearch logo: navbar toggler + me-3 below lg (toggler hidden .navbar-expand-lg). */
-.directory-sticky-toolbar__toggler-ghost {
-  width: 2.5rem;
-  height: 2.5rem;
-  visibility: hidden;
-  pointer-events: none;
+/* Avoid Finder’s padding + negative margin switch math (clips at column / sticky edges). */
+.directory-toolbar-switch-wrap {
+  padding-inline-start: max(0.45rem, env(safe-area-inset-left, 0px));
+  padding-block: 3px;
+  overflow: visible;
+}
+
+.directory-toolbar-form-switch {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.625rem;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-bottom: 0 !important;
+  min-height: 0 !important;
+}
+
+.directory-toolbar-form-switch .form-check-input {
+  float: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  flex-shrink: 0;
+  position: relative;
+  transform: translate(2px, 1px);
 }
 
 .directory-back-to-top {
