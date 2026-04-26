@@ -34,7 +34,7 @@ const authButtonModifier = computed(() => {
 
 <template>
   <header class="navbar navbar-expand-lg bg-body navbar-sticky sticky-top z-fixed px-0">
-    <div class="container">
+    <div class="container d-flex flex-wrap align-items-center">
       <button
         type="button"
         class="navbar-toggler me-3 me-lg-0"
@@ -56,7 +56,7 @@ const authButtonModifier = computed(() => {
 
       <nav
         id="navbarNav"
-        class="offcanvas offcanvas-start flex-grow-1"
+        class="legacy-header-offcanvas offcanvas offcanvas-start flex-grow-1 w-lg-auto ms-lg-auto"
         tabindex="-1"
         aria-labelledby="navbarNavLabel"
       >
@@ -64,19 +64,30 @@ const authButtonModifier = computed(() => {
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" />
         </div>
         <div
-          class="offcanvas-body pt-2 pb-4 py-lg-0 d-lg-flex align-items-lg-center justify-content-lg-end flex-grow-1 gap-3"
+          class="offcanvas-body pt-3 pb-4 py-lg-0 d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center justify-content-lg-end flex-grow-1 gap-3"
         >
-          <ul class="navbar-nav flex-lg-row align-items-lg-center">
-            <li class="nav-item py-lg-2">
+          <ul class="navbar-nav flex-lg-row align-items-lg-center gap-1 gap-lg-0">
+            <li class="nav-item py-1 py-lg-2">
               <a class="nav-link" href="/providers">Providers</a>
             </li>
-            <li class="nav-item py-lg-2">
+            <li class="nav-item py-1 py-lg-2">
               <a class="nav-link" href="/about">About</a>
             </li>
           </ul>
-          <div class="d-flex flex-wrap gap-sm-1 align-items-center">
-            <a class="btn btn-outline-secondary me-2" href="/contact">Contact</a>
-            <a class="btn" :class="[authButtonModifier, { active: isAdmin }]" :href="authHref">
+          <div
+            class="d-flex flex-nowrap gap-2 align-items-center justify-content-between justify-content-lg-start w-100 w-lg-auto"
+          >
+            <a
+              class="btn btn-outline-secondary flex-grow-1 flex-lg-grow-0 me-lg-2"
+              href="/contact"
+            >
+              Contact
+            </a>
+            <a
+              class="btn flex-grow-1 flex-lg-grow-0"
+              :class="[authButtonModifier, { active: isAdmin }]"
+              :href="authHref"
+            >
               <i v-if="isAdmin" class="fi-unlock fs-base ms-n1 me-2" />
               {{ authLabel }}
             </a>
@@ -86,3 +97,21 @@ const authButtonModifier = computed(() => {
     </div>
   </header>
 </template>
+
+<style scoped>
+/*
+ * Desktop: Finder sets .navbar-expand-lg .offcanvas { flex-grow: 1 } without pinning the block right.
+ * Container is a flex row + ms-lg-auto on the nav; force-grow 0 / width auto so the cluster sits flush right.
+ */
+@media (min-width: 992px) {
+  .legacy-header-offcanvas {
+    display: flex !important;
+    justify-content: flex-end !important;
+    flex-grow: 0 !important;
+    flex-basis: auto !important;
+    width: auto !important;
+    max-width: none !important;
+    margin-left: auto !important;
+  }
+}
+</style>
