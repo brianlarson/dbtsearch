@@ -1,3 +1,35 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+ * Bootstrap 5 "Finder" theme overrides
+ * https://themes.getbootstrap.com/product/finder-directory-listings-template-ui-kit
+ */
+
+:root {
+  /* Pull secondary stickies slightly under the main nav so the bar and shadow overlap the seam. */
+  --sticky-secondary-overlap: 0.45rem;
+  /* Sticky directory filter: under LegacyHeader (navbar-sticky + z-fixed ~1030). */
+  --directory-sticky-navbar-offset: calc(
+    env(safe-area-inset-top, 0px) + 5.25rem - var(--sticky-secondary-overlap)
+  );
+  /* Portal toolbar uses same clearance as directory filter (4.25rem was too short — nav clipped the heading). */
+  --portal-sticky-toolbar-top: var(--directory-sticky-navbar-offset);
+}
+
+@media (min-width: 576px) {
+  :root {
+    --directory-sticky-navbar-offset: calc(
+      env(safe-area-inset-top, 0px) + 5.5rem - var(--sticky-secondary-overlap)
+    );
+  }
+}
+
+@media (min-width: 992px) {
+  :root {
+    --directory-sticky-navbar-offset: calc(
+      env(safe-area-inset-top, 0px) + 5.75rem - var(--sticky-secondary-overlap)
+    );
+  }
+}
+
+.text-brand {
+  color: #bbcefd !important;
+}

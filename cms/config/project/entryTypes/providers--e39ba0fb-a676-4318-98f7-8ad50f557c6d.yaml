@@ -204,6 +204,41 @@ fieldLayouts:
         name: Content
         uid: d0f1c3be-0a1d-4f4d-910a-22ca53c03ae0
         userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-25T17:30:00+00:00'
+            editCondition:
+              class: craft\elements\conditions\users\UserCondition
+              conditionRules:
+                -
+                  class: craft\elements\conditions\users\AdminConditionRule
+                  uid: 5c376ea6-c9b0-4591-82eb-d6967b2bbbbf
+                  value: true
+                -
+                  class: craft\elements\conditions\users\FirstNameConditionRule
+                  operator: '='
+                  uid: 41eccb33-540c-4721-bd65-dff6b2bc2b3d
+                  value: XXXXXX
+              elementType: craft\elements\User
+              fieldContext: global
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9b2d4e9a-6c8f-4d7b-a123-5e6f708192ab # Source Provider ID
+            handle: sourceProviderId
+            instructions: null
+            label: 'Source Provider ID'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 81de9238-f4b3-4f63-9b2d-4e9a6c8f4d7b
+            userCondition: null
+            warning: null
+            width: 50
+        name: '⚙ Admin'
+        uid: ca92e195-91cf-477e-8dd7-7c1b1b5d4f28
+        userCondition: null
     thumbFieldKey: 'layoutElement:0b6d25d9-12fc-4b23-aa98-c78900e90ff6'
 handle: providers
 hasTitleField: true

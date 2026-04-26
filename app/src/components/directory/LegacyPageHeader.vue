@@ -4,32 +4,46 @@ withDefaults(
     pageHeading?: string
     pageSubheading?: string
     heroImageUrl?: string
+    /** Less margin below the heading block (e.g. directory filter sits close under the rule) */
+    compactBelow?: boolean
   }>(),
   {
-    pageHeading: 'Providers',
-    pageSubheading: 'DBT Providers in Minnesota',
     heroImageUrl: '/images/pexels-steve-1690351.jpg',
-  }
+  },
 )
 </script>
 
 <template>
-  <section class="relative bg-slate-900 py-5" aria-hidden="true">
-    <div class="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8" />
-    <div class="absolute inset-0 grid grid-cols-1 md:grid-cols-2">
-      <div class="hidden md:block" />
-      <div class="relative">
-        <div class="absolute inset-0 bg-cover bg-center" :style="{ backgroundImage: `url('${heroImageUrl}')` }" />
+  <div class="position-relative bg-dark py-5" aria-hidden="true">
+    <div class="container position-relative z-2 py-2 py-sm-1" />
+    <div class="row position-absolute top-0 end-0 w-100 h-100 justify-content-end g-0">
+      <div class="col-md-6 position-relative">
+        <img
+          :src="heroImageUrl"
+          class="position-absolute top-0 end-0 w-100 h-100 object-fit-cover"
+          alt="Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'"
+        />
+      </div>
+      <div class="position-absolute top-0 start-0 w-100 h-100 bg-black z-1 opacity-50 d-md-none" />
+    </div>
+  </div>
+
+  <div class="container" :class="compactBelow ? 'mt-4 mt-md-5 mb-2 mb-md-3' : 'my-4 my-md-5'">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row">
+          <div v-if="pageHeading" class="col-md-6 pb-1">
+            <h1 class="h1 m-0">{{ pageHeading }}</h1>
+          </div>
+          <div
+            v-if="pageSubheading"
+            class="col-md-6 row mx-0 pb-1 align-items-end justify-content-end px-0"
+          >
+            <h2 class="h5 text-secondary fw-medium m-0 text-md-end">{{ pageSubheading }}</h2>
+          </div>
+        </div>
+        <hr class="mt-0" />
       </div>
     </div>
-    <div class="absolute inset-0 bg-black/50 md:hidden" aria-hidden="true" />
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-4 sm:px-6 md:my-5 md:py-0 lg:px-8">
-    <div class="grid grid-cols-1 items-end gap-2 md:grid-cols-2">
-      <h1 class="text-3xl font-bold tracking-tight text-white">{{ pageHeading }}</h1>
-      <h2 class="text-base font-medium text-slate-300 md:text-right">{{ pageSubheading }}</h2>
-    </div>
-    <hr class="mt-4 border-slate-700" />
-  </section>
+  </div>
 </template>

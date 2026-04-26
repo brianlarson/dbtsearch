@@ -1,41 +1,43 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import ProviderList from '@/components/directory/ProviderList.vue'
 import LegacyFooter from '@/components/directory/LegacyFooter.vue'
 import LegacyHeader from '@/components/directory/LegacyHeader.vue'
 import LegacyPageHeader from '@/components/directory/LegacyPageHeader.vue'
-import { providerPortalMock } from '@/mocks/providerPortalMock'
+import { useProvidersQuery } from '@/composables/useProvidersQuery'
 
 const onlyAvailable = ref(true)
-const providers = ref(providerPortalMock)
+const { providers, isLoading, errorMessage, fetchProviders } = useProvidersQuery()
 
-const filteredProviders = computed(() =>
-  providers.value.filter((provider) => (onlyAvailable.value ? provider.availability : true)),
-)
-const resultCount = computed(() => filteredProviders.value.length)
-
-function resetFilters() {
-  onlyAvailable.value = true
+function loadProviders() {
+  void fetchProviders({ onlyAvailable: onlyAvailable.value })
 }
+
+onMounted(loadProviders)
+
+watch(onlyAvailable, loadProviders)
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-white">
-    <LegacyHeader />
-    <LegacyPageHeader page-heading="Providers" page-subheading="DBT Providers in Minnesota" />
+  <LegacyHeader />
 
-    <main class="pb-12">
-      <section class="mx-auto max-w-6xl px-4 pt-1 sm:px-6 lg:px-8">
-        <ProviderList
-          :providers="filteredProviders"
-          :only-available="onlyAvailable"
-          :result-count="resultCount"
-          @update:only-available="onlyAvailable = $event"
-          @reset-filters="resetFilters"
-        />
-      </section>
-    </main>
+  <main class="content-wrapper">
+    <LegacyPageHeader
+      page-heading="Providers"
+      page-subheading="DBT Providers in Minnesota"
+      compact-below
+    />
+    <p v-if="errorMessage" class="container text-danger small mb-0">{{ errorMessage }}</p>
+    <p v-else-if="isLoading && providers.length === 0" class="container text-body-secondary small mb-0">
+      Loading providers…
+    </p>
+    <ProviderList
+      v-if="!errorMessage"
+      :providers="providers"
+      :only-available="onlyAvailable"
+      @update:only-available="onlyAvailable = $event"
+    />
+  </main>
 
-    <LegacyFooter />
-  </div>
+  <LegacyFooter />
 </template>

@@ -62,6 +62,7 @@ Add these fields to the Providers entry type layout:
 
 | Field name        | Handle              | Type                 | Notes |
 |-------------------|---------------------|----------------------|------|
+| Source Provider ID| `sourceProviderId`  | Plain Text (single-line) | Stable external key for provider upserts; use as Feed Me match field |
 | Name              | `name`              | Plain Text           | Provider/org display name |
 | DBT-A Certified   | `dbtaCertified`     | Lightswitch          | Badge |
 | Provider Logo     | `providerLogo`      | Assets               | Single asset preferred |
@@ -217,10 +218,43 @@ php craft sync/sync/provider-locations
 
 ## 8) Import files (`cms/web/imports`)
 
-Provider rows for Feed Me (and manual edits) live as JSON under `cms/web/imports/`. Regenerate from the CSV when the sheet changes:
+Use split feeds so Providers and Locations are imported independently but linked by immutable IDs.
+
+Source CSV:
+
+- `cms/web/imports/mn_dbt_providers_final.csv`
+
+Generate feeds:
+
+```bash
+npm run imports:mn-split
+```
+
+Outputs:
+
+- `cms/web/imports/mn-dbt-providers.providers.json`
+- `cms/web/imports/mn-dbt-providers.locations.json`
+
+`sourceProviderId` in JSON is a **SHA-256 hex** of the **normalized provider name** (trimmed, lowercased). It must be **one id per org** so multi-row CSV data does not create multiple Feed Me provider rows when phone or website strings differ between location lines.
+
+Feed Me run order:
+
+1. **Providers feed** (`providers` section)
+   - match field: `sourceProviderId`
+   - map key fields: provider name/title, email, website, phone, badges
+2. **Locations feed** (`locations` section)
+   - match field: `sourceLocationId`
+   - map location fields: title (`Street Address`), city/state/zip, availability
+   - map relation owner: provider via `sourceProviderId`
+3. Refresh provider relation rollup:
+
+```bash
+cd cms
+php craft sync/sync/provider-locations
+```
+
+Legacy single-file generator remains available:
 
 ```bash
 npm run imports:mn-providers
 ```
-
-That writes `cms/web/imports/mn-dbt-providers.json` (array of objects: CSV columns plus leading `sourceLocationId`). Source CSV path: `cms/web/imports/mn_dbt_providers_final.csv`. Point Feed Me at the JSON URL path `/imports/mn-dbt-providers.json` on your Craft site, or upload the file in the CP.

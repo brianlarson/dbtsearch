@@ -5,8 +5,8 @@ name: Availability
 searchable: false
 settings:
   default: false
-  offLabel: 'Full / Waitlist Only'
-  onLabel: 'Accepting New Clients'
+  offLabel: Full
+  onLabel: Accepting
   showLabelsInCards: true
 translationKeyFormat: null
 translationMethod: none

@@ -1,0 +1,16 @@
+currLabel: Settings
+customIcon: null
+enabled: true
+handle: settings
+icon: gear
+layout: 609ed43b-16c2-4f85-8eff-930ee20cb533 # Default
+level: 1
+newWindow: false
+parent: null
+prevLabel: Settings
+prevLevel: 1
+prevParent: null
+prevUrl: settings
+sortOrder: 17
+type: craft
+url: settings

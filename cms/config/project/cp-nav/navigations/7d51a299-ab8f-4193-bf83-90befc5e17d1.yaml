@@ -1,0 +1,16 @@
+currLabel: 'Feed Me'
+customIcon: null
+enabled: false
+handle: feed-me
+icon: /var/www/html/cms/vendor/craftcms/feed-me/src/icon-mask.svg
+layout: 988daa59-41c8-40fa-8bbf-11a8de9a22e4 # Providers
+level: 1
+newWindow: false
+parent: null
+prevLabel: 'Feed Me'
+prevLevel: 1
+prevParent: null
+prevUrl: feed-me
+sortOrder: 6
+type: plugin
+url: feed-me

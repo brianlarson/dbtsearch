@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { resolveProviderLogoUrl } from '@/lib/providerLogo'
 import type { Provider, ProvidersQueryOptions } from '@/types/provider'
 
 interface CraftLocationEntry {
@@ -91,12 +92,16 @@ function getLinkUrl(value: CraftProviderEntry['website']): string {
   return asString(value.url)
 }
 
-function getImageUrl(entry: CraftProviderEntry): string {
+function rawImageField(entry: CraftProviderEntry): string {
   const candidate = entry.logo ?? entry.providerLogo ?? entry.image
   if (!candidate) return ''
   if (Array.isArray(candidate)) return asString(candidate[0]?.url)
   if (typeof candidate === 'string') return candidate
   return asString(candidate.url)
+}
+
+function getImageUrl(entry: CraftProviderEntry): string {
+  return resolveProviderLogoUrl(rawImageField(entry), getLinkUrl(entry.website))
 }
 
 function mapLocation(entry: CraftLocationEntry): Provider['locations'][number] {

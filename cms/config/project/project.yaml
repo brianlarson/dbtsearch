@@ -1,4 +1,4 @@
-dateModified: 1777135500
+dateModified: 1777149563
 email:
   fromEmail: support@tinytreecounseling.com
   fromName: 'DBT Search'
@@ -21,15 +21,19 @@ meta:
     0e258167-c7d6-40a4-8865-93e694a27c14: 'DBT Adherent Team' # DBT Adherent Team
     1f048049-d0c9-4364-8a8d-736b4d508537: Pending # Pending
     4c618d5d-a0e2-4c67-ac3b-484357e4e959: Providers # Providers
+    4f6e6a4e-3c30-4d4f-a0f0-9f6416f9d8c1: 'Source Location ID' # Source Location ID
     5ce9554a-ea2e-4de5-a321-7f1b9d240999: Locations # Locations
     6eeebc0f-a50d-461b-8ee6-4d89eadf3632: Location # Location
     7c6c339a-2d7b-4ef2-9b2b-b8346d83f404: Providers # Providers
     8a1e3e1f-faff-4cbe-a322-e93dab8fbfc3: Email # Email
+    9b2d4e9a-6c8f-4d7b-a123-5e6f708192ab: 'Source Provider ID' # Source Provider ID
     013af865-2f84-430b-be6b-dedc48ddc923: Provider # Provider
     68f6aaed-7edc-4e91-9996-3a86c16baf2f: 'Basic Editor' # Basic Editor
     85aaa7b4-1813-45d7-847f-28151be7e7b4: 'Directory listing' # Directory listing
     98fab9df-c419-4085-9a57-5c61f96573c2: Form # Form
     288c542e-3541-4e24-96ee-aa5fa0bea135: General # General
+    609ed43b-16c2-4f85-8eff-930ee20cb533: Default # Default
+    988daa59-41c8-40fa-8bbf-11a8de9a22e4: Providers # Providers
     3220f3b5-89ff-450e-9a8c-83bd4b04bdf5: 'Public Schema' # Public Schema
     6257adb7-e17d-4aa3-9129-015deea64b68: Specialties # Specialties
     88855dfd-5c52-4554-9e64-c593a0bc5e8c: Credentials # Credentials
@@ -55,13 +59,24 @@ meta:
     eb8a7a70-63cb-4cc1-bae4-e3516a6766ee: Splash # Splash
     f47ac64d-c03f-4687-b2b3-ac84dd6f0142: Pages # Pages
     f77e21c5-ded4-4082-86c6-5df3b28a7316: 'DBT-A Certified' # DBT-A Certified
-    4f6e6a4e-3c30-4d4f-a0f0-9f6416f9d8c1: 'Source Location ID' # Source Location ID
     fe417a71-4d1b-460f-8a63-7ac81c0e5092: Images # Images
 plugins:
   ckeditor:
     edition: standard
     enabled: true
     schemaVersion: 5.0.0.1
+  cp-nav:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.0.11
+  dashboard-begone:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  expanded-singles:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   feed-me:
     edition: standard
     enabled: true

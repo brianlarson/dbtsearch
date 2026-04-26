@@ -1,0 +1,16 @@
+currLabel: Forms
+customIcon: null
+enabled: true
+handle: formie
+icon: /var/www/html/cms/vendor/verbb/formie/src/icon-mask.svg
+layout: 609ed43b-16c2-4f85-8eff-930ee20cb533 # Default
+level: 1
+newWindow: false
+parent: null
+prevLabel: Forms
+prevLevel: 1
+prevParent: null
+prevUrl: formie
+sortOrder: 7
+type: plugin
+url: formie

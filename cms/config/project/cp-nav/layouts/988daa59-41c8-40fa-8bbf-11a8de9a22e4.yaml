@@ -1,0 +1,5 @@
+isDefault: false
+name: Providers
+permissions:
+  - c55ca0a9-4bd6-409b-afd8-c1884dafecd0 # Providers
+sortOrder: 2

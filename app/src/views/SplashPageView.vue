@@ -1,33 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import SplashPage from '@/components/SplashPage.vue'
-
-interface ProviderRow {
-  id: number
-  name: string
-}
-
-const providersRaw = ref<ProviderRow[]>([])
-
-onMounted(async () => {
-  try {
-    const res = await fetch('/data/dbt-providers.json')
-    const data = await res.json()
-    providersRaw.value = Array.isArray(data) ? data : []
-  } catch {
-    providersRaw.value = []
-  }
-})
-
-const providers = computed(() => {
-  const byName = new Map<string, { id: number; name: string }>()
-  for (const p of providersRaw.value) {
-    if (!byName.has(p.name)) byName.set(p.name, { id: p.id, name: p.name })
-  }
-  return [...byName.values()]
-})
+import LegacyFooter from '@/components/directory/LegacyFooter.vue'
+import LegacyHeader from '@/components/directory/LegacyHeader.vue'
+import LegacyHomeHero from '@/components/directory/LegacyHomeHero.vue'
 </script>
 
 <template>
-  <SplashPage :providers="providers" />
+  <LegacyHeader />
+
+  <main class="content-wrapper">
+    <LegacyHomeHero />
+  </main>
+
+  <LegacyFooter />
 </template>

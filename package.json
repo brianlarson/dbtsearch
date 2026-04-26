@@ -27,7 +27,8 @@
     "build": "vite build",
     "test": "vitest",
     "mm": "python3 scripts/migrate/mm.py",
-    "imports:mn-providers": "python3 scripts/imports/csv_to_json.py cms/web/imports/mn_dbt_providers_final.csv cms/web/imports/mn-dbt-providers.json"
+    "imports:mn-providers": "python3 scripts/imports/csv_to_json.py cms/web/imports/mn_dbt_providers_final.csv cms/web/imports/mn-dbt-providers.json",
+    "imports:mn-split": "python3 scripts/imports/split_mn_imports.py cms/web/imports/mn_dbt_providers_final.csv cms/web/imports/mn-dbt-providers.providers.json cms/web/imports/mn-dbt-providers.locations.json"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",

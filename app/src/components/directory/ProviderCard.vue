@@ -1,9 +1,23 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import type { Provider } from '@/types/provider'
 
-defineProps<{
+const props = defineProps<{
   provider: Provider
 }>()
+
+const logoLoadFailed = ref(false)
+
+watch(
+  () => props.provider.imageUrl,
+  () => {
+    logoLoadFailed.value = false
+  },
+)
+
+function onLogoError() {
+  logoLoadFailed.value = true
+}
 
 function formatAddress(provider: Provider): string {
   const location = provider.locations[0]
@@ -27,79 +41,103 @@ function formatUpdatedAt(value: string): string {
 </script>
 
 <template>
-  <article class="w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
-    <div class="grid grid-cols-1 gap-0 sm:grid-cols-[12rem_1fr]">
-      <div class="border-b border-slate-800 bg-slate-800/35 p-5 sm:border-r sm:border-b-0">
-        <div class="flex h-full min-h-[7rem] items-center justify-center rounded-lg border border-slate-700 bg-slate-900/60 p-4">
-          <img
-            v-if="provider.imageUrl"
-            :src="provider.imageUrl"
-            :alt="`${provider.name} logo`"
-            class="max-h-20 w-auto object-contain"
-          />
-          <span v-else class="text-3xl text-primary" aria-hidden="true">❤</span>
-        </div>
-      </div>
-
-      <div class="p-4 py-sm-4 sm:p-5">
-        <div class="mb-4 flex flex-wrap gap-2">
-          <span
-            class="rounded-full border px-2.5 py-1 text-xs font-medium"
-            :class="
-              provider.availability
-                ? 'border-emerald-500/50 text-emerald-300'
-                : 'border-slate-600 text-slate-300'
-            "
-          >
-            {{ provider.availability ? 'Availability' : 'No Availability' }}
-          </span>
-          <span
-            v-if="provider.dbtaCertified"
-            class="rounded-full border border-cyan-500/50 px-2.5 py-1 text-xs font-medium text-cyan-300"
-          >
-            DBT-A Certified
-          </span>
-        </div>
-
-        <h3 class="mb-1 text-xl font-semibold text-primary">{{ provider.name }}</h3>
-        <p class="mb-3 text-sm text-slate-300/95">{{ formatAddress(provider) }}</p>
-
-        <div class="mb-4 text-sm">
-          <a
-            v-if="provider.phone"
-            :href="`tel:${provider.phone}`"
-            class="text-primary underline decoration-primary/40 underline-offset-2 hover:opacity-90"
-          >
-            {{ provider.phone }}
-          </a>
-        </div>
-
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div class="flex flex-wrap gap-2">
-            <a
-              v-if="provider.website"
-              :href="provider.website"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="rounded-lg border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary hover:text-white"
+  <li class="d-sm-flex align-items-center">
+    <article class="card w-100">
+      <div class="row g-0">
+        <div class="col-sm-4 col-md-3 rounded overflow-hidden pb-2 pb-sm-0 pe-sm-2">
+          <div class="provider-card-logo-wrap position-relative d-flex h-100 bg-white p-3 p-sm-5">
+            <template v-if="provider.imageUrl && !logoLoadFailed">
+              <img
+                :src="provider.imageUrl"
+                :alt="`${provider.name} logo`"
+                class="position-absolute top-50 start-50 translate-middle object-fit-contain"
+                style="max-width: 75%; max-height: 75%; width: auto; height: auto"
+                loading="lazy"
+                decoding="async"
+                @error="onLogoError"
+              />
+              <div class="ratio d-none d-sm-block" style="aspect-ratio: calc(180 / 240 * 100%)" />
+              <!-- Half of 16×9 height on mobile: --bs-aspect-ratio is padding-top % of width -->
+              <div class="ratio d-sm-none" style="--bs-aspect-ratio: 28.125%" />
+            </template>
+            <div
+              v-else
+              class="w-100 d-flex align-items-center justify-content-center mb-0"
+              aria-hidden="true"
             >
-              Website
-            </a>
-            <a
-              v-if="provider.email"
-              :href="`mailto:${provider.email}?subject=Inquiry%20from%20DBT%20Search`"
-              class="rounded-lg border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary hover:text-white"
-            >
-              Email
-            </a>
-          </div>
-
-          <div class="text-sm text-slate-400">
-            Last updated:
-            <span class="font-medium text-slate-200">{{ formatUpdatedAt(provider.updatedAt) }}</span>
+              <i class="fi-heart text-brand h1" />
+            </div>
           </div>
         </div>
+        <div class="col-sm-8 col-md-9 align-self-center">
+          <div
+            class="card-body d-flex flex-column flex-sm-row justify-content-between align-items-start p-3 py-sm-4 ps-sm-2 ps-md-3 pe-md-4 mt-n1 mt-sm-0 gap-3"
+          >
+            <div class="position-relative pe-sm-3 flex-grow-1 min-w-0">
+              <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+                <span
+                  class="badge fs-sm border"
+                  :class="provider.availability ? 'text-success border-success' : 'text-secondary border-secondary'"
+                >
+                  {{ provider.availability ? 'Availability' : 'No Availability' }}
+                </span>
+                <span v-if="provider.dbtaCertified" class="badge fs-sm text-info border border-info">
+                  DBT-A Certified
+                </span>
+              </div>
+              <div class="h3 mb-2 text-brand">{{ provider.name }}</div>
+              <div class="d-block fs-md text-body text-decoration-none mb-4">{{ formatAddress(provider) }}</div>
+              <div class="d-flex flex-wrap align-items-center column-gap-2 row-gap-2">
+                <a
+                  v-if="provider.phone"
+                  :href="`tel:${provider.phone}`"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="fi-phone fs-base me-2 ms-n1" />
+                  {{ provider.phone }}
+                </a>
+                <a
+                  v-if="provider.website"
+                  :href="provider.website"
+                  class="btn btn-outline-secondary"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <i class="fi-globe fs-base me-2 ms-n1" />
+                  Website
+                </a>
+                <a
+                  v-if="provider.email"
+                  :href="`mailto:${provider.email}?subject=Inquiry%20from%20DBTsearch.org`"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="fi-mail fs-base me-2 ms-n1" />
+                  Email
+                </a>
+              </div>
+            </div>
+            <div class="text-start text-sm-end flex-shrink-0 align-self-sm-start ms-sm-auto">
+              <div class="text-body-secondary font-monospace">
+                <span class="fs-xs">Last updated</span>
+                <br />
+                <span class="fs-sm text-info fw-semibold">{{ formatUpdatedAt(provider.updatedAt) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
+  </li>
 </template>
+
+<style scoped>
+/* Mobile: shorter logo strip; sm+ matches previous min-height */
+.provider-card-logo-wrap {
+  min-height: 87px;
+}
+@media (min-width: 576px) {
+  .provider-card-logo-wrap {
+    min-height: 174px;
+  }
+}
+</style>

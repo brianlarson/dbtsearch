@@ -24,7 +24,10 @@
     "craftcms/ckeditor": "^5.2.0",
     "craftcms/cms": "^5.9.0",
     "craftcms/feed-me": "^6.11",
+    "putyourlightson/craft-dashboard-begone": "^3.0.0",
     "stimmt/craft-mcp": "^v1.2.2",
+    "verbb/cp-nav": "^5.0.7",
+    "verbb/expanded-singles": "^3.0.3",
     "verbb/formie": "^3.1.17",
     "vlucas/phpdotenv": "^5.4.0"
   },
@@ -53,5 +56,12 @@
       "@php -r \"rename('composer.json.default', 'composer.json');\"",
       "@php craft install"
     ]
-  }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.craftcms.com",
+      "canonical": false
+    }
+  ]
 }

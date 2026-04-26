@@ -1,37 +1,57 @@
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    isAdmin?: boolean
+  }>(),
+  {
+    isAdmin: false,
+  },
+)
+</script>
+
 <template>
-  <header class="sticky top-0 z-50 border-b border-slate-800/90 bg-slate-950/95 backdrop-blur">
-    <div class="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
+  <header class="navbar navbar-expand-lg bg-body navbar-sticky sticky-top z-fixed px-0">
+    <div class="container">
       <button
         type="button"
+        class="navbar-toggler me-3 me-lg-0"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
         aria-label="Toggle navigation"
-        class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-700 text-slate-300 md:hidden"
       >
-        <span class="text-lg leading-none">☰</span>
+        <span class="navbar-toggler-icon" />
       </button>
 
-      <RouterLink to="/" class="inline-block flex-shrink-0">
-        <img src="/images/dbtsearch-logo.svg" alt="DBT Search" class="h-[2.9rem] w-auto md:h-[3.25rem]" />
-      </RouterLink>
+      <a class="navbar-brand py-1 py-md-2 py-xl-1 me-2 me-sm-n4 me-md-n5 me-lg-0" href="/">
+        <span class="d-flex flex-shrink-0 text-secondary rtl-flip me-2">
+          <img src="/images/dbtsearch-logo.svg" alt="DBTsearch" class="d-md-none" style="max-width: 170px" />
+          <img src="/images/dbtsearch-logo.svg" alt="DBTsearch" class="d-none d-md-block" style="max-width: 280px" />
+        </span>
+        <div class="visually-hidden">DBTsearch</div>
+      </a>
 
-      <nav class="ml-3 hidden items-center gap-4 text-sm text-slate-300 md:flex">
-        <RouterLink to="/providers" class="text-white">Providers</RouterLink>
-        <a href="#" class="hover:text-white">About</a>
-        <a href="#" class="hover:text-white">FAQs</a>
+      <nav id="navbarNav" class="offcanvas offcanvas-start" tabindex="-1" aria-labelledby="navbarNavLabel">
+        <div class="offcanvas-header py-3">
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" />
+        </div>
+        <div class="offcanvas-body pt-2 pb-4 py-lg-0 mx-lg-auto">
+          <ul class="navbar-nav position-relative">
+            <li class="nav-item py-lg-2 me-lg-n2 me-xl-0"><a class="nav-link" href="/providers">Providers</a></li>
+            <li class="nav-item py-lg-2 me-lg-n2 me-xl-0"><a class="nav-link" href="/about">About</a></li>
+            <li class="nav-item py-lg-2 me-lg-n2 me-xl-0"><a class="nav-link" href="/faqs">FAQs</a></li>
+          </ul>
+        </div>
       </nav>
 
-      <div class="ml-auto flex items-center gap-2">
-        <a
-          href="#"
-          class="hidden rounded-md border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary hover:text-white sm:inline-flex"
-        >
-          Contact
-        </a>
-        <a
-          href="#"
-          class="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90"
-        >
-          Login
-        </a>
+      <div class="d-flex gap-sm-1">
+        <a class="btn btn-outline-secondary me-2 d-none d-md-inline" href="/contact">Contact</a>
+        <div>
+          <a class="btn btn-secondary fw-semibold" :class="{ active: isAdmin }" :href="isAdmin ? '/admin' : '/login'">
+            <i v-if="isAdmin" class="fi-unlock fs-base ms-n1 me-2" />
+            {{ isAdmin ? 'Admin' : 'Login' }}
+          </a>
+        </div>
       </div>
     </div>
   </header>
