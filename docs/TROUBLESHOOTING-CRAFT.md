@@ -55,6 +55,19 @@ cd cms
 php craft sync/sync/provider-locations
 php craft sync/sync/repair-provider-emails
 php craft sync/sync/normalize-location-titles
+php craft sync/sync/diagnose-providers-import
+php craft sync/sync/fix-duplicate-provider-owners
+php craft sync/sync/fix-duplicate-provider-owners --dry-run=0
+php craft sync/sync/clear-invalid-provider-emails
+php craft sync/sync/clear-invalid-provider-emails --dry-run=0
 ```
+
+`sync/sync/diagnose-providers-import` lists **duplicate provider titles** (same org twice) and how many locations point at each id — the usual reason some cards show no locations after Feed Me. Fix by merging duplicate provider entries, matching imports on `sourceProviderId`, then `sync/sync/provider-locations`.
+
+If `provider-locations` fails with **Email is not a valid email address**, Feed Me left junk in the Email field. Run `clear-invalid-provider-emails --dry-run=0`, then `provider-locations` again (the sync command now clears invalid email before each save as well).
+
+**Duplicate providers / missing locations on one of the duplicates:** run `fix-duplicate-provider-owners` (dry-run first). It picks one canonical provider per duplicate title (prefers `sourceProviderId`, then most linked locations), reassigns all locations to that row, then run `provider-locations` and delete leftover empty provider entries in the CP.
+
+If the CP shows **the same org many times each with a different `sourceProviderId`**, the feed JSON was probably built with an old rule that hashed phone/website (those vary per CSV row). Regenerate with `npm run imports:mn-split`, then clean duplicates in Craft and re-import providers so **one row per org** matches the new ids.
 
 Run them from the host (with `.env` as above) or via `ddev craft …`.

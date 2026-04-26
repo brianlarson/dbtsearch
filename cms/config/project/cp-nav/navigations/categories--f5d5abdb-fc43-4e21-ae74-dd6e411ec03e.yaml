@@ -1,0 +1,16 @@
+currLabel: Categories
+customIcon: null
+enabled: false
+handle: categories
+icon: sitemap
+layout: 988daa59-41c8-40fa-8bbf-11a8de9a22e4 # Providers
+level: 1
+newWindow: false
+parent: null
+prevLabel: Categories
+prevLevel: 1
+prevParent: null
+prevUrl: categories
+sortOrder: 3
+type: craft
+url: categories

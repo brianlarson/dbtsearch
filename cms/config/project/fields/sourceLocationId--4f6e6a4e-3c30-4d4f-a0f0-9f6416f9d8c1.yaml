@@ -6,7 +6,7 @@ searchable: false
 settings:
   byteLimit: null
   charLimit: 255
-  code: false
+  code: true
   initialRows: 1
   multiline: false
   placeholder: null

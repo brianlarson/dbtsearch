@@ -1,7 +1,7 @@
 # Legacy Directory Parity Checklist (Source of Truth)
 
-Use this checklist when refining the Vue + Preline directory UI.  
-**Goal:** match legacy look-and-feel as closely as practical while using current Tailwind/Preline architecture.
+Use this checklist when refining the Vue directory UI.  
+**Goal:** match legacy look-and-feel as closely as possible with no redesign.
 
 ## Legacy source files
 
@@ -12,15 +12,14 @@ Use this checklist when refining the Vue + Preline directory UI.
 - `src/components/Footer/Footer.jsx`
 - snapshot markup: `docs/reference-markup/admin-edit.html`
 
-## Storybook targets
+## Vue targets
 
-- `Pages/DirectoryPageView`
-- `Organisms/Legacy Header`
-- `Organisms/Directory/LegacyPageHeader`
-- `Organisms/Directory/LegacyFooter`
-- `Organisms/Directory/ProviderCard`
-- `Organisms/Directory/ProviderList`
-- `Molecules/Directory/DirectoryFilters`
+- `app/src/views/DirectoryPageView.vue`
+- `app/src/components/directory/LegacyHeader.vue`
+- `app/src/components/directory/LegacyPageHeader.vue`
+- `app/src/components/directory/LegacyFooter.vue`
+- `app/src/components/directory/ProviderCard.vue`
+- `app/src/components/directory/ProviderList.vue`
 
 ## Parity checklist
 
@@ -60,5 +59,6 @@ Use this checklist when refining the Vue + Preline directory UI.
 ## Rules for refinement
 
 1. Legacy files above are the visual baseline.
-2. Prefer Storybook-first tweaks, then apply same changes to Vue app components.
-3. If a change improves accessibility/responsiveness but deviates from legacy, document the reason in PR notes.
+2. Prioritize DOM structure/class rhythm parity over utility-class rewrites.
+3. Do not add/remove UI elements unless explicitly approved.
+4. If a change improves accessibility/responsiveness but deviates from legacy, document the reason in PR notes.

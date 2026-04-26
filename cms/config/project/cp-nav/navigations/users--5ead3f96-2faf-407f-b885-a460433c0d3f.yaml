@@ -1,0 +1,16 @@
+currLabel: Users
+customIcon: null
+enabled: false
+handle: users
+icon: user-group
+layout: 988daa59-41c8-40fa-8bbf-11a8de9a22e4 # Providers
+level: 1
+newWindow: false
+parent: null
+prevLabel: Users
+prevLevel: 1
+prevParent: null
+prevUrl: users
+sortOrder: 5
+type: craft
+url: users

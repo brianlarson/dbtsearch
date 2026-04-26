@@ -33,9 +33,18 @@ _MN_SOURCE_ID_COLUMNS = (
     "ZIP",
 )
 
+_PLACEHOLDERS = {"not found", "unknown", "n/a", "na", "none", "null", "-", "—", "by email"}
+
+
+def _clean(value: str | None) -> str:
+    normalized = str(value or "").strip()
+    if normalized.lower() in _PLACEHOLDERS:
+        return ""
+    return normalized
+
 
 def _compute_mn_source_location_id(row: dict[str, str]) -> str:
-    parts = [str(row.get(col) or "").strip() for col in _MN_SOURCE_ID_COLUMNS]
+    parts = [_clean(row.get(col)) for col in _MN_SOURCE_ID_COLUMNS]
     payload = "\x1f".join(parts)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
@@ -48,10 +57,11 @@ def _enrich_rows(rows: list[dict[str, str]], fieldnames: list[str] | None) -> li
         return rows
     out: list[dict[str, str]] = []
     for row in rows:
+        cleaned_row = {k: _clean(v) for k, v in row.items()}
         sid = _compute_mn_source_location_id(row)
         # Put sourceLocationId first for scanning / Feed Me mapping.
         merged: dict[str, str] = {"sourceLocationId": sid}
-        merged.update(row)
+        merged.update(cleaned_row)
         out.append(merged)
     return out
 

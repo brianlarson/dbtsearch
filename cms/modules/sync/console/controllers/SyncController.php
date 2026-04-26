@@ -14,11 +14,224 @@ use yii\console\ExitCode;
 class SyncController extends Controller
 {
     /**
+     * @var bool When true, destructive/normalize commands only print what would change. Use `--dry-run=0` to apply.
+     */
+    public bool $dryRun = true;
+
+    /**
+     * @inheritdoc
+     */
+    public function options($actionID): array
+    {
+        $options = parent::options($actionID);
+        if (in_array($actionID, [
+            'normalize-location-titles',
+            'clear-invalid-provider-emails',
+            'fix-duplicate-provider-owners',
+        ], true)) {
+            $options[] = 'dryRun';
+        }
+
+        return $options;
+    }
+
+    /**
+     * For providers that share the same title (case-insensitive), pick one canonical provider and
+     * re-point all locations from the others onto it. Does not delete surplus provider entries.
+     *
+     * Run `diagnose-providers-import` first. Default is dry-run; use `--dry-run=0` to apply, then
+     * `provider-locations`. Delete empty duplicate provider rows in the CP afterward if desired.
+     */
+    public function actionFixDuplicateProviderOwners(): int
+    {
+        $providers = Entry::find()->section('providers')->all();
+
+        if ($providers === []) {
+            $this->stdout("No provider entries found.\n", Console::FG_YELLOW);
+            return ExitCode::OK;
+        }
+
+        $byTitle = [];
+        foreach ($providers as $p) {
+            $key = mb_strtolower(trim((string) $p->title));
+            if ($key === '') {
+                $key = '__empty_title__';
+            }
+            $byTitle[$key][] = $p;
+        }
+
+        $moved = 0;
+        $failed = 0;
+        $groups = 0;
+
+        foreach ($byTitle as $titleKey => $group) {
+            if (count($group) < 2) {
+                continue;
+            }
+            $groups++;
+
+            usort($group, function (Entry $a, Entry $b): int {
+                $sa = trim((string) $a->getFieldValue('sourceProviderId')) !== '';
+                $sb = trim((string) $b->getFieldValue('sourceProviderId')) !== '';
+                if ($sa !== $sb) {
+                    return $sb <=> $sa;
+                }
+                $ca = $this->countLocationsForProvider($a);
+                $cb = $this->countLocationsForProvider($b);
+                if ($ca !== $cb) {
+                    return $cb <=> $ca;
+                }
+
+                return $a->id <=> $b->id;
+            });
+
+            /** @var Entry $keeper */
+            $keeper = $group[0];
+            $losers = array_slice($group, 1);
+
+            $this->stdout(
+                "Canonical: id={$keeper->id} \"{$keeper->title}\" (sourceProviderId="
+                . (trim((string) $keeper->getFieldValue('sourceProviderId')) !== '' ? 'set' : 'empty')
+                . ", locations={$this->countLocationsForProvider($keeper)})\n",
+                Console::FG_GREEN
+            );
+
+            foreach ($losers as $loser) {
+                $loserId = $loser->id;
+                $locations = Entry::find()
+                    ->section('locations')
+                    ->relatedTo([
+                        'targetElement' => $loser,
+                        'field' => 'provider',
+                    ])
+                    ->all();
+
+                if ($locations === []) {
+                    $this->stdout("  skip loser id={$loserId} (no locations)\n");
+                    continue;
+                }
+
+                foreach ($locations as $loc) {
+                    if ($this->dryRun) {
+                        $this->stdout(
+                            "  DRY RUN: location id={$loc->id} \"{$loc->title}\"  {$loserId} → {$keeper->id}\n"
+                        );
+                        $moved++;
+                        continue;
+                    }
+
+                    $loc->setFieldValue('provider', [$keeper->id]);
+                    if (!Craft::$app->getElements()->saveElement($loc)) {
+                        $this->stderr(
+                            'Could not save location ' . $loc->id . ': '
+                            . json_encode($loc->getErrors(), JSON_UNESCAPED_UNICODE) . PHP_EOL,
+                            Console::FG_RED
+                        );
+                        $failed++;
+                        continue;
+                    }
+                    $this->stdout("  moved location id={$loc->id}  {$loserId} → {$keeper->id}\n");
+                    $moved++;
+                }
+            }
+            $this->stdout("\n");
+        }
+
+        if ($groups === 0) {
+            $this->stdout("No duplicate provider titles found.\n");
+            return ExitCode::OK;
+        }
+
+        $this->stdout(sprintf(
+            "Done: %d location link(s) %s, %d error(s).\n",
+            $moved,
+            $this->dryRun ? 'would change' : 'updated',
+            $failed
+        ));
+        $this->stdout("Next: php craft sync/sync/provider-locations\n", Console::FG_CYAN);
+        $this->stdout("Then delete surplus provider entries with zero locations in the CP if needed.\n", Console::FG_CYAN);
+
+        return $failed > 0 ? ExitCode::UNSPECIFIED_ERROR : ExitCode::OK;
+    }
+
+    /**
+     * Reports likely import issues: duplicate provider titles and locations missing a provider.
+     *
+     * Use after Feed Me runs when the CP shows duplicate org names or empty location cards.
+     */
+    public function actionDiagnoseProvidersImport(): int
+    {
+        $providers = Entry::find()->section('providers')->all();
+
+        if ($providers === []) {
+            $this->stdout("No provider entries found.\n", Console::FG_YELLOW);
+            return ExitCode::OK;
+        }
+
+        $byTitle = [];
+        foreach ($providers as $p) {
+            $key = mb_strtolower(trim((string) $p->title));
+            if ($key === '') {
+                $key = '__empty_title__';
+            }
+            $byTitle[$key][] = $p;
+        }
+
+        $dupes = 0;
+        foreach ($byTitle as $titleKey => $group) {
+            if (count($group) < 2) {
+                continue;
+            }
+            $dupes++;
+            $this->stdout("Duplicate title (×" . count($group) . "): " . $group[0]->title . "\n", Console::FG_YELLOW);
+            foreach ($group as $p) {
+                $sid = trim((string) $p->getFieldValue('sourceProviderId'));
+                $locCount = $this->countLocationsForProvider($p);
+                $this->stdout(sprintf(
+                    "  id=%d  sourceProviderId=%s  locations(via provider field)=%d\n",
+                    $p->id,
+                    $sid !== '' ? $sid : '(empty)',
+                    $locCount
+                ));
+            }
+            $this->stdout("\n");
+        }
+
+        if ($dupes === 0) {
+            $this->stdout("No duplicate provider titles found (by case-insensitive title).\n");
+        } else {
+            $this->stdout(
+                "Fix: php craft sync/sync/fix-duplicate-provider-owners (dry-run first), then --dry-run=0,\n" .
+                "  php craft sync/sync/provider-locations\n" .
+                "Then delete empty duplicate provider rows in the CP if any remain.\n",
+                Console::FG_CYAN
+            );
+        }
+
+        $missingProvider = 0;
+        foreach (Entry::find()->section('locations')->all() as $loc) {
+            $rel = $loc->getFieldValue('provider');
+            if ($rel === null || $rel === [] || $rel === '') {
+                $missingProvider++;
+            }
+        }
+
+        if ($missingProvider > 0) {
+            $this->stdout(
+                "\nLocations with empty Provider Owner field: {$missingProvider}\n",
+                Console::FG_YELLOW
+            );
+        }
+
+        return ExitCode::OK;
+    }
+
+    /**
      * Converts Location titles from full-address format to street-only format.
      *
      * By default this command runs in dry-run mode; pass `--dry-run=0` to save changes.
      */
-    public function actionNormalizeLocationTitles(bool $dryRun = true): int
+    public function actionNormalizeLocationTitles(): int
     {
         $locations = Entry::find()->section('locations')->all();
 
@@ -44,7 +257,7 @@ class SyncController extends Controller
                 continue;
             }
 
-            if ($dryRun) {
+            if ($this->dryRun) {
                 $this->stdout("DRY RUN: {$currentTitle}  =>  {$streetTitle}\n");
                 $changed++;
                 continue;
@@ -70,7 +283,63 @@ class SyncController extends Controller
             $changed,
             $skipped,
             $failed,
-            $dryRun ? 'dry-run' : 'write'
+            $this->dryRun ? 'dry-run' : 'write'
+        ));
+
+        return $failed > 0 ? ExitCode::UNSPECIFIED_ERROR : ExitCode::OK;
+    }
+
+    /**
+     * Clears provider email when it is not a valid RFC address (placeholders, scraper junk, etc.).
+     *
+     * Does not scrape websites. By default dry-run; pass `--dry-run=0` to save.
+     */
+    public function actionClearInvalidProviderEmails(): int
+    {
+        $providers = Entry::find()->section('providers')->all();
+
+        if ($providers === []) {
+            $this->stdout("No provider entries found.\n", Console::FG_YELLOW);
+            return ExitCode::OK;
+        }
+
+        $cleared = 0;
+        $skipped = 0;
+        $failed = 0;
+
+        foreach ($providers as $provider) {
+            $email = trim((string) $provider->getFieldValue('email'));
+            if ($this->providerEmailIsAcceptable($email)) {
+                $skipped++;
+                continue;
+            }
+
+            if ($this->dryRun) {
+                $this->stdout("DRY RUN: {$provider->title} — clear email (was: " . ($email !== '' ? $email : '(empty)') . ")\n");
+                $cleared++;
+                continue;
+            }
+
+            $provider->setFieldValue('email', null);
+            if (!Craft::$app->getElements()->saveElement($provider)) {
+                $this->stderr(
+                    'Could not save provider ' . $provider->id . ' (' . $provider->title . '): '
+                    . json_encode($provider->getErrors(), JSON_UNESCAPED_UNICODE) . PHP_EOL,
+                    Console::FG_RED
+                );
+                $failed++;
+                continue;
+            }
+            $this->stdout("CLEARED: {$provider->title}\n");
+            $cleared++;
+        }
+
+        $this->stdout(sprintf(
+            "\nDone: %d cleared, %d skipped (valid), %d error(s). Mode: %s.\n",
+            $cleared,
+            $skipped,
+            $failed,
+            $this->dryRun ? 'dry-run' : 'write'
         ));
 
         return $failed > 0 ? ExitCode::UNSPECIFIED_ERROR : ExitCode::OK;
@@ -95,6 +364,11 @@ class SyncController extends Controller
         $failed = 0;
 
         foreach ($providers as $provider) {
+            $email = trim((string) $provider->getFieldValue('email'));
+            if (!$this->providerEmailIsAcceptable($email)) {
+                $provider->setFieldValue('email', null);
+            }
+
             $locationIds = Entry::find()
                 ->section('locations')
                 ->relatedTo([
@@ -210,6 +484,17 @@ class SyncController extends Controller
         ));
 
         return $failed > 0 ? ExitCode::UNSPECIFIED_ERROR : ExitCode::OK;
+    }
+
+    private function countLocationsForProvider(Entry $provider): int
+    {
+        return (int) Entry::find()
+            ->section('locations')
+            ->relatedTo([
+                'targetElement' => $provider,
+                'field' => 'provider',
+            ])
+            ->count();
     }
 
     private function providerEmailIsAcceptable(string $email): bool

@@ -1,0 +1,16 @@
+currLabel: Utilities
+customIcon: null
+enabled: false
+handle: utilities
+icon: wrench
+layout: 988daa59-41c8-40fa-8bbf-11a8de9a22e4 # Providers
+level: 1
+newWindow: false
+parent: null
+prevLabel: Utilities
+prevLevel: 1
+prevParent: null
+prevUrl: utilities
+sortOrder: 16
+type: craft
+url: utilities

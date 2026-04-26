@@ -1,0 +1,16 @@
+currLabel: Settings
+customIcon: null
+enabled: false
+handle: settings
+icon: gear
+layout: 988daa59-41c8-40fa-8bbf-11a8de9a22e4 # Providers
+level: 1
+newWindow: false
+parent: null
+prevLabel: Settings
+prevLevel: 1
+prevParent: null
+prevUrl: settings
+sortOrder: 17
+type: craft
+url: settings

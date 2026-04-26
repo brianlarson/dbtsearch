@@ -1,0 +1,16 @@
+currLabel: Submissions
+customIcon: null
+enabled: false
+handle: submissions
+icon: null
+layout: 988daa59-41c8-40fa-8bbf-11a8de9a22e4 # Providers
+level: 2
+newWindow: false
+parent: d0875d22-bfb8-4393-94c9-b886b5d97a38
+prevLabel: Submissions
+prevLevel: 2
+prevParent: d0875d22-bfb8-4393-94c9-b886b5d97a38
+prevUrl: formie/submissions
+sortOrder: 9
+type: plugin
+url: formie/submissions
