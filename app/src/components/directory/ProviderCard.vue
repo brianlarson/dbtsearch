@@ -7,20 +7,29 @@ const props = defineProps<{
   provider: Provider
 }>()
 
-const primaryCity = computed(() => {
-  const city = props.provider.locations[0]?.city?.trim()
-  return city ?? ''
+/** Eyebrow: location display name when set, otherwise city. */
+const primaryLocationEyebrow = computed(() => {
+  const loc = props.provider.locations[0]
+  if (!loc) return ''
+  const name = loc.name?.trim()
+  const city = loc.city?.trim()
+  return name || city || ''
 })
 
 const logoLoadFailed = ref(false)
-/** Tile behind logo: light (default) or dark when the mark reads mostly light. */
-const logoBackdrop = ref<'light' | 'dark'>('light')
+/** Auto-detected tile tone used when provider does not force logoBg. */
+const autoLogoBackdrop = ref<'light' | 'dark'>('light')
+const effectiveLogoBackdrop = computed<'light' | 'dark'>(() => {
+  if (props.provider.logoBg === 'dark') return 'dark'
+  if (props.provider.logoBg === 'light') return 'light'
+  return autoLogoBackdrop.value
+})
 
 watch(
-  () => props.provider.imageUrl,
+  () => [props.provider.imageUrl, props.provider.logoBg],
   () => {
     logoLoadFailed.value = false
-    logoBackdrop.value = 'light'
+    autoLogoBackdrop.value = 'light'
   },
 )
 
@@ -31,9 +40,10 @@ function onLogoError() {
 function onLogoLoad(event: Event) {
   const img = event.target
   if (!(img instanceof HTMLImageElement)) return
+  if (props.provider.logoBg === 'light' || props.provider.logoBg === 'dark') return
   const tone = inferLogoBackdropTone(img)
-  if (tone === 'dark') logoBackdrop.value = 'dark'
-  else if (tone === 'light') logoBackdrop.value = 'light'
+  if (tone === 'dark') autoLogoBackdrop.value = 'dark'
+  else if (tone === 'light') autoLogoBackdrop.value = 'light'
 }
 
 function formatAddress(provider: Provider): string {
@@ -67,7 +77,7 @@ function formatUpdatedAt(value: string): string {
         <div class="col-12 col-md-3 rounded overflow-hidden pb-2 pb-md-0 pe-md-2">
           <div
             class="provider-card-logo-wrap position-relative d-flex h-100 p-3 p-md-5"
-            :class="logoBackdrop === 'dark' ? 'provider-card-logo-wrap--dark' : 'bg-white'"
+            :class="effectiveLogoBackdrop === 'dark' ? 'provider-card-logo-wrap--dark' : 'bg-white'"
           >
             <template v-if="provider.imageUrl && !logoLoadFailed">
               <img
@@ -110,21 +120,10 @@ function formatUpdatedAt(value: string): string {
                 </span>
               </div>
               <div
-                v-if="primaryCity"
-                class="provider-card-eyebrow fs-sm fw-bold text-uppercase text-brand mb-1 pt-2 d-inline-flex align-items-center gap-1"
+                v-if="primaryLocationEyebrow"
+                class="provider-card-eyebrow fw-bold text-uppercase text-brand mb-1 pt-2"
               >
-                <svg
-                  class="provider-card-mn-icon flex-shrink-0"
-                  viewBox="0 0 1000 773"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M684.9,351.8L674.8,346.0L648.2,356.8L648.2,434.5L640.3,442.4L602.9,453.2L572.7,481.3L570.5,500.0L585.6,501.4L602.2,518.0L587.1,538.1L589.9,560.4L580.6,608.6L615.1,632.4L642.4,634.5L656.1,648.9L696.4,663.3L702.9,680.6L740.3,702.9L761.2,707.9L786.3,736.7L782.7,757.6L789.9,772.7L769.8,772.7L102.2,772.7L102.2,536.7L71.9,521.6L48.9,496.4L84.9,468.3L87.8,453.2L82.7,400.7L66.9,387.1L56.1,358.3L58.3,323.0L53.2,317.3L48.9,233.1L23.0,188.5L12.9,163.3L8.6,110.1L17.3,92.1L0.0,50.4L272.7,50.4L272.7,0.0L298.6,1.4L315.8,11.5L333.1,79.9L346.8,87.8L389.9,89.9L395.0,96.4L445.3,99.3L451.1,113.7L494.2,110.1L494.2,104.3L528.1,97.1L557.6,100.0L591.4,110.8L600.7,124.5L620.1,123.0L638.1,152.5L646.8,140.3L679.9,134.5L685.6,146.8L724.5,155.4L724.5,166.9L743.9,176.3L783.5,171.2L807.2,158.3L839.6,150.4L851.1,169.8L873.4,165.5L900.0,169.8L930.9,166.9L966.2,183.5L1000.0,180.6L997.1,187.8L953.2,204.3L892.1,217.3L852.5,230.9L795.7,264.7L771.2,285.6L733.8,309.4L674.8,341.0L684.9,351.8Z"
-                  />
-                </svg>
-                {{ primaryCity }}
+                {{ primaryLocationEyebrow }}
               </div>
               <div class="provider-card-heading h3 mb-2">{{ provider.name }}</div>
               <div class="provider-card-address d-block fs-md text-body-secondary text-decoration-none mb-4">
@@ -187,10 +186,12 @@ function formatUpdatedAt(value: string): string {
 
 .provider-card-logo-wrap--dark {
   background-color: #252b38;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .provider-card-eyebrow {
-  margin-top: 0;
+  margin-top: 40px;
+  font-size: calc(0.875rem + 2px);
 }
 
 .provider-card-heading {
@@ -207,12 +208,6 @@ function formatUpdatedAt(value: string): string {
   transform: translate(-50%, -50%);
 }
 
-.provider-card-mn-icon {
-  height: 0.72em;
-  width: auto;
-  aspect-ratio: 1000 / 773;
-}
-
 .provider-card-updated {
   display: flex;
   flex-direction: column;
@@ -221,7 +216,7 @@ function formatUpdatedAt(value: string): string {
 
 .provider-card-updated__date {
   display: block;
-  margin-top: 2px;
+  margin-top: 4px;
   font-size: calc(0.875rem - 1px);
   font-weight: 400;
 }
