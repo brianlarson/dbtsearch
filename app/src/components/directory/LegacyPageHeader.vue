@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { getHeroVibe } from '@/lib/heroVibes'
 import { publicPath } from '@/lib/publicPath'
+
+const STATIC_HERO = {
+  url: publicPath('images/pexels-steve-1690351.jpg'),
+  alt: "Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'",
+} as const
 
 const props = withDefaults(
   defineProps<{
@@ -8,22 +14,32 @@ const props = withDefaults(
     pageSubheading?: string
     /** Path under `public/` (e.g. `images/foo.jpg` or `/images/foo.jpg`) or absolute http(s) URL */
     heroImageUrl?: string
+    /** Alt text when `heroImageUrl` is set */
+    heroImageAlt?: string
+    /** Use session-random Unsplash hero from `@/lib/heroVibes` instead of the default static image */
+    randomHeroVibe?: boolean
     /** Less margin below the heading block (e.g. directory filter sits close under the rule) */
     compactBelow?: boolean
   }>(),
   {
     compactBelow: false,
+    randomHeroVibe: false,
   },
 )
 
-const resolvedHeroImageUrl = computed(() => {
+const headerHero = computed(() => {
   const url = props.heroImageUrl
   if (url) {
-    if (/^https?:\/\//i.test(url)) return url
-    const path = url.startsWith('/') ? url.slice(1) : url
-    return publicPath(path)
+    const resolved = /^https?:\/\//i.test(url)
+      ? url
+      : publicPath(url.startsWith('/') ? url.slice(1) : url)
+    return {
+      url: resolved,
+      alt: props.heroImageAlt ?? 'Decorative header artwork',
+    }
   }
-  return publicPath('images/pexels-steve-1690351.jpg')
+  if (props.randomHeroVibe) return getHeroVibe()
+  return STATIC_HERO
 })
 </script>
 
@@ -33,9 +49,9 @@ const resolvedHeroImageUrl = computed(() => {
     <div class="row position-absolute top-0 end-0 w-100 h-100 justify-content-end g-0">
       <div class="col-md-6 position-relative">
         <img
-          :src="resolvedHeroImageUrl"
+          :src="headerHero.url"
           class="position-absolute top-0 end-0 w-100 h-100 object-fit-cover"
-          alt="Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'"
+          :alt="headerHero.alt"
         />
       </div>
       <div class="position-absolute top-0 start-0 w-100 h-100 bg-black z-1 opacity-50 d-md-none" />

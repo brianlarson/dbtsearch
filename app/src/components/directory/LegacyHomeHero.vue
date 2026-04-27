@@ -1,6 +1,23 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import { getHeroVibe } from '@/lib/heroVibes'
 import { publicPath } from '@/lib/publicPath'
+
+const STATIC_HERO = {
+  url: publicPath('images/pexels-steve-1690351.jpg'),
+  alt: "Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'",
+} as const
+
+const props = withDefaults(
+  defineProps<{
+    /** Use session-random Unsplash hero from `@/lib/heroVibes` instead of the default static image */
+    randomHeroVibe?: boolean
+  }>(),
+  { randomHeroVibe: false },
+)
+
+const hero = computed(() => (props.randomHeroVibe ? getHeroVibe() : STATIC_HERO))
 </script>
 
 <template>
@@ -25,9 +42,9 @@ import { publicPath } from '@/lib/publicPath'
     <div class="row position-absolute top-0 end-0 w-100 h-100 justify-content-end g-0">
       <div class="col-md-6 position-relative">
         <img
-          :src="publicPath('images/pexels-steve-1690351.jpg')"
+          :src="hero.url"
           class="position-absolute top-0 end-0 w-100 h-100 object-fit-cover"
-          alt="Abstract paintingPhoto by Steve Johnson on pexels.com - 'abstract-painting-1690351'"
+          :alt="hero.alt"
         />
       </div>
       <div class="position-absolute top-0 start-0 w-100 h-100 bg-black z-1 opacity-50 d-md-none" />
