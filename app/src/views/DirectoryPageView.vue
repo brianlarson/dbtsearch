@@ -72,7 +72,7 @@ watch(onlyAvailable, (value) => {
         <!-- Same grid as LegacyPageHeader so filter lines up with the h1 / col-12 copy -->
         <div class="row justify-content-center overflow-visible">
           <div class="col-12 overflow-visible">
-            <div class="d-flex align-items-center w-100 gap-3">
+            <div class="d-flex flex-nowrap align-items-center w-100 gap-2 gap-md-3">
               <div class="d-flex align-items-center justify-content-start flex-grow-0 flex-shrink-0 me-auto">
                 <div class="directory-toolbar-switch-wrap">
                   <div class="form-check form-switch directory-toolbar-form-switch m-0">
@@ -83,13 +83,16 @@ watch(onlyAvailable, (value) => {
                       type="checkbox"
                       role="switch"
                     />
-                    <label class="form-check-label text-body fs-6 fw-medium" for="available-only">
+                    <label class="form-check-label text-body fs-6 fw-medium text-nowrap" for="available-only">
                       Has availability
                     </label>
                   </div>
                 </div>
               </div>
-              <p class="small text-body-secondary mb-0 text-end flex-shrink-1 min-w-0">
+              <p
+                class="small text-body-secondary mb-0 text-end flex-shrink-1 min-w-0 text-truncate"
+                :title="resultsLabel"
+              >
                 {{ resultsLabel }}
               </p>
             </div>
@@ -105,7 +108,7 @@ watch(onlyAvailable, (value) => {
 
     <button
       type="button"
-      class="directory-back-to-top btn btn-secondary fw-semibold"
+      class="directory-back-to-top btn btn-secondary fw-semibold text-uppercase"
       :class="{ 'directory-back-to-top--visible': showBackToTop }"
       aria-label="Back to top"
       @click="scrollToTop"
@@ -122,36 +125,44 @@ watch(onlyAvailable, (value) => {
 .directory-sticky-toolbar {
   top: var(--directory-sticky-navbar-offset);
   z-index: 1020;
-  /* Finder switch uses negative margin-left; avoid clipping when flex ancestors shrink. */
-  overflow-x: visible;
-}
-
-/* Avoid Finder’s padding + negative margin switch math (clips at column / sticky edges). */
-.directory-toolbar-switch-wrap {
-  padding-inline-start: 0;
-  padding-block: 3px;
+  /* Sticky + partial overflow axes can clip descendants in some browsers; keep both visible. */
   overflow: visible;
 }
 
-.directory-toolbar-form-switch {
-  display: flex !important;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.625rem;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  margin-bottom: 0 !important;
-  min-height: 0 !important;
+.directory-sticky-toolbar .container {
+  overflow: visible;
 }
 
-.directory-toolbar-form-switch .form-check-input {
-  float: none !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  margin-top: 0 !important;
-  flex-shrink: 0;
-  position: relative;
-  transform: translate(2px, 1px);
+/* Avoid Finder’s padding + negative margin switch math (clips at column / sticky edges). */
+@media (min-width: 994px) {
+  .directory-toolbar-switch-wrap {
+    display: flex;
+    align-items: center;
+    padding-inline-start: 0;
+    padding-block: 0.375rem;
+    overflow: visible;
+  }
+
+  .directory-toolbar-form-switch {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.625rem;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .directory-toolbar-form-switch .form-check-input {
+    float: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+    flex-shrink: 0;
+    position: relative;
+    /* Horizontal nudge only; vertical translate caused the pill to paint past the line box and clip. */
+    transform: translateX(2px);
+  }
 }
 
 .directory-back-to-top {
@@ -168,13 +179,8 @@ watch(onlyAvailable, (value) => {
 }
 
 .directory-back-to-top--visible {
-  opacity: 0.92;
+  opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
-}
-
-.directory-back-to-top:hover,
-.directory-back-to-top:focus-visible {
-  opacity: 1;
 }
 </style>

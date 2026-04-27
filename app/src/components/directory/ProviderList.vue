@@ -20,11 +20,9 @@ defineProps<{
 </template>
 
 <style scoped>
-@media (max-width: 575.98px) {
-  .provider-directory-list {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 0;
-  }
+.provider-directory-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
 }
 </style>

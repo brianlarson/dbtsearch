@@ -36,33 +36,23 @@ const authButtonModifier = computed(() => {
 
 <template>
   <header class="navbar navbar-expand-lg bg-body navbar-sticky sticky-top z-fixed px-0">
-    <div class="container d-flex flex-wrap align-items-center">
-      <button
-        type="button"
-        class="navbar-toggler me-3 me-lg-0"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon" />
-      </button>
-
+    <div class="container d-flex flex-nowrap align-items-center gap-2">
       <RouterLink
-        class="navbar-brand py-1 py-md-2 py-xl-1 me-2 me-sm-n4 me-md-n5 me-lg-0"
+        class="navbar-brand py-1 py-lg-2 py-xl-1 me-0 flex-shrink-0"
         to="/"
       >
         <span class="d-flex flex-shrink-0 text-secondary rtl-flip me-2">
+          <!-- Large mark only when the bar is expanded (lg+); compact logo with right-edge menu button below lg. -->
           <img
             :src="publicPath('images/dbtsearch-logo.svg')"
             alt="DBTsearch"
-            class="d-md-none"
+            class="d-lg-none"
             style="max-width: 170px"
           />
           <img
             :src="publicPath('images/dbtsearch-logo.svg')"
             alt="DBTsearch"
-            class="d-none d-md-block"
+            class="d-none d-lg-block"
             style="max-width: 280px"
           />
         </span>
@@ -71,7 +61,7 @@ const authButtonModifier = computed(() => {
 
       <nav
         id="navbarNav"
-        class="legacy-header-offcanvas offcanvas offcanvas-start flex-grow-1 w-lg-auto ms-lg-auto"
+        class="legacy-header-offcanvas offcanvas offcanvas-start flex-grow-1 flex-shrink-1 min-w-0 w-lg-auto ms-lg-auto"
         tabindex="-1"
         aria-labelledby="navbarNavLabel"
       >
@@ -109,6 +99,17 @@ const authButtonModifier = computed(() => {
           </div>
         </div>
       </nav>
+
+      <button
+        type="button"
+        class="navbar-toggler d-lg-none flex-shrink-0 ms-1"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon" />
+      </button>
     </div>
   </header>
 </template>
