@@ -56,7 +56,7 @@ try {
   await page.getByRole("button", { name: "Edit" }).first().click();
   await page.locator('input[name="availability"]').waitFor({ state: "visible", timeout: 8000 });
   await delay(600);
-  // Check "Has availability" if not already checked
+  // Check "Available only" if not already checked
   const checkbox = page.locator("#availability");
   const checked = await checkbox.isChecked();
   if (!checked) {

@@ -139,7 +139,7 @@ export function footer() {
         </a>
       </p>
       <p class="mb-0 text-xs text-muted-foreground">
-        Copyright &copy; ${year} DBTsearch.org. All rights reserved.
+        &copy; ${year} DBT Search and dbtsearch.org. All rights reserved.
       </p>
     </div>
   </footer>

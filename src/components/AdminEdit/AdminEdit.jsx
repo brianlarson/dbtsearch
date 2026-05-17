@@ -91,7 +91,7 @@ function AdminEdit({ providerEdit, handleCancelClick, editing, setEditing }) {
                         htmlFor="availability"
                         className="form-check-label"
                       >
-                        Has availability
+                        Available only
                       </label>
                     </div>
                   </div>

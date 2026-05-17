@@ -13,8 +13,8 @@ function Footer() {
             Tiny Tree Counseling & Consulting
           </a>
         </p>
-        <p className="text-body-secondary fs-sm text-center mb-0">
-          Copyright &copy;{new Date().getFullYear()} DBTsearch.org. All rights
+        <p className="small text-body-secondary text-center mb-0">
+          &copy;{new Date().getFullYear()} DBT Search and dbtsearch.org. All rights
           reserved.
         </p>
       </div>

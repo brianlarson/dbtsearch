@@ -128,7 +128,7 @@ export function renderLegacyFooter() {
             Tiny Tree Counseling &amp; Consulting
           </a>
         </p>
-        <p class="mt-2 text-xs text-slate-400">Copyright &copy; ${year} DBTsearch.org. All rights reserved.</p>
+        <p class="mt-2 text-xs text-slate-400">&copy; ${year} DBT Search and dbtsearch.org. All rights reserved.</p>
       </div>
     </footer>
   `;
