@@ -17,8 +17,9 @@ const primaryLocationEyebrow = computed(() => {
 })
 
 const logoLoadFailed = ref(false)
-/** Auto-detected tile tone used when provider does not force logoBg. */
-const autoLogoBackdrop = ref<'light' | 'dark'>('light')
+/** Inferred tile: dark slab for light marks, white (`bg-white`) for dark marks. Default dark until @load. */
+const autoLogoBackdrop = ref<'light' | 'dark'>('dark')
+
 const effectiveLogoBackdrop = computed<'light' | 'dark'>(() => {
   if (props.provider.logoBg === 'dark') return 'dark'
   if (props.provider.logoBg === 'light') return 'light'
@@ -29,7 +30,7 @@ watch(
   () => [props.provider.imageUrl, props.provider.logoBg],
   () => {
     logoLoadFailed.value = false
-    autoLogoBackdrop.value = 'light'
+    autoLogoBackdrop.value = 'dark'
   },
 )
 
@@ -113,10 +114,10 @@ function formatUpdatedAt(value: string): string {
                   class="badge fs-sm border"
                   :class="provider.availability ? 'text-success border-success' : 'text-secondary border-secondary'"
                 >
-                  {{ provider.availability ? 'Availability' : 'No Availability' }}
+                  {{ provider.availability ? 'Available' : 'No Availability' }}
                 </span>
                 <span v-if="provider.dbtaCertified" class="badge fs-sm text-info border border-info">
-                  DBT-A Certified
+                  Adolescents
                 </span>
               </div>
               <div
@@ -126,7 +127,7 @@ function formatUpdatedAt(value: string): string {
                 {{ primaryLocationEyebrow }}
               </div>
               <div class="provider-card-heading h3 mb-2">{{ provider.name }}</div>
-              <div class="provider-card-address d-block fs-md text-body-secondary text-decoration-none mb-4">
+              <div class="provider-card-address d-block small text-body-secondary text-decoration-none mb-4">
                 {{ formatAddress(provider) }}
               </div>
               <div class="d-flex flex-wrap align-items-center column-gap-2 row-gap-2 mt-2">
@@ -196,10 +197,6 @@ function formatUpdatedAt(value: string): string {
 
 .provider-card-heading {
   color: rgba(255, 255, 255, 0.88);
-}
-
-.provider-card-address {
-  opacity: 0.72;
 }
 
 .provider-card-logo-img {

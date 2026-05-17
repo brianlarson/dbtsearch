@@ -20,10 +20,13 @@ const props = withDefaults(
     randomHeroVibe?: boolean
     /** Less margin below the heading block (e.g. directory filter sits close under the rule) */
     compactBelow?: boolean
+    /** Use brand / DBT blue for the main page title (e.g. match directory location names). */
+    brandPageHeading?: boolean
   }>(),
   {
     compactBelow: false,
     randomHeroVibe: false,
+    brandPageHeading: false,
   },
 )
 
@@ -63,7 +66,7 @@ const headerHero = computed(() => {
       <div class="col-12">
         <div class="row">
           <div v-if="pageHeading" class="col-md-6 pb-1">
-            <h1 class="h1 m-0">{{ pageHeading }}</h1>
+            <h1 class="h1 m-0" :class="{ 'text-brand': brandPageHeading }">{{ pageHeading }}</h1>
           </div>
           <div
             v-if="pageSubheading"

@@ -17,14 +17,11 @@
   --portal-sticky-toolbar-top: var(--directory-sticky-navbar-offset);
 }
 
-@media (min-width: 576px) {
-  :root {
-    --directory-sticky-navbar-offset: calc(
-      env(safe-area-inset-top, 0px) + 5.5rem - var(--sticky-secondary-overlap) - 1px
-    );
-  }
-}
-
+/*
+ * Collapsed nav (< lg) keeps a similar height from phone through md; the old 576px bump to 5.5rem
+ * made --directory-sticky-toolbar-top too large → sticky filter sat below the real navbar bottom
+ * and a band of scrolled content showed between the two (576–~991).
+ */
 @media (min-width: 992px) {
   :root {
     --directory-sticky-navbar-offset: calc(

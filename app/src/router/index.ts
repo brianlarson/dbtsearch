@@ -64,6 +64,15 @@ export const router = createRouter({
       name: 'provider-portal',
       component: ProviderPortalPageView,
     },
+    ...(import.meta.env.DEV
+      ? [
+          {
+            path: '/dev/logo-lab',
+            name: 'logo-treatment-lab',
+            component: () => import('@/views/LogoTreatmentLabView.vue'),
+          },
+        ]
+      : []),
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',

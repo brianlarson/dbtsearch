@@ -50,7 +50,7 @@ function handleSubmit() {
               <div class="col-md-8 mb-3">
                 <div class="form-check">
                   <input id="availability" v-model="availability" name="availability" type="checkbox" class="form-check-input" />
-                  <label for="availability" class="form-check-label">Has availability</label>
+                  <label for="availability" class="form-check-label">Available only</label>
                 </div>
               </div>
               <div class="col-12 mb-3">

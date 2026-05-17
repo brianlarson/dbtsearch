@@ -9,7 +9,8 @@ const year = new Date().getFullYear()
     <CookieConsentBar />
     <div class="container pt-5">
       <p class="text-center fw-thin fs-6 mb-3">
-        <span class="fw-bold">DBTsearch</span> is powered by
+        <span class="fw-bold">DBT Search</span> is powered by
+        <br class="d-sm-none" />
         <a
           href="https://www.tinytreecounseling.com/"
           class="text-brand"
@@ -17,11 +18,11 @@ const year = new Date().getFullYear()
           rel="noopener noreferrer"
           style="text-decoration-thickness: 1px"
         >
-          Tiny Tree Counseling &amp; Consulting
+          Tiny Tree Counseling
         </a>
       </p>
-      <p class="text-body-secondary fs-sm text-center mb-0">
-        Copyright &copy;{{ year }} DBTsearch.org. All rights reserved.
+      <p class="small text-body-secondary text-center mb-0">
+        &copy;{{ year }} DBT Search and dbtsearch.org. All rights reserved.
       </p>
     </div>
   </footer>

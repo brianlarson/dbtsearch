@@ -84,7 +84,7 @@ watch(onlyAvailable, (value) => {
                       role="switch"
                     />
                     <label class="form-check-label text-body fs-6 fw-medium text-nowrap" for="available-only">
-                      Has availability
+                      Available only
                     </label>
                   </div>
                 </div>

@@ -6,32 +6,33 @@ import { publicPath } from '@/lib/publicPath'
 const props = withDefaults(
   defineProps<{
     isAdmin?: boolean
-    /** When true, primary auth control is Logout (e.g. provider portal). `isAdmin` wins if both set. */
-    showLogout?: boolean
+    /**
+     * Provider portal: Contact + Manage only (no Login/Logout in the bar). Sign out lives elsewhere if needed.
+     */
+    providerPortalNav?: boolean
   }>(),
   {
     isAdmin: false,
-    showLogout: false,
+    providerPortalNav: false,
   },
 )
 
 const authHref = computed(() => {
   if (props.isAdmin) return '/admin'
-  if (props.showLogout) return '/logout'
   return '/login'
 })
 
 const authLabel = computed(() => {
   if (props.isAdmin) return 'Admin'
-  if (props.showLogout) return 'Logout'
   return 'Login'
 })
 
-/** Logout is outline (like Contact) to de-emphasize ending the session; Login/Admin stay solid. */
-const authButtonModifier = computed(() => {
-  if (props.showLogout && !props.isAdmin) return 'btn-outline-secondary'
-  return 'btn-secondary fw-semibold'
-})
+const authButtonModifier = computed(() => 'btn-secondary fw-semibold')
+
+/** Hide Login/Admin when viewing the portal as a provider (Manage is the portal entry). */
+const showAuthButton = computed(() => !props.providerPortalNav || props.isAdmin)
+
+const showManageButton = computed(() => props.providerPortalNav && !props.isAdmin)
 </script>
 
 <template>
@@ -89,12 +90,21 @@ const authButtonModifier = computed(() => {
               Contact
             </RouterLink>
             <RouterLink
+              v-if="showAuthButton"
               class="btn flex-grow-1 flex-lg-grow-0"
               :class="[authButtonModifier, { active: isAdmin }]"
               :to="authHref"
             >
               <i v-if="isAdmin" class="fi-unlock fs-base ms-n1 me-2" />
               {{ authLabel }}
+            </RouterLink>
+            <RouterLink
+              v-if="showManageButton"
+              class="btn btn-secondary fw-semibold flex-grow-1 flex-lg-grow-0"
+              to="/portal"
+            >
+              <i class="fi-edit fs-base ms-n1 me-2" aria-hidden="true" />
+              Manage
             </RouterLink>
           </div>
         </div>

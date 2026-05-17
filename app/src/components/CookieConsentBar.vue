@@ -14,7 +14,7 @@ function dismiss(): void {
 <template>
   <div
     v-if="open"
-    class="cookie-consent-bar text-white border-top border-light border-opacity-25 shadow-sm"
+    class="cookie-consent-bar text-white shadow-sm"
     role="region"
     aria-label="Cookie notice"
   >
@@ -30,7 +30,13 @@ function dismiss(): void {
           </RouterLink>
         </div>
         <div class="d-flex flex-shrink-0 gap-2 align-items-center">
-          <button type="button" class="btn btn-sm btn-secondary fw-semibold px-3" @click="dismiss">Accept</button>
+          <button
+            type="button"
+            class="btn btn-sm cookie-consent-accept fw-semibold px-3 me-3"
+            @click="dismiss"
+          >
+            Accept
+          </button>
           <button type="button" class="btn-close btn-close-white" aria-label="Dismiss cookie notice" @click="dismiss" />
         </div>
       </div>
@@ -49,7 +55,26 @@ function dismiss(): void {
   width: 100%;
   box-sizing: border-box;
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  /* Slightly darker than `bg-body` while tracking theme. */
-  background-color: color-mix(in srgb, var(--bs-body-bg) 88%, black);
+  /* Darker than directory logo well `#252b38`; same blue-gray family. */
+  background-color: #1a1f2e;
+}
+
+/* Match provider portal save button (`.btn-portal-save-active`). */
+.cookie-consent-accept {
+  --cookie-accept-fg: #0b2239;
+  background-color: #2ba471;
+  border-color: #258a5f;
+  color: var(--cookie-accept-fg);
+}
+
+.cookie-consent-accept:hover {
+  background-color: #248f62;
+  border-color: #1e7a54;
+  color: var(--cookie-accept-fg);
+}
+
+.cookie-consent-accept:focus-visible {
+  box-shadow: 0 0 0 0.25rem rgba(43, 164, 113, 0.45);
+  color: var(--cookie-accept-fg);
 }
 </style>

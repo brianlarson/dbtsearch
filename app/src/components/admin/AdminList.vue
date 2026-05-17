@@ -22,11 +22,11 @@ const emit = defineEmits<{
           <div class="d-flex gap-2 align-items-center mb-3">
             <div class="me-4">
               <span class="badge border" :class="provider.availability ? 'text-success border-success' : 'text-secondary border-secondary'">
-                {{ provider.availability ? 'Availability' : 'No Availability' }}
+                {{ provider.availability ? 'Available' : 'No Availability' }}
               </span>
             </div>
             <div v-if="provider.dbtaCertified" class="me-4">
-              <span class="badge text-brand border-info border">DBT-A Certified</span>
+              <span class="badge text-brand border-info border">Adolescents</span>
             </div>
           </div>
           <div class="fs-5 fw-semibold">{{ provider.name }}</div>

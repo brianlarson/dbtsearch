@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { resolveProviderLogoUrl } from '@/lib/providerLogo'
 import { publicPath } from '@/lib/publicPath'
-import type { Provider, ProvidersQueryOptions } from '@/types/provider'
+import type { Provider, ProviderLogoBg, ProvidersQueryOptions } from '@/types/provider'
 
 interface CraftLocationEntry {
   id?: string | number
@@ -40,6 +40,10 @@ interface CraftProviderEntry {
   providerLogo?: Array<{ url?: string | null }> | { url?: string | null } | null
   logo?: Array<{ url?: string | null }> | { url?: string | null } | null
   image?: Array<{ url?: string | null }> | { url?: string | null } | string | null
+  logoBg?: string
+  logo_bg?: string
+  logoBackground?: string
+  logo_background?: string
 }
 
 interface GraphQlPayload {
@@ -61,6 +65,7 @@ const DIRECTORY_PROVIDERS_QUERY = `
           url
         }
         dbtaCertified
+        logoBg
         dateUpdated
         locations {
           ... on location_Entry {
@@ -102,6 +107,13 @@ function rawImageField(entry: CraftProviderEntry): string {
 
 function getImageUrl(entry: CraftProviderEntry): string {
   return resolveProviderLogoUrl(rawImageField(entry), getLinkUrl(entry.website))
+}
+
+function normalizeLogoBg(value: unknown): ProviderLogoBg {
+  if (typeof value !== 'string') return 'auto'
+  const normalized = value.trim().toLowerCase()
+  if (normalized === 'light' || normalized === 'dark') return normalized
+  return 'auto'
 }
 
 function normalizeWebsiteHost(website: string): string {
@@ -187,6 +199,9 @@ function mapEntryToProvider(entry: CraftProviderEntry): Provider {
     email: asString(entry.email),
     website: getLinkUrl(entry.website),
     imageUrl: getImageUrl(entry),
+    logoBg: normalizeLogoBg(
+      entry.logoBg ?? entry.logo_bg ?? entry.logoBackground ?? entry.logo_background,
+    ),
     primaryLocation,
     locations,
     updatedAt: asString(entry.dateUpdated ?? entry.updatedAt ?? entry.updated_at),

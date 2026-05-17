@@ -1,3 +1,5 @@
+export type ProviderLogoBg = 'auto' | 'light' | 'dark'
+
 export interface Provider {
   id: string
   name: string
@@ -9,6 +11,8 @@ export interface Provider {
   phone: string
   email: string
   website: string
+  /** Per-provider logo container: `dark` / `light` force that tile; otherwise inferred from the image. */
+  logoBg?: ProviderLogoBg
   primaryLocation: ProviderLocation
   locations: ProviderLocation[]
 }
