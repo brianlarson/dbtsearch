@@ -7,7 +7,8 @@ Current MVP roadmap for DBTsearch directory + provider portal.
 ## Current Snapshot
 
 - **Directory:** Availability-only filter + results count, sticky filter bar, sort by `updatedAt` desc, back-to-top control.
-- **Provider cards:** Logos are lazy loaded (`loading="lazy"`, `decoding="async"`).
+- **Vue splash (`/find/` root):** After a visitor opens the directory once, an engagement cookie sends later visits from the splash route to `/providers` unless they use `?splash` or `?home` on the splash URL. Craft marketing URLs at site `/` are unchanged.
+- **Provider cards:** Logos are lazy loaded (`loading="lazy"`, `decoding="async"`). Optional Craft field `logoBg` forces the light or dark logo tile instead of client inference.
 - **Provider portal UI:** Edit flow is focused and sticky; provider users can currently edit:
   - provider name, phone, email, website
   - location name (Craft `location` `entry.title`)
@@ -56,6 +57,8 @@ Current MVP roadmap for DBTsearch directory + provider portal.
    - Verify provider users cannot write out-of-scope entries.
    - Verify non-whitelisted payload keys are ignored/rejected.
    - Smoke test portal flow on mobile + desktop sticky behavior.
+
+**Staging access:** HTTP Basic (or equivalent) at the reverse proxy can gate preview hosts before launch. That is separate from Craft session login for the provider portal and is optional unless you need to hide the whole site or `/find/` from crawlers and casual visitors.
 
 ---
 
