@@ -33,6 +33,8 @@ class Module extends BaseModule
     private const LOCATION_PROVIDER_FIELD_HANDLE = 'provider';
     private const PROVIDER_SECTION_HANDLE = 'providers';
     private const LOCATION_SECTION_HANDLE = 'locations';
+    /** Provider group editors may not change branding fields; CP admins can. */
+    private const ADMIN_ONLY_PROVIDER_FIELD_HANDLES = ['logo', 'logoBg'];
 
     private bool $isComputingScope = false;
     private ?array $cachedProviderIds = null;
@@ -103,6 +105,41 @@ class Module extends BaseModule
 
             if (!$this->canAccessEntryId($entryId)) {
                 throw new ForbiddenHttpException('You do not have permission to access this entry.');
+            }
+
+            if ($actionId === 'save-entry') {
+                $this->enforceAdminOnlyProviderFields($entryId);
+            }
+        }
+    }
+
+    private function enforceAdminOnlyProviderFields(int $entryId): void
+    {
+        $entry = Entry::find()
+            ->id($entryId)
+            ->status(null)
+            ->drafts(null)
+            ->provisionalDrafts(null)
+            ->trashed(null)
+            ->one();
+
+        if (!$entry instanceof Entry) {
+            return;
+        }
+
+        if ((string) $entry->section->handle !== self::PROVIDER_SECTION_HANDLE) {
+            return;
+        }
+
+        $request = Craft::$app->getRequest();
+        $fields = $request->getBodyParam('fields');
+        if (!is_array($fields)) {
+            return;
+        }
+
+        foreach (self::ADMIN_ONLY_PROVIDER_FIELD_HANDLES as $fieldHandle) {
+            if (array_key_exists($fieldHandle, $fields)) {
+                throw new ForbiddenHttpException('Only admins can change provider logo settings.');
             }
         }
     }
