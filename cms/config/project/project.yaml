@@ -23,14 +23,27 @@ meta:
     98fab9df-c419-4085-9a57-5c61f96573c2: Form # Form
     288c542e-3541-4e24-96ee-aa5fa0bea135: General # General
     3220f3b5-89ff-450e-9a8c-83bd4b04bdf5: 'Public Schema' # Public Schema
+    26bd9a89-a4c8-4121-9230-b86458dfb08e: 'Provider Name' # Provider Name
+    2514f6c1-78a2-47cd-8be0-32d74843c837: Providers # Providers
     acef0518-5cc6-4dd0-9231-234846cfc200: Approved # Approved
+    a5daa8c3-9bcd-4ac7-8d6f-eea2b58ae584: 'Provider Website' # Provider Website
     bcf50025-2188-4126-a360-29999caeae89: 'Splash Page' # Splash Page
     cc0c373f-6532-483b-831f-3c8878b9bb8e: 'DBT Search' # DBT Search
+    dbd459d3-4e0c-4e19-ba1c-d8f11aaf6587: 'Provider Zip' # Provider Zip
     d7cbe0ad-28b6-4a03-ace9-d634d2072400: 'Contact Form' # Contact Form
+    d63473e2-aa30-4438-a769-e3f61b6130da: 'Provider Email' # Provider Email
     ddb25fd5-a759-494a-9d4d-96a6e44c941e: 'Plain Text' # Plain Text
     ddb17090-e3f7-41d7-aab7-b1729da37d11: Subscriber # Subscriber
     e37b7064-6cc1-44c5-a156-52caa30e8b65: 'Splash Page' # Splash Page
+    e08c360d-dfd5-42aa-baff-727aff7b4573: 'Provider Availability' # Provider Availability
     eb8a7a70-63cb-4cc1-bae4-e3516a6766ee: Splash # Splash
+    96a43ec4-198d-4353-8ab1-904ca4708961: 'Provider Phone' # Provider Phone
+    927b6431-142f-45bd-9b26-030dd61f2f75: 'Provider DBTA Certified' # Provider DBTA Certified
+    3581a892-e035-42ec-9cd0-7843ee2a87d6: Provider # Provider
+    17f5f580-bf54-4313-8451-0cf14f6c62f3: 'Provider City' # Provider City
+    16c9f2ce-e68a-41f7-a3e7-5e6d3078bf53: 'Provider Logo' # Provider Logo
+    31923f6a-f5f7-407c-8a4a-7f3454134fae: 'Provider Address' # Provider Address
+    4326b76c-b701-4565-b158-b46339100700: 'Provider State' # Provider State
     fe417a71-4d1b-460f-8a63-7ac81c0e5092: Images # Images
 plugins:
   ckeditor:

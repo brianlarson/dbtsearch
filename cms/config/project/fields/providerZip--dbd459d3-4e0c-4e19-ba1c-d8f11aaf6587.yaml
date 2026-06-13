@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: providerZip
+instructions: null
+name: 'Provider Zip'
+searchable: true
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 1
+  multiline: false
+  placeholder: null
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

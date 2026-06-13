@@ -1,0 +1,12 @@
+columnSuffix: null
+handle: providerDbtaCertified
+instructions: null
+name: 'Provider DBTA Certified'
+searchable: false
+settings:
+  default: false
+  offLabel: null
+  onLabel: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

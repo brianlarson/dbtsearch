@@ -1,0 +1,109 @@
+{% set searchTerm = craft.app.request.getQueryParam('q') ?? '' %}
+{% set onlyAvailable = craft.app.request.getQueryParam('availability') == '1' %}
+
+{% set providersQuery = craft.entries()
+  .section('providers')
+  .status(null)
+  .limit(500) %}
+
+{% if searchTerm %}
+  {% set providersQuery = providersQuery.search(searchTerm ~ '*') %}
+{% endif %}
+
+{% if onlyAvailable %}
+  {% set providersQuery = providersQuery.providerAvailability(true) %}
+{% endif %}
+
+{% set providers = providersQuery.orderBy('title asc').all() %}
+
+<!DOCTYPE html>
+<html lang="{{ craft.app.language }}" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Directory | {{ siteName ?? 'DBT Search' }}</title>
+  <link rel="stylesheet" href="{{ url('/css/splash.css') }}" />
+</head>
+<body class="dark min-h-screen bg-background text-foreground font-sans antialiased" data-theme="dbtsearch">
+  <header class="border-b border-navbar-line bg-navbar">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <a href="{{ url('/') }}" class="flex items-center gap-3">
+        <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-10 w-auto sm:h-12" />
+      </a>
+      <a href="{{ url('/') }}" class="text-sm text-primary underline decoration-1">Back to splash</a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-white sm:text-4xl">DBT Providers in Minnesota</h1>
+      <p class="mt-2 text-sm text-muted-foreground">Native Craft template baseline (no Vue/GraphQL).</p>
+    </div>
+
+    <form method="get" action="{{ url('directory') }}" class="mb-6 grid gap-4 rounded-xl border border-layer-line bg-layer p-4 sm:grid-cols-[1fr_auto_auto] sm:items-end">
+      <div>
+        <label for="directory-q" class="mb-1 block text-sm font-medium text-slate-200">Search by provider name</label>
+        <input
+          id="directory-q"
+          type="search"
+          name="q"
+          value="{{ searchTerm }}"
+          placeholder="Start typing a provider name..."
+          class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+        />
+      </div>
+      <label class="inline-flex items-center gap-2 text-sm text-slate-300">
+        <input type="checkbox" name="availability" value="1" {% if onlyAvailable %}checked{% endif %} />
+        <span>Only show availability</span>
+      </label>
+      <button type="submit" class="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground hover:opacity-90">Apply</button>
+    </form>
+
+    <p class="mb-4 text-sm text-slate-400">Results: {{ providers|length }}</p>
+
+    {% if providers is empty %}
+      <section class="rounded-xl border border-layer-line bg-layer p-6 text-sm text-muted-foreground">
+        No providers found. Try clearing your filters.
+      </section>
+    {% else %}
+      <ul class="space-y-5">
+        {% for provider in providers %}
+          {% set logo = provider.providerLogo.one() ?? null %}
+          <li class="rounded-xl border border-layer-line bg-layer p-5">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div class="min-w-0 flex-1">
+                <div class="mb-2 flex flex-wrap gap-2">
+                  <span class="rounded border px-2 py-0.5 text-xs font-medium {{ provider.availability ? 'border-emerald-500/70 text-emerald-300' : 'border-slate-500 text-slate-400' }}">
+                    {{ provider.availability ? 'Availability' : 'No Availability' }}
+                  </span>
+                  {% if provider.dbtaCertified %}
+                    <span class="rounded border border-sky-500/60 px-2 py-0.5 text-xs font-medium text-sky-300">DBT-A Certified</span>
+                  {% endif %}
+                </div>
+                <h2 class="text-xl font-semibold text-brand">{{ provider.name ?: provider.title }}</h2>
+                <p class="mt-2 text-sm text-slate-300">
+                  {{ provider.address }}{% if provider.address and provider.city %}, {% endif %}{{ provider.city }}{% if provider.state %}, {{ provider.state }}{% endif %} {{ provider.zip }}
+                </p>
+                {% if provider.phone %}
+                  <p class="mt-2 text-sm"><a href="tel:{{ provider.phone|replace({' ': '', '-': '', '(': '', ')': ''}) }}" class="text-primary underline decoration-1">{{ provider.phone }}</a></p>
+                {% endif %}
+              </div>
+              <div class="flex w-full max-w-xs flex-col items-start gap-3 sm:items-end">
+                {% if logo %}
+                  <img src="{{ logo.url }}" alt="{{ provider.name ?: provider.title }} logo" class="h-16 w-auto rounded bg-white p-2" />
+                {% endif %}
+                {% if provider.website %}
+                  <a href="{{ provider.website }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary/50 hover:text-white">Website</a>
+                {% endif %}
+                {% if provider.email %}
+                  <a href="mailto:{{ provider.email }}?subject=Inquiry%20from%20DBTsearch.org" class="inline-flex items-center rounded border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary/50 hover:text-white">Email</a>
+                {% endif %}
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </main>
+</body>
+</html>
