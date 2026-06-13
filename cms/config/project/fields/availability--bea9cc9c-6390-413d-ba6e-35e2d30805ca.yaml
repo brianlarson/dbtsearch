@@ -1,12 +1,13 @@
 columnSuffix: null
-handle: providerAvailability
+handle: availability
 instructions: null
-name: 'Provider Availability'
+name: Availability
 searchable: false
 settings:
   default: false
-  offLabel: null
-  onLabel: null
+  offLabel: Full
+  onLabel: Accepting
+  showLabelsInCards: true
 translationKeyFormat: null
 translationMethod: none
 type: craft\fields\Lightswitch

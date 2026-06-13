@@ -2,15 +2,11 @@ defaultPlacement: end
 enableVersioning: true
 entryTypes:
   -
-    uid: 3581a892-e035-42ec-9cd0-7843ee2a87d6 # Provider
+    uid: e39ba0fb-a676-4318-98f7-8ad50f557c6d # Providers
 handle: providers
-maxAuthors: 1
+maxAuthors: null
 name: Providers
-previewTargets:
-  -
-    label: 'Primary entry page'
-    refresh: '1'
-    urlFormat: '{url}'
+previewTargets: null
 propagationMethod: all
 siteSettings:
   0e198a9f-3b1b-487f-80ee-3c2aeed6d349: # DBT Search

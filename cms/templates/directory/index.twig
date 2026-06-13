@@ -4,17 +4,33 @@
 {% set providersQuery = craft.entries()
   .section('providers')
   .status(null)
-  .limit(500) %}
+  .with(['locations', 'logo'])
+  .limit(500)
+  .orderBy('title asc') %}
 
 {% if searchTerm %}
   {% set providersQuery = providersQuery.search(searchTerm ~ '*') %}
 {% endif %}
 
-{% if onlyAvailable %}
-  {% set providersQuery = providersQuery.providerAvailability(true) %}
-{% endif %}
+{% set providerEntries = providersQuery.all() %}
+{% set providers = [] %}
 
-{% set providers = providersQuery.orderBy('title asc').all() %}
+{% for provider in providerEntries %}
+  {% set locations = provider.locations.all() %}
+  {% set hasAvailability = false %}
+  {% for location in locations %}
+    {% if location.availability %}
+      {% set hasAvailability = true %}
+    {% endif %}
+  {% endfor %}
+  {% if not onlyAvailable or hasAvailability %}
+    {% set providers = providers|merge([{
+      provider: provider,
+      locations: locations,
+      hasAvailability: hasAvailability
+    }]) %}
+  {% endif %}
+{% endfor %}
 
 <!DOCTYPE html>
 <html lang="{{ craft.app.language }}" class="dark">
@@ -67,36 +83,44 @@
       </section>
     {% else %}
       <ul class="space-y-5">
-        {% for provider in providers %}
-          {% set logo = provider.providerLogo.one() ?? null %}
+        {% for item in providers %}
+          {% set provider = item.provider %}
+          {% set primaryLocation = item.locations|first %}
+          {% set logo = provider.logo.one() ?? null %}
+          {% set providerPhone = attribute(provider, 'phone') ?? '' %}
+          {% set providerEmail = attribute(provider, 'email') ?? '' %}
+          {% set websiteField = attribute(provider, 'website') ?? attribute(provider, 'urlField') ?? null %}
+          {% set websiteUrl = websiteField ? (websiteField.url ?? websiteField) : '' %}
           <li class="rounded-xl border border-layer-line bg-layer p-5">
             <div class="flex flex-wrap items-start justify-between gap-4">
               <div class="min-w-0 flex-1">
                 <div class="mb-2 flex flex-wrap gap-2">
-                  <span class="rounded border px-2 py-0.5 text-xs font-medium {{ provider.availability ? 'border-emerald-500/70 text-emerald-300' : 'border-slate-500 text-slate-400' }}">
-                    {{ provider.availability ? 'Availability' : 'No Availability' }}
+                  <span class="rounded border px-2 py-0.5 text-xs font-medium {{ item.hasAvailability ? 'border-emerald-500/70 text-emerald-300' : 'border-slate-500 text-slate-400' }}">
+                    {{ item.hasAvailability ? 'Availability' : 'No Availability' }}
                   </span>
                   {% if provider.dbtaCertified %}
                     <span class="rounded border border-sky-500/60 px-2 py-0.5 text-xs font-medium text-sky-300">DBT-A Certified</span>
                   {% endif %}
                 </div>
-                <h2 class="text-xl font-semibold text-brand">{{ provider.name ?: provider.title }}</h2>
-                <p class="mt-2 text-sm text-slate-300">
-                  {{ provider.address }}{% if provider.address and provider.city %}, {% endif %}{{ provider.city }}{% if provider.state %}, {{ provider.state }}{% endif %} {{ provider.zip }}
-                </p>
-                {% if provider.phone %}
-                  <p class="mt-2 text-sm"><a href="tel:{{ provider.phone|replace({' ': '', '-': '', '(': '', ')': ''}) }}" class="text-primary underline decoration-1">{{ provider.phone }}</a></p>
+                <h2 class="text-xl font-semibold text-brand">{{ provider.title }}</h2>
+                {% if primaryLocation %}
+                  <p class="mt-2 text-sm text-slate-300">
+                    {{ primaryLocation.title }}{% if primaryLocation.city %}, {{ primaryLocation.city }}{% endif %}{% if primaryLocation.state %}, {{ primaryLocation.state }}{% endif %} {{ primaryLocation.zip }}
+                  </p>
+                {% endif %}
+                {% if providerPhone %}
+                  <p class="mt-2 text-sm"><a href="tel:{{ providerPhone|replace({' ': '', '-': '', '(': '', ')': ''}) }}" class="text-primary underline decoration-1">{{ providerPhone }}</a></p>
                 {% endif %}
               </div>
               <div class="flex w-full max-w-xs flex-col items-start gap-3 sm:items-end">
                 {% if logo %}
-                  <img src="{{ logo.url }}" alt="{{ provider.name ?: provider.title }} logo" class="h-16 w-auto rounded bg-white p-2" />
+                  <img src="{{ logo.url }}" alt="{{ provider.title }} logo" class="h-16 w-auto rounded bg-white p-2" />
                 {% endif %}
-                {% if provider.website %}
-                  <a href="{{ provider.website }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary/50 hover:text-white">Website</a>
+                {% if websiteUrl %}
+                  <a href="{{ websiteUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary/50 hover:text-white">Website</a>
                 {% endif %}
-                {% if provider.email %}
-                  <a href="mailto:{{ provider.email }}?subject=Inquiry%20from%20DBTsearch.org" class="inline-flex items-center rounded border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary/50 hover:text-white">Email</a>
+                {% if providerEmail %}
+                  <a href="mailto:{{ providerEmail }}?subject=Inquiry%20from%20DBTsearch.org" class="inline-flex items-center rounded border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary/50 hover:text-white">Email</a>
                 {% endif %}
               </div>
             </div>
