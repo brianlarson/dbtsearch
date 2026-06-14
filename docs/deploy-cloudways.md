@@ -69,17 +69,27 @@ Also set mail, queue, and API secrets per environment.
 
 ## 4) Deploy command sequence (every deploy)
 
-From app root (parent of `cms/`):
+Preferred: run the repo helper from app root:
+
+```bash
+./scripts/cloudways-post-deploy.sh
+```
+
+If your team standard is `craft up`, use:
+
+```bash
+./scripts/cloudways-post-deploy.sh --with-up
+```
+
+Manual equivalent (from app root) if needed:
 
 ```bash
 cd cms
 composer install --no-dev --optimize-autoloader
-php craft project-config/apply --force
-php craft migrate/all
-php craft clear-caches/all
+php craft project-config/apply --force --interactive=0
+php craft migrate/all --interactive=0
+php craft clear-caches/all --interactive=0
 ```
-
-If your team standard is `php craft up`, use it consistently and document it.
 
 ## Content and media sync policy
 

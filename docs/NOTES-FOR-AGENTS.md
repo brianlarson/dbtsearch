@@ -33,5 +33,6 @@ Short reference for anyone (human or AI) working in this repo.
 
 - **Node:** Use Node 20.19+ for legacy app (see `.nvmrc`); run `nvm use` before `npm install` / `npm run client`.
 - **Naming:** Prefer “DBT Search” (with space) in prose; code/URLs may still use “dbtsearch” where that’s the identifier.
+- **Cloudways deploy helper:** Use `./scripts/cloudways-post-deploy.sh` for post-deploy Craft tasks.
 
 This project is AI-assisted; docs and code can have mistakes. Review and test changes.
