@@ -4,7 +4,9 @@ This gets you to a single MySQL database so **Craft DB backup** (Control Panel a
 
 ## Current state
 
-- DDEV primary database is **Postgres** (Craft uses the **mysql8** sidecar for MySQL).
+- DDEV primary database is **Postgres** (legacy / Node app).
+- **Craft CMS 5.10+** uses the **mysql8** sidecar (MySQL 8.0) — database `craft`, user `craft`.
+- `ddev import-db` targets Postgres only. Craft backups must import via `ddev craft-db-import` or `pnpm mm -- pull` (both target mysql8/craft).
 - You cannot change `config.yaml` from Postgres to MySQL and restart: DDEV will refuse because the existing db volume is Postgres. Use the steps below.
 
 ## Steps (run from project root)

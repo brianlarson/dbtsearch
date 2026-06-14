@@ -1,5 +1,5 @@
 color: blue
-description: ''
+description: null
 handle: subscriber
 isDefault: false
 name: Subscriber

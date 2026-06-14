@@ -10,5 +10,13 @@
  */
 
 return [
-    'directory' => 'directory/index',
+    'directory' => ['template' => 'directory/index'],
+    'providers' => ['template' => 'directory/index'],
+    'about' => ['template' => 'about/index'],
+    'faqs' => ['template' => 'faqs/index'],
+    'contact' => ['template' => 'contact/index'],
+    'login' => ['template' => 'login/index'],
+    'register' => ['template' => 'register/index'],
+    'sign-out' => 'users/logout',
+    'signed-out' => ['template' => 'logout/index'],
 ];

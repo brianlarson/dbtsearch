@@ -18,6 +18,8 @@ Use this when promoting the repo change that flattened Craft from `cms/` to repo
 
 ## 1) Staging first (required)
 
+See [STAGING-dev.dbtsearch.org.md](STAGING-dev.dbtsearch.org.md) for dev.dbtsearch.org specifics (SSH key per app, `.env` at root, `dev.cfg` paths).
+
 1. Take a DB backup/snapshot of staging.
 2. In Cloudways **Staging app settings**, change document root to:
    - `web`

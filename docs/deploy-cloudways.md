@@ -5,6 +5,8 @@ This runbook is the recommended way to connect environments for DBT Search on Cl
 If you are deploying the repo change that moved Craft from `cms/` to root, follow:
 [CLOUDWAYS-FLATTEN-CHECKLIST.md](CLOUDWAYS-FLATTEN-CHECKLIST.md)
 
+Staging app runbook (dev.dbtsearch.org): [STAGING-dev.dbtsearch.org.md](STAGING-dev.dbtsearch.org.md)
+
 ## Recommendation
 
 Use **staging-first** deployment:

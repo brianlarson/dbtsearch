@@ -1,0 +1,15 @@
+{% extends '_layouts/site' %}
+
+{% set pageHeading = 'Thank you!' %}
+{% set omitSubheading = true %}
+
+{% block content %}
+  <main class="pb-12">
+    <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 md:pt-8 lg:px-8">
+      <div class="max-w-3xl text-base leading-relaxed text-slate-300">
+        <p>You are now logged out of the system.<br />
+        <a href="{{ url('login') }}" class="text-brand underline decoration-1 hover:opacity-90">Click here</a> if you would like to login again.</p>
+      </div>
+    </section>
+  </main>
+{% endblock %}

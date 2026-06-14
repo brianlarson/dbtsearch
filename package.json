@@ -26,7 +26,8 @@
     "server": "nodemon --watch server server/server.js",
     "build": "vite build",
     "test": "vitest",
-    "capture:markup": "node scripts/capture-reference-markup.mjs"
+    "capture:markup": "node scripts/capture-reference-markup.mjs",
+    "mm": "python3 scripts/migrate/mm.py"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",

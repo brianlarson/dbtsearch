@@ -1,8 +1,10 @@
+{% extends '_layouts/site' %}
+
 {% set searchTerm = craft.app.request.getQueryParam('q') ?? '' %}
 {% set onlyAvailable = craft.app.request.getQueryParam('availability') == '1' %}
 {% set pageHeading = 'Providers' %}
 {% set pageSubheading = 'DBT Providers in Minnesota' %}
-{% set heroImageUrl = '/images/pexels-hero-1440.webp' %}
+{% set activeNav = 'directory' %}
 
 {% set providersQuery = craft.entries()
   .section('providers')
@@ -35,52 +37,7 @@
   {% endif %}
 {% endfor %}
 
-<!DOCTYPE html>
-<html lang="{{ craft.app.language }}" class="dark">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Directory | {{ siteName ?? 'DBT Search' }}</title>
-  <link rel="stylesheet" href="{{ url('/css/splash.css') }}" />
-</head>
-<body class="dark min-h-screen bg-background text-foreground font-sans antialiased" data-theme="dbtsearch">
-  <header class="sticky top-0 z-[1030] border-b border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80">
-    <div class="mx-auto flex max-w-6xl items-center gap-2 px-4 py-2 sm:px-6 lg:px-8">
-      <a href="{{ url('/') }}" class="inline-flex shrink-0 items-center py-1 md:py-2 xl:py-1">
-        <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-auto max-w-[170px] md:hidden" width="170" height="40" />
-        <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="hidden h-auto max-w-[280px] md:block" width="280" height="48" />
-      </a>
-      <nav class="hidden flex-1 items-center justify-center gap-1 md:flex lg:gap-2" aria-label="Primary">
-        <a href="{{ url('directory') }}" class="rounded-md bg-slate-800/80 px-3 py-2 text-sm font-medium text-white" aria-current="page">Providers</a>
-        <a href="{{ url('about') }}" class="rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white">About</a>
-        <a href="{{ url('faqs') }}" class="rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white">FAQs</a>
-      </nav>
-      <div class="ml-auto flex items-center gap-1 sm:gap-2">
-        <a href="{{ url('contact') }}" class="hidden rounded-md border border-slate-600 px-3 py-2 text-sm font-medium text-slate-200 hover:border-slate-500 hover:bg-slate-800/50 hover:text-white md:inline-flex">Contact</a>
-        <a href="{{ url('login') }}" class="inline-flex items-center rounded-md bg-slate-600 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-500">Login</a>
-      </div>
-    </div>
-  </header>
-
-  <section class="relative min-h-[7rem] bg-slate-900 py-5 md:min-h-[9rem]">
-    <div class="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8"></div>
-    <div class="absolute inset-0 grid grid-cols-1 md:grid-cols-2">
-      <div class="hidden md:block"></div>
-      <div class="relative" aria-hidden="true">
-        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ heroImageUrl }}');"></div>
-      </div>
-    </div>
-    <div class="absolute inset-0 bg-black/50 md:hidden" aria-hidden="true"></div>
-  </section>
-
-  <section class="mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-8 lg:px-8">
-    <div class="grid grid-cols-1 items-end gap-2 md:grid-cols-2 md:gap-4">
-      <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">{{ pageHeading }}</h1>
-      <h2 class="text-base font-medium text-slate-400 md:text-right">{{ pageSubheading }}</h2>
-    </div>
-    <hr class="mt-4 border-slate-700" />
-  </section>
-
+{% block content %}
   <main class="mx-auto mb-2 max-w-6xl px-4 sm:px-6 lg:mb-4 lg:px-8 xl:mb-5">
     <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
       <div class="mb-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -93,17 +50,17 @@
       </div>
 
       <form id="directory-filters" method="get" action="{{ url('directory') }}" class="grid gap-3">
-      <div>
-        <label for="directory-q" class="mb-1 block text-sm font-medium text-slate-200">Search by provider name</label>
-        <input
-          id="directory-q"
-          type="search"
-          name="q"
-          value="{{ searchTerm }}"
-          placeholder="Start typing a provider name..."
-          class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-        />
-      </div>
+        <div>
+          <label for="directory-q" class="mb-1 block text-sm font-medium text-slate-200">Search by provider name</label>
+          <input
+            id="directory-q"
+            type="search"
+            name="q"
+            value="{{ searchTerm }}"
+            placeholder="Start typing a provider name..."
+            class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          />
+        </div>
         <div>
           <button type="submit" class="inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground hover:opacity-90">Apply filters</button>
         </div>
@@ -111,8 +68,8 @@
     </div>
 
     {% if providers is empty %}
-      <section class="mt-6 rounded-xl border border-layer-line bg-layer p-6 text-center">
-        <p class="mb-4 text-sm text-muted-foreground">No providers match your current filters.</p>
+      <section class="mt-6 rounded-xl border border-slate-800 bg-slate-900/50 p-6 text-center">
+        <p class="mb-4 text-sm text-slate-400">No providers match your current filters.</p>
         <a href="{{ url('directory') }}" class="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90">Reset filters</a>
       </section>
     {% else %}
@@ -154,9 +111,9 @@
                   <div class="flex flex-col gap-6 p-4 sm:flex-row sm:justify-between sm:gap-4 sm:py-10 sm:pl-3 sm:pr-4 md:pl-6 md:pr-12">
                     <div class="relative min-w-0 pe-2 sm:pe-4">
                       <div class="mb-4 flex flex-wrap gap-2">
-                  <span class="rounded border px-2 py-0.5 text-xs font-medium {{ item.hasAvailability ? 'border-emerald-500/70 text-emerald-300' : 'border-slate-500 text-slate-400' }}">
-                    {{ item.hasAvailability ? 'Availability' : 'No Availability' }}
-                  </span>
+                        <span class="rounded border px-2 py-0.5 text-xs font-medium {{ item.hasAvailability ? 'border-emerald-500/70 text-emerald-300' : 'border-slate-500 text-slate-400' }}">
+                          {{ item.hasAvailability ? 'Availability' : 'No Availability' }}
+                        </span>
                         {% if provider.dbtaCertified %}
                           <span class="rounded border border-sky-500/60 px-2 py-0.5 text-xs font-medium text-sky-300">DBT-A Certified</span>
                         {% endif %}
@@ -196,15 +153,4 @@
       </ul>
     {% endif %}
   </main>
-
-  <footer class="mt-14 border-t border-slate-800/80 bg-slate-950/80">
-    <div class="mx-auto max-w-6xl px-4 py-8 text-center sm:px-6 lg:px-8">
-      <p class="mb-3 text-sm text-slate-300">
-        <span class="font-semibold text-slate-100">DBTsearch</span> is powered by
-        <a href="https://www.tinytreecounseling.com/" class="ml-1 text-brand underline decoration-1 hover:opacity-90" target="_blank" rel="noopener noreferrer">Tiny Tree Counseling &amp; Consulting</a>
-      </p>
-      <p class="text-xs text-slate-400">Copyright &copy; {{ "now"|date("Y") }} DBTsearch.org. All rights reserved.</p>
-    </div>
-  </footer>
-</body>
-</html>
+{% endblock %}

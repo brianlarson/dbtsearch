@@ -1,5 +1,5 @@
 color: yellow
-description: ''
+description: null
 handle: pending
 isDefault: true
 name: Pending
