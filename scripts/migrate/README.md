@@ -11,5 +11,5 @@ without committing them to the repo.
 ## Notes
 
 - If you need to share a migration script with the team, place it somewhere else in the repo
-  (or change `cms/scripts/migrate/.gitignore` to explicitly allow it).
+  (or change `scripts/migrate/.gitignore` to explicitly allow it).
 

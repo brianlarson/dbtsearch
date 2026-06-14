@@ -203,7 +203,6 @@ Use Feed Me matching on `sourceLocationId`, not title, so title and address form
 To clean old entries that still include city/state/zip in the title:
 
 ```bash
-cd cms
 php craft sync/sync/normalize-location-titles
 php craft sync/sync/normalize-location-titles --dry-run=0
 ```
@@ -216,13 +215,13 @@ php craft sync/sync/provider-locations
 
 ---
 
-## 8) Import files (`cms/web/imports`)
+## 8) Import files (`web/imports`)
 
 Use split feeds so Providers and Locations are imported independently but linked by immutable IDs.
 
 Source CSV:
 
-- `cms/web/imports/mn_dbt_providers_final.csv`
+- `web/imports/mn_dbt_providers_final.csv`
 
 Generate feeds:
 
@@ -232,8 +231,8 @@ npm run imports:mn-split
 
 Outputs:
 
-- `cms/web/imports/mn-dbt-providers.providers.json`
-- `cms/web/imports/mn-dbt-providers.locations.json`
+- `web/imports/mn-dbt-providers.providers.json`
+- `web/imports/mn-dbt-providers.locations.json`
 
 `sourceProviderId` in JSON is a **SHA-256 hex** of the **normalized provider name** (trimmed, lowercased). It must be **one id per org** so multi-row CSV data does not create multiple Feed Me provider rows when phone or website strings differ between location lines.
 
@@ -249,7 +248,6 @@ Feed Me run order:
 3. Refresh provider relation rollup:
 
 ```bash
-cd cms
 php craft sync/sync/provider-locations
 ```
 

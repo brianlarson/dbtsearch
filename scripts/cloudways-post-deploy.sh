@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Cloudways post-deploy helper for Craft.
-# Runs from anywhere and applies the standard deploy sequence in ./cms.
+# Runs from anywhere and applies the standard deploy sequence.
 set -euo pipefail
 
 usage() {
@@ -8,7 +8,7 @@ usage() {
 Usage: ./scripts/cloudways-post-deploy.sh [options]
 
 Options:
-  --cms-dir <path>     Path to cms directory (default: <repo>/cms)
+  --cms-dir <path>     Path to Craft project directory (auto-detected)
   --skip-composer      Skip composer install
   --with-up            Run `php craft up` instead of explicit apply/migrate steps
   -h, --help           Show this help message
@@ -16,7 +16,7 @@ EOF
 }
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CMS_DIR="${PROJECT_ROOT}/cms"
+CMS_DIR="${PROJECT_ROOT}"
 SKIP_COMPOSER=0
 WITH_UP=0
 
@@ -55,8 +55,12 @@ run_step() {
   "$@"
 }
 
+if [[ ! -f "${CMS_DIR}/craft" ]] && [[ -f "${PROJECT_ROOT}/cms/craft" ]]; then
+  CMS_DIR="${PROJECT_ROOT}/cms"
+fi
+
 if [[ ! -d "${CMS_DIR}" ]]; then
-  echo "Error: cms directory not found: ${CMS_DIR}" >&2
+  echo "Error: Craft project directory not found: ${CMS_DIR}" >&2
   exit 1
 fi
 

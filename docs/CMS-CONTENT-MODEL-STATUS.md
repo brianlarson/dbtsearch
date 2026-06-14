@@ -2,7 +2,7 @@
 
 This branch now aligns to the previously committed Craft directory model from `feat/next` instead of introducing a new flat provider schema.
 
-## What exists now in `cms/config/project/`
+## What exists now in `config/project/`
 
 - **Splash content model** (existing):
   - Section: `splashPage` (Single, homepage)
@@ -24,8 +24,8 @@ This branch now aligns to the previously committed Craft directory model from `f
 
 ## Native directory baseline
 
-- Route: `/directory` via `cms/config/routes.php`
-- Template: `cms/templates/directory/index.twig`
+- Route: `/directory` via `config/routes.php`
+- Template: `templates/directory/index.twig`
   - server-rendered provider list from `providers`
   - availability determined from related `locations`
   - query-string filters:

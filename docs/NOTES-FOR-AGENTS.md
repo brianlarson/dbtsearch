@@ -11,7 +11,7 @@ Short reference for anyone (human or AI) working in this repo.
 
 - **`main`** — Legacy stack (default branch). Run: `ddev start`, `npm run server`, `npm run client`. See [GETTING-STARTED.md](GETTING-STARTED.md).
 - **`legacy`** — Snapshot of legacy app (same as `main`). Use `git checkout legacy` to run the old stack; stays unchanged when you later promote the new stack to `main`.
-- **`stack-rewrite`** — New stack. Next step: **install Craft CMS in `./cms`** per [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) (docroot `cms/web`, `ddev start`, `composer create-project craftcms/craft cms`, `ddev craft install`).
+- **`stack-rewrite`** — New stack. Craft now lives at repo root (docroot `web`). See [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md).
 
 ## Key docs
 
@@ -20,7 +20,7 @@ Short reference for anyone (human or AI) working in this repo.
 | [README.md](../README.md) | Project summary, specs, how to run legacy app. |
 | [ROADMAP.md](ROADMAP.md) | Current status, chosen stack, next milestones. |
 | [GETTING-STARTED.md](GETTING-STARTED.md) | Legacy app: DDEV/Postgres, env, smoke test. |
-| [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) | Craft + MySQL 8 in DDEV; install into `./cms`. |
+| [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) | Craft + MySQL 8 in DDEV; root-level Craft setup. |
 | [HOSTING.md](HOSTING.md) | Hosting plan: Cloudways, lightweight Craft. |
 | [deploy-cloudways.md](deploy-cloudways.md) | Cloudways staging/production deployment workflow. |
 | [CAPTURE-MARKUP.md](CAPTURE-MARKUP.md) | How to capture legacy HTML to `docs/reference-markup/`. |

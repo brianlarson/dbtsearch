@@ -40,7 +40,7 @@ Use **staging-first** deployment:
   - `dbtsearch-staging`
   - `dbtsearch-production`
 - PHP 8.2+ and MySQL 8.
-- Set web root/docroot to `cms/web`.
+- Set web root/docroot to `web`.
 
 ## 2) Configure Git deploy
 
@@ -52,7 +52,7 @@ Use **staging-first** deployment:
 
 ## 3) Per-environment `.env`
 
-Create `cms/.env` on each app with env-specific values:
+Create `.env` on each app with env-specific values:
 
 - `ENVIRONMENT=staging` or `ENVIRONMENT=production`
 - `CRAFT_DB_DRIVER=mysql`
@@ -84,7 +84,6 @@ If your team standard is `craft up`, use:
 Manual equivalent (from app root) if needed:
 
 ```bash
-cd cms
 composer install --no-dev --optimize-autoloader
 php craft project-config/apply --force --interactive=0
 php craft migrate/all --interactive=0
@@ -101,7 +100,7 @@ php craft clear-caches/all --interactive=0
 
 ### Assets
 
-- Keep `cms/web/uploads/` in sync with the matching DB snapshot.
+- Keep `web/uploads/` in sync with the matching DB snapshot.
 - Prefer pull from production -> staging, never push staging -> production.
 
 ## Production safety rules
@@ -142,7 +141,7 @@ From repo root (with DDEV running):
 ./scripts/export-craft-db.sh
 ```
 
-This writes `cms/storage/backups/craft-export.sql`.
+This writes `storage/backups/craft-export.sql`.
 
 Then import on Cloudways:
 

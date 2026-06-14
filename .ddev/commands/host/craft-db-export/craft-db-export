@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-## Description: Export Craft MySQL (mysql8) to cms/storage/backups/craft-export.sql
+## Description: Export Craft MySQL (mysql8) to storage/backups/craft-export.sql
 ## Usage: craft-db-export
 ## Example: ddev craft-db-export
 set -e
-BACKUP_DIR="${DDEV_APPROOT:-.}/cms/storage/backups"
+BACKUP_DIR="${DDEV_APPROOT:-.}/storage/backups"
 mkdir -p "$BACKUP_DIR"
 OUTPUT="${BACKUP_DIR}/craft-export.sql"
 # Use mysql8 while legacy service exists; after migration to primary db, use: -s db -u db -pdb

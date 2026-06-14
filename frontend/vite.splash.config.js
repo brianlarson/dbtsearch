@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default {
   plugins: [tailwindcss()],
   build: {
-    outDir: path.resolve(__dirname, '../cms/web/css'),
+    outDir: path.resolve(__dirname, '../web/css'),
     emptyOutDir: false,
     rollupOptions: {
       input: path.resolve(__dirname, 'splash-entry.js'),
