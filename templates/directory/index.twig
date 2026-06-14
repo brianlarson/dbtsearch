@@ -1,186 +1,32 @@
 {% extends '_layouts/site' %}
 
-{% set searchTerm = craft.app.request.getQueryParam('q') ?? '' %}
-{% set availabilityParam = craft.app.request.getQueryParam('availability') %}
-{% set availabilityCookie = craft.app.request.getRawCookies().getValue('directory_availability') %}
+{% if not sprig.isRequest %}
+  {% set availabilityParam = craft.app.request.getQueryParam('availability') %}
+  {% set availabilityCookie = craft.app.request.getRawCookies().getValue('directory_availability') %}
 
-{% if availabilityParam is not null %}
-  {% set onlyAvailable = availabilityParam == '1' %}
-{% elseif availabilityCookie in ['0', '1'] %}
-  {% set onlyAvailable = availabilityCookie == '1' %}
-{% else %}
-  {% set defaultParams = craft.app.request.getQueryParams()|merge({ availability: '1' }) %}
-  {% redirect url(craft.app.request.pathInfo, defaultParams) %}
+  {% if availabilityParam is not null %}
+    {% set onlyAvailable = availabilityParam == '1' %}
+  {% elseif availabilityCookie in ['0', '1'] %}
+    {% set onlyAvailable = availabilityCookie == '1' %}
+  {% else %}
+    {% set defaultParams = craft.app.request.getQueryParams()|merge({ availability: '1' }) %}
+    {% redirect url(craft.app.request.pathInfo, defaultParams) %}
+  {% endif %}
 {% endif %}
+
 {% set pageHeading = 'Providers' %}
 {% set pageSubheading = 'DBT Providers in Minnesota' %}
 {% set activeNav = 'directory' %}
-
-{% set providersQuery = craft.entries()
-  .section('providers')
-  .status(null)
-  .with(['locations', 'logo'])
-  .limit(500)
-  .orderBy('title asc') %}
-
-{% if searchTerm %}
-  {% set providersQuery = providersQuery.search(searchTerm ~ '*') %}
-{% endif %}
-
-{% set providerEntries = providersQuery.all() %}
-{% set providers = [] %}
-
-{% for provider in providerEntries %}
-  {% set locations = provider.locations.all() %}
-  {% set hasAvailability = false %}
-  {% for location in locations %}
-    {% if location.availability %}
-      {% set hasAvailability = true %}
-    {% endif %}
-  {% endfor %}
-  {% if not onlyAvailable or hasAvailability %}
-    {% set providers = providers|merge([{
-      provider: provider,
-      locations: locations,
-      hasAvailability: hasAvailability
-    }]) %}
-  {% endif %}
-{% endfor %}
+{% set initialAvailability = onlyAvailable is defined ? (onlyAvailable ? '1' : '0') : (craft.app.request.getQueryParam('availability') ?? '1') %}
 
 {% block content %}
   <main class="mx-auto mb-2 max-w-6xl px-4 sm:px-6 lg:mb-4 lg:px-8 xl:mb-5">
-    <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
-      <div class="mb-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <label for="availability-input" class="flex cursor-pointer items-center gap-3 text-sm text-slate-300">
-          <input id="availability-input" type="checkbox" value="1" {% if onlyAvailable %}checked{% endif %} class="peer sr-only" />
-          <span class="relative inline-block h-7 w-12 shrink-0 rounded-full border border-slate-600 bg-slate-700 transition-colors peer-checked:border-primary/50 peer-checked:bg-primary/35 after:pointer-events-none after:absolute after:left-0.5 after:top-0.5 after:h-6 after:w-6 after:rounded-full after:bg-white after:shadow after:transition-transform after:duration-200 after:ease-out peer-checked:after:translate-x-[1.25rem]" aria-hidden="true"></span>
-          <span class="ms-0.5 leading-snug">Only show providers with availability</span>
-        </label>
-        <div class="self-end text-sm text-slate-400 md:self-auto">Results: {{ providers|length }}</div>
-      </div>
-
-      <form id="directory-filters" method="get" action="{{ url('directory') }}" class="grid gap-3">
-        <input type="hidden" name="availability" id="availability-param" value="{{ onlyAvailable ? '1' : '0' }}" />
-        <div class="grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
-          <div>
-            <label for="directory-q" class="mb-1 block text-sm font-medium text-slate-200">Search by provider name</label>
-            <input
-              id="directory-q"
-              type="search"
-              name="q"
-              value="{{ searchTerm }}"
-              placeholder="Start typing a provider name..."
-              class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-            />
-          </div>
-          <div>
-            <button type="submit" class="inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground hover:opacity-90 md:w-auto">Search</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    {% if providers is empty %}
-      <section class="mt-6 rounded-xl border border-slate-800 bg-slate-900/50 p-6 text-center">
-        <p class="mb-4 text-sm text-slate-400">No providers match your current filters.</p>
-        <a href="{{ url('directory') }}" class="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90">Reset filters</a>
-      </section>
-    {% else %}
-      <ul class="mt-6 list-none space-y-[2.5rem] p-0">
-        {% for item in providers %}
-          {% set provider = item.provider %}
-          {% set primaryLocation = item.locations|first %}
-          {% set logo = provider.logo.one() ?? null %}
-          {% set providerPhone = (attribute(provider, 'phone') ?? attribute(primaryLocation, 'phone') ?? '') %}
-          {% set providerEmail = (attribute(provider, 'email') ?? attribute(primaryLocation, 'email') ?? '') %}
-          {% set websiteField = attribute(provider, 'website') ?? attribute(provider, 'urlField') ?? null %}
-          {% set websiteUrl = '' %}
-          {% if websiteField %}
-            {% if websiteField.url is defined and websiteField.url %}
-              {% set websiteUrl = websiteField.url %}
-            {% elseif websiteField.value is defined and websiteField.value %}
-              {% set websiteUrl = websiteField.value %}
-            {% else %}
-              {% set websiteUrl = websiteField %}
-            {% endif %}
-          {% elseif attribute(primaryLocation, 'website') %}
-            {% set websiteUrl = attribute(primaryLocation, 'website') %}
-          {% endif %}
-          <li>
-            <article class="w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
-              <div class="grid grid-cols-1 sm:grid-cols-12 sm:items-stretch">
-                <div class="h-full overflow-hidden rounded-t-xl sm:col-span-4 sm:rounded-l-xl sm:rounded-tr-none sm:pr-3 md:col-span-3">
-                  <div class="flex h-full max-h-[125px] min-h-0 w-full items-center sm:min-h-[174px] sm:max-h-none justify-center overflow-hidden p-4 {{ logo ? 'bg-white' : 'bg-slate-800/60' }}">
-                    {% if logo %}
-                      <img
-                        src="{{ logo.url }}"
-                        alt="{{ logo.alt ?? (provider.title ~ ' logo') }}"
-                        class="max-h-full max-w-full object-contain"
-                        loading="lazy"
-                        decoding="async"
-                        width="{{ logo.width }}"
-                        height="{{ logo.height }}"
-                      />
-                    {% else %}
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-10 w-10 text-brand" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                      </svg>
-                    {% endif %}
-                  </div>
-                </div>
-                <div class="self-center sm:col-span-8 md:col-span-9">
-                  <div class="flex flex-col gap-6 p-4 sm:flex-row sm:justify-between sm:gap-4 sm:py-10 sm:pl-3 sm:pr-4 md:pl-6 md:pr-12">
-                    <div class="relative min-w-0 pe-2 sm:pe-4">
-                      <div class="mb-4 flex flex-wrap gap-2">
-                        <span class="rounded border px-2 py-0.5 text-xs font-medium {{ item.hasAvailability ? 'border-emerald-500/70 text-emerald-300' : 'border-slate-500 text-slate-400' }}">
-                          {{ item.hasAvailability ? 'Availability' : 'No Availability' }}
-                        </span>
-                        {% if provider.dbtaCertified %}
-                          <span class="rounded border border-sky-500/60 px-2 py-0.5 text-xs font-medium text-sky-300">DBT-A Certified</span>
-                        {% endif %}
-                      </div>
-                      <h2 class="mb-1 text-xl font-semibold leading-tight text-brand sm:text-2xl">{{ provider.title }}</h2>
-                      {% if item.locations|length %}
-                        <div class="mb-3 space-y-2">
-                          {% for location in item.locations %}
-                            <div class="text-sm leading-relaxed text-slate-300">
-                              {% if item.locations|length > 1 %}
-                                <span class="mr-2 inline-block rounded border px-1.5 py-0.5 text-xs font-medium {{ location.availability ? 'border-emerald-500/70 text-emerald-300' : 'border-slate-600 text-slate-500' }}">
-                                  {{ location.availability ? 'Availability' : 'No Availability' }}
-                                </span>
-                              {% endif %}
-                              {{ location.title }}{% if location.city %} {{ location.city }}{% endif %}{% if location.state %}, {{ location.state }}{% endif %} {{ location.zip }}
-                            </div>
-                          {% endfor %}
-                        </div>
-                      {% endif %}
-                      {% if providerPhone %}
-                        <div class="mb-0 text-base">
-                          <a href="tel:{{ providerPhone|replace({' ': '', '-': '', '(': '', ')': ''}) }}" class="text-brand no-underline hover:underline">{{ providerPhone }}</a>
-                        </div>
-                      {% endif %}
-                    </div>
-                    <div class="flex shrink-0 flex-col items-start gap-3 sm:items-end">
-                      <div class="text-right text-slate-500">
-                        <span class="text-xs">Last updated</span><br />
-                        <span class="text-sm font-semibold text-sky-400">{{ provider.dateUpdated ? provider.dateUpdated|date('M j, Y') : 'Unknown' }}</span>
-                      </div>
-                      <div class="flex flex-col gap-3 sm:items-end">
-                        {% if websiteUrl %}
-                          <a href="{{ websiteUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded-lg border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary/50 hover:text-white">Website</a>
-                        {% endif %}
-                        {% if providerEmail %}
-                          <a href="mailto:{{ providerEmail }}?subject=Inquiry%20from%20DBTsearch.org" class="inline-flex items-center rounded-lg border border-slate-600 px-3 py-2 text-sm text-slate-200 hover:border-primary/50 hover:text-white">Email</a>
-                        {% endif %}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </li>
-        {% endfor %}
-      </ul>
-    {% endif %}
+    {{ sprig('_sprig/directory-results', {
+      q: craft.app.request.getQueryParam('q') ?? '',
+      availability: initialAvailability,
+    }, {
+      id: 'directory-sprig',
+      's-trigger': 'refresh, input changed delay:300ms from:#directory-q, submit from:#directory-filters',
+    }) }}
   </main>
 {% endblock %}
