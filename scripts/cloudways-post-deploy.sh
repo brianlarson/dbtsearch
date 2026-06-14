@@ -81,6 +81,18 @@ fi
 
 cd "${CMS_DIR}"
 
+# One-time flatten helper: copy legacy uploads if the new docroot volume is empty.
+LEGACY_UPLOADS="${CMS_DIR}/cms/web/uploads"
+TARGET_UPLOADS="${CMS_DIR}/web/uploads"
+if [[ -d "${LEGACY_UPLOADS}" ]] && [[ -d "${TARGET_UPLOADS}" ]]; then
+  if [[ ! -d "${TARGET_UPLOADS}/providers/logos" ]] || [[ -z "$(ls -A "${TARGET_UPLOADS}/providers/logos" 2>/dev/null)" ]]; then
+    if [[ -d "${LEGACY_UPLOADS}/providers/logos" ]] && [[ -n "$(ls -A "${LEGACY_UPLOADS}/providers/logos" 2>/dev/null)" ]]; then
+      echo "+ rsync legacy uploads from cms/web/uploads to web/uploads"
+      rsync -a "${LEGACY_UPLOADS}/" "${TARGET_UPLOADS}/"
+    fi
+  fi
+fi
+
 if [[ "${SKIP_COMPOSER}" -eq 0 ]]; then
   run_step composer install --no-dev --optimize-autoloader
 fi
