@@ -1,6 +1,6 @@
 # Hosting plan (restack)
 
-Craft Cloud is not in the plan (no small-tier pricing). This doc outlines a lightweight Craft + Nuxt hosting approach.
+Craft Cloud is not in the plan (no small-tier pricing). This doc outlines a lightweight Cloudways approach for Craft, with staging-first deployment.
 
 ---
 
@@ -10,7 +10,7 @@ Craft Cloud is not in the plan (no small-tier pricing). This doc outlines a ligh
 
 - **What you get:** Managed PHP + MySQL on DigitalOcean, Vultr, Linode, AWS, or GCP. No Craft Cloud price floor; start with a small droplet (e.g. ~$14–20/mo depending on provider and size).
 - **Craft:** One-click or manual Craft install; they have [Craft-specific guidance](https://www.cloudways.com/en/craft-cms-hosting.php). Use a single app server for Craft (PHP 8.2+, MySQL 8).
-- **Nuxt:** Either on the same server (Node app behind the same reverse proxy) or split: Craft on Cloudways, Nuxt as static/SSR on Vercel/Netlify hitting Craft’s API.
+- **Environment model:** Run separate staging and production apps. Keep production stable; deploy to staging first.
 
 ---
 
@@ -24,7 +24,9 @@ A “very lightweight” Craft install keeps cost and complexity down:
 - **Content model** — Simple entry types and fields for providers; avoid large asset volumes or complex relations until the product demands it.
 - **Caching** — Use Craft’s template and query caching so a small server can handle the traffic.
 
-That fits well on a single Cloudways server (Craft + optional Node for Nuxt on same box) or Craft on Cloudways + Nuxt elsewhere.
+That fits well on a single Cloudways server footprint with separate staging/prod apps.
+
+See the operational runbook: [deploy-cloudways.md](deploy-cloudways.md).
 
 ---
 
@@ -40,8 +42,8 @@ That fits well on a single Cloudways server (Craft + optional Node for Nuxt on s
 
 | Layer   | Recommendation        | Notes                                      |
 |--------|------------------------|--------------------------------------------|
-| **Craft** | Cloudways (DO/Vultr/Linode) | Managed PHP + MySQL; you’re already familiar. |
-| **Nuxt**  | Same server or Vercel/Netlify | Same box as Craft, or static/SSR + Craft API.  |
+| **Craft app** | Cloudways (DO/Vultr/Linode) | Managed PHP + MySQL; you’re already familiar. |
+| **Environments** | Staging + Production | Promote tested commits from staging to production. |
 | **DB**    | MySQL 8 on Cloudways  | Matches DDEV and Craft’s recommendation.   |
 
 Keep Craft minimal (few plugins, simple schema, caching), and the restack stays cheap and easy to host.

@@ -22,6 +22,7 @@ Short reference for anyone (human or AI) working in this repo.
 | [GETTING-STARTED.md](GETTING-STARTED.md) | Legacy app: DDEV/Postgres, env, smoke test. |
 | [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) | Craft + MySQL 8 in DDEV; install into `./cms`. |
 | [HOSTING.md](HOSTING.md) | Hosting plan: Cloudways, lightweight Craft. |
+| [deploy-cloudways.md](deploy-cloudways.md) | Cloudways staging/production deployment workflow. |
 | [CAPTURE-MARKUP.md](CAPTURE-MARKUP.md) | How to capture legacy HTML to `docs/reference-markup/`. |
 
 ## Tracking

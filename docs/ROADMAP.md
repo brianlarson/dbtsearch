@@ -22,7 +22,7 @@ Short-term plan and stack-rewrite options.
 - **Original stack:** Done — running on `main` (DDEV + Postgres, server/client).
 - **Stack rewrite:** Branch `stack-rewrite` created. **Next step:** install Craft CMS in `./cms` per [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md).
 - **Chosen stack:** Vue 3, Nuxt 3, Tailwind CSS, **MySQL 8+** (Craft CMS–recommended). DDEV on this branch gets **MySQL 8** via `.ddev/docker-compose.mysql.yaml` (Craft uses it); Postgres remains for legacy. **First-run:** [docs/STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) — set docroot to `cms/web`, `ddev start`, install Craft into `cms/`.
-- **Hosting:** Craft Cloud is out (no small plans). Plan: **Cloudways** (managed Craft + MySQL), lightweight Craft install. See [docs/HOSTING.md](HOSTING.md).
+- **Hosting:** Craft Cloud is out (no small plans). Plan: **Cloudways** (managed Craft + MySQL), lightweight Craft install with staging-first promotion. See [docs/HOSTING.md](HOSTING.md) and [deploy-cloudways.md](deploy-cloudways.md).
 - **Legacy (main):** React (Vite), Express, Passport, PostgreSQL; schema `data/database.sql`.
 
 ---

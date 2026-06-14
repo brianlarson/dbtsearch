@@ -12,7 +12,7 @@ DBTsearch&trade; is a searchable directory of certified DBT (Dialectical Behavio
 | **Backend / CMS** | Express, Passport (sessions) | Craft CMS |
 | **Database** | PostgreSQL 14 (DDEV) | MySQL 8 for Craft; Postgres remains for legacy on `main` |
 | **Dev** | DDEV (Postgres), Node 20, npm | DDEV (Postgres + MySQL 8 on `stack-rewrite`), Craft in `cms/`, Nuxt in `frontend/` or `app/` |
-| **Hosting** | — | Cloudways (managed Craft + MySQL); lightweight Craft install. See [docs/HOSTING.md](docs/HOSTING.md). |
+| **Hosting** | — | Cloudways (managed Craft + MySQL); lightweight Craft install. See [docs/HOSTING.md](docs/HOSTING.md) and [docs/deploy-cloudways.md](docs/deploy-cloudways.md). |
 
 **Data:** Providers list (name, certification, availability, contact, locations); admin users can manage providers they’re assigned to. Reference markup for all pages lives in `docs/reference-markup/` for the restack.
 
