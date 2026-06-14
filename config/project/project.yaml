@@ -1,4 +1,4 @@
-dateModified: 1781460155
+dateModified: 1781462267
 email:
   fromEmail: system@dbtsearch.org
   fromName: 'DBT Search'
@@ -35,6 +35,7 @@ meta:
     6257adb7-e17d-4aa3-9129-015deea64b68: Specialties # Specialties
     88855dfd-5c52-4554-9e64-c593a0bc5e8c: Credentials # Credentials
     acef0518-5cc6-4dd0-9231-234846cfc200: Approved # Approved
+    b4c00cdb-3a29-44e5-814b-9a920f515289: Provider # Provider
     bcf50025-2188-4126-a360-29999caeae89: 'Splash Page' # Splash Page
     bea9cc9c-6390-413d-ba6e-35e2d30805ca: Availability # Availability
     c7598e88-bdae-462f-8790-410a3fccdcc6: URL # URL
@@ -138,10 +139,3 @@ system:
   retryDuration: null
   schemaVersion: 5.9.0.8
   timeZone: America/Chicago
-users:
-  allowPublicRegistration: false
-  defaultGroup: null
-  photoSubpath: 'users/{username}/photos'
-  photoVolumeUid: 288c542e-3541-4e24-96ee-aa5fa0bea135 # General
-  require2fa: false
-  requireEmailVerification: true

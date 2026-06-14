@@ -19,7 +19,7 @@ settings:
     - 'section:ea4a7d29-5dee-4e91-b48b-181666006b36' # Locations
   targetSiteId: null
   validateRelatedElements: false
-  viewMode: cards
+  viewMode: cards-grid
 translationKeyFormat: null
 translationMethod: none
 type: craft\fields\Entries
