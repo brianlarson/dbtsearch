@@ -2,6 +2,9 @@
 
 This runbook is the recommended way to connect environments for DBT Search on Cloudways while keeping production safe.
 
+If you are deploying the repo change that moved Craft from `cms/` to root, follow:
+[CLOUDWAYS-FLATTEN-CHECKLIST.md](CLOUDWAYS-FLATTEN-CHECKLIST.md)
+
 ## Recommendation
 
 Use **staging-first** deployment:
