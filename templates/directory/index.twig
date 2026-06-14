@@ -1,7 +1,17 @@
 {% extends '_layouts/site' %}
 
 {% set searchTerm = craft.app.request.getQueryParam('q') ?? '' %}
-{% set onlyAvailable = craft.app.request.getQueryParam('availability') == '1' %}
+{% set availabilityParam = craft.app.request.getQueryParam('availability') %}
+{% set availabilityCookie = craft.app.request.getRawCookies().getValue('directory_availability') %}
+
+{% if availabilityParam is not null %}
+  {% set onlyAvailable = availabilityParam == '1' %}
+{% elseif availabilityCookie in ['0', '1'] %}
+  {% set onlyAvailable = availabilityCookie == '1' %}
+{% else %}
+  {% set defaultParams = craft.app.request.getQueryParams()|merge({ availability: '1' }) %}
+  {% redirect url(craft.app.request.pathInfo, defaultParams) %}
+{% endif %}
 {% set pageHeading = 'Providers' %}
 {% set pageSubheading = 'DBT Providers in Minnesota' %}
 {% set activeNav = 'directory' %}
@@ -41,28 +51,31 @@
   <main class="mx-auto mb-2 max-w-6xl px-4 sm:px-6 lg:mb-4 lg:px-8 xl:mb-5">
     <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
       <div class="mb-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <label for="availability-input" class="flex cursor-pointer items-start gap-3 pb-1 text-sm text-slate-300 md:items-center">
-          <input id="availability-input" form="directory-filters" type="checkbox" name="availability" value="1" {% if onlyAvailable %}checked{% endif %} class="peer sr-only" />
-          <span class="relative mt-0.5 inline-block h-7 w-12 shrink-0 rounded-full border border-slate-600 bg-slate-700 transition-colors peer-checked:border-primary/50 peer-checked:bg-primary/35 after:pointer-events-none after:absolute after:left-0.5 after:top-0.5 after:h-6 after:w-6 after:rounded-full after:bg-white after:shadow after:transition-transform after:duration-200 after:ease-out peer-checked:after:translate-x-[1.25rem] md:mt-0" aria-hidden="true"></span>
+        <label for="availability-input" class="flex cursor-pointer items-center gap-3 text-sm text-slate-300">
+          <input id="availability-input" type="checkbox" value="1" {% if onlyAvailable %}checked{% endif %} class="peer sr-only" />
+          <span class="relative inline-block h-7 w-12 shrink-0 rounded-full border border-slate-600 bg-slate-700 transition-colors peer-checked:border-primary/50 peer-checked:bg-primary/35 after:pointer-events-none after:absolute after:left-0.5 after:top-0.5 after:h-6 after:w-6 after:rounded-full after:bg-white after:shadow after:transition-transform after:duration-200 after:ease-out peer-checked:after:translate-x-[1.25rem]" aria-hidden="true"></span>
           <span class="ms-0.5 leading-snug">Only show providers with availability</span>
         </label>
-        <div class="text-sm text-slate-400">Results: {{ providers|length }}</div>
+        <div class="self-end text-sm text-slate-400 md:self-auto">Results: {{ providers|length }}</div>
       </div>
 
       <form id="directory-filters" method="get" action="{{ url('directory') }}" class="grid gap-3">
-        <div>
-          <label for="directory-q" class="mb-1 block text-sm font-medium text-slate-200">Search by provider name</label>
-          <input
-            id="directory-q"
-            type="search"
-            name="q"
-            value="{{ searchTerm }}"
-            placeholder="Start typing a provider name..."
-            class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-        </div>
-        <div>
-          <button type="submit" class="inline-flex rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground hover:opacity-90">Apply filters</button>
+        <input type="hidden" name="availability" id="availability-param" value="{{ onlyAvailable ? '1' : '0' }}" />
+        <div class="grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <label for="directory-q" class="mb-1 block text-sm font-medium text-slate-200">Search by provider name</label>
+            <input
+              id="directory-q"
+              type="search"
+              name="q"
+              value="{{ searchTerm }}"
+              placeholder="Start typing a provider name..."
+              class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <button type="submit" class="inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground hover:opacity-90 md:w-auto">Search</button>
+          </div>
         </div>
       </form>
     </div>
@@ -97,7 +110,7 @@
             <article class="w-full overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
               <div class="grid grid-cols-1 sm:grid-cols-12 sm:items-stretch">
                 <div class="h-full overflow-hidden rounded-t-xl sm:col-span-4 sm:rounded-l-xl sm:rounded-tr-none sm:pr-3 md:col-span-3">
-                  <div class="flex h-full min-h-[174px] w-full items-center justify-center overflow-hidden p-4 {{ logo ? 'bg-white' : 'bg-slate-800/60' }}">
+                  <div class="flex h-full max-h-[125px] min-h-0 w-full items-center sm:min-h-[174px] sm:max-h-none justify-center overflow-hidden p-4 {{ logo ? 'bg-white' : 'bg-slate-800/60' }}">
                     {% if logo %}
                       <img
                         src="{{ logo.url }}"
@@ -127,10 +140,19 @@
                         {% endif %}
                       </div>
                       <h2 class="mb-1 text-xl font-semibold leading-tight text-brand sm:text-2xl">{{ provider.title }}</h2>
-                      {% if primaryLocation %}
-                        <p class="mb-3 text-sm leading-relaxed text-slate-300">
-                          {{ primaryLocation.title }}{% if primaryLocation.city %} {{ primaryLocation.city }}{% endif %}{% if primaryLocation.state %}, {{ primaryLocation.state }}{% endif %} {{ primaryLocation.zip }}
-                        </p>
+                      {% if item.locations|length %}
+                        <div class="mb-3 space-y-2">
+                          {% for location in item.locations %}
+                            <div class="text-sm leading-relaxed text-slate-300">
+                              {% if item.locations|length > 1 %}
+                                <span class="mr-2 inline-block rounded border px-1.5 py-0.5 text-xs font-medium {{ location.availability ? 'border-emerald-500/70 text-emerald-300' : 'border-slate-600 text-slate-500' }}">
+                                  {{ location.availability ? 'Availability' : 'No Availability' }}
+                                </span>
+                              {% endif %}
+                              {{ location.title }}{% if location.city %} {{ location.city }}{% endif %}{% if location.state %}, {{ location.state }}{% endif %} {{ location.zip }}
+                            </div>
+                          {% endfor %}
+                        </div>
                       {% endif %}
                       {% if providerPhone %}
                         <div class="mb-0 text-base">
