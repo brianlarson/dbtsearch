@@ -1,5 +1,7 @@
 - pipeline: p---dbt-search-development
   name: 🚧 DBT Search Development
+  refs:
+  - refs/heads/develop
   fail_on_prepare_env_warning: true
   events:
   - type: WEBHOOK
