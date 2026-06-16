@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: dbtAdherentTeam
+instructions: null
+name: 'DBT Adherent Team'
+searchable: false
+settings:
+  default: false
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

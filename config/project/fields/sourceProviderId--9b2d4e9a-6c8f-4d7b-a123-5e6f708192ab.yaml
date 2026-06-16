@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: sourceProviderId
+instructions: 'Stable import key for provider upserts. Feed Me should match on this.'
+name: 'Source Provider ID'
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: 255
+  code: true
+  initialRows: 1
+  multiline: false
+  placeholder: null
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

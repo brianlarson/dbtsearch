@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: availability
+instructions: null
+name: Availability
+searchable: false
+settings:
+  default: false
+  offLabel: Full
+  onLabel: Accepting
+  showLabelsInCards: true
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

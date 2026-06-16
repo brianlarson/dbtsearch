@@ -5,6 +5,8 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build:splash": "vite build --config vite.splash.config.js",
+    "build:directory": "vite build --config vite.directory.config.js",
+    "verify:directory-css": "vite build --config vite.directory.config.js && git diff --quiet ../web/css/directory.css ../web/css/directory.min.js || (echo 'Template classes changed: commit web/css/directory.css and directory.min.js after npm run build:directory' >&2 && exit 1)",
     "build-storybook": "storybook build",
     "test:e2e": "playwright test",
     "test:e2e:debug": "playwright test --debug",

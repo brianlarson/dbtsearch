@@ -1,0 +1,94 @@
+{% set pageHeading = pageHeading ?? '' %}
+{% set pageSubheading = pageSubheading ?? '' %}
+{% set omitSubheading = omitSubheading ?? false %}
+{% set heroImageUrl = heroImageUrl ?? '/images/pexels-hero-1440.webp' %}
+{% set activeNav = activeNav ?? '' %}
+{% set pageTitle = pageTitle ?? (pageHeading ? pageHeading ~ ' | ' ~ (siteName ?? 'DBT Search') : (siteName ?? 'DBT Search')) %}
+
+<!DOCTYPE html>
+<html lang="{{ craft.app.language }}" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ pageTitle }}</title>
+  <link rel="stylesheet" href="{{ url('/css/directory.css') }}" />
+  {% block head %}{% endblock %}
+</head>
+<body class="dark min-h-screen bg-slate-950 text-white font-sans antialiased" data-theme="dbtsearch">
+  <header id="site-header" class="sticky top-0 z-[1030] border-b border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80">
+    <div class="mx-auto flex max-w-6xl items-center gap-2 px-4 py-2 sm:px-6 lg:px-8">
+      <a href="{{ url('/') }}" class="inline-flex shrink-0 items-center py-1 md:py-2 xl:py-1">
+        <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-auto max-w-[170px] md:hidden" width="170" height="40" />
+        <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="hidden h-auto max-w-[280px] md:block" width="280" height="48" />
+      </a>
+      <nav class="hidden flex-1 items-center justify-center gap-1 md:flex lg:gap-2" aria-label="Primary">
+        <a href="{{ url('directory') }}" class="rounded-md px-3 py-2 text-sm font-medium {{ activeNav == 'directory' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'directory' %}aria-current="page"{% endif %}>Providers</a>
+        <a href="{{ url('about') }}" class="rounded-md px-3 py-2 text-sm font-medium {{ activeNav == 'about' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'about' %}aria-current="page"{% endif %}>About</a>
+        <a href="{{ url('faqs') }}" class="rounded-md px-3 py-2 text-sm font-medium {{ activeNav == 'faqs' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'faqs' %}aria-current="page"{% endif %}>FAQs</a>
+      </nav>
+      <div class="ml-auto flex items-center gap-1 sm:gap-2">
+        <a href="{{ url('contact') }}" class="hidden rounded-md border border-slate-600 px-3 py-2 text-sm font-medium {{ activeNav == 'contact' ? 'bg-slate-800/50 text-white' : 'text-slate-200 hover:border-slate-500 hover:bg-slate-800/50 hover:text-white' }} md:inline-flex" {% if activeNav == 'contact' %}aria-current="page"{% endif %}>Contact</a>
+        {% if currentUser %}
+          <a href="{{ url('manage') }}" class="inline-flex items-center rounded-md {{ activeNav == 'manage' ? 'bg-slate-500' : 'bg-slate-600' }} px-3 py-2 text-sm font-semibold text-white hover:bg-slate-500" {% if activeNav == 'manage' %}aria-current="page"{% endif %}>Manage</a>
+        {% else %}
+          <a href="{{ url('manage/login') }}" class="inline-flex items-center rounded-md {{ activeNav == 'login' ? 'bg-slate-500' : 'bg-slate-600' }} px-3 py-2 text-sm font-semibold text-white hover:bg-slate-500" {% if activeNav == 'login' %}aria-current="page"{% endif %}>Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <section class="relative min-h-[7rem] bg-slate-900 py-5 md:min-h-[9rem]">
+    <div class="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8"></div>
+    <div class="absolute inset-0 grid grid-cols-1 md:grid-cols-2">
+      <div class="hidden md:block"></div>
+      <div class="relative" aria-hidden="true">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ heroImageUrl }}');"></div>
+      </div>
+    </div>
+    <div class="absolute inset-0 bg-black/50 md:hidden" aria-hidden="true"></div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-8 lg:px-8">
+    {% if omitSubheading %}
+      <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">{{ pageHeading }}</h1>
+      <hr class="mt-4 border-slate-700" />
+    {% else %}
+      <div class="grid grid-cols-1 items-end gap-2 md:grid-cols-2 md:gap-4">
+        <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">{{ pageHeading }}</h1>
+        {% if pageSubheading %}
+          <h2 class="text-base font-medium text-slate-400 md:text-right">{{ pageSubheading }}</h2>
+        {% endif %}
+      </div>
+      <hr class="mt-4 border-slate-700" />
+    {% endif %}
+  </section>
+
+  {% block content %}{% endblock %}
+
+  <button
+    type="button"
+    id="back-to-top"
+    class="back-to-top"
+    aria-label="Back to top"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+      <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <footer class="mt-14 border-t border-slate-800/80 bg-slate-950/80">
+    <div class="mx-auto max-w-6xl px-4 py-8 text-center sm:px-6 lg:px-8">
+      <p class="mb-3 text-sm text-slate-300">
+        <span class="font-semibold text-slate-100">DBTsearch</span> is powered by
+        <a href="https://www.tinytreecounseling.com/" class="ml-1 text-brand underline decoration-1 hover:opacity-90" target="_blank" rel="noopener noreferrer">Tiny Tree Counseling &amp; Consulting</a>
+      </p>
+      <p class="text-xs text-slate-400">Copyright &copy; {{ "now"|date("Y") }} DBTsearch.org. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="{{ url('/css/directory.min.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

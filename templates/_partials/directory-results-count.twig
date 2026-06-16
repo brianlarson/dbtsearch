@@ -1,0 +1,10 @@
+{% set locationLabel = locationCount == 1 ? 'Location' : 'Locations' %}
+<div id="directory-results-count"{% if oob ?? false %} s-swap-oob="true"{% endif %} class="inline-flex shrink-0 items-center gap-1.5 text-sm text-slate-400">
+  {% if locationCount > 0 %}
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-3.5 w-3.5 shrink-0 {{ onlyAvailable ? 'text-emerald-400' : 'text-slate-400' }}" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+    </svg>
+  {% endif %}
+  <span class="md:hidden">{{ locationCount }} {{ locationLabel }}</span>
+  <span class="hidden md:inline-flex">{{ locationCount }} {{ locationLabel }}{% if onlyAvailable %} with availability{% endif %}</span>
+</div>

@@ -1,0 +1,74 @@
+{# @var location array with id, name, address, city, state, zip, phone, email, website, availability #}
+{% set locId = location.id %}
+{% set detailsId = 'portal-loc-details-' ~ locId %}
+{% set addressLine = [location.address, [location.city, location.state, location.zip]|filter|join(' ')]|filter|join(', ') %}
+
+<article class="rounded-xl border border-slate-700 bg-slate-950/40 p-4 md:p-5 h-full" data-portal-location="{{ locId }}">
+  <h3 class="mb-3 min-w-0 text-lg font-semibold text-brand">{{ location.name }}</h3>
+
+  {% if addressLine %}
+    <p class="mb-4 text-sm text-slate-400">{{ addressLine }}</p>
+  {% endif %}
+
+  <div class="mb-4">
+    {% include '_manage/availability-switch' with {
+      id: 'portal-availability-' ~ locId,
+      name: 'locations[' ~ locId ~ '][availability]',
+      checked: location.availability ?? false,
+      label: 'Currently accepting new clients',
+    } only %}
+  </div>
+
+  {% if portalFeatures.locationDetails ?? true %}
+    <div class="mb-2">
+      <button
+        type="button"
+        class="portal-details-toggle rounded-md border border-slate-600 px-3 py-1.5 text-sm font-medium text-slate-200 hover:border-slate-500 hover:bg-slate-800/60"
+        aria-expanded="false"
+        aria-controls="{{ detailsId }}"
+        data-target="{{ detailsId }}"
+      >
+        Edit details
+      </button>
+    </div>
+
+    <div id="{{ detailsId }}" class="portal-details-panel hidden border-t border-slate-800 pt-4 mt-3" hidden>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <div class="sm:col-span-2">
+          <label class="mb-2 block text-sm font-medium text-slate-200" for="portal-loc-name-{{ locId }}">Location name</label>
+          <input id="portal-loc-name-{{ locId }}" type="text" name="locations[{{ locId }}][name]" value="{{ location.name }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" data-portal-field="name" />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="mb-2 block text-sm font-medium text-slate-200" for="portal-loc-address-{{ locId }}">Street address</label>
+          <input id="portal-loc-address-{{ locId }}" type="text" name="locations[{{ locId }}][address]" value="{{ location.address }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" data-portal-field="address" />
+        </div>
+        <div>
+          <label class="mb-2 block text-sm font-medium text-slate-200" for="portal-loc-city-{{ locId }}">City</label>
+          <input id="portal-loc-city-{{ locId }}" type="text" name="locations[{{ locId }}][city]" value="{{ location.city }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" data-portal-field="city" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="mb-2 block text-sm font-medium text-slate-200" for="portal-loc-state-{{ locId }}">State</label>
+            <input id="portal-loc-state-{{ locId }}" type="text" name="locations[{{ locId }}][state]" value="{{ location.state }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" data-portal-field="state" />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-medium text-slate-200" for="portal-loc-zip-{{ locId }}">ZIP</label>
+            <input id="portal-loc-zip-{{ locId }}" type="text" name="locations[{{ locId }}][zip]" value="{{ location.zip }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" data-portal-field="zip" />
+          </div>
+        </div>
+        <div>
+          <label class="mb-2 block text-sm font-medium text-slate-200" for="portal-loc-phone-{{ locId }}">Location phone</label>
+          <input id="portal-loc-phone-{{ locId }}" type="text" name="locations[{{ locId }}][phone]" value="{{ location.phone }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" data-portal-field="phone" />
+        </div>
+        <div>
+          <label class="mb-2 block text-sm font-medium text-slate-200" for="portal-loc-email-{{ locId }}">Location email</label>
+          <input id="portal-loc-email-{{ locId }}" type="email" name="locations[{{ locId }}][email]" value="{{ location.email }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" data-portal-field="email" />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="mb-2 block text-sm font-medium text-slate-200" for="portal-loc-website-{{ locId }}">Location website</label>
+          <input id="portal-loc-website-{{ locId }}" type="url" name="locations[{{ locId }}][website]" value="{{ location.website }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" data-portal-field="website" />
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</article>

@@ -1,0 +1,278 @@
+{% set searchTerm = q ?? '' %}
+{% set availabilityValue = availability ?? '1' %}
+{% set onlyAvailable = availabilityValue == '1' %}
+{% set searchButtonClass = 'inline-flex h-10 w-full items-center justify-center rounded-lg bg-primary px-4 font-semibold text-primary-foreground hover:opacity-90 md:w-auto' %}
+{% set searchInputClass = 'h-10 w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary' %}
+
+{% set locationsQuery = craft.entries()
+  .section('locations')
+  .status(null)
+  .with(['provider', 'provider.logo'])
+  .limit(500) %}
+
+{% if searchTerm %}
+  {% set matchingProviderIds = craft.entries()
+    .section('providers')
+    .status(null)
+    .search(searchTerm ~ '*')
+    .ids() %}
+  {% set providerMatchLocationIds = matchingProviderIds|length
+    ? craft.entries()
+      .section('locations')
+      .status(null)
+      .relatedTo({ field: 'provider', targetElement: matchingProviderIds })
+      .ids()
+    : [] %}
+  {% set cityAliases = {
+    'minneapolis': ['mpls', 'minneapolis'],
+    'mpls': ['mpls', 'minneapolis'],
+    'saint paul': ['saint paul', 'st paul', 'st. paul'],
+    'st paul': ['saint paul', 'st paul', 'st. paul'],
+    'st. paul': ['saint paul', 'st paul', 'st. paul'],
+  } %}
+  {% set normalizedSearch = searchTerm|trim|lower %}
+  {% set citySearchTerms = cityAliases[normalizedSearch] ?? [searchTerm] %}
+  {% set cityPatterns = [] %}
+  {% for term in citySearchTerms %}
+    {% set cityPatterns = cityPatterns|merge(['*' ~ term ~ '*']) %}
+    {% set cityLikeTerm = term|lower|title %}
+    {% if cityLikeTerm != term %}
+      {% set cityPatterns = cityPatterns|merge(['*' ~ cityLikeTerm ~ '*']) %}
+    {% endif %}
+  {% endfor %}
+  {% set cityMatchLocationIds = craft.entries()
+    .section('locations')
+    .status(null)
+    .city(['or']|merge(cityPatterns|unique))
+    .ids() %}
+  {% set matchingLocationIds = (providerMatchLocationIds|merge(cityMatchLocationIds))|unique %}
+  {% set locationsQuery = matchingLocationIds|length
+    ? locationsQuery.id(matchingLocationIds)
+    : locationsQuery.id(false) %}
+{% endif %}
+
+{% if onlyAvailable %}
+  {% set locationsQuery = locationsQuery.availability(true) %}
+{% endif %}
+
+{% set locationEntries = locationsQuery.all() %}
+{% set locations = [] %}
+
+{% for location in locationEntries %}
+  {% set provider = location.provider.one() %}
+  {% if provider %}
+    {% set locations = locations|merge([{
+      location: location,
+      provider: provider,
+      hasAvailability: location.availability ?? false
+    }]) %}
+  {% endif %}
+{% endfor %}
+
+{% set locations = locations|sort((a, b) => (b.provider.dateUpdated ? b.provider.dateUpdated.timestamp : 0) <=> (a.provider.dateUpdated ? a.provider.dateUpdated.timestamp : 0)) %}
+{% if sprig.isRequest %}
+  {% do sprig.pushUrl(url('directory', {
+    q: searchTerm ?: null,
+    availability: availabilityValue,
+  })) %}
+{% endif %}
+
+<div>
+  <div id="directory-filter-sentinel" class="pointer-events-none h-px w-full" aria-hidden="true"></div>
+  <div class="directory-filter-sticky">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="mb-3 flex flex-row items-center justify-between gap-3">
+      <label for="availability-input" class="flex cursor-pointer items-center gap-3 text-sm text-slate-300">
+        {# Hidden must precede checkbox so unchecked sends 0 and checked sends 0+1 (PHP keeps last: 1). #}
+        <input type="hidden" name="availability" id="availability-param" value="0" />
+        <input id="availability-input" type="checkbox" name="availability" value="1" {% if onlyAvailable %}checked{% endif %} class="peer sr-only" />
+        {% include '_partials/lightswitch-track' only %}
+        <span class="ms-0.5 leading-snug">
+          <span class="md:hidden">With availability</span>
+          <span class="hidden md:inline-flex">Only show locations with availability</span>
+        </span>
+      </label>
+      {% include '_partials/directory-results-count' with {
+        onlyAvailable: onlyAvailable,
+        locationCount: locations|length,
+      } only %}
+    </div>
+
+    <form id="directory-filters" method="get" action="{{ url('directory') }}" class="grid gap-3">
+      <label for="directory-q" class="mt-3 mb-2 block text-sm font-medium text-slate-200">Search by provider name or city</label>
+      <div class="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
+        <input
+          id="directory-q"
+          type="search"
+          name="q"
+          value="{{ searchTerm }}"
+          placeholder="Provider name or city..."
+          class="{{ searchInputClass }}"
+        />
+        <div id="directory-search-action">
+          {% if searchTerm %}
+            <button type="button" sprig s-val:q="" class="{{ searchButtonClass }}">Reset</button>
+          {% else %}
+            <button type="submit" class="{{ searchButtonClass }}">Search</button>
+          {% endif %}
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+
+  <div id="directory-results">
+    {% if sprig.isRequest %}
+      {% include '_partials/directory-results-count' with {
+        onlyAvailable: onlyAvailable,
+        locationCount: locations|length,
+        oob: true,
+      } only %}
+      <div id="directory-search-action" s-swap-oob="true">
+        {% if searchTerm %}
+          <button type="button" sprig s-val:q="" class="{{ searchButtonClass }}">Reset</button>
+        {% else %}
+          <button type="submit" class="{{ searchButtonClass }}">Search</button>
+        {% endif %}
+      </div>
+      <input
+        id="directory-q"
+        s-swap-oob="true"
+        type="search"
+        name="q"
+        value="{{ searchTerm }}"
+        placeholder="Provider name or city..."
+        class="{{ searchInputClass }}"
+      />
+    {% endif %}
+
+    <div id="directory-results-list">
+      {% if locations is empty %}
+        <section class="mt-6 rounded-xl border border-slate-800 bg-slate-900/50 p-6 text-center">
+          <p class="mb-4 text-sm text-slate-400">No locations match your current filters.</p>
+          <a href="{{ url('directory') }}" class="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90">Reset filters</a>
+        </section>
+      {% else %}
+        <ul class="mt-6 list-none space-y-[2.5rem] p-0">
+          {% for item in locations %}
+            {% set location = item.location %}
+            {% set provider = item.provider %}
+            {% set logo = provider.logo.one() ?? null %}
+            {% set logoWellBg = logo ? (provider.useDarkBackgroundForLogo ? 'bg-logo-well-dark' : 'bg-white') : 'bg-slate-800/60' %}
+            {% set providerPhone = (attribute(provider, 'phone') ?? '') %}
+            {% set providerPhoneDigits = providerPhone|replace({' ': '', '-': '', '(': '', ')': '', '.': '', '+': ''}) %}
+            {% if providerPhoneDigits|length == 11 and providerPhoneDigits|slice(0, 1) == '1' %}
+              {% set providerPhoneDigits = providerPhoneDigits|slice(1) %}
+            {% endif %}
+            {% if providerPhoneDigits|length == 10 %}
+              {% set providerPhoneDisplay = '(' ~ providerPhoneDigits|slice(0, 3) ~ ') ' ~ providerPhoneDigits|slice(3, 3) ~ '-' ~ providerPhoneDigits|slice(6) %}
+            {% else %}
+              {% set providerPhoneDisplay = providerPhone %}
+            {% endif %}
+            {% set providerEmail = (attribute(provider, 'email') ?? '') %}
+            {% set websiteField = attribute(provider, 'website') ?? attribute(provider, 'urlField') ?? null %}
+            {% set websiteUrl = '' %}
+            {% if websiteField %}
+              {% if websiteField.url is defined and websiteField.url %}
+                {% set websiteUrl = websiteField.url %}
+              {% elseif websiteField.value is defined and websiteField.value %}
+                {% set websiteUrl = websiteField.value %}
+              {% else %}
+                {% set websiteUrl = websiteField %}
+              {% endif %}
+            {% endif %}
+            {% set websiteHost = websiteUrl ? websiteUrl|replace({'https://': '', 'http://': ''})|split('/')|first|trim : '' %}
+            {% set websiteDisplay = websiteHost %}
+            {% if websiteHost|lower|slice(0, 4) == 'www.' %}
+              {% set websiteDisplay = websiteHost|slice(4) %}
+            {% endif %}
+            <li class="flex">
+              <article class="flex w-full flex-1 flex-col overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
+                <div class="grid h-full flex-1 grid-cols-1 sm:grid-cols-12 sm:items-stretch">
+                  <div class="h-full overflow-hidden rounded-t-xl sm:col-span-4 sm:rounded-l-xl sm:rounded-tr-none sm:pr-3 md:col-span-3">
+                    <div class="flex h-full max-h-[125px] min-h-0 w-full items-center justify-center overflow-hidden p-4 sm:min-h-[174px] sm:max-h-none {{ logoWellBg }}">
+                      {% if logo %}
+                        <img
+                          src="{{ logo.url }}"
+                          alt="{{ logo.alt ?? (provider.title ~ ' logo') }}"
+                          class="max-h-full max-w-full object-contain"
+                          loading="lazy"
+                          decoding="async"
+                          width="{{ logo.width }}"
+                          height="{{ logo.height }}"
+                        />
+                      {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-10 w-10 text-brand" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                        </svg>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="flex h-full flex-col sm:col-span-8 md:col-span-9">
+                    <div class="flex h-full flex-1 flex-col gap-6 p-4 sm:py-10 sm:pl-3 sm:pr-4 md:pl-6 md:pr-12">
+                      <div class="relative flex min-w-0 flex-1 flex-col gap-4 pe-2 sm:justify-center sm:pe-4">
+                        <div class="flex flex-wrap gap-2">
+                          <span class="rounded border px-2 py-0.5 text-xs font-medium {{ item.hasAvailability ? 'border-emerald-500/70 text-emerald-300' : 'border-red-500/70 text-red-300' }}">
+                            {{ item.hasAvailability ? 'Accepting New Clients' : 'No Availability' }}
+                          </span>
+                          {% if provider.dbtaCertified %}
+                            <span class="rounded border border-sky-500/60 px-2 py-0.5 text-xs font-medium text-sky-300">DBT-A Certified</span>
+                          {% endif %}
+                          {% if provider.dbtAdherentTeam %}
+                            <span class="rounded border border-violet-400/70 px-2 py-0.5 text-xs font-medium text-violet-300">DBT Adherent Team</span>
+                          {% endif %}
+                        </div>
+                        <div>
+                          <h2 class="mb-1 text-xl font-semibold leading-tight text-brand sm:text-2xl">
+                            {{ provider.title }}{% if location.city %} — {{ location.city }}{% endif %}
+                          </h2>
+                          <p class="text-sm leading-relaxed text-slate-300">{{ location.title }}{% if location.city %} {{ location.city }}{% endif %}{% if location.state %}, {{ location.state }}{% endif %} {{ location.zip }}</p>
+                        </div>
+                        {% if providerPhone or providerEmail or websiteUrl %}
+                          <div class="flex flex-row flex-wrap items-center gap-2 md:flex-nowrap md:gap-2.5">
+                            {% if providerPhone %}
+                              <a href="tel:{{ providerPhoneDigits|length == 10 ? providerPhoneDigits : providerPhone|replace({' ': '', '-': '', '(': '', ')': '', '.': '', '+': ''}) }}" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Call {{ providerPhoneDisplay }}</a>
+                            {% endif %}
+                            {% if providerEmail %}
+                              <a href="mailto:{{ providerEmail }}?subject=Inquiry%20from%20DBTsearch.org" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Email Us</a>
+                            {% endif %}
+                            {% if websiteUrl %}
+                              <a href="{{ websiteUrl }}" target="_blank" rel="noopener noreferrer" title="{{ websiteDisplay }}" class="min-w-0 max-w-full shrink truncate text-sm text-brand no-underline hover:underline md:max-w-[10rem] lg:max-w-[14rem]">{{ websiteDisplay }}</a>
+                            {% endif %}
+                          </div>
+                        {% endif %}
+                        {% set updated = provider.dateUpdated %}
+                        <div class="inline-flex items-center gap-1.5 text-xs text-brand">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-3.5 w-3.5 shrink-0 text-brand" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                          </svg>
+                          <span>
+                            {% if updated %}
+                              {% set updatedDay = updated|date('Y-m-d') %}
+                              {% set today = 'now'|date('Y-m-d') %}
+                              {% set yesterday = 'now'|date_modify('-1 day')|date('Y-m-d') %}
+                              {% set time = updated|date('g:i A') %}
+                              {% if updatedDay == today %}
+                                Last updated today at {{ time }}
+                              {% elseif updatedDay == yesterday %}
+                                Last updated yesterday at {{ time }}
+                              {% else %}
+                                Last updated {{ updated|date('M j, Y') }} at {{ time }}
+                              {% endif %}
+                            {% else %}
+                              Last updated Unknown
+                            {% endif %}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>

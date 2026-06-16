@@ -1,0 +1,8 @@
+allowPublicRegistration: false
+deactivateByDefault: false
+defaultGroup: ''
+photoSubpath: 'users/{username}/photos'
+photoVolumeUid: 288c542e-3541-4e24-96ee-aa5fa0bea135 # General
+require2fa: false
+requireEmailVerification: false
+validateOnPublicRegistration: false

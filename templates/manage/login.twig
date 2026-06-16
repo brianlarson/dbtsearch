@@ -1,0 +1,101 @@
+{% if currentUser %}
+  {% redirect url('manage') %}
+{% endif %}
+
+{% extends '_layouts/site' %}
+
+{% set pageHeading = 'Provider Login' %}
+{% set pageSubheading = 'Manage Listings' %}
+{% set activeNav = 'login' %}
+
+{% block content %}
+  <main class="pb-12">
+    <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 md:pt-8 lg:px-8">
+      <div class="w-full max-w-[540px] rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
+        {% if craft.app.session.hasFlash('error') %}
+          <p class="mb-4 block w-full rounded-lg border border-red-500/50 bg-red-950/70 px-3 py-2 text-[13px] font-medium text-red-200" role="alert">
+            {{ craft.app.session.getFlash('error') }}
+          </p>
+        {% endif %}
+
+        {% if craft.app.session.hasFlash('notice') %}
+          <p class="mb-4" role="status">
+            <span class="inline-flex items-center rounded-full border border-emerald-500/50 bg-emerald-950/70 px-3 py-1 text-xs font-medium text-emerald-200">
+              {{ craft.app.session.getFlash('notice') }}
+            </span>
+          </p>
+        {% endif %}
+
+        <form method="post" accept-charset="UTF-8" class="grid gap-3">
+          {{ csrfInput() }}
+          {{ actionInput('users/login') }}
+          {{ redirectInput(url('manage')) }}
+
+          <div>
+            <label for="loginName" class="mb-2 block text-sm font-medium text-slate-200">Username or email</label>
+            <input
+              id="loginName"
+              type="text"
+              name="loginName"
+              autocomplete="username"
+              required
+              class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+          </div>
+
+          <div>
+            <label for="password" class="mb-2 block text-sm font-medium text-slate-200">Password</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+              class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+          </div>
+
+          {% set forgotPasswordSubject = '[DBT Search] Provider User Access Assistance'|url_encode %}
+          {% set forgotPasswordBody = 'Please help me with provider manager access to DBT Search. The email I used for signing up is: [ your_email_here ]'|url_encode %}
+          {% set forgotPasswordMailto = 'mailto:support@tinytreecounseling.com?subject=' ~ forgotPasswordSubject ~ '&body=' ~ forgotPasswordBody %}
+
+          <div class="mt-3 flex items-center justify-between gap-3">
+            <button type="submit" class="inline-flex shrink-0 justify-center rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground hover:opacity-90">
+              Log In
+            </button>
+            <button
+              type="button"
+              id="forgot-password-toggle"
+              class="shrink-0 text-sm text-brand no-underline hover:underline hover:opacity-90"
+              aria-expanded="false"
+              aria-controls="forgot-password-message"
+            >
+              Forgot password?
+            </button>
+          </div>
+
+          <p id="forgot-password-message" class="hidden text-sm leading-relaxed text-slate-300" role="status">
+            For username or password assistance
+            <a href="{{ forgotPasswordMailto }}" class="text-brand underline decoration-1 hover:opacity-90">please email support</a>
+            and the administrator will assist you.
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    (function () {
+      const toggle = document.getElementById('forgot-password-toggle');
+      const message = document.getElementById('forgot-password-message');
+      if (!toggle || !message) return;
+
+      toggle.addEventListener('click', () => {
+        const isHidden = message.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
+      });
+    })();
+  </script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends '_layouts/site' %}
+
+{% if not sprig.isRequest %}
+  {% set availabilityParam = craft.app.request.getQueryParam('availability') %}
+  {% set availabilityCookie = craft.app.request.getRawCookies().getValue('directory_availability') %}
+
+  {% if availabilityParam is not null %}
+    {% set onlyAvailable = availabilityParam == '1' %}
+  {% elseif availabilityCookie in ['0', '1'] %}
+    {% set onlyAvailable = availabilityCookie == '1' %}
+  {% else %}
+    {% set defaultParams = craft.app.request.getQueryParams()|merge({ availability: '1' }) %}
+    {% redirect url(craft.app.request.pathInfo, defaultParams) %}
+  {% endif %}
+{% endif %}
+
+{% set pageHeading = 'Providers' %}
+{% set pageSubheading = 'DBT Providers in Minnesota' %}
+{% set activeNav = 'directory' %}
+{% set initialAvailability = onlyAvailable is defined ? (onlyAvailable ? '1' : '0') : (craft.app.request.getQueryParam('availability') ?? '1') %}
+
+{% block content %}
+  <main class="mx-auto mb-2 max-w-6xl px-4 sm:px-6 lg:mb-4 lg:px-8 xl:mb-5">
+    {{ sprig('_sprig/directory-results', {
+      q: craft.app.request.getQueryParam('q') ?? '',
+      availability: initialAvailability,
+    }, {
+      id: 'directory-sprig',
+      's-trigger': 'refresh, change from:#availability-input, submit from:#directory-filters',
+      's-replace': '#directory-results',
+    }) }}
+  </main>
+{% endblock %}

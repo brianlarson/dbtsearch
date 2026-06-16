@@ -72,10 +72,15 @@ frontend/storybook-static/
 frontend/test-results/
 frontend/playwright-report/
 
-# Craft CMS (stack-rewrite, cms/)
-cms/vendor/
-cms/.env
-cms/config/license.key
-cms/web/cpresources/
-cms/storage/
-cms/node_modules/
+# Craft CMS (root)
+vendor/
+.env
+config/license.key
+web/cpresources/
+storage/
+node_modules/
+web/uploads/*
+!web/uploads/.gitignore
+storage/*
+!storage/.gitignore
+!storage/logs/.gitignore

@@ -11,12 +11,12 @@ DBTsearch&trade; is a searchable directory of certified DBT (Dialectical Behavio
 | **Frontend** | React 18, Vite 5, Bootstrap 5 (Finder theme) | Vue 3, Nuxt 3, Vite, Tailwind CSS |
 | **Backend / CMS** | Express, Passport (sessions) | Craft CMS |
 | **Database** | PostgreSQL 14 (DDEV) | MySQL 8 for Craft; Postgres remains for legacy on `main` |
-| **Dev** | DDEV (Postgres), Node 20, npm | DDEV (Postgres + MySQL 8 on `stack-rewrite`), Craft in `cms/`, Nuxt in `frontend/` or `app/` |
-| **Hosting** | — | Cloudways (managed Craft + MySQL); lightweight Craft install. See [docs/HOSTING.md](docs/HOSTING.md). |
+| **Dev** | DDEV (Postgres), Node 20, npm | DDEV (Postgres + MySQL 8 on `stack-rewrite`), Craft at repo root, Nuxt in `frontend/` or `app/` |
+| **Hosting** | — | Cloudways (managed Craft + MySQL); lightweight Craft install. See [docs/HOSTING.md](docs/HOSTING.md) and [docs/deploy-cloudways.md](docs/deploy-cloudways.md). |
 
 **Data:** Providers list (name, certification, availability, contact, locations); admin users can manage providers they’re assigned to. Reference markup for all pages lives in `docs/reference-markup/` for the restack.
 
-**Branches:** Legacy app on `main` and `legacy` (same content; use either to run the old stack). Restack (Craft + Nuxt + Tailwind) on `stack-rewrite`. **Next step:** install Craft in `./cms` per [docs/STACK-REWRITE-SETUP.md](docs/STACK-REWRITE-SETUP.md). See [docs/ROADMAP.md](docs/ROADMAP.md). For a short guide for AI/agents: [docs/NOTES-FOR-AGENTS.md](docs/NOTES-FOR-AGENTS.md).
+**Branches:** Legacy app on `main` and `legacy` (same content; use either to run the old stack). Restack (Craft + Nuxt + Tailwind) on `stack-rewrite`. **Next step:** use root-level Craft setup per [docs/STACK-REWRITE-SETUP.md](docs/STACK-REWRITE-SETUP.md). See [docs/ROADMAP.md](docs/ROADMAP.md). For a short guide for AI/agents: [docs/NOTES-FOR-AGENTS.md](docs/NOTES-FOR-AGENTS.md).
 
 ---
 

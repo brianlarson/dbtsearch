@@ -1,0 +1,146 @@
+dateModified: 1781535301
+email:
+  fromEmail: system@dbtsearch.org
+  fromName: 'DBT Search'
+  replyToEmail: no-reply@dbtsearch.org
+  template: null
+  transportSettings:
+    apiKey: $RESEND_API_KEY
+  transportType: superbig\resend\Adapter
+fs:
+  assets:
+    hasUrls: true
+    name: Assets
+    settings:
+      path: $CRAFT_WEB_ROOT/uploads
+    type: craft\fs\Local
+    url: $PRIMARY_SITE_URL/uploads
+meta:
+  __names__:
+    0e198a9f-3b1b-487f-80ee-3c2aeed6d349: 'DBT Search' # DBT Search
+    0e258167-c7d6-40a4-8865-93e694a27c14: 'DBT Adherent Team' # DBT Adherent Team
+    1f048049-d0c9-4364-8a8d-736b4d508537: Pending # Pending
+    4c618d5d-a0e2-4c67-ac3b-484357e4e959: Providers # Providers
+    4f6e6a4e-3c30-4d4f-a0f0-9f6416f9d8c1: 'Source Location ID' # Source Location ID
+    5ce9554a-ea2e-4de5-a321-7f1b9d240999: Locations # Locations
+    6eeebc0f-a50d-461b-8ee6-4d89eadf3632: Location # Location
+    7c6c339a-2d7b-4ef2-9b2b-b8346d83f404: Providers # Providers
+    8a1e3e1f-faff-4cbe-a322-e93dab8fbfc3: Email # Email
+    9b2d4e9a-6c8f-4d7b-a123-5e6f708192ab: 'Source Provider ID' # Source Provider ID
+    013af865-2f84-430b-be6b-dedc48ddc923: Provider # Provider
+    68f6aaed-7edc-4e91-9996-3a86c16baf2f: 'Basic Editor' # Basic Editor
+    98fab9df-c419-4085-9a57-5c61f96573c2: Form # Form
+    0135fc29-0cdc-4de0-8ba2-e9c7abd5b8aa: 'Use dark background for logo' # Use dark background for logo
+    288c542e-3541-4e24-96ee-aa5fa0bea135: General # General
+    3220f3b5-89ff-450e-9a8c-83bd4b04bdf5: 'Public Schema' # Public Schema
+    6257adb7-e17d-4aa3-9129-015deea64b68: Specialties # Specialties
+    88855dfd-5c52-4554-9e64-c593a0bc5e8c: Credentials # Credentials
+    acef0518-5cc6-4dd0-9231-234846cfc200: Approved # Approved
+    b4c00cdb-3a29-44e5-814b-9a920f515289: Provider # Provider
+    bcf50025-2188-4126-a360-29999caeae89: 'Splash Page' # Splash Page
+    bea9cc9c-6390-413d-ba6e-35e2d30805ca: Availability # Availability
+    c7598e88-bdae-462f-8790-410a3fccdcc6: URL # URL
+    cc0c373f-6532-483b-831f-3c8878b9bb8e: 'DBT Search' # DBT Search
+    d5ae5dfe-b4f7-487a-8ba4-6fbd94e54839: Logo # Logo
+    d7cbe0ad-28b6-4a03-ace9-d634d2072400: 'Contact Form' # Contact Form
+    dc344b98-ee18-453c-80b8-d9fbe035d2ca: Credentials # Credentials
+    ddb25fd5-a759-494a-9d4d-96a6e44c941e: 'Plain Text' # Plain Text
+    ddb17090-e3f7-41d7-aab7-b1729da37d11: Subscriber # Subscriber
+    de7d6259-b92d-48c2-9ab1-dd1e064c895d: Specialties # Specialties
+    e37b7064-6cc1-44c5-a156-52caa30e8b65: 'Splash Page' # Splash Page
+    e39ba0fb-a676-4318-98f7-8ad50f557c6d: Providers # Providers
+    ea4a7d29-5dee-4e91-b48b-181666006b36: Locations # Locations
+    eb8a7a70-63cb-4cc1-bae4-e3516a6766ee: Splash # Splash
+    f77e21c5-ded4-4082-86c6-5df3b28a7316: 'DBT-A Certified' # DBT-A Certified
+    fe417a71-4d1b-460f-8a63-7ac81c0e5092: Images # Images
+plugins:
+  ckeditor:
+    edition: standard
+    enabled: true
+    schemaVersion: 5.0.0.1
+  cp-nav:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.0.11
+  dashboard-begone:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  expanded-singles:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  feed-me:
+    edition: standard
+    enabled: true
+    schemaVersion: 5.14.0
+  formie:
+    edition: standard
+    enabled: true
+    licenseKey: QUKB6ZEKL37AO89B4TEAAZKZ
+    schemaVersion: 3.4.12
+    settings:
+      ajaxTimeout: 10
+      alertEmails:
+        -
+          - 'Brian Larson'
+          - brian@brianlarson.com
+      allowPublicVolumes: true
+      defaultDateDisplayType: calendar
+      defaultDateTime: null
+      defaultDateValueOption: ''
+      defaultEmailTemplate: ''
+      defaultExportFolder: '@storage/formie-export'
+      defaultFileUploadVolume: ''
+      defaultFormTemplate: ''
+      defaultInstructionsPosition: verbb\formie\positions\AboveInput
+      defaultLabelPosition: verbb\formie\positions\AboveInput
+      defaultPage: forms
+      emptyValuePlaceholder: 'No response.'
+      enableBackSubmission: true
+      enableCsrfValidationForGuests: true
+      enableLargeFieldStorage: false
+      enableUnloadWarning: true
+      filterIntegrationMapping: true
+      includeDraftElementUsage: false
+      includeRevisionElementUsage: false
+      maxIncompleteSubmissionAge: 30
+      maxSentNotificationsAge: 30
+      outputConsoleMessages: true
+      pdfPaperOrientation: portrait
+      pdfPaperSize: letter
+      pluginName: Forms
+      queuePriority: null
+      saveSpam: true
+      sendEmailAlerts: true
+      sentNotifications: true
+      setOnlyCurrentPagePayload: false
+      spamBehaviour: showSuccess
+      spamBehaviourMessage: ''
+      spamEmailNotifications: true
+      spamKeywords: ''
+      spamLimit: 500
+      submissionsBehaviour: all
+      useCssLayers: false
+      useQueueForIntegrations: true
+      useQueueForNotifications: true
+      validateCustomTemplates: true
+  mcp:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  resend:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  sprig:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.1
+system:
+  edition: team
+  live: true
+  name: 'DBT Search'
+  retryDuration: null
+  schemaVersion: 5.9.0.8
+  timeZone: America/Chicago

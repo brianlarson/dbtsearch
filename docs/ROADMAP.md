@@ -9,7 +9,7 @@ Short-term plan and stack-rewrite options.
 | What | Status / one-liner |
 |------|--------------------|
 | **Legacy app** | `main` and `legacy` branch: React + Express + Postgres. Running. |
-| **New stack** | `stack-rewrite`: Vue, Nuxt, Tailwind, MySQL 8+. Branch ready; next: install Craft in `./cms`. |
+| **New stack** | `stack-rewrite`: Vue, Nuxt, Tailwind, MySQL 8+. Branch ready; Craft now lives at repo root. |
 | **Markup** | Capture legacy HTML (main, client-only) → `docs/reference-markup/`. [Details](CAPTURE-MARKUP.md) |
 | **Milestones** | Craft + DDEV → Nuxt + Tailwind shell → first directory page. Track in **GitHub Issues**; use issue # in commits. |
 
@@ -20,9 +20,9 @@ Short-term plan and stack-rewrite options.
 ## Current status
 
 - **Original stack:** Done — running on `main` (DDEV + Postgres, server/client).
-- **Stack rewrite:** Branch `stack-rewrite` created. **Next step:** install Craft CMS in `./cms` per [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md).
-- **Chosen stack:** Vue 3, Nuxt 3, Tailwind CSS, **MySQL 8+** (Craft CMS–recommended). DDEV on this branch gets **MySQL 8** via `.ddev/docker-compose.mysql.yaml` (Craft uses it); Postgres remains for legacy. **First-run:** [docs/STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) — set docroot to `cms/web`, `ddev start`, install Craft into `cms/`.
-- **Hosting:** Craft Cloud is out (no small plans). Plan: **Cloudways** (managed Craft + MySQL), lightweight Craft install. See [docs/HOSTING.md](HOSTING.md).
+- **Stack rewrite:** Branch `stack-rewrite` created. Craft structure is now root-level (no `cms/` split).
+- **Chosen stack:** Vue 3, Nuxt 3, Tailwind CSS, **MySQL 8+** (Craft CMS–recommended). DDEV on this branch gets **MySQL 8** via `.ddev/docker-compose.mysql.yaml` (Craft uses it); Postgres remains for legacy. **First-run:** [docs/STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) — set docroot to `web`, `ddev start`, and run Craft from repo root.
+- **Hosting:** Craft Cloud is out (no small plans). Plan: **Cloudways** (managed Craft + MySQL), lightweight Craft install with staging-first promotion. See [docs/HOSTING.md](HOSTING.md) and [deploy-cloudways.md](deploy-cloudways.md).
 - **Legacy (main):** React (Vite), Express, Passport, PostgreSQL; schema `data/database.sql`.
 
 ---
@@ -68,7 +68,7 @@ You said you're converting to a "totally different stack." Here are common direc
 
 ## Next milestones
 
-1. **Craft in `./cms`** — [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md): docroot `cms/web`, `ddev start`, `composer create-project craftcms/craft cms`, `ddev craft install`.
+1. **Craft at repo root** — [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md): docroot `web`, `ddev start`, `ddev craft install`.
 2. **Nuxt + Tailwind** — App shell on `stack-rewrite`; then first directory page from `docs/reference-markup/`.
 3. **Craft data model** — Document entry types and fields for the directory.
 
@@ -76,4 +76,4 @@ Track in **GitHub Issues**; mention issue # in commit messages (e.g. `#12`).
 
 ---
 
-*Last updated: docs onceover; Linear removed; next step = Craft install in ./cms.*
+*Last updated: docs onceover; Linear removed; Craft flattened to repo root.*

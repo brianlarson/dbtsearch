@@ -4,7 +4,9 @@ This gets you to a single MySQL database so **Craft DB backup** (Control Panel a
 
 ## Current state
 
-- DDEV primary database is **Postgres** (Craft uses the **mysql8** sidecar for MySQL).
+- DDEV primary database is **Postgres** (legacy / Node app).
+- **Craft CMS 5.10+** uses the **mysql8** sidecar (MySQL 8.0) — database `craft`, user `craft`.
+- `ddev import-db` targets Postgres only. Craft backups must import via `ddev craft-db-import` or `pnpm mm -- pull` (both target mysql8/craft).
 - You cannot change `config.yaml` from Postgres to MySQL and restart: DDEV will refuse because the existing db volume is Postgres. Use the steps below.
 
 ## Steps (run from project root)
@@ -15,7 +17,7 @@ This gets you to a single MySQL database so **Craft DB backup** (Control Panel a
 ./scripts/export-craft-db.sh
 ```
 
-This creates `cms/storage/backups/craft-export.sql`. Keep this file.
+This creates `storage/backups/craft-export.sql`. Keep this file.
 
 ### 2. Migrate DDEV’s primary database from Postgres to MySQL
 
@@ -35,7 +37,7 @@ After the migration, the primary db is MySQL. Run:
 
 ```bash
 ddev mysql -e "CREATE DATABASE IF NOT EXISTS craft; GRANT ALL ON craft.* TO 'db'@'%';"
-ddev mysql craft < cms/storage/backups/craft-export.sql
+ddev mysql craft < storage/backups/craft-export.sql
 ```
 
 ### 4. Point Craft at the primary db
@@ -76,8 +78,8 @@ The repo root **`.env`** still has `DATABASE_URL=postgresql://...` for the Node 
 
 ## Craft logs (for reference)
 
-- **Web:** `cms/storage/logs/web-YYYY-MM-DD.log`
-- **Console:** `cms/storage/logs/console-YYYY-MM-DD.log`
-- **PHP errors:** `cms/storage/logs/phperrors.log`
+- **Web:** `storage/logs/web-YYYY-MM-DD.log`
+- **Console:** `storage/logs/console-YYYY-MM-DD.log`
+- **PHP errors:** `storage/logs/phperrors.log`
 
 The “Could not create backup” / TLS error in the Control Panel came from Craft calling `mysqldump` from the web container to mysql8; using the primary **db** avoids that.

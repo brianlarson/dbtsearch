@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+## Description: Import a MySQL dump into Craft's MySQL 8 database (mysql8 sidecar or primary MySQL)
+## Usage: craft-db-import [path-to.sql|.sql.gz]
+## Example: ddev craft-db-import storage/backups/latest.sql.gz
+## Example: ddev craft-db-import
+set -e
+
+FILE="${1:-storage/backups/latest.sql.gz}"
+APP_ROOT="${DDEV_APPROOT:-.}"
+FULL_PATH="${APP_ROOT}/${FILE}"
+
+if [[ ! -f "${FULL_PATH}" ]]; then
+  echo "SQL file not found: ${FULL_PATH}" >&2
+  echo "Usage: ddev craft-db-import [path-to.sql|.sql.gz]" >&2
+  echo "Default: storage/backups/latest.sql.gz" >&2
+  exit 1
+fi
+
+if [[ -f "${APP_ROOT}/.ddev/docker-compose.mysql.yaml" ]]; then
+  # mysql8 sidecar does not mount the project tree — stream from the host.
+  if [[ "${FILE}" == *.gz ]]; then
+    gunzip -c "${FULL_PATH}" | ddev exec -s mysql8 mysql -u craft -pcraft craft
+  else
+    ddev exec -s mysql8 mysql -u craft -pcraft craft < "${FULL_PATH}"
+  fi
+  echo "Craft database imported into mysql8/craft (MySQL 8.0)."
+else
+  ddev import-db --file="${FILE}"
+  echo "Craft database imported via ddev import-db (primary MySQL)."
+fi

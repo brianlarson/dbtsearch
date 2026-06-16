@@ -1,0 +1,50 @@
+defaultPlacement: end
+fieldLayouts:
+  016343f6-3611-49c4-b875-d0dd886b2472:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2026-04-24T18:46:12+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\TitleField
+            uid: 757d3b83-1e7f-4f1b-b6c4-baaa972bf886
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: f87f747b-2bc2-4319-9c61-22708d79ea87
+        userCondition: null
+    thumbFieldKey: null
+handle: specialties
+name: Specialties
+siteSettings:
+  0e198a9f-3b1b-487f-80ee-3c2aeed6d349: # DBT Search
+    hasUrls: false
+    template: null
+    uriFormat: null
+structure:
+  maxLevels: 1
+  uid: efe41558-05b4-4647-878c-62f06ffc8f5f
