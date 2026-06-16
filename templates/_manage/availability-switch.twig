@@ -1,0 +1,15 @@
+{# Per-location availability toggle — matches directory filter switch #}
+<label for="{{ id }}" class="flex cursor-pointer items-center gap-3 text-sm text-slate-300">
+  <input
+    id="{{ id }}"
+    type="checkbox"
+    name="{{ name ?? id }}"
+    value="1"
+    class="portal-field peer sr-only"
+    data-portal-field="availability"
+    {% if checked ?? false %}checked{% endif %}
+    {% if disabled ?? false %}disabled{% endif %}
+  />
+  {% include '_partials/lightswitch-track' only %}
+  <span class="ms-0.5 leading-snug">{{ label ?? 'Currently accepting new clients' }}</span>
+</label>

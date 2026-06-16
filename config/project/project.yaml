@@ -1,4 +1,4 @@
-dateModified: 1781463715
+dateModified: 1781535301
 email:
   fromEmail: system@dbtsearch.org
   fromName: 'DBT Search'
@@ -30,6 +30,7 @@ meta:
     013af865-2f84-430b-be6b-dedc48ddc923: Provider # Provider
     68f6aaed-7edc-4e91-9996-3a86c16baf2f: 'Basic Editor' # Basic Editor
     98fab9df-c419-4085-9a57-5c61f96573c2: Form # Form
+    0135fc29-0cdc-4de0-8ba2-e9c7abd5b8aa: 'Use dark background for logo' # Use dark background for logo
     288c542e-3541-4e24-96ee-aa5fa0bea135: General # General
     3220f3b5-89ff-450e-9a8c-83bd4b04bdf5: 'Public Schema' # Public Schema
     6257adb7-e17d-4aa3-9129-015deea64b68: Specialties # Specialties

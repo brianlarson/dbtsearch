@@ -12,6 +12,7 @@
   /* Brand — legacy footer / attribution links (see docs/reference-markup/*.html) */
   --color-brand: #bbcefd;
   --color-brand-accent: #b8860b;
+  --color-logo-well-dark: #0a0e20;
 
   /* Blue palette (primary) — clearer blue, not lavender */
   --color-primary-50: #eff6ff;

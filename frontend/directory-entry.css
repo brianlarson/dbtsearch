@@ -11,3 +11,48 @@
     cursor: pointer;
   }
 }
+
+@layer components {
+  .back-to-top {
+    @apply fixed bottom-6 right-6 z-[1020] flex h-11 w-11 items-center justify-center rounded-full border border-slate-600 bg-slate-900/90 text-slate-200 shadow-lg backdrop-blur-sm transition-[opacity,visibility] duration-300 ease-out opacity-0 invisible pointer-events-none hover:border-slate-500 hover:bg-slate-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950;
+  }
+
+  .back-to-top.is-visible {
+    @apply opacity-100 visible pointer-events-auto;
+  }
+
+  /*
+   * Directory filter bar — flat header treatment, full-bleed from constrained main.
+   * Same top as site header so sticky stacking pushes the header up; higher z-index
+   * paints the filter on top during handoff.
+   */
+  .directory-filter-sticky {
+    @apply sticky top-0 z-[1031] w-screen border-b border-slate-800 bg-slate-950/95 py-4 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80 md:py-5;
+    margin-left: calc(50% - 50vw);
+  }
+
+  .directory-filter-sticky::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.5rem;
+    transform: translateY(100%);
+    background: linear-gradient(to bottom, rgb(2 6 23 / 0.95), transparent);
+    pointer-events: none;
+  }
+
+  /* Release header sticky once filter bar owns the top of the viewport. */
+  body.directory-filter-stuck #site-header {
+    position: relative;
+    top: auto;
+    z-index: auto;
+  }
+
+  input.portal-field:not(.sr-only),
+  textarea.portal-field,
+  select.portal-field {
+    @apply text-[15px];
+  }
+}

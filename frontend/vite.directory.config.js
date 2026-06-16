@@ -11,10 +11,13 @@ export default {
     outDir: path.resolve(__dirname, '../web/css'),
     emptyOutDir: false,
     rollupOptions: {
-      input: path.resolve(__dirname, 'directory-entry.js'),
+      input: {
+        directory: path.resolve(__dirname, 'directory-entry.js'),
+        manage: path.resolve(__dirname, 'manage-entry.js'),
+      },
       output: {
         assetFileNames: 'directory.css',
-        entryFileNames: 'directory.min.js',
+        entryFileNames: '[name].min.js',
       },
     },
     cssCodeSplit: false,

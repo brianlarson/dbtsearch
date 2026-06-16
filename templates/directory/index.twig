@@ -26,7 +26,8 @@
       availability: initialAvailability,
     }, {
       id: 'directory-sprig',
-      's-trigger': 'refresh, input changed delay:300ms from:#directory-q, submit from:#directory-filters',
+      's-trigger': 'refresh, change from:#availability-input, submit from:#directory-filters',
+      's-replace': '#directory-results',
     }) }}
   </main>
 {% endblock %}

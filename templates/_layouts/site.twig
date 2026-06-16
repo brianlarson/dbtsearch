@@ -15,7 +15,7 @@
   {% block head %}{% endblock %}
 </head>
 <body class="dark min-h-screen bg-slate-950 text-white font-sans antialiased" data-theme="dbtsearch">
-  <header class="sticky top-0 z-[1030] border-b border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80">
+  <header id="site-header" class="sticky top-0 z-[1030] border-b border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80">
     <div class="mx-auto flex max-w-6xl items-center gap-2 px-4 py-2 sm:px-6 lg:px-8">
       <a href="{{ url('/') }}" class="inline-flex shrink-0 items-center py-1 md:py-2 xl:py-1">
         <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-auto max-w-[170px] md:hidden" width="170" height="40" />
@@ -28,7 +28,11 @@
       </nav>
       <div class="ml-auto flex items-center gap-1 sm:gap-2">
         <a href="{{ url('contact') }}" class="hidden rounded-md border border-slate-600 px-3 py-2 text-sm font-medium {{ activeNav == 'contact' ? 'bg-slate-800/50 text-white' : 'text-slate-200 hover:border-slate-500 hover:bg-slate-800/50 hover:text-white' }} md:inline-flex" {% if activeNav == 'contact' %}aria-current="page"{% endif %}>Contact</a>
-        <a href="{{ url('login') }}" class="inline-flex items-center rounded-md {{ activeNav == 'login' ? 'bg-slate-500' : 'bg-slate-600' }} px-3 py-2 text-sm font-semibold text-white hover:bg-slate-500" {% if activeNav == 'login' %}aria-current="page"{% endif %}>Login</a>
+        {% if currentUser %}
+          <a href="{{ url('manage') }}" class="inline-flex items-center rounded-md {{ activeNav == 'manage' ? 'bg-slate-500' : 'bg-slate-600' }} px-3 py-2 text-sm font-semibold text-white hover:bg-slate-500" {% if activeNav == 'manage' %}aria-current="page"{% endif %}>Manage</a>
+        {% else %}
+          <a href="{{ url('manage/login') }}" class="inline-flex items-center rounded-md {{ activeNav == 'login' ? 'bg-slate-500' : 'bg-slate-600' }} px-3 py-2 text-sm font-semibold text-white hover:bg-slate-500" {% if activeNav == 'login' %}aria-current="page"{% endif %}>Login</a>
+        {% endif %}
       </div>
     </div>
   </header>
@@ -60,6 +64,19 @@
   </section>
 
   {% block content %}{% endblock %}
+
+  <button
+    type="button"
+    id="back-to-top"
+    class="back-to-top"
+    aria-label="Back to top"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+      <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+    </svg>
+  </button>
 
   <footer class="mt-14 border-t border-slate-800/80 bg-slate-950/80">
     <div class="mx-auto max-w-6xl px-4 py-8 text-center sm:px-6 lg:px-8">

@@ -10,7 +10,12 @@
  */
 
 use craft\config\GeneralConfig;
+use mikehaertl\shellcommand\Command as ShellCommand;
 use craft\helpers\App;
+
+
+$isLocalDev = in_array(App::env('CRAFT_ENVIRONMENT'), ['dev', 'local'], true);
+$skipLocalMysqlSsl = static fn(ShellCommand $command) => $command->addArg('--skip-ssl');
 
 return GeneralConfig::create()
     // Set the dev mode based on the environment
@@ -30,4 +35,6 @@ return GeneralConfig::create()
         '@webroot' => dirname(__DIR__) . '/web',
     ])
     ->postLogoutRedirect('/signed-out')
+    ->backupCommand($isLocalDev ? $skipLocalMysqlSsl : null)
+    ->restoreCommand($isLocalDev ? $skipLocalMysqlSsl : null)
 ;

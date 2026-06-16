@@ -56,6 +56,22 @@ fieldLayouts:
             warning: null
             width: 50
           -
+            dateAdded: '2026-06-15T14:55:01+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0135fc29-0cdc-4de0-8ba2-e9c7abd5b8aa # Use dark background for logo
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1ee58ad1-eb90-4b33-8cf6-eb95c073d091
+            userCondition: null
+            warning: null
+            width: 50
+          -
             dateAdded: '2026-04-24T19:26:58+00:00'
             editCondition: null
             elementCondition: null
@@ -212,10 +228,6 @@ fieldLayouts:
             editCondition:
               class: craft\elements\conditions\users\UserCondition
               conditionRules:
-                -
-                  class: craft\elements\conditions\users\AdminConditionRule
-                  uid: 5c376ea6-c9b0-4591-82eb-d6967b2bbbbf
-                  value: true
                 -
                   class: craft\elements\conditions\users\FirstNameConditionRule
                   operator: '='

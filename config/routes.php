@@ -15,6 +15,8 @@ return [
     'about' => ['template' => 'about/index'],
     'faqs' => ['template' => 'faqs/index'],
     'contact' => ['template' => 'contact/index'],
+    'manage/login' => ['template' => 'manage/login'],
+    'manage' => ['template' => 'manage/index'],
     'login' => ['template' => 'login/index'],
     'register' => ['template' => 'register/index'],
     'sign-out' => 'users/logout',

@@ -198,8 +198,8 @@ export function renderDirectoryFilters({ resultCount = 24, onlyAvailable = true,
       <span class="text-body-secondary fs-sm">Results: <strong>${resultCount}</strong></span>
     </div>
     <div class="col-12">
-      <label for="provider-search" class="form-label">Search by provider name</label>
-      <input id="provider-search" type="search" class="form-control" placeholder="Start typing a provider name..." value="${safeSearch}" autocomplete="off" />
+      <label for="provider-search" class="form-label">Search by provider name or city</label>
+      <input id="provider-search" type="search" class="form-control" placeholder="Provider name or city..." value="${safeSearch}" autocomplete="off" />
     </div>
   </div>
 </div>`;
