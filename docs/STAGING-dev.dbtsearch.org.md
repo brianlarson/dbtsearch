@@ -5,11 +5,12 @@ Operational runbook for the Cloudways **dbtsearch_dev** app at [https://dev.dbts
 General Cloudways workflow: [deploy-cloudways.md](deploy-cloudways.md).  
 Flatten migration checklist: [CLOUDWAYS-FLATTEN-CHECKLIST.md](CLOUDWAYS-FLATTEN-CHECKLIST.md).
 
-## Current state (2026-06-14)
+## Current state (2026-06-16)
 
 | Item | Status |
 |------|--------|
-| Repo flatten branch | `cursor/unstack-craft-native-810e` (root Craft, docroot `web`) |
+| Staging branch | `develop` (flattened Craft at repo root, docroot `web`) |
+| Vue SPA archive | `archive/develop-vue-spa` (pre-flatten `develop`; reference only) |
 | Cloudways dev app | `dbtsearch_dev` exists on server `1606631` (same IP as prod) |
 | dev.dbtsearch.org | Resolves; HTTP basic auth enabled (401 without credentials) |
 | SSH via `mm` | **Blocked** — key authorized for prod app only; dev app path returns Permission denied |
@@ -41,10 +42,8 @@ pnpm mm -- doctor
 In Cloudways → **dbtsearch_dev** → **Deployment via Git**:
 
 - Repository: this GitHub repo.
-- Branch: `cursor/unstack-craft-native-810e` (or `develop` after merge).
+- Branch: **`develop`**
 - Deploy the latest commit on that branch.
-
-Commit to deploy initially: `e7885dc` (includes flatten + Cloudways checklist).
 
 ### 3) Document root
 
@@ -101,7 +100,7 @@ Replace `<DEV_APP_ID>` with the numeric app id from the Cloudways dev app URL (p
 1. DB backup/snapshot of **dbtsearch_dev**.
 2. Confirm webroot = `web`.
 3. Confirm `.env` at app root with staging values above.
-4. Git deploy → branch `cursor/unstack-craft-native-810e` → **Deploy Now**.
+4. Git deploy → branch **`develop`** → **Deploy Now**.
 
 ### B) SSH on staging (app root)
 
