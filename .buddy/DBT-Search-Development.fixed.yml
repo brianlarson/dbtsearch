@@ -7,7 +7,8 @@
   - type: WEBHOOK
   variables:
   - key: DEV_PASS
-    value: $*#!bgL3h!W!PpoE654
+    value: '!encrypted 70xok637FYADXFJrFFymSd6kTusu/BXUtw+UMj70pbY=.pTEtijJZb39B1MIeSElIAw=='
+    encrypted: true
   - key: DEV_USER
     value: blarson721
   targets:
