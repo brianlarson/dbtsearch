@@ -8,64 +8,78 @@
 
 {% set previewUsername = currentUser.username ?? currentUser.email ?? 'provider' %}
 
-{# Feature flags — toggle as Craft fields/actions are wired #}
 {% set portalFeatures = {
   practiceDetails: false,
   dbtaCertified: true,
   locationDetails: false,
-  craftSave: false,
+  craftSave: true,
 } %}
 
-{# Static mock — mirrors feat/provider-portal-static-availability providerSelfEditMock #}
-{% set portalProvider = {
-  name: 'Addictions and Stress Clinic dba ASC Psychological Services',
-  dbtaCertified: true,
-  phone: '(651) 555-0197',
-  email: 'contact@asc-psychology.example',
-  website: 'https://example.org/asc-psychology',
-  locations: [
-    {
-      id: 'location-self-1',
-      name: 'Roseville Office',
-      address: '2233 Hamline Ave N',
-      city: 'Roseville',
-      state: 'MN',
-      zip: '55113',
-      phone: '(651) 555-0197',
-      email: 'contact@asc-psychology.example',
-      website: 'https://example.org/asc-psychology',
-      availability: true,
-    },
-    {
-      id: 'location-self-2',
-      name: 'St. Paul Office',
-      address: '875 Arcade St',
-      city: 'St. Paul',
-      state: 'MN',
-      zip: '55106',
-      phone: '(651) 555-0142',
-      email: 'stpaul@asc-psychology.example',
-      website: 'https://example.org/asc-psychology/st-paul',
-      availability: false,
-    },
-    {
-      id: 'location-self-3',
-      name: 'Minneapolis — Uptown',
-      address: '3000 Hennepin Ave S Ste 1',
-      city: 'Minneapolis',
-      state: 'MN',
-      zip: '55408',
-      phone: '(612) 555-0177',
-      email: 'uptown@asc-psychology.example',
-      website: 'https://example.org/asc-psychology/uptown',
-      availability: true,
-    },
-  ],
+{% set portalCanAccess = currentUser.admin or currentUser.isInGroup('provider') or currentUser.isInGroup('providerEditors') %}
+
+{% set providerEntry = null %}
+{% set linkedProvider = currentUser.provider.one() ?? null %}
+{% if not linkedProvider %}
+  {% set userProviders = currentUser.providers.all() ?? [] %}
+  {% if userProviders|length == 1 %}
+    {% set linkedProvider = userProviders[0] %}
+  {% endif %}
+{% endif %}
+{% if not linkedProvider %}
+  {% set authoredProviders = craft.entries()
+    .section('providers')
+    .authorId(currentUser.id)
+    .status(null)
+    .all() %}
+  {% if authoredProviders|length == 1 %}
+    {% set linkedProvider = authoredProviders[0] %}
+  {% endif %}
+{% endif %}
+{% set providerEntry = linkedProvider %}
+
+{% set portalLocations = [] %}
+{% if providerEntry %}
+  {% for location in providerEntry.locations.all() %}
+    {% set portalLocations = portalLocations|merge([{
+      id: location.id,
+      name: location.title,
+      address: location.title,
+      city: location.city ?? '',
+      state: location.state ?? '',
+      zip: location.zip ?? '',
+      phone: '',
+      email: '',
+      website: '',
+      availability: location.availability ?? false,
+    }]) %}
+  {% endfor %}
+{% endif %}
+
+{% set portalProvider = providerEntry ? {
+  id: providerEntry.id,
+  name: providerEntry.title,
+  dbtaCertified: providerEntry.dbtaCertified ?? false,
+  phone: providerEntry.phone ?? '',
+  email: providerEntry.email ?? '',
+  website: providerEntry.website ?? '',
+  dateUpdated: providerEntry.dateUpdated ? providerEntry.dateUpdated|date('c') : null,
+  locations: portalLocations,
+} : {
+  id: null,
+  name: '',
+  dbtaCertified: false,
+  phone: '',
+  email: '',
+  website: '',
+  dateUpdated: null,
+  locations: [],
 } %}
 
-{% set pageHeading = portalProvider.name %}
+{% set pageHeading = portalProvider.name ?: 'Provider Admin' %}
 {% set pageSubheading = 'Provider Admin' %}
 {% set portalToolbarTitle = portalProvider.locations|length > 1 ? 'Edit your listings' : 'Edit your listing' %}
+{% set portalFlashNotice = craft.app.session.hasFlash('notice') ? craft.app.session.getFlash('notice') : null %}
+{% set portalFlashError = craft.app.session.hasFlash('error') ? craft.app.session.getFlash('error') : null %}
 
 {% block content %}
   <main class="pb-12">
@@ -120,7 +134,14 @@
           </div>
         </div>
 
-        <div id="portal-save-alert" class="mt-4 hidden scroll-mt-24 rounded-lg border border-emerald-500/40 bg-emerald-950/40 p-4" role="status" aria-live="polite" hidden>
+        {% if portalFlashError %}
+          <div class="mt-4 rounded-lg border border-red-500/40 bg-red-950/40 p-4" role="alert">
+            <p class="font-semibold text-red-100">Unable to save</p>
+            <p class="mt-1 text-sm text-red-200/80">{{ portalFlashError }}</p>
+          </div>
+        {% endif %}
+
+        <div id="portal-save-alert" class="mt-4 hidden scroll-mt-24 rounded-lg border border-emerald-500/40 bg-emerald-950/40 p-4" role="status" aria-live="polite" {% if not portalFlashNotice %}hidden{% endif %}>
           <div class="flex items-start justify-between gap-3">
             <div>
               <p class="font-semibold text-emerald-100">Saved</p>
@@ -137,8 +158,35 @@
         </div>
       </div>
 
+      {% if not portalCanAccess %}
+        <div class="rounded-xl border border-amber-700/50 bg-amber-950/20 p-6 text-amber-100">
+          <h3 class="text-lg font-semibold">Access not configured</h3>
+          <p class="mt-2 text-sm text-amber-200/90">Your account is not in the provider editor group. Ask an administrator to add you to the <strong>Provider</strong> group and link your user to a provider listing.</p>
+        </div>
+      {% elseif not providerEntry %}
+        <div class="rounded-xl border border-slate-700 bg-slate-900/50 p-6 text-slate-200">
+          <h3 class="text-lg font-semibold text-white">No listing linked</h3>
+          <p class="mt-2 text-sm text-slate-400">We could not find a provider entry linked to your account. An administrator needs to set the <strong>Provider</strong> field on your user profile (or assign you as the sole author of one provider entry).</p>
+        </div>
+      {% else %}
       <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-6">
-        <form id="portal-form" class="grid gap-6" method="post" action="#" novalidate>
+        <form
+          id="portal-form"
+          class="grid gap-6"
+          method="post"
+          action=""
+          data-craft-save="{{ portalFeatures.craftSave ? '1' : '0' }}"
+          data-last-saved="{{ portalProvider.dateUpdated ?? '' }}"
+          novalidate
+        >
+          {{ csrfInput() }}
+          {{ actionInput('portal/manage/save') }}
+          {{ redirectInput(url('manage')) }}
+          <input type="hidden" name="providerId" value="{{ providerEntry.id }}" />
+          {% if portalFeatures.locationDetails %}
+            <input type="hidden" name="locationDetails" value="1" />
+          {% endif %}
+
           <div>
             <h3 class="text-xl font-semibold text-white">Provider</h3>
             <div class="mt-4 grid gap-4">
@@ -196,11 +244,15 @@
 
           <div class="mt-4">
             <h3 class="text-xl font-semibold text-white">Locations</h3>
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-              {% for location in portalProvider.locations %}
-                {% include '_manage/location-card' with { location: location, portalFeatures: portalFeatures } only %}
-              {% endfor %}
-            </div>
+            {% if portalProvider.locations|length %}
+              <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                {% for location in portalProvider.locations %}
+                  {% include '_manage/location-card' with { location: location, portalFeatures: portalFeatures } only %}
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="mt-4 text-sm text-slate-400">No locations are linked to this provider yet.</p>
+            {% endif %}
           </div>
 
           <div class="flex flex-wrap gap-3 border-t border-slate-800 pt-4">
@@ -215,9 +267,15 @@
           </div>
         </form>
       </div>
+      {% endif %}
     </section>
 
-    <script type="application/json" id="portal-initial-data">{{ portalProvider|json_encode|raw }}</script>
+    {% if providerEntry %}
+      <script type="application/json" id="portal-initial-data">{{ portalProvider|json_encode|raw }}</script>
+    {% endif %}
+    {% if portalFlashNotice %}
+      <script type="application/json" id="portal-flash-notice">{{ portalFlashNotice|json_encode|raw }}</script>
+    {% endif %}
   </main>
 {% endblock %}
 

@@ -1,5 +1,5 @@
 /**
- * Provider portal (/manage) — static preview interactivity until Craft save is wired.
+ * Provider portal (/manage) — dirty-state UX with optional Craft save.
  */
 const STORAGE_KEY = 'dbtsearch_portal_draft';
 
@@ -9,7 +9,9 @@ function initPortalForm() {
     return;
   }
 
+  const craftSave = form.dataset.craftSave === '1';
   const initialJson = document.getElementById('portal-initial-data');
+  const flashNotice = document.getElementById('portal-flash-notice');
   const unsavedBadge = document.getElementById('portal-unsaved-badge');
   const statusLine = document.getElementById('portal-status-line');
   const saveAlert = document.getElementById('portal-save-alert');
@@ -52,13 +54,38 @@ function initPortalForm() {
     return new Date(ms).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
   }
 
+  function formatSavedLabel(isoString) {
+    const parsed = Date.parse(isoString);
+    if (Number.isNaN(parsed)) {
+      return null;
+    }
+    return formatTime(parsed);
+  }
+
   function updateStatus(savedAt) {
     if (!statusLine) return;
     if (savedAt) {
-      statusLine.textContent = `Last saved locally · ${formatTime(savedAt)}`;
+      statusLine.textContent = craftSave
+        ? `Last saved · ${formatTime(savedAt)}`
+        : `Last saved locally · ${formatTime(savedAt)}`;
     } else {
-      statusLine.textContent = `No session save yet · preview opened ${formatTime(sessionOpenedAt)}`;
+      const lastSavedIso = form.dataset.lastSaved;
+      const serverSaved = lastSavedIso ? formatSavedLabel(lastSavedIso) : null;
+      if (craftSave && serverSaved) {
+        statusLine.textContent = `Last saved · ${serverSaved}`;
+      } else {
+        statusLine.textContent = craftSave
+          ? 'No saves yet this session'
+          : `No session save yet · preview opened ${formatTime(sessionOpenedAt)}`;
+      }
     }
+  }
+
+  function showSaveAlert() {
+    if (!saveAlert) return;
+    saveAlert.classList.remove('hidden');
+    saveAlert.removeAttribute('hidden');
+    saveAlert.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function setDirty(dirty) {
@@ -133,6 +160,10 @@ function initPortalForm() {
   }
 
   form.addEventListener('submit', (e) => {
+    if (craftSave) {
+      return;
+    }
+
     e.preventDefault();
     const payload = serializeForm();
     try {
@@ -142,13 +173,8 @@ function initPortalForm() {
     }
     savedSignature = payload;
     setDirty(false);
-    const savedAt = Date.now();
-    updateStatus(savedAt);
-    if (saveAlert) {
-      saveAlert.classList.remove('hidden');
-      saveAlert.removeAttribute('hidden');
-      saveAlert.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    updateStatus(Date.now());
+    showSaveAlert();
   });
 
   window.addEventListener('beforeunload', (e) => {
@@ -166,8 +192,15 @@ function initPortalForm() {
     }
   }
 
-  updateStatus(null);
-  checkDirty();
+  if (flashNotice) {
+    savedSignature = serializeForm();
+    setDirty(false);
+    updateStatus(Date.now());
+    showSaveAlert();
+  } else {
+    updateStatus(null);
+    checkDirty();
+  }
 }
 
 function initPortalUserMenu() {
