@@ -5,3 +5,17 @@
   fail_on_prepare_env_warning: true
   events:
   - type: WEBHOOK
+  variables:
+  - key: DEV_PASS
+    value: $*#!bgL3h!W!PpoE654
+  - key: DEV_USER
+    value: blarson721
+  targets:
+  - target: dbt-search-development
+    type: SSH
+    name: DBT Search Development
+    host: 45.55.79.253
+    path: public_html
+    auth:
+      username: blarson721
+      password: '!encrypted 70xok637FYADXFJrFFymSd6kTusu/BXUtw+UMj70pbY=.pTEtijJZb39B1MIeSElIAw=='
