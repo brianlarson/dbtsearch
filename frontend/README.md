@@ -2,14 +2,14 @@
 
 Markup and UI stories for the stack-rewrite frontend. Uses **Storybook** (HTML), **Tailwind CSS v4**, and **Preline UI** with a custom theme so the brand color (`#bbcefd`) is used as the primary.
 
-### Parity model (Tailwind → Vue)
+### Parity model (Tailwind → Craft)
 
-**Goal:** strong visual and structural alignment with the product—not pixel-perfect match to the old **Bootstrap/Finder** captures in `docs/reference-markup/`. Those files inform hierarchy, copy, and patterns; the **Vue app** implements the UI with **Tailwind** (`app/`).
+**Goal:** strong visual and structural alignment with the product—not pixel-perfect match to the old **Bootstrap/Finder** captures in `docs/reference-markup/`. Those files inform hierarchy, copy, and patterns; **Craft Twig templates** implement the UI with **Tailwind** (compiled from this package into `web/`).
 
-1. **Primary:** Tailwind stories — especially **`Layouts/Vue/LegacyContent`** (shell matching `LegacyContentLayout.vue`) and **directory** stories driven by `stories/directoryKit.js` / related kits.
-2. **Secondary:** **`Pages/Reference Screens`** and **`Atoms/Reference/Finder`** — HTML aligned to captured markup for regression context; no obligation to duplicate Bootstrap in Vue.
+1. **Primary:** Tailwind stories — especially **`Layouts/Vue/LegacyContent`** (shell matching legacy layout) and **directory** stories driven by `stories/directoryKit.js` / related kits.
+2. **Secondary:** **`Pages/Reference Screens`** and **`Atoms/Reference/Finder`** — HTML aligned to captured markup for regression context; no obligation to duplicate Bootstrap in production templates.
 
-**Workflow:** adjust spacing/tokens/components in Tailwind stories first, then apply the same decisions in `app/src/components/directory/*`.
+**Workflow:** adjust spacing/tokens/components in Tailwind stories first, then apply the same decisions in `templates/directory/` (and related partials).
 
 ## Run Storybook
 
@@ -30,8 +30,8 @@ Open http://localhost:6006. Logo and hero image are in `frontend/public/images/`
 ## Stories
 
 - **Pages/Splash Page** — Landing/splash page with form fields: name, email, provider name. Content (heading, tagline, form heading, submit label) is driven by Craft Single section “Splash Page”; see `docs/SPLASH-PAGE-CRAFT.md`.
-- **Layouts/Vue/LegacyContent** — Full Tailwind shell matching `app/.../LegacyContentLayout.vue` (`legacyVueLayoutKit.js`). **Start here** for inner-page chrome before changing Vue.
-- **Pages/DirectoryPageView** — Directory page with Finder/Bootstrap kit (`directoryKit.js`); pair with Vue `DirectoryPageView` for behavior, Tailwind `Layouts/Vue` for shell alignment where needed.
+- **Layouts/Vue/LegacyContent** — Full Tailwind shell matching legacy inner-page chrome (`legacyVueLayoutKit.js`). **Start here** before changing Craft directory templates.
+- **Pages/DirectoryPageView** — Directory page with Finder/Bootstrap kit (`directoryKit.js`); pair with `templates/directory/` for production markup.
 - **Pages/Reference Screens** — Captured-route HTML (Bootstrap/Finder); reference-only for structure/copy.
 - **Atoms/Reference/Finder** — Bootstrap/Finder atoms vs `docs/reference-markup/`.
 - **Foundations** — Tokens / type scale for dark theme.

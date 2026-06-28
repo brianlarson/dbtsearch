@@ -1,7 +1,7 @@
 # Legacy Directory Parity Checklist (Source of Truth)
 
 Use this checklist when refining the Vue + Preline directory UI.  
-**Goal:** match legacy look-and-feel as closely as practical while using current Tailwind/Preline architecture — **not** pixel-perfect parity with Bootstrap reference HTML; `docs/reference-markup/` is structure/copy guidance. Prefer locking changes in **Tailwind** Storybook stories (`Layouts/Vue/LegacyContent`, directory kit), then applying in `app/`.
+**Goal:** match legacy look-and-feel as closely as practical while using current Tailwind/Preline architecture — **not** pixel-perfect parity with Bootstrap reference HTML; `docs/reference-markup/` is structure/copy guidance. Prefer locking changes in **Tailwind** Storybook stories (`Layouts/Vue/LegacyContent`, directory kit), then applying in Craft Twig templates (`templates/directory/`).
 
 ## Legacy source files
 
@@ -60,5 +60,5 @@ Use this checklist when refining the Vue + Preline directory UI.
 ## Rules for refinement
 
 1. Legacy files above are the visual baseline.
-2. Prefer Storybook-first tweaks, then apply same changes to Vue app components.
+2. Prefer Storybook-first tweaks, then apply same changes to Craft directory templates.
 3. If a change improves accessibility/responsiveness but deviates from legacy, document the reason in PR notes.

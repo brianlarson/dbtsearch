@@ -77,9 +77,9 @@ cat .ddev/commands/web/drop-craft-tables-from-postgres.sql | ddev exec -s db psq
 ddev craft install
 ```
 
-## Frontend app (Nuxt)
+## Frontend (Storybook + Craft templates)
 
-The Nuxt app lives in **`app/`**. Run it with `cd app && npm run dev` (see `app/README.md`). The splash page is at `/`. Use **`frontend/`** for Storybook (markup-only stories); the Nuxt app implements the same UI as Vue components.
+UI is served by **Craft Twig templates** (`templates/`). Use **`frontend/`** for Storybook (design iteration) and Vite builds that emit CSS/JS into `web/` (e.g. `pnpm run build:directory`). The archived Vue SPA lives on branch `archive/develop-vue-spa`.
 
 ## Switching back to the legacy app
 

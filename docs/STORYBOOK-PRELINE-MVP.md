@@ -1,21 +1,14 @@
 # Storybook, Preline, and MVP
 
-## Next logical step: Splash in Storybook with Preline
+## Splash and directory UI
 
-You have two places the splash page can live:
+**`frontend/`** — Storybook with HTML renderer, Tailwind v4, Preline, and theme `themes/dbtsearch.css` (brand `#bbcefd`). Stories cover splash, directory kit, and legacy layout shells.
 
-1. **`frontend/`** — Storybook with HTML renderer, Tailwind v4, Preline, and theme `themes/dbtsearch.css` (brand `#bbcefd`). One story: **Pages / Splash Page**.
-2. **`app/`** — Vue app with the same layout in `src/components/SplashPage.vue` (Tailwind v3 + Preline).
+**Craft templates** — Production UI is rendered by Twig in `templates/` (splash, directory, manage portal). Vite builds in `frontend/` emit CSS/JS assets into `web/`.
 
-**MVP approach:** Prefer **one source of truth** so you don’t maintain two UIs.
+**Archived Vue SPA** — The former Vue 3 app is preserved on branch `archive/develop-vue-spa`.
 
-- **Option A (recommended for MVP):** Treat the **Vue app as the source of truth**. Add Vue Storybook inside `app/` and document `SplashPage.vue` (and any subcomponents) there. Design and implementation stay in sync; no duplicate HTML.
-- **Option B:** Keep **design in `frontend/`** (HTML stories). Use Storybook to get the layout and copy right with Preline + your theme, then mirror that in the Vue app when you’re happy. More duplication, but clear separation between design and implementation.
-
-For “get it looking peachy in Storybook with Preline”:
-
-- **If you stay in `frontend/`:** Use Preline’s **theme tokens** for accents (e.g. `bg-primary`, `text-primary-foreground`, `focus:ring-primary`) so the splash is clearly Preline-themed. Keep logo, color scheme (`dbtsearch.css`), and hero image; only form/button styling goes through Preline semantics.
-- **If you add Vue Storybook in `app/`:** Reuse the same Tailwind + Preline + theme there so what you see in Storybook matches the app.
+**MVP approach:** Storybook in `frontend/` is the design surface; lock layout and tokens there, then apply in Craft templates and run `pnpm run build:directory` (or splash) to refresh compiled assets.
 
 ## Preline themes
 
@@ -37,5 +30,5 @@ For “get it looking peachy in Storybook with Preline”:
 | Goal | MVP move |
 |------|----------|
 | Splash redesigned with Preline in Storybook | Use Preline theme tokens in the existing splash story; keep logo, colors, image. |
-| One source of truth | Prefer Vue Storybook in `app/` documenting `SplashPage.vue`, or accept two sources (frontend = design, app = implementation). |
+| One source of truth | Storybook (`frontend/`) → Craft Twig templates + Vite builds into `web/`. |
 | Atomic design | Use atomic *naming* in Storybook (Pages / …, Organisms / …); extract components only when reuse or a second page justifies it. |

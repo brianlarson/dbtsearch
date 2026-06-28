@@ -140,14 +140,7 @@ type Provider = {
 
 ## ENV contract for frontend
 
-Add to `app/.env` when wiring Craft:
-
-```bash
-VITE_CRAFT_GRAPHQL_ENDPOINT=https://<craft-site>/api
-VITE_CRAFT_GQL_TOKEN=<public-schema-token-if-required>
-```
-
-For local MVP development before Craft provider fields are complete, the composable can fallback to `public/data/dbt-providers.json`.
+Craft serves directory pages via Twig; no separate SPA env is required on `develop`. For the archived Vue SPA pattern, see branch `archive/develop-vue-spa`.
 
 ## Definition of done (MVP layout pass)
 

@@ -7,7 +7,7 @@ export default {
     docs: {
       description: {
         component:
-          'Finder/Bootstrap markup aligned with `docs/reference-markup/providers.html` (same structure and classes as the captured React app). Vue app: `app/src/views/DirectoryPageView.vue`.',
+          'Finder/Bootstrap markup aligned with `docs/reference-markup/providers.html` (same structure and classes as the captured React app). Production: `templates/directory/`.',
       },
       source: {
         code: [

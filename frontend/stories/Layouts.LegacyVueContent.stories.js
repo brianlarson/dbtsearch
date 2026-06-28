@@ -12,7 +12,7 @@ export default {
     docs: {
       description: {
         component:
-          'Tailwind shell matching `app/src/components/directory/LegacyContentLayout.vue`: `LegacyHeader` + `LegacyPageHeader` + `max-w-3xl` main column + `LegacyFooter`. Parity surface for the Vue app; reference Bootstrap/Finder pages live under **Pages/Reference Screens**.',
+          'Tailwind shell matching legacy Vue inner-page layout (`LegacyHeader` + `LegacyPageHeader` + `max-w-3xl` main column + `LegacyFooter`). Parity surface for Craft directory templates; reference Bootstrap/Finder pages live under **Pages/Reference Screens**.',
       },
     },
   },

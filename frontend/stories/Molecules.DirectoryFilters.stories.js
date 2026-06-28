@@ -7,7 +7,7 @@ export default {
     docs: {
       description: {
         component:
-          'Extended filter bar (availability + result count + search) for app/Storybook iteration — not present on the static `providers.html` capture, which only shows the availability switch.',
+          'Extended filter bar (availability + result count + search) for Storybook iteration — not present on the static `providers.html` capture, which only shows the availability switch.',
       },
     },
   },

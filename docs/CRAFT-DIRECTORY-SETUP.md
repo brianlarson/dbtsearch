@@ -90,12 +90,7 @@ In Craft CP:
    - related fields `providerLocations`, `providerLogo`
 3. Save schema permissions.
 
-If using token auth, set in `app/.env`:
-
-```bash
-VITE_CRAFT_GRAPHQL_ENDPOINT=https://<craft-site>/api
-VITE_CRAFT_GQL_TOKEN=<schema-token>
-```
+If using token auth for a headless client, set the GraphQL endpoint and schema token in that client's env (see `archive/develop-vue-spa` for the former Vue SPA pattern).
 
 ---
 
@@ -146,9 +141,9 @@ Variables:
 
 ---
 
-## 5) App expectations (current)
+## 5) Directory UI expectations (current)
 
-The Vue app currently expects:
+Craft directory templates expect:
 
 - provider list query from `providers`
 - relation field `providerLocations` (or fallback `locations`)
