@@ -27,7 +27,7 @@
       username: $DEV_USER
       password: '!encrypted 5rFKlZNmUfe9S1PSgkgtXA==.OJYmucjVonEo4ZrYvnxFpw=='
   actions:
-  - action: Transfer files
+  - action: Transfer Files
     type: TRANSFER
     local_path: /
     deployment_excludes:
