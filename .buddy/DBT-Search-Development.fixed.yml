@@ -53,7 +53,6 @@
     - storage/.gitignore
     - storage/logs/.gitignore
     - web/uploads/.gitignore
-    deletion_disabled: true
     targets:
     - dbt-search-development
   - action: Execute composer install --no-dev --optimize-autoloader --no-interaction
