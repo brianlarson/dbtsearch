@@ -5,7 +5,6 @@
   target_site_url: https://unified.cloudways.com/server/1606631/access_detail
   fail_on_prepare_env_warning: true
   events:
-  - type: WEBHOOK
   - type: PUSH
   variables:
   - key: DEV_IP
