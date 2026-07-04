@@ -15,7 +15,7 @@ use craft\helpers\App;
 
 
 $isLocalDev = in_array(App::env('CRAFT_ENVIRONMENT'), ['dev', 'local'], true);
-$skipLocalMysqlSsl = static fn(ShellCommand $command) => $command->addArg('--skip-ssl');
+$skipLocalMysqlSsl = static fn(ShellCommand $command) => $command->addArg('--ssl-mode=DISABLED');
 
 return GeneralConfig::create()
     // CRAFT_DEV_MODE, CRAFT_ALLOW_ADMIN_CHANGES, CRAFT_DISALLOW_ROBOTS, and
