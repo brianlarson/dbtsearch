@@ -21,7 +21,7 @@ Get Craft CMS and MySQL 8 running in DDEV.
 cp .env.example.dev .env
 ```
 
-Set `CRAFT_SECURITY_KEY` (e.g. `php -r "echo base64_encode(random_bytes(32)), PHP_EOL;"`). Leave `CRAFT_DB_*` and `CRAFT_WEB_ROOT` unset — DDEV provides them in the web container so dotenv does not override container values.
+Set `CRAFT_SECURITY_KEY` (e.g. `php -r "echo base64_encode(random_bytes(32)), PHP_EOL;"`). `.env.example.dev` includes DDEV-ready `CRAFT_DB_*` values (`CRAFT_DB_SERVER=db`, user/password `db`, database `craft`) and `CRAFT_WEB_ROOT=/var/www/html/web`.
 
 ### 2. Start DDEV
 
@@ -29,7 +29,7 @@ Set `CRAFT_SECURITY_KEY` (e.g. `php -r "echo base64_encode(random_bytes(32)), PH
 ddev start
 ```
 
-You get Postgres (legacy data may still use it) and MySQL 8 (Craft sidecar). Craft uses MySQL: host `mysql8`, port `3306`, database `craft`, user `craft`, password `craft`.
+DDEV runs MySQL 8 as the primary database. Craft connects to host `db`, port `3306`, database `craft`, user `db`, password `db`.
 
 ### 3. Install dependencies
 
@@ -61,28 +61,23 @@ ddev craft migrate/all
 
 - `ddev composer` runs at repo root.
 - `ddev craft` runs Craft CLI from repo root.
+- `ddev import-db` and `ddev export-db` target the primary MySQL database.
+- `ddev craft-db-import` / `ddev craft-db-export` import/export the `craft` database specifically.
 
 ## Troubleshooting
 
-**`ddev import-db` imports into Postgres, not Craft**  
-Production Craft backups are MySQL 8 dumps. Never use `ddev import-db` for Craft while Postgres is primary — it fails on backtick syntax (`DROP TABLE IF EXISTS \`addresses\`;`). Import into the **mysql8** sidecar instead:
+**Import a production Craft backup**
 
 ```bash
 ddev craft-db-import storage/backups/latest.sql.gz
-# or manually:
-ddev exec -s mysql8 sh -c 'gunzip -c /var/www/html/storage/backups/latest.sql.gz | mysql -u craft -pcraft craft'
 ddev craft up
 ```
 
-Use `pnpm mm -- pull` for automated pulls — it targets mysql8/craft automatically. To move to a single primary MySQL 8 database, see [MIGRATION-MYSQL-ONLY.md](MIGRATION-MYSQL-ONLY.md).
+Or use `pnpm mm -- pull` for automated pulls.
 
-**Craft used Postgres and failed with “relation already exists” (e.g. `users`)**  
-Craft was using DDEV’s primary DB (Postgres) instead of MySQL. Ensure `.ddev/craft-mysql.env.web` has `CRAFT_DB_SERVER=mysql8`, `CRAFT_DB_DATABASE=craft`, `CRAFT_DB_USER=craft`, `CRAFT_DB_PASSWORD=craft`. Then remove the Craft tables that were created in Postgres and run the installer again:
+**Migrating from the old dual-database setup (Postgres + mysql8 sidecar)**
 
-```bash
-cat .ddev/commands/web/drop-craft-tables-from-postgres.sql | ddev exec -s db psql -U db -d db
-ddev craft install
-```
+If your local DDEV volume still has Postgres from the previous config, see [MIGRATION-MYSQL-ONLY.md](MIGRATION-MYSQL-ONLY.md) for one-time migration steps. New clones can skip that doc — the config already uses MySQL-only.
 
 ## Frontend (Storybook + Craft templates)
 

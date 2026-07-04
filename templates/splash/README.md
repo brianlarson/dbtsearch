@@ -15,7 +15,7 @@ The splash template is live at the site homepage. To finish setup:
 5. In the form settings, leave **Redirect** unset so the template’s `redirectInput` is used: after submit users are sent back to the same page with `?signedup=1`, the success message is shown, and the form is hidden.
 6. Configure **Email Notifications** (e.g. notify you on submit) and **Spam** (honeypot or reCAPTCHA) as needed.
 
-**Local email (Mailpit):** When Craft is in dev mode, the app mailer is overridden to use SMTP to Mailpit so Formie notifications and system email are captured locally. With DDEV, Mailpit is built-in: run `ddev mailpit` (or `ddev launch -m`) to open the Mailpit UI. The project’s `.ddev/craft-mysql.env.web` already sets `MAILPIT_SMTP_HOSTNAME=127.0.0.1` and `MAILPIT_SMTP_PORT=1025`. Without DDEV, run Mailpit locally and set those env vars in `.env` (or rely on the defaults 127.0.0.1:1025 in `config/app.php`).
+**Local email (Mailpit):** When Craft is in dev mode, the app mailer is overridden to use SMTP to Mailpit so Formie notifications and system email are captured locally. With DDEV, Mailpit is built-in: run `ddev mailpit` (or `ddev launch -m`) to open the Mailpit UI. Without DDEV, run Mailpit locally and set `MAILPIT_SMTP_HOSTNAME` / `MAILPIT_SMTP_PORT` in `.env` (defaults: 127.0.0.1:1025).
 
 For **provider_listing**, use either an **Agree** field (put the label text in Description and leave Label empty to match Storybook) or **Checkboxes** with one option.
 

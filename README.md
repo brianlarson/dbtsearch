@@ -11,7 +11,7 @@ DBTsearch&trade; is a searchable directory of certified DBT (Dialectical Behavio
 | **CMS / backend** | Craft CMS 5 at repo root (docroot `web/`) |
 | **Templates** | Twig (`templates/`) |
 | **Frontend assets** | Vite + Tailwind in `frontend/` → built into `web/css/` |
-| **Database** | MySQL 8 (DDEV `mysql8` sidecar; Postgres may remain for legacy data) |
+| **Database** | MySQL 8 (DDEV primary `db` service, database `craft`) |
 | **Dev** | DDEV (`https://dbtsearch.ddev.site`) |
 | **Hosting** | Cloudways. See [docs/HOSTING.md](docs/HOSTING.md) and [docs/deploy-cloudways.md](docs/deploy-cloudways.md). |
 
