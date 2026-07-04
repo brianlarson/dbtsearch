@@ -17,6 +17,8 @@ composer_root: .
 composer_version: "2"
 disable_settings_management: true
 corepack_enable: false
+upload_dirs:
+ - uploads
 
 # Key features of DDEV's config.yaml:
 
