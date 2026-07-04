@@ -2,6 +2,7 @@
   name: 🚧 DBT Search Development
   refs:
   - refs/heads/develop
+  target_site_url: https://unified.cloudways.com/server/1606631/access_detail
   fail_on_prepare_env_warning: true
   events:
   - type: WEBHOOK
@@ -28,7 +29,7 @@
   actions:
   - action: Transfer files
     type: TRANSFER
-    deletion_disabled: true
+    local_path: /
     deployment_excludes:
     - .ddev/
     - .cursor/
@@ -53,6 +54,7 @@
     - storage/.gitignore
     - storage/logs/.gitignore
     - web/uploads/.gitignore
+    deletion_disabled: true
     targets:
     - dbt-search-development
   - action: Execute composer install --no-dev --optimize-autoloader --no-interaction && php craft up && php craft clear-caches/all
