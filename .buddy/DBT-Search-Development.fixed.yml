@@ -69,7 +69,6 @@
     run_as_script: true
   - action: php craft up
     type: SSH_COMMAND
-    disabled: true
     commands: php craft up
     targets:
     - dbt-search-development
