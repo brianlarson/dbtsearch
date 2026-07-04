@@ -75,9 +75,9 @@
     targets:
     - dbt-search-development
     run_as_script: true
-  - action: php craft up 2
+  - action: php craft clear-caches/all
     type: SSH_COMMAND
-    commands: php craft up
+    commands: php craft clear-caches/all
     targets:
     - dbt-search-development
     run_as_script: true
