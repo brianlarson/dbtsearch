@@ -5,6 +5,7 @@ entryTypes:
     uid: e39ba0fb-a676-4318-98f7-8ad50f557c6d # Providers
 handle: providers
 maxAuthors: null
+minAuthors: 1
 name: Providers
 propagationMethod: all
 siteSettings:

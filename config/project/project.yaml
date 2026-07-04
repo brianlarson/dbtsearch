@@ -1,4 +1,4 @@
-dateModified: 1782527825
+dateModified: 1783142481
 email:
   fromEmail: system@dbtsearch.org
   fromName: 'DBT Search'
@@ -57,7 +57,7 @@ plugins:
   ckeditor:
     edition: standard
     enabled: true
-    schemaVersion: 5.0.0.1
+    schemaVersion: 5.6.0.0
   cp-nav:
     edition: standard
     enabled: true
@@ -142,5 +142,5 @@ system:
   live: true
   name: 'DBT Search'
   retryDuration: null
-  schemaVersion: 5.9.0.8
+  schemaVersion: 5.10.0.0
   timeZone: America/Chicago

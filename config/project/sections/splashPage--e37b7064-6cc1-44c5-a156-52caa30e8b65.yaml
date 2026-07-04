@@ -5,6 +5,7 @@ entryTypes:
     uid: bcf50025-2188-4126-a360-29999caeae89 # Splash Page
 handle: splashPage
 maxAuthors: 1
+minAuthors: 1
 name: 'Splash Page'
 previewTargets:
   -

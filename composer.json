@@ -21,13 +21,13 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "craftcms/ckeditor": "^5.2.0",
-    "craftcms/cms": "^5.9.0",
+    "craftcms/ckeditor": "^5.5.0",
+    "craftcms/cms": "^5.10.9",
     "craftcms/feed-me": "^6.13",
     "putyourlightson/craft-sprig": "^3.7",
     "stimmt/craft-mcp": "^1.2",
     "superbig/craft-resend": "^5.0.0",
-    "verbb/formie": "^3.1.17",
+    "verbb/formie": "^3.1.30",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
@@ -46,5 +46,12 @@
     },
     "sort-packages": true,
     "optimize-autoloader": true
-  }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.craftcms.com",
+      "canonical": false
+    }
+  ]
 }
