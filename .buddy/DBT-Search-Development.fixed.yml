@@ -28,17 +28,19 @@
   actions:
   - action: Transfer files
     type: TRANSFER
+    deletion_disabled: true
     deployment_excludes:
     - .ddev/
     - .cursor/
     - .vite/
+    - .mcp.json
+    - .cursorrules
+    - scripts/migrate/*.cfg
     - frontend/node_modules/
     - frontend/test-results/
     - frontend/playwright-report/
     - frontend/storybook-static/
     - .env
-    - .env.*
-    - '!.env.example*'
     - vendor/
     - storage/
     - web/cpresources/
@@ -53,9 +55,9 @@
     - web/uploads/.gitignore
     targets:
     - dbt-search-development
-  - action: Execute composer install --no-interaction && php craft up && php craft clear-caches/all
+  - action: Execute composer install --no-dev --optimize-autoloader --no-interaction && php craft up && php craft clear-caches/all
     type: SSH_COMMAND
-    commands: composer install --no-interaction && php craft up && php craft clear-caches/all
+    commands: composer install --no-dev --optimize-autoloader --no-interaction && php craft up && php craft clear-caches/all
     targets:
     - dbt-search-development
     run_as_script: true

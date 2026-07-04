@@ -70,6 +70,8 @@ frontend/node_modules/
 # Craft CMS (root)
 vendor/
 .env
+.cfg
+scripts/migrate/
 config/license.key
 web/cpresources/
 node_modules/
