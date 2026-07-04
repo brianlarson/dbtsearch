@@ -81,7 +81,6 @@
     run_as_script: true
   - action: php craft clear-caches/all
     type: SSH_COMMAND
-    disabled: true
     commands: php craft clear-caches/all
     targets:
     - dbt-search-development
