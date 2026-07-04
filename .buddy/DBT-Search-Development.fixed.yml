@@ -75,7 +75,7 @@
     targets:
     - dbt-search-development
     run_as_script: true
-  - action: php craft db/backup storage/backups/previous.sql --overwrite=1 --zip=1 2
+  - action: php craft db/backup storage/backups/latest.sql --overwrite=1 --zip=1
     type: SSH_COMMAND
     commands: php craft db/backup storage/backups/latest.sql --overwrite=1 --zip=1
     targets:
