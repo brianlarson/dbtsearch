@@ -28,6 +28,29 @@
   actions:
   - action: Transfer files
     type: TRANSFER
+    deployment_excludes:
+    - .ddev/
+    - .cursor/
+    - .vite/
+    - frontend/node_modules/
+    - frontend/test-results/
+    - frontend/playwright-report/
+    - frontend/storybook-static/
+    - .env
+    - .env.*
+    - '!.env.example*'
+    - vendor/
+    - storage/
+    - web/cpresources/
+    - web/uploads/
+    - config/license.key
+    - node_modules/
+    - '*.log'
+    - .DS_Store
+    deployment_includes:
+    - storage/.gitignore
+    - storage/logs/.gitignore
+    - web/uploads/.gitignore
     targets:
     - dbt-search-development
   - action: Execute composer install --no-interaction && php craft up && php craft clear-caches/all
