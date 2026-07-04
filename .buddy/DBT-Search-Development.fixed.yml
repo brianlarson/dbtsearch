@@ -57,7 +57,7 @@
     deletion_disabled: true
     targets:
     - dbt-search-development
-  - action: Execute composer install --no-dev --optimize-autoloader --no-interaction && php craft up && php craft clear-caches/all
+  - action: Execute composer install --no-dev --optimize-autoloader --no-interaction
     type: SSH_COMMAND
     commands: composer install --no-dev --optimize-autoloader --no-interaction
     targets:
