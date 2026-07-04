@@ -63,3 +63,9 @@
     targets:
     - dbt-search-development
     run_as_script: true
+  - action: Execute composer install --no-dev --optimize-autoloader --no-interaction 2
+    type: SSH_COMMAND
+    commands: composer install --no-dev --optimize-autoloader --no-interaction
+    targets:
+    - dbt-search-development
+    run_as_script: true
