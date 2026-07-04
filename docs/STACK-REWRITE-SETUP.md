@@ -1,36 +1,43 @@
-# Stack-rewrite: first-run setup
+# Craft CMS: first-run setup
 
-Get Craft CMS and MySQL 8 running in DDEV on the `stack-rewrite` branch.
+Get Craft CMS and MySQL 8 running in DDEV.
 
-## Folder structure (current)
+## Folder structure
 
-- **Repo root** = where `.ddev/` lives and where Craft now lives.
+- **Repo root** = where `.ddev/` lives and where Craft lives.
 - Craft’s public docroot is **`web/`**.
 - DDEV is configured with `docroot: web` and `composer_root: .`.
 
 ## Prerequisites
 
-- You’re on the `stack-rewrite` branch.
 - DDEV and Docker are installed.
 - **Run all commands below from your repo root** (the same directory where you run `ddev start`).
 
-## Start in 3 steps
+## Start in a few steps
 
-### 1. Start DDEV
+### 1. Local `.env`
+
+```bash
+cp .env.example.dev .env
+```
+
+Set `CRAFT_SECURITY_KEY` (e.g. `php -r "echo base64_encode(random_bytes(32)), PHP_EOL;"`). Leave `CRAFT_DB_*` and `CRAFT_WEB_ROOT` unset — DDEV provides them in the web container so dotenv does not override container values.
+
+### 2. Start DDEV
 
 ```bash
 ddev start
 ```
 
-You get Postgres (legacy) and MySQL 8 (Craft sidecar). Craft uses MySQL: host `mysql8`, port `3306`, database `craft`, user `craft`, password `craft`.
+You get Postgres (legacy data may still use it) and MySQL 8 (Craft sidecar). Craft uses MySQL: host `mysql8`, port `3306`, database `craft`, user `craft`, password `craft`.
 
-### 2. Install dependencies
+### 3. Install dependencies
 
 ```bash
 ddev composer install
 ```
 
-### 3. Apply project config / install Craft
+### 4. Apply project config / install Craft
 
 If first install:
 
@@ -45,7 +52,7 @@ ddev craft project-config/apply --force
 ddev craft migrate/all
 ```
 
-### 4. Open the site
+### 5. Open the site
 
 - **Front:** `https://dbtsearch.ddev.site`  
 - **Admin:** `https://dbtsearch.ddev.site/admin`
@@ -79,15 +86,4 @@ ddev craft install
 
 ## Frontend (Storybook + Craft templates)
 
-UI is served by **Craft Twig templates** (`templates/`). Use **`frontend/`** for Storybook (design iteration) and Vite builds that emit CSS/JS into `web/` (e.g. `pnpm run build:directory`). The archived Vue SPA lives on branch `archive/develop-vue-spa`.
-
-## Switching back to the legacy app
-
-```bash
-git checkout main
-ddev start
-npm run server
-npm run client
-```
-
-Legacy uses Postgres only; the Node app runs on your host.
+UI is served by **Craft Twig templates** (`templates/`). Use **`frontend/`** for Storybook (design iteration) and Vite builds that emit CSS/JS into `web/` (e.g. `npm run build:directory` from `frontend/`). The archived Vue SPA lives on branch `archive/develop-vue-spa`. The legacy React/Express app lives on `main` / `legacy`.

@@ -5,49 +5,7 @@
   "engines": {
     "node": ">=18.x"
   },
-  "dependencies": {
-    "axios": "^1.13.6",
-    "bcryptjs": "^2.4.3",
-    "connect-pg-simple": "^9.0.1",
-    "dotenv": "^16.6.1",
-    "express": "^4.22.1",
-    "express-session": "^1.19.0",
-    "passport": "^0.7.0",
-    "passport-local": "^1.0.0",
-    "pg": "^8.20.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.30.3",
-    "zustand": "^4.5.7"
-  },
   "scripts": {
-    "start": "node server/server.js",
-    "client": "vite",
-    "server": "nodemon --watch server server/server.js",
-    "build": "vite build",
-    "test": "vitest",
-    "capture:markup": "node scripts/capture-reference-markup.mjs",
     "mm": "python3 scripts/migrate/mm.py"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.7.0",
-    "nodemon": "^3.1.14",
-    "playwright": "^1.49.1",
-    "vite": "^5.4.21",
-    "vitest": "^1.6.1"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not ie <= 11",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "heroku-run-build-script": true
+  }
 }

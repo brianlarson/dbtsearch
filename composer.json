@@ -46,13 +46,5 @@
     },
     "sort-packages": true,
     "optimize-autoloader": true
-  },
-  "scripts": {
-    "post-create-project-cmd": [
-      "@php -r \"file_exists('.env') || copy('.env.example.dev', '.env');\"",
-      "@php -r \"unlink('composer.json');\"",
-      "@php -r \"rename('composer.json.default', 'composer.json');\"",
-      "@php craft install"
-    ]
   }
 }

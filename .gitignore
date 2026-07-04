@@ -61,23 +61,17 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
-
-# ignore package-lock as it complicates merging
-package-lock.json
-
 # Frontend (Storybook build)
 frontend/storybook-static/
 frontend/test-results/
 frontend/playwright-report/
+frontend/node_modules/
 
 # Craft CMS (root)
 vendor/
 .env
 config/license.key
 web/cpresources/
-storage/
 node_modules/
 web/uploads/*
 !web/uploads/.gitignore

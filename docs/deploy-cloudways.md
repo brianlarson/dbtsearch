@@ -2,10 +2,7 @@
 
 This runbook is the recommended way to connect environments for DBT Search on Cloudways while keeping production safe.
 
-If you are deploying the repo change that moved Craft from `cms/` to root, follow:
-[CLOUDWAYS-FLATTEN-CHECKLIST.md](CLOUDWAYS-FLATTEN-CHECKLIST.md)
-
-Staging app runbook (dev.dbtsearch.org): [STAGING-dev.dbtsearch.org.md](STAGING-dev.dbtsearch.org.md)
+Craft lives at the **app/repo root** (docroot `web/`). Staging app runbook: [STAGING-dev.dbtsearch.org.md](STAGING-dev.dbtsearch.org.md). Flatten checklist (one-time migration from the old `cms/` layout): [CLOUDWAYS-FLATTEN-CHECKLIST.md](CLOUDWAYS-FLATTEN-CHECKLIST.md).
 
 ## Recommendation
 
@@ -57,9 +54,9 @@ Use **staging-first** deployment:
 
 ## 3) Per-environment `.env`
 
-Create `.env` on each app with env-specific values:
+Create `.env` on each app from the matching template (`.env.example.staging` or `.env.example.production`) with env-specific values:
 
-- `ENVIRONMENT=staging` or `ENVIRONMENT=production`
+- `CRAFT_ENVIRONMENT=staging` or `CRAFT_ENVIRONMENT=production`
 - `CRAFT_DB_DRIVER=mysql`
 - `CRAFT_DB_SERVER=<cloudways-mysql-host>`
 - `CRAFT_DB_PORT=3306`
@@ -67,31 +64,31 @@ Create `.env` on each app with env-specific values:
 - `CRAFT_DB_USER=<db-user>`
 - `CRAFT_DB_PASSWORD=<db-password>`
 - `PRIMARY_SITE_URL=<staging-or-prod-url>`
+- `CRAFT_WEB_ROOT=<absolute-path-to-web>` (e.g. `.../public_html/web`)
 - `CRAFT_APP_ID=<app-id>` (can differ by environment)
 - `CRAFT_SECURITY_KEY=<unique-secret>` (per environment)
+- `CRAFT_DEV_MODE=false`
+- `CRAFT_ALLOW_ADMIN_CHANGES=false`
+- `CRAFT_DISALLOW_ROBOTS=true` (staging) or `false` (production)
 
-Also set mail, queue, and API secrets per environment.
+Also set `RESEND_API_KEY` and any other secrets per environment.
 
 ## 4) Deploy command sequence (every deploy)
 
-Preferred: run the repo helper from app root:
-
-```bash
-./scripts/cloudways-post-deploy.sh
-```
-
-If your team standard is `craft up`, use:
-
-```bash
-./scripts/cloudways-post-deploy.sh --with-up
-```
-
-Manual equivalent (from app root) if needed:
+From app root:
 
 ```bash
 composer install --no-dev --optimize-autoloader
 php craft project-config/apply --force --interactive=0
 php craft migrate/all --interactive=0
+php craft clear-caches/all --interactive=0
+```
+
+Or, if your team standard is `craft up`:
+
+```bash
+composer install --no-dev --optimize-autoloader
+php craft up --interactive=0
 php craft clear-caches/all --interactive=0
 ```
 

@@ -4,39 +4,55 @@ DBTsearch&trade; is a searchable directory of certified DBT (Dialectical Behavio
 
 ---
 
-## High-level specs
+## Stack
 
-| Area | Current (legacy) | Target (restack) |
-|------|------------------|------------------|
-| **Frontend** | React 18, Vite 5, Bootstrap 5 (Finder theme) | Vue 3, Nuxt 3, Vite, Tailwind CSS |
-| **Backend / CMS** | Express, Passport (sessions) | Craft CMS |
-| **Database** | PostgreSQL 14 (DDEV) | MySQL 8 for Craft; Postgres remains for legacy on `main` |
-| **Dev** | DDEV (Postgres), Node 20, npm | DDEV (MySQL 8), Craft at repo root, Storybook + asset builds in `frontend/` |
-| **Hosting** | — | Cloudways (managed Craft + MySQL); lightweight Craft install. See [docs/HOSTING.md](docs/HOSTING.md) and [docs/deploy-cloudways.md](docs/deploy-cloudways.md). |
+| Area | Current |
+|------|---------|
+| **CMS / backend** | Craft CMS 5 at repo root (docroot `web/`) |
+| **Templates** | Twig (`templates/`) |
+| **Frontend assets** | Vite + Tailwind in `frontend/` → built into `web/css/` |
+| **Database** | MySQL 8 (DDEV `mysql8` sidecar; Postgres may remain for legacy data) |
+| **Dev** | DDEV (`https://dbtsearch.ddev.site`) |
+| **Hosting** | Cloudways. See [docs/HOSTING.md](docs/HOSTING.md) and [docs/deploy-cloudways.md](docs/deploy-cloudways.md). |
 
-**Data:** Providers list (name, certification, availability, contact, locations); admin users can manage providers they’re assigned to. Reference markup for all pages lives in `docs/reference-markup/` for the restack.
-
-**Branches:** Legacy app on `main` and `legacy` (same content; use either to run the old stack). Native Craft stack on `develop`. Archived Vue SPA on `archive/develop-vue-spa`. See [docs/ROADMAP.md](docs/ROADMAP.md). For a short guide for AI/agents: [docs/NOTES-FOR-AGENTS.md](docs/NOTES-FOR-AGENTS.md).
+**Branches:** Active Craft stack on `develop` (and related feature branches). Legacy React/Express app on `main` / `legacy`. Archived Vue SPA on `archive/develop-vue-spa`. See [docs/ROADMAP.md](docs/ROADMAP.md) and [docs/NOTES-FOR-AGENTS.md](docs/NOTES-FOR-AGENTS.md).
 
 ---
 
-## Get the app running (legacy)
+## Get started (Craft + DDEV)
 
-**[docs/GETTING-STARTED.md](docs/GETTING-STARTED.md)** — DDEV (Postgres) or local Postgres, `.env`, `npm run server` + `npm run client`, smoke test.
+**[docs/STACK-REWRITE-SETUP.md](docs/STACK-REWRITE-SETUP.md)** — first-run setup.
 
-Quick: `ddev start` → set `SERVER_SESSION_SECRET` and `DATABASE_URL` in `.env` → import schema → `npm run server` & `npm run client` → http://localhost:5173
+Quick:
+
+```bash
+cp .env.example.dev .env   # then set CRAFT_SECURITY_KEY
+ddev start
+ddev composer install
+ddev craft install         # first time only
+# Front: https://dbtsearch.ddev.site  ·  Admin: https://dbtsearch.ddev.site/admin
+```
+
+Frontend assets (from `frontend/`):
+
+```bash
+cd frontend && npm install && npm run build:directory
+```
+
+Migration tooling: `pnpm mm` (or `npm run mm`) — see `scripts/migrate/`.
 
 ---
 
 ## Layout
 
-- `src/` — React app, Zustand store
-- `server/` — Express API, Passport
-- `public/` — Static assets (Bootstrap/Finder theme)
-- `data/` — Schema (`database.sql`) and seed data
-- `docs/` — ROADMAP, GETTING-STARTED, STACK-REWRITE-SETUP, HOSTING, reference markup
+- `config/`, `templates/`, `modules/`, `craft` — Craft CMS (repo root)
+- `web/` — public docroot (built CSS/JS, uploads, `index.php`)
+- `frontend/` — Storybook + Vite asset builds
+- `public/` — static assets for reference markup in `docs/reference-markup/`
+- `scripts/migrate/` — mighty-migration (`pnpm mm`)
+- `docs/` — setup, deploy, roadmap, reference markup
 
-Restack and milestones are tracked in **GitHub Issues**; use issue numbers in commits (e.g. `#12`). See [docs/ROADMAP.md](docs/ROADMAP.md).
+Restack and milestones are tracked in **GitHub Issues**; use issue numbers in commits (e.g. `#12`).
 
 ---
 

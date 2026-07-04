@@ -132,7 +132,7 @@ pnpm mm -- <command> [flags]
 
 | Command | What it does |
 |---|---|
-| `pnpm mm -- push:dev` | DB + `composer install` + `php craft up` on dev |
+| `pnpm mm -- push:dev` | DB only by default (use `--with-craft` to run `composer install` + `php craft up`) |
 | `pnpm mm -- push:dev:assets` | Assets only (images by default) |
 | `pnpm mm -- push:dev:all` | DB + assets |
 
@@ -206,7 +206,7 @@ pnpm mm -- push:dev:assets --subdir generalImages --filter pdfs
 | `--dry-run` | Preview what the DB push/pull would do without making any changes |
 | `--delete` | Delete destination files that no longer exist on the source (useful after volume moves) |
 | `--yes` / `-y` | Auto-confirm all prompts (skip interactive confirmations) |
-| `--quiet` / `-q` | Suppress banner and options display (for scripted usage) |
+| `--quiet` / `-q` | Compatibility flag for pull/push (currently no-op) |
 
 
 

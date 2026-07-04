@@ -69,12 +69,9 @@ In **`scripts/export-craft-db.sh`**, the script already uses mysql8 when present
 
 ---
 
-## Node app and Postgres
+## Legacy Postgres
 
-The repo root **`.env`** still has `DATABASE_URL=postgresql://...` for the Node app. DDEV no longer runs Postgres. Options:
-
-- Point the Node app at the primary MySQL (e.g. `mysql://db:db@127.0.0.1:<host_db_port>/db`) and adapt the app if needed, or
-- Run Postgres elsewhere (e.g. host or another service) and set `DATABASE_URL` to that.
+The React/Express app (and its `DATABASE_URL`) lived on `main` / `legacy`. This branch uses Craft + MySQL only for the app. DDEV may still run a Postgres primary for historical data until you complete this migration.
 
 ## Craft logs (for reference)
 
