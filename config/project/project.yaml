@@ -1,4 +1,4 @@
-dateModified: 1783142481
+dateModified: 1783379569
 email:
   fromEmail: system@dbtsearch.org
   fromName: 'DBT Search'
@@ -39,6 +39,7 @@ meta:
     b4c00cdb-3a29-44e5-814b-9a920f515289: Provider # Provider
     bcf50025-2188-4126-a360-29999caeae89: 'Splash Page' # Splash Page
     bea9cc9c-6390-413d-ba6e-35e2d30805ca: Availability # Availability
+    c55ca0a9-4bd6-409b-afd8-c1884dafecd0: Team # Team
     c7598e88-bdae-462f-8790-410a3fccdcc6: URL # URL
     cc0c373f-6532-483b-831f-3c8878b9bb8e: 'DBT Search' # DBT Search
     d5ae5dfe-b4f7-487a-8ba4-6fbd94e54839: Logo # Logo
@@ -77,7 +78,7 @@ plugins:
   formie:
     edition: standard
     enabled: true
-    licenseKey: QUKB6ZEKL37AO89B4TEAAZKZ
+    licenseKey: CT5W28LI25L1KXDEXTOKBM6Q
     schemaVersion: 3.4.12
     settings:
       ajaxTimeout: 10
@@ -138,7 +139,7 @@ plugins:
     enabled: true
     schemaVersion: 1.0.1
 system:
-  edition: team
+  edition: pro
   live: true
   name: 'DBT Search'
   retryDuration: null
