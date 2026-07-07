@@ -1,16 +1,26 @@
-{# @var location array with id, name, address, city, state, zip, phone, email, website, availability #}
+{# @var location array with id, name, address, city, state, zip, phone, email, website, availability, dbtaCertified #}
 {% set locId = location.id %}
 {% set detailsId = 'portal-loc-details-' ~ locId %}
-{% set addressLine = [location.address, [location.city, location.state, location.zip]|filter|join(' ')]|filter|join(', ') %}
+{% set addressLine = [location.address, [location.state, location.zip]|filter|join(' ')]|filter|join(', ') %}
+{% set locationHeading = (location.city ?? '')|trim ?: location.name %}
 
 <article class="rounded-xl border border-slate-700 bg-slate-950/40 p-4 md:p-5 h-full" data-portal-location="{{ locId }}">
-  <h3 class="mb-3 min-w-0 text-lg font-semibold text-brand">{{ location.name }}</h3>
+  <h3 class="mb-3 min-w-0 text-lg font-semibold text-brand">{{ locationHeading }}</h3>
 
   {% if addressLine %}
     <p class="mb-4 text-sm text-slate-400">{{ addressLine }}</p>
   {% endif %}
 
-  <div class="mb-4">
+  <div class="mb-4 mt-8 grid gap-x-6 gap-y-3">
+    {% if portalFeatures.dbtaCertified ?? false %}
+      {% include '_manage/subtle-checkbox' with {
+        id: 'portal-dbta-' ~ locId,
+        name: 'locations[' ~ locId ~ '][dbtaCertified]',
+        checked: location.dbtaCertified ?? false,
+        label: 'DBT-A',
+        field: 'dbtaCertified',
+      } only %}
+    {% endif %}
     {% include '_manage/availability-switch' with {
       id: 'portal-availability-' ~ locId,
       name: 'locations[' ~ locId ~ '][availability]',
