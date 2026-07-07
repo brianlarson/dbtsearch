@@ -1,0 +1,11 @@
+handle: register
+name: Register
+outputCssLayout: false
+outputCssLocation: page-header
+outputCssTheme: false
+outputJsBase: true
+outputJsLocation: page-footer
+outputJsTheme: false
+sortOrder: 2
+template: _forms/register
+useCustomTemplates: true

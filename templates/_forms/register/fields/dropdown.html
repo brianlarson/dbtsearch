@@ -1,0 +1,31 @@
+{% set hasOptgroups = false %}
+
+<select
+  id="{{ field.getHtmlId(field.form) }}"
+  name="{{ field.getHtmlName() }}"
+  {{ field.required ? 'required' : '' }}
+  class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+  {{ attr(field.getInputAttributes()) }}
+>
+  {% for option in field.getFieldOptions() %}
+    {% if option.optgroup is defined %}
+      {% if hasOptgroups %}
+        </optgroup>
+      {% else %}
+        {% set hasOptgroups = true %}
+      {% endif %}
+      <optgroup label="{{ option.optgroup | t('formie') }}">
+    {% else %}
+      {% set disabled = option.disabled ?? false %}
+      {% if field.multi %}
+        {% set selected = option.value is defined and ('' ~ option.value) in value %}
+      {% else %}
+        {% set selected = option.value is defined and ('' ~ option.value) == ('' ~ value) %}
+      {% endif %}
+      <option value="{{ option.value }}" {% if selected %}selected{% endif %} {% if disabled %}disabled{% endif %}>{{ option.label | t('formie') }}</option>
+    {% endif %}
+  {% endfor %}
+  {% if hasOptgroups %}
+    </optgroup>
+  {% endif %}
+</select>

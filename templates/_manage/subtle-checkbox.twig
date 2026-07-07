@@ -1,0 +1,14 @@
+{# Subtle inline checkbox for infrequently toggled location flags #}
+<label for="{{ id }}" class="flex cursor-pointer items-center gap-2.5 text-sm text-slate-400">
+  <input
+    id="{{ id }}"
+    type="checkbox"
+    name="{{ name ?? id }}"
+    value="1"
+    class="portal-field h-4 w-4 shrink-0 rounded border border-slate-600 bg-slate-900/70 text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+    data-portal-field="{{ field ?? 'checkbox' }}"
+    {% if checked ?? false %}checked{% endif %}
+    {% if disabled ?? false %}disabled{% endif %}
+  />
+  <span class="leading-snug">{{ label }}</span>
+</label>

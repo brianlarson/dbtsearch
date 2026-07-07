@@ -25,7 +25,7 @@
     "craftcms/cms": "^5.10.9",
     "craftcms/feed-me": "^6.13",
     "putyourlightson/craft-sprig": "^3.7",
-    "stimmt/craft-mcp": "^1.2",
+    "stimmt/craft-mcp": "^v1.2.2",
     "superbig/craft-resend": "^5.0.0",
     "verbb/formie": "^3.1.30",
     "vlucas/phpdotenv": "^5.4.0"
@@ -42,6 +42,7 @@
   "config": {
     "allow-plugins": {
       "craftcms/plugin-installer": true,
+      "php-http/discovery": true,
       "yiisoft/yii2-composer": true
     },
     "sort-packages": true,

@@ -2,11 +2,10 @@
   {% redirect url('manage/login') %}
 {% endif %}
 
+{% set stickySiteHeader = false %}
 {% extends '_layouts/site' %}
 
 {% set activeNav = 'manage' %}
-
-{% set previewUsername = currentUser.username ?? currentUser.email ?? 'provider' %}
 
 {% set portalFeatures = {
   practiceDetails: false,
@@ -40,17 +39,21 @@
 {% set portalLocations = [] %}
 {% if providerEntry %}
   {% for location in providerEntry.locations.all() %}
+    {% set locCity = (location.city ?? '')|trim %}
+    {% set locState = (location.state ?? '')|trim %}
     {% set portalLocations = portalLocations|merge([{
       id: location.id,
       name: location.title,
       address: location.title,
-      city: location.city ?? '',
-      state: location.state ?? '',
+      heading: locCity ?: locState ?: 'Unknown location',
+      city: locCity,
+      state: locState,
       zip: location.zip ?? '',
       phone: '',
       email: '',
       website: '',
       availability: location.availability ?? false,
+      dbtaCertified: location.dbtaCertified ?? false,
     }]) %}
   {% endfor %}
 {% endif %}
@@ -58,7 +61,6 @@
 {% set portalProvider = providerEntry ? {
   id: providerEntry.id,
   name: providerEntry.title,
-  dbtaCertified: providerEntry.dbtaCertified ?? false,
   phone: providerEntry.phone ?? '',
   email: providerEntry.email ?? '',
   website: providerEntry.website ?? '',
@@ -67,7 +69,6 @@
 } : {
   id: null,
   name: '',
-  dbtaCertified: false,
   phone: '',
   email: '',
   website: '',
@@ -86,51 +87,38 @@
     <section class="mx-auto max-w-6xl px-4 pt-2 sm:px-6 lg:px-8">
       <div
         id="portal-toolbar"
-        class="sticky top-14 z-[1020] -mx-2 mb-6 border-b border-slate-800 bg-slate-950/95 px-2 py-4 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80 sm:mx-0 sm:px-0"
+        class="sticky top-0 z-[1020] -mx-2 mb-6 border-b border-slate-800 bg-slate-950/95 px-2 py-4 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80 sm:mx-0 sm:px-0"
       >
-        <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div class="min-w-0 flex-1">
-            <h2 class="text-2xl font-semibold text-white">{{ portalToolbarTitle }}</h2>
-            <div class="mt-2 flex flex-wrap items-center gap-2">
-              <span id="portal-unsaved-badge" class="hidden rounded-md border border-amber-500/40 bg-amber-950/50 px-2 py-0.5 text-xs font-medium text-amber-200">Unsaved changes</span>
-              <p id="portal-status-line" class="text-sm text-slate-400"></p>
-            </div>
-          </div>
-          <div id="portal-user-menu" class="relative shrink-0 md:text-right">
-            <button
-              type="button"
-              id="portal-user-menu-trigger"
-              class="inline-flex items-center gap-2 rounded-md border border-slate-600 px-3 py-1.5 text-sm text-slate-200 hover:border-slate-500 hover:bg-slate-800/60"
-              aria-expanded="false"
-              aria-haspopup="menu"
-              aria-controls="portal-user-menu-panel"
-            >
-              <span class="text-slate-400">Logged in as</span>
-              <span class="font-medium text-slate-200">{{ previewUsername }}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 shrink-0 text-slate-400" aria-hidden="true">
-                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            <div
-              id="portal-user-menu-panel"
-              class="absolute right-0 z-10 mt-1 hidden min-w-[9rem] origin-top-right rounded-md border border-slate-600 bg-slate-900 p-1 shadow-lg"
-              role="menu"
-              aria-labelledby="portal-user-menu-trigger"
-              hidden
-            >
-              <form method="post" role="none">
-                {{ csrfInput() }}
-                {{ actionInput('users/logout') }}
-                {{ redirectInput(url('signed-out')) }}
+        <div class="min-w-0">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-[26px] font-semibold text-white">{{ portalToolbarTitle }}</h2>
+            {% if portalCanAccess and providerEntry %}
+              <div class="flex shrink-0 items-center gap-3">
+                <a
+                  id="portal-preview-btn"
+                  href="{{ url('directory', { q: portalProvider.name|trim, availability: 0 }) }}"
+                  data-directory-base="{{ url('directory') }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex shrink-0 items-center rounded-lg border border-slate-600 bg-transparent px-5 py-2.5 text-sm font-semibold text-slate-200 transition-colors hover:border-slate-500 hover:bg-slate-800/60 hover:text-white"
+                >
+                  Preview
+                </a>
                 <button
                   type="submit"
-                  role="menuitem"
-                  class="inline-flex w-full items-center gap-2 rounded-md border border-slate-600 px-3 py-1.5 text-left text-sm text-slate-200 hover:border-slate-500 hover:bg-slate-800/60"
+                  form="portal-form"
+                  id="portal-save-btn"
+                  disabled
+                  class="inline-flex shrink-0 items-center rounded-lg border px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:border-slate-600 disabled:bg-transparent disabled:text-slate-400 disabled:opacity-70 enabled:border-emerald-600 enabled:bg-emerald-600 enabled:text-white enabled:hover:opacity-90"
                 >
-                  Logout
+                  Save Changes
                 </button>
-              </form>
-            </div>
+              </div>
+            {% endif %}
+          </div>
+          <div class="mt-2 flex flex-wrap items-center gap-2 py-px">
+            <span id="portal-unsaved-badge" class="rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 text-xs font-medium text-sky-300">All Changes Saved</span>
+            <p id="portal-status-line" class="py-px text-sm text-slate-400"></p>
           </div>
         </div>
 
@@ -188,7 +176,7 @@
           {% endif %}
 
           <div>
-            <h3 class="text-xl font-semibold text-white">Provider</h3>
+            <h3 class="text-[22px] font-semibold text-white">Provider</h3>
             <div class="mt-4 grid gap-4">
             <div>
               <label for="portal-name" class="mb-2 block text-sm font-medium text-slate-200">Practice / listing name</label>
@@ -198,19 +186,9 @@
                 type="text"
                 required
                 value="{{ portalProvider.name }}"
-                class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-3 !text-lg font-semibold text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>
-
-            {% if portalFeatures.dbtaCertified %}
-              <div>
-                <label for="portal-dbta" class="flex cursor-pointer items-center gap-3 text-sm text-slate-300">
-                  <input id="portal-dbta" name="dbtaCertified" type="checkbox" value="1" class="portal-field peer sr-only" {% if portalProvider.dbtaCertified %}checked{% endif %} />
-                  {% include '_partials/lightswitch-track' only %}
-                  <span class="ms-0.5 leading-snug">DBT-A Certified</span>
-                </label>
-              </div>
-            {% endif %}
 
             {% if portalFeatures.practiceDetails %}
               <div>
@@ -245,7 +223,7 @@
           <div class="mt-4">
             <h3 class="text-xl font-semibold text-white">Locations</h3>
             {% if portalProvider.locations|length %}
-              <div class="mt-4 grid gap-4 lg:grid-cols-2">
+              <div class="mt-4 grid gap-6 lg:grid-cols-2">
                 {% for location in portalProvider.locations %}
                   {% include '_manage/location-card' with { location: location, portalFeatures: portalFeatures } only %}
                 {% endfor %}
@@ -255,16 +233,6 @@
             {% endif %}
           </div>
 
-          <div class="flex flex-wrap gap-3 border-t border-slate-800 pt-4">
-            <button
-              type="submit"
-              id="portal-save-btn"
-              disabled
-              class="inline-flex items-center rounded-lg bg-slate-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-500 disabled:cursor-not-allowed disabled:opacity-80 disabled:hover:bg-slate-600"
-            >
-              Save changes
-            </button>
-          </div>
         </form>
       </div>
       {% endif %}

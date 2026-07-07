@@ -3,7 +3,17 @@
 namespace modules\portal;
 
 use Craft;
+use craft\helpers\UrlHelper;
+use modules\portal\services\ProviderOnboardingService;
 use modules\portal\services\ProviderPortalService;
+use verbb\formie\base\ElementField;
+use verbb\formie\controllers\SubmissionsController;
+use verbb\formie\elements\Submission;
+use verbb\formie\events\ModifyElementFieldQueryEvent;
+use verbb\formie\events\SubmissionEvent;
+use verbb\formie\fields\Entries;
+use verbb\formie\services\Submissions;
+use yii\base\Event;
 use yii\base\Module as BaseModule;
 
 class Module extends BaseModule
@@ -20,6 +30,108 @@ class Module extends BaseModule
 
         $this->setComponents([
             'providerPortal' => ProviderPortalService::class,
+            'providerOnboarding' => ProviderOnboardingService::class,
         ]);
+
+        $this->registerFormieEvents();
+    }
+
+    private function registerFormieEvents(): void
+    {
+        if (!class_exists(SubmissionsController::class)) {
+            return;
+        }
+
+        /** @var ProviderOnboardingService $onboarding */
+        $onboarding = $this->get('providerOnboarding');
+
+        Event::on(
+            Entries::class,
+            ElementField::EVENT_MODIFY_ELEMENT_QUERY,
+            function (ModifyElementFieldQueryEvent $event) use ($onboarding) {
+                $field = $event->field;
+                if (!$field || $field->handle !== 'providerListing') {
+                    return;
+                }
+
+                $unclaimedIds = array_map(
+                    static fn ($entry) => (int)$entry->id,
+                    $onboarding->getUnclaimedProviders()
+                );
+
+                if ($unclaimedIds === []) {
+                    $event->query->id(false);
+                    return;
+                }
+
+                $event->query->id($unclaimedIds);
+            }
+        );
+
+        Event::on(
+            SubmissionsController::class,
+            SubmissionsController::EVENT_BEFORE_SUBMISSION_REQUEST,
+            function (SubmissionEvent $event) use ($onboarding) {
+                $submission = $event->submission;
+                if (!$submission instanceof Submission) {
+                    return;
+                }
+
+                $form = $event->form ?? $submission->getForm();
+                if (!$form || $form->handle !== ProviderOnboardingService::SIGNUP_FORM_HANDLE) {
+                    return;
+                }
+
+                if (($event->submitAction ?? 'submit') !== 'submit') {
+                    return;
+                }
+
+                $errors = $onboarding->validateSignupSubmission($submission);
+                if ($errors !== []) {
+                    foreach ($errors as $handle => $message) {
+                        $submission->addError($handle, $message);
+                    }
+                    $event->isValid = false;
+                    return;
+                }
+
+                try {
+                    $onboarding->provisionUserFromSubmission($submission);
+                } catch (\Throwable $e) {
+                    Craft::error('Provider signup provisioning failed: ' . $e->getMessage(), __METHOD__);
+                    $submission->addError('email', 'We could not create your account. Please try again or contact support.');
+                    $event->isValid = false;
+                }
+            }
+        );
+
+        Event::on(
+            SubmissionsController::class,
+            SubmissionsController::EVENT_AFTER_SUBMISSION_REQUEST,
+            function (SubmissionEvent $event) use ($onboarding) {
+                if (!$event->success) {
+                    return;
+                }
+
+                $form = $event->form;
+                if (!$form || $form->handle !== ProviderOnboardingService::SIGNUP_FORM_HANDLE) {
+                    return;
+                }
+
+                $submission = $event->submission;
+                if (!$submission instanceof Submission) {
+                    return;
+                }
+
+                $provider = $onboarding->resolveProviderFromSubmission($submission);
+                $email = trim((string)$submission->getFieldValue('email'));
+
+                $event->redirectUrl = UrlHelper::siteUrl('manage/login', array_filter([
+                    'registered' => '1',
+                    'email' => $email !== '' ? $email : null,
+                    'listing' => $provider ? $provider->title : null,
+                ]));
+            }
+        );
     }
 }

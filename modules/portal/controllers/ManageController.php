@@ -47,7 +47,6 @@ class ManageController extends Controller
 
         $result = $portal->saveProviderPortal($user, $provider, [
             'name' => $request->getBodyParam('name'),
-            'dbtaCertified' => $request->getBodyParam('dbtaCertified'),
             'phone' => $request->getBodyParam('phone'),
             'email' => $request->getBodyParam('email'),
             'website' => $request->getBodyParam('website'),

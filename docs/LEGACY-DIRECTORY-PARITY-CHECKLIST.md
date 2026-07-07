@@ -45,9 +45,10 @@ Use this checklist when refining the Vue + Preline directory UI.
 
 ### 4) Provider card/list
 
-- [ ] Badge language/order matches legacy (`Availability`, `No Availability`, `DBT-A Certified`)
+- [ ] Badge language/order matches legacy (`Accepting Clients`, `No Availability`, `DBT-A`)
 - [ ] Title/address/phone hierarchy matches legacy emphasis
 - [ ] Action buttons (`Website`, `Email`) match legacy placement and weight
+- [ ] Phone and email CTAs hidden when location has no availability; website link remains
 - [ ] “Last updated” block location and contrast match legacy pattern
 - [ ] Logo/fallback region proportions match legacy card image column
 

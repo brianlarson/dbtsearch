@@ -7,11 +7,27 @@
 {% set pageHeading = 'Provider Login' %}
 {% set pageSubheading = 'Manage Listings' %}
 {% set activeNav = 'login' %}
+{% set registered = craft.app.request.getParam('registered') == '1' %}
+{% set registeredListing = craft.app.request.getParam('listing') %}
+{% set registeredEmail = craft.app.request.getParam('email') %}
 
 {% block content %}
   <main class="pb-12">
     <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 md:pt-8 lg:px-8">
       <div class="w-full max-w-[540px] rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
+        {% if registered %}
+          <div class="mb-4 rounded-lg border border-emerald-500/50 bg-emerald-950/70 px-3 py-3 text-sm text-emerald-100" role="status">
+            <p class="font-medium text-emerald-200">Your account is ready.</p>
+            <p class="mt-1 leading-relaxed">
+              {% if registeredListing %}
+                You can now log in to manage <span class="font-medium text-white">{{ registeredListing }}</span>.
+              {% else %}
+                You can now log in to manage your listing.
+              {% endif %}
+            </p>
+          </div>
+        {% endif %}
+
         {% if craft.app.session.hasFlash('error') %}
           <p class="mb-4 block w-full rounded-lg border border-red-500/50 bg-red-950/70 px-3 py-2 text-[13px] font-medium text-red-200" role="alert">
             {{ craft.app.session.getFlash('error') }}
@@ -37,6 +53,7 @@
               id="loginName"
               type="text"
               name="loginName"
+              value="{{ registeredEmail ?? '' }}"
               autocomplete="username"
               required
               class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"

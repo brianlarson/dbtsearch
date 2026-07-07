@@ -108,7 +108,23 @@ fieldLayouts:
             uid: d1ed50de-6558-41e1-b42f-4c7be68b5025
             userCondition: null
             warning: 'Please keep this as up-to-date as possible'
-            width: 100
+            width: 50
+          -
+            dateAdded: '2026-07-07T00:00:08+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f77e21c5-ded4-4082-86c6-5df3b28a7316 # DBT-A Certified
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 383fd006-6d79-4238-93df-0f6a2357a76d
+            userCondition: null
+            warning: null
+            width: 50
           -
             dateAdded: '2026-04-24T19:12:04+00:00'
             elementCondition: null

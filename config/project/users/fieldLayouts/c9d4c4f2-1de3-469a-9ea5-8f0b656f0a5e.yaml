@@ -107,12 +107,6 @@ tabs:
         width: 100
       -
         dateAdded: '2026-07-06T22:50:44+00:00'
-        elementCondition: null
-        type: craft\fieldlayoutelements\HorizontalRule
-        uid: 9b5c257f-35ec-4b8a-9f12-5a44bdf4c126
-        userCondition: null
-      -
-        dateAdded: '2026-07-06T22:50:44+00:00'
         editCondition: null
         elementCondition: null
         elementEditCondition: null
@@ -124,22 +118,6 @@ tabs:
         tip: null
         type: craft\fieldlayoutelements\CustomField
         uid: 1eef5a94-7aa0-4b05-9b24-1b1c3e02afbd
-        userCondition: null
-        warning: null
-        width: 100
-      -
-        dateAdded: '2026-07-06T22:50:44+00:00'
-        editCondition: null
-        elementCondition: null
-        elementEditCondition: null
-        fieldUid: 5ce9554a-ea2e-4de5-a321-7f1b9d240999 # Locations
-        handle: null
-        instructions: null
-        label: null
-        required: false
-        tip: null
-        type: craft\fieldlayoutelements\CustomField
-        uid: 4791a13d-761f-45ab-840b-a18214ca5572
         userCondition: null
         warning: null
         width: 100

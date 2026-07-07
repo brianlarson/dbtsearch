@@ -55,4 +55,9 @@
   select.portal-field {
     @apply text-[15px];
   }
+
+  /* Formie register form — fallback for fields without a custom partial */
+  .formie-field-wrapper .fui-input {
+    @apply block w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
+  }
 }

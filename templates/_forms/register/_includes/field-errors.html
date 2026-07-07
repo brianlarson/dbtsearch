@@ -1,0 +1,7 @@
+{% if errors %}
+  <ul class="mt-2 space-y-1 text-sm text-red-300" role="alert">
+    {% for error in errors %}
+      <li>{{ error | t('formie') }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}

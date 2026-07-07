@@ -17,13 +17,32 @@ function initPortalForm() {
   const saveAlert = document.getElementById('portal-save-alert');
   const dismissSave = document.getElementById('portal-dismiss-save');
   const saveBtn = document.getElementById('portal-save-btn');
+  const previewBtn = document.getElementById('portal-preview-btn');
+  const nameInput = form.querySelector('#portal-name');
 
   let sessionOpenedAt = Date.now();
+
+  function buildPreviewUrl(name) {
+    const base = previewBtn?.dataset.directoryBase || '/directory';
+    const params = new URLSearchParams();
+    const trimmed = (name ?? '').trim();
+    if (trimmed) {
+      params.set('q', trimmed);
+    }
+    params.set('availability', '0');
+    return `${base}?${params.toString()}`;
+  }
+
+  function updatePreviewUrl() {
+    if (!previewBtn) {
+      return;
+    }
+    previewBtn.href = buildPreviewUrl(nameInput?.value ?? '');
+  }
 
   function serializeForm() {
     const out = {
       name: form.querySelector('#portal-name')?.value ?? '',
-      dbtaCertified: form.querySelector('#portal-dbta')?.checked ?? false,
       phone: form.querySelector('#portal-phone')?.value ?? '',
       email: form.querySelector('#portal-email')?.value ?? '',
       website: form.querySelector('#portal-website')?.value ?? '',
@@ -33,6 +52,7 @@ function initPortalForm() {
       const id = card.getAttribute('data-portal-location');
       if (!id) return;
       const availability = card.querySelector(`#portal-availability-${id}`);
+      const dbtaCertified = card.querySelector(`#portal-dbta-${id}`);
       out.locations[id] = {
         name: card.querySelector(`#portal-loc-name-${id}`)?.value ?? '',
         address: card.querySelector(`#portal-loc-address-${id}`)?.value ?? '',
@@ -43,6 +63,7 @@ function initPortalForm() {
         email: card.querySelector(`#portal-loc-email-${id}`)?.value ?? '',
         website: card.querySelector(`#portal-loc-website-${id}`)?.value ?? '',
         availability: availability?.checked ?? false,
+        dbtaCertified: dbtaCertified?.checked ?? false,
       };
     });
     return JSON.stringify(out);
@@ -88,12 +109,26 @@ function initPortalForm() {
     saveAlert.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  const BADGE_SAVED_CLASSES = ['border-primary/40', 'bg-primary/10', 'text-sky-300'];
+  const BADGE_UNSAVED_CLASSES = ['border-amber-500/40', 'bg-amber-950/50', 'text-amber-200'];
+
   function setDirty(dirty) {
     if (unsavedBadge) {
-      unsavedBadge.classList.toggle('hidden', !dirty);
+      const remove = dirty ? BADGE_SAVED_CLASSES : BADGE_UNSAVED_CLASSES;
+      const add = dirty ? BADGE_UNSAVED_CLASSES : BADGE_SAVED_CLASSES;
+      remove.forEach((cls) => unsavedBadge.classList.remove(cls));
+      add.forEach((cls) => unsavedBadge.classList.add(cls));
+      unsavedBadge.textContent = dirty ? 'Unsaved Changes' : 'All Changes Saved';
     }
     if (saveBtn) {
       saveBtn.disabled = !dirty;
+    }
+    if (previewBtn) {
+      previewBtn.setAttribute('aria-disabled', dirty ? 'true' : 'false');
+      previewBtn.classList.toggle('pointer-events-none', dirty);
+      previewBtn.classList.toggle('opacity-70', dirty);
+      previewBtn.classList.toggle('cursor-not-allowed', dirty);
+      previewBtn.title = dirty ? 'Save your changes before previewing the directory' : '';
     }
   }
 
@@ -108,6 +143,9 @@ function initPortalForm() {
   form.addEventListener('input', (event) => {
     if (isPortalField(event.target)) {
       checkDirty();
+      if (event.target === nameInput) {
+        updatePreviewUrl();
+      }
     }
   });
 
@@ -192,6 +230,14 @@ function initPortalForm() {
     }
   }
 
+  previewBtn?.addEventListener('click', (event) => {
+    if (previewBtn.getAttribute('aria-disabled') === 'true') {
+      event.preventDefault();
+    }
+  });
+
+  updatePreviewUrl();
+
   if (flashNotice) {
     savedSignature = serializeForm();
     setDirty(false);
@@ -203,42 +249,8 @@ function initPortalForm() {
   }
 }
 
-function initPortalUserMenu() {
-  const root = document.getElementById('portal-user-menu');
-  const trigger = document.getElementById('portal-user-menu-trigger');
-  const panel = document.getElementById('portal-user-menu-panel');
-  if (!root || !trigger || !panel) return;
-
-  function setOpen(open) {
-    panel.classList.toggle('hidden', !open);
-    if (open) {
-      panel.removeAttribute('hidden');
-    } else {
-      panel.setAttribute('hidden', '');
-    }
-    trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
-
-  trigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    setOpen(trigger.getAttribute('aria-expanded') !== 'true');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!root.contains(e.target)) setOpen(false);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && trigger.getAttribute('aria-expanded') === 'true') {
-      setOpen(false);
-      trigger.focus();
-    }
-  });
-}
-
 function initPortalPage() {
   initPortalForm();
-  initPortalUserMenu();
 }
 
 if (document.readyState === 'loading') {

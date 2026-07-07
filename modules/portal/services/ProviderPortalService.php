@@ -85,24 +85,28 @@ class ProviderPortalService extends Component
                 continue;
             }
 
+            $city = trim((string)($location->getFieldValue('city') ?? ''));
+            $state = trim((string)($location->getFieldValue('state') ?? ''));
+
             $locations[] = [
                 'id' => (string)$location->id,
                 'name' => (string)$location->title,
                 'address' => (string)$location->title,
-                'city' => (string)($location->getFieldValue('city') ?? ''),
-                'state' => (string)($location->getFieldValue('state') ?? ''),
+                'heading' => $city !== '' ? $city : ($state !== '' ? $state : 'Unknown location'),
+                'city' => $city,
+                'state' => $state,
                 'zip' => (string)($location->getFieldValue('zip') ?? ''),
                 'phone' => '',
                 'email' => '',
                 'website' => '',
                 'availability' => (bool)($location->getFieldValue('availability') ?? false),
+                'dbtaCertified' => (bool)($location->getFieldValue('dbtaCertified') ?? false),
             ];
         }
 
         return [
             'id' => (string)$provider->id,
             'name' => (string)$provider->title,
-            'dbtaCertified' => (bool)($provider->getFieldValue('dbtaCertified') ?? false),
             'phone' => (string)($provider->getFieldValue('phone') ?? ''),
             'email' => (string)($provider->getFieldValue('email') ?? ''),
             'website' => (string)($provider->getFieldValue('website') ?? ''),
@@ -135,9 +139,7 @@ class ProviderPortalService extends Component
         }
 
         $provider->title = $name;
-        $fieldValues = [
-            'dbtaCertified' => !empty($data['dbtaCertified']),
-        ];
+        $fieldValues = [];
 
         if (array_key_exists('phone', $data)) {
             $fieldValues['phone'] = trim((string)$data['phone']);
@@ -149,7 +151,9 @@ class ProviderPortalService extends Component
             $fieldValues['website'] = trim((string)$data['website']);
         }
 
-        $provider->setFieldValues($fieldValues);
+        if ($fieldValues !== []) {
+            $provider->setFieldValues($fieldValues);
+        }
 
         $locationErrors = $this->saveLocations(
             $provider,
@@ -213,6 +217,7 @@ class ProviderPortalService extends Component
 
             $fieldValues = [
                 'availability' => !empty($locationData['availability']),
+                'dbtaCertified' => !empty($locationData['dbtaCertified']),
             ];
 
             if ($saveDetails) {

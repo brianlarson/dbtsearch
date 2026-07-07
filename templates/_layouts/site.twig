@@ -3,6 +3,7 @@
 {% set omitSubheading = omitSubheading ?? false %}
 {% set heroImageUrl = heroImageUrl ?? '/images/pexels-hero-1440.webp' %}
 {% set activeNav = activeNav ?? '' %}
+{% set stickySiteHeader = stickySiteHeader ?? true %}
 {% set pageTitle = pageTitle ?? (pageHeading ? pageHeading ~ ' | ' ~ (siteName ?? 'DBT Search') : (siteName ?? 'DBT Search')) %}
 
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
   {% block head %}{% endblock %}
 </head>
 <body class="dark min-h-screen bg-slate-950 text-white font-sans antialiased" data-theme="dbtsearch">
-  <header id="site-header" class="sticky top-0 z-[1030] border-b border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80">
+  <header id="site-header" class="{{ stickySiteHeader ? 'sticky top-0 z-[1030]' : 'relative' }} border-b border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80">
     <div class="mx-auto flex max-w-6xl items-center gap-2 px-4 py-2 sm:px-6 lg:px-8">
       <a href="{{ url('/') }}" class="inline-flex shrink-0 items-center py-1 md:py-2 xl:py-1">
         <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-auto max-w-[170px] md:hidden" width="170" height="40" />

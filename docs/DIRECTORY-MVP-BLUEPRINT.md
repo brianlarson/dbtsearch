@@ -23,7 +23,7 @@ This is the implementation blueprint for the **directory MVP** while the splash 
 
 -----------------------------------------------------------
 | ProviderCard                                             |
-| [logo/fallback] [Availability] [DBT-A Certified]         |
+| [logo/fallback] [Availability] [DBT-A]         |
 |                Name                                       |
 |                Address, City ST ZIP                       |
 |                Phone                                      |
@@ -148,5 +148,6 @@ Craft serves directory pages via Twig; no separate SPA env is required on `devel
 - Availability toggle defaults to ON and updates list.
 - Search by name updates list.
 - Optional fields (website/email/logo) gracefully hide when missing.
+- Phone and email CTAs hide when the location has no availability; website link stays visible.
 - Loading, empty, and error states are visible and testable.
 - Splash route (`/`) remains unchanged.

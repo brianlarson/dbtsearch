@@ -64,7 +64,7 @@ Add these fields to the Providers entry type layout:
 |-------------------|---------------------|----------------------|------|
 | Source Provider ID| `sourceProviderId`  | Plain Text (single-line) | Stable external key for provider upserts; use as Feed Me match field |
 | Name              | `name`              | Plain Text           | Provider/org display name |
-| DBT-A Certified   | `dbtaCertified`     | Lightswitch          | Badge |
+| DBT-A             | `dbtaCertified`     | Lightswitch          | Badge |
 | Provider Logo     | `providerLogo`      | Assets               | Single asset preferred |
 | Provider Locations| `providerLocations` | Entries (Relations)  | Source = `Locations` section, allow multiple |
 
@@ -152,7 +152,7 @@ Craft directory templates expect:
 
 In the UI:
 
-- badges: **DBT-A certified** from provider; **availability** is true if **any** related location has `availability` on
+- badges: **DBT-A** from provider; **availability** is true if **any** related location has `availability` on
 - address/contact render from the **first related location**
 - "Last updated" renders from provider `dateUpdated`
 
@@ -163,6 +163,7 @@ In the UI:
 - [ ] Provider with 1 location renders full card details
 - [ ] Provider with multiple locations still renders first location cleanly
 - [ ] Provider with no website/email hides those buttons
+- [ ] Location with no availability hides phone and email CTAs but keeps website link
 - [ ] Availability filter respects per-location lightswitches (provider shows if any location is on)
 - [ ] Search by provider name works
 - [ ] Last updated shows date (not "Unknown")

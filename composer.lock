@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ab44fc67fa139f92586be4c03508204",
+    "content-hash": "0f9d611b2d9c8ddacde257dd86a1e45b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4700,11 +4700,6 @@
         {
             "name": "php-http/discovery",
             "version": "1.20.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-http/discovery.git",
-                "reference": "82fe4c73ef3363caed49ff8dd1539ba06044910d"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-http/discovery/zipball/82fe4c73ef3363caed49ff8dd1539ba06044910d",
@@ -4726,15 +4721,6 @@
                 "psr/http-factory-implementation": "*",
                 "psr/http-message-implementation": "*"
             },
-            "require-dev": {
-                "composer/composer": "^1.0.2|^2.0",
-                "graham-campbell/phpspec-skip-example-extension": "^5.0",
-                "php-http/httplug": "^1.0 || ^2.0",
-                "php-http/message-factory": "^1.0",
-                "phpspec/phpspec": "^5.1 || ^6.1 || ^7.3",
-                "sebastian/comparator": "^3.0.5 || ^4.0.8",
-                "symfony/phpunit-bridge": "^6.4.4 || ^7.0.1"
-            },
             "type": "composer-plugin",
             "extra": {
                 "class": "Http\\Discovery\\Composer\\Plugin",
@@ -4748,7 +4734,6 @@
                     "src/Composer/Plugin.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4770,10 +4755,6 @@
                 "psr17",
                 "psr7"
             ],
-            "support": {
-                "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.20.0"
-            },
             "time": "2024-10-02T11:20:13+00:00"
         },
         {
@@ -5736,11 +5717,6 @@
         {
             "name": "psr/http-server-handler",
             "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-server-handler.git",
-                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/84c4fb66179be4caaf8e97bd239203245302e7d4",
@@ -5762,7 +5738,6 @@
                     "Psr\\Http\\Server\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5784,9 +5759,6 @@
                 "response",
                 "server"
             ],
-            "support": {
-                "source": "https://github.com/php-fig/http-server-handler/tree/1.0.2"
-            },
             "time": "2023-04-10T20:06:20+00:00"
         },
         {
@@ -6475,11 +6447,6 @@
         {
             "name": "stimmt/craft-mcp",
             "version": "v1.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/stimmtdigital/craft-mcp.git",
-                "reference": "c1f49ee09aba56fe151ad3659abfe0e3f3ed4d94"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/stimmtdigital/craft-mcp/zipball/c1f49ee09aba56fe151ad3659abfe0e3f3ed4d94",
@@ -6491,31 +6458,22 @@
                 "mcp/sdk": "^0.4",
                 "php": "^8.3"
             },
-            "require-dev": {
-                "laravel/pint": "^1.18",
-                "pestphp/pest": "^4.0",
-                "pestphp/pest-plugin-type-coverage": "^4.0",
-                "phpstan/phpstan": "^2.0",
-                "rector/rector": "^2.0",
-                "sanmai/phpstan-rules": "^0.3.13"
-            },
             "bin": [
                 "bin/mcp-server"
             ],
             "type": "craft-plugin",
             "extra": {
-                "name": "Craft MCP",
-                "class": "stimmt\\craft\\Mcp\\Mcp",
                 "handle": "mcp",
+                "name": "Craft MCP",
                 "developer": "Stimmt Digital",
-                "documentationUrl": "https://github.com/stimmtdigital/craft-mcp"
+                "documentationUrl": "https://github.com/stimmtdigital/craft-mcp",
+                "class": "stimmt\\craft\\Mcp\\Mcp"
             },
             "autoload": {
                 "psr-4": {
                     "stimmt\\craft\\Mcp\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -7429,16 +7387,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v8.1.0",
+            "version": "v8.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "58d2e767a66052c1487356f953445634a8194c64"
+                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/58d2e767a66052c1487356f953445634a8194c64",
-                "reference": "58d2e767a66052c1487356f953445634a8194c64",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
+                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
                 "shasum": ""
             },
             "require": {
@@ -7473,7 +7431,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v8.1.0"
+                "source": "https://github.com/symfony/finder/tree/v8.1.1"
             },
             "funding": [
                 {
@@ -7493,7 +7451,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-06-27T09:05:56+00:00"
         },
         {
             "name": "symfony/http-client",
@@ -11713,10 +11671,10 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }

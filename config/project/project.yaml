@@ -1,9 +1,9 @@
-dateModified: 1783379569
+dateModified: 1783388396
 email:
   fromEmail: system@dbtsearch.org
   fromName: 'DBT Search'
-  replyToEmail: no-reply@dbtsearch.org
-  template: null
+  replyToEmail: noreply@dbtsearch.org
+  template: ''
   transportSettings:
     apiKey: $RESEND_API_KEY
   transportType: superbig\resend\Adapter
@@ -29,6 +29,7 @@ meta:
     9b2d4e9a-6c8f-4d7b-a123-5e6f708192ab: 'Source Provider ID' # Source Provider ID
     013af865-2f84-430b-be6b-dedc48ddc923: Provider # Provider
     68f6aaed-7edc-4e91-9996-3a86c16baf2f: 'Basic Editor' # Basic Editor
+    72b30c1b-c0c2-4a07-9307-7d02be16ec34: Register # Register
     98fab9df-c419-4085-9a57-5c61f96573c2: Form # Form
     0135fc29-0cdc-4de0-8ba2-e9c7abd5b8aa: 'Use dark background for logo' # Use dark background for logo
     288c542e-3541-4e24-96ee-aa5fa0bea135: General # General
@@ -39,7 +40,6 @@ meta:
     b4c00cdb-3a29-44e5-814b-9a920f515289: Provider # Provider
     bcf50025-2188-4126-a360-29999caeae89: 'Splash Page' # Splash Page
     bea9cc9c-6390-413d-ba6e-35e2d30805ca: Availability # Availability
-    c55ca0a9-4bd6-409b-afd8-c1884dafecd0: Team # Team
     c7598e88-bdae-462f-8790-410a3fccdcc6: URL # URL
     cc0c373f-6532-483b-831f-3c8878b9bb8e: 'DBT Search' # DBT Search
     d5ae5dfe-b4f7-487a-8ba4-6fbd94e54839: Logo # Logo

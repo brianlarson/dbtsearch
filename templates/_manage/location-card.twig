@@ -1,23 +1,39 @@
 {# @var location array with id, name, address, city, state, zip, phone, email, website, availability, dbtaCertified #}
 {% set locId = location.id %}
 {% set detailsId = 'portal-loc-details-' ~ locId %}
-{% set addressLine = [location.address, [location.state, location.zip]|filter|join(' ')]|filter|join(', ') %}
-{% set locationHeading = (location.city ?? '')|trim ?: location.name %}
+{% set locCity = (location.city ?? '')|trim %}
+{% set locState = (location.state ?? '')|trim %}
+{% set locZip = (location.zip ?? '')|trim %}
+{% set street = (location.address ?? '')|trim %}
+{% set cardHeading = locCity ?: locState ?: 'Unknown location' %}
+{% set streetLower = street|lower %}
+{% set isFullAddress = locCity and locState and (locCity|lower in streetLower) and (locState|lower in streetLower) %}
+{% if isFullAddress %}
+  {# Legacy imports stored the full address in the title field; avoid duplicating city/state/zip. #}
+  {% set addressLine = street|replace({', ,': ', ', ',,': ','}) %}
+{% else %}
+  {% set localityParts = (locCity and locCity != cardHeading) ? [locCity] : [] %}
+  {% set stateZip = [locState, locZip]|filter|join(' ') %}
+  {% if stateZip %}
+    {% set localityParts = localityParts|merge([stateZip]) %}
+  {% endif %}
+  {% set addressLine = [street, localityParts|join(', ')]|filter|join(', ') %}
+{% endif %}
 
 <article class="rounded-xl border border-slate-700 bg-slate-950/40 p-4 md:p-5 h-full" data-portal-location="{{ locId }}">
-  <h3 class="mb-3 min-w-0 text-lg font-semibold text-brand">{{ locationHeading }}</h3>
+  <h3 class="mt-1 mb-1 min-w-0 text-xl font-semibold text-brand">{{ cardHeading }}</h3>
 
   {% if addressLine %}
-    <p class="mb-4 text-sm text-slate-400">{{ addressLine }}</p>
+    <p class="mb-4 text-[15px] text-white">{{ addressLine }}</p>
   {% endif %}
 
-  <div class="mb-4 mt-8 grid gap-x-6 gap-y-3">
+  <div class="mt-8 grid gap-x-[18px] gap-y-4">
     {% if portalFeatures.dbtaCertified ?? false %}
       {% include '_manage/subtle-checkbox' with {
         id: 'portal-dbta-' ~ locId,
         name: 'locations[' ~ locId ~ '][dbtaCertified]',
         checked: location.dbtaCertified ?? false,
-        label: 'DBT-A',
+        label: 'DBT-A Certified (adolescents)',
         field: 'dbtaCertified',
       } only %}
     {% endif %}

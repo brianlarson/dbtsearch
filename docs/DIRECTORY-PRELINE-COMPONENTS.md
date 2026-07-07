@@ -14,7 +14,7 @@ Use `docs/LEGACY-DIRECTORY-PARITY-CHECKLIST.md` as the source-of-truth parity gu
 - **Badges**
   - Availability
   - No Availability
-  - DBT-A Certified
+  - DBT-A
 - **Form controls**
   - Search input
   - Text/email input
@@ -37,7 +37,7 @@ Use `docs/LEGACY-DIRECTORY-PARITY-CHECKLIST.md` as the source-of-truth parity gu
   - Logo/fallback mark
   - Availability/certification badges
   - Name/address/phone
-  - Website/email actions
+  - Website/email actions (phone/email hidden when location has no availability; website always shown when present)
   - Last updated
 - **Legacy header chrome**
   - Logo

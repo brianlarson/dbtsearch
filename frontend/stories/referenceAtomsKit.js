@@ -72,7 +72,7 @@ export function renderFinderBadgesSample() {
   <div class="d-flex flex-wrap gap-2">
     <span class="badge fs-sm text-success border border-success">Availability</span>
     <span class="badge fs-sm text-secondary border border-secondary">No Availability</span>
-    <span class="badge fs-sm text-info border border-info">DBT-A Certified</span>
+    <span class="rounded border border-violet-400/70 px-2 py-0.5 text-xs font-medium text-violet-300">DBT-A</span>
   </div>
 </section>`;
 }

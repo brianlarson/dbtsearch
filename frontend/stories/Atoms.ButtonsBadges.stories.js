@@ -31,7 +31,7 @@ function renderAtoms() {
           <div class="flex flex-wrap gap-2">
             ${renderBadge({ label: 'Availability', tone: 'success' })}
             ${renderBadge({ label: 'No Availability', tone: 'neutral' })}
-            ${renderBadge({ label: 'DBT-A Certified', tone: 'info' })}
+            ${renderBadge({ label: 'DBT-A', tone: 'violet' })}
           </div>
         </section>
       </div>
