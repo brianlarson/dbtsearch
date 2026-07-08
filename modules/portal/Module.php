@@ -3,7 +3,9 @@
 namespace modules\portal;
 
 use Craft;
+use craft\elements\Entry;
 use craft\helpers\UrlHelper;
+use yii\base\ModelEvent;
 use modules\portal\services\ProviderOnboardingService;
 use modules\portal\services\ProviderPortalService;
 use verbb\formie\base\ElementField;
@@ -34,6 +36,31 @@ class Module extends BaseModule
         ]);
 
         $this->registerFormieEvents();
+        $this->registerLocationAvailabilityEvents();
+    }
+
+    private function registerLocationAvailabilityEvents(): void
+    {
+        /** @var ProviderPortalService $portal */
+        $portal = $this->get('providerPortal');
+
+        Event::on(
+            Entry::class,
+            Entry::EVENT_BEFORE_SAVE,
+            function (ModelEvent $event) use ($portal) {
+                $entry = $event->sender;
+                if (!$entry instanceof Entry) {
+                    return;
+                }
+
+                $section = $entry->getSection();
+                if (!$section || $section->handle !== 'locations' || !$entry->getIsCanonical()) {
+                    return;
+                }
+
+                $portal->stampAvailabilityUpdatedAtIfChanged($entry);
+            }
+        );
     }
 
     private function registerFormieEvents(): void

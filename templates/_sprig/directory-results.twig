@@ -61,15 +61,17 @@
 {% for location in locationEntries %}
   {% set provider = location.provider.one() %}
   {% if provider %}
+    {% set availabilityUpdatedAt = location.availabilityUpdatedAt ?? location.dateUpdated %}
     {% set locations = locations|merge([{
       location: location,
       provider: provider,
-      hasAvailability: location.getFieldValue('availability') ? true : false
+      hasAvailability: location.getFieldValue('availability') ? true : false,
+      availabilityUpdatedAt: availabilityUpdatedAt,
     }]) %}
   {% endif %}
 {% endfor %}
 
-{% set locations = locations|sort((a, b) => (b.location.dateUpdated ? b.location.dateUpdated.timestamp : 0) <=> (a.location.dateUpdated ? a.location.dateUpdated.timestamp : 0)) %}
+{% set locations = locations|sort((a, b) => (b.availabilityUpdatedAt ? b.availabilityUpdatedAt.timestamp : 0) <=> (a.availabilityUpdatedAt ? a.availabilityUpdatedAt.timestamp : 0)) %}
 {% if sprig.isRequest %}
   {% do sprig.pushUrl(url('directory', {
     q: searchTerm ?: null,
@@ -241,7 +243,7 @@
                             {% endif %}
                           </div>
                         {% endif %}
-                        {% set updated = location.dateUpdated %}
+                        {% set updated = item.availabilityUpdatedAt %}
                         <div class="inline-flex items-center gap-1.5 text-xs text-brand">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-3.5 w-3.5 shrink-0 text-brand" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

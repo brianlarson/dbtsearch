@@ -215,22 +215,41 @@ class ProviderPortalService extends Component
                 continue;
             }
 
+            $newAvailability = !empty($locationData['availability']);
+            $newDbtaCertified = !empty($locationData['dbtaCertified']);
+            $currentAvailability = (bool)($location->getFieldValue('availability') ?? false);
+            $currentDbtaCertified = (bool)($location->getFieldValue('dbtaCertified') ?? false);
+
             $fieldValues = [
-                'availability' => !empty($locationData['availability']),
-                'dbtaCertified' => !empty($locationData['dbtaCertified']),
+                'availability' => $newAvailability,
+                'dbtaCertified' => $newDbtaCertified,
             ];
+
+            $hasChanges = $currentAvailability !== $newAvailability
+                || $currentDbtaCertified !== $newDbtaCertified;
 
             if ($saveDetails) {
                 $address = trim((string)($locationData['address'] ?? ''));
-                if ($address !== '') {
+                if ($address !== '' && $location->title !== $address) {
                     $location->title = $address;
+                    $hasChanges = true;
                 }
 
                 foreach (['city', 'state', 'zip'] as $handle) {
-                    if (array_key_exists($handle, $locationData)) {
-                        $fieldValues[$handle] = trim((string)$locationData[$handle]);
+                    if (!array_key_exists($handle, $locationData)) {
+                        continue;
+                    }
+
+                    $value = trim((string)$locationData[$handle]);
+                    if ((string)($location->getFieldValue($handle) ?? '') !== $value) {
+                        $fieldValues[$handle] = $value;
+                        $hasChanges = true;
                     }
                 }
+            }
+
+            if (!$hasChanges) {
+                continue;
             }
 
             $location->setFieldValues($fieldValues);
@@ -241,5 +260,37 @@ class ProviderPortalService extends Component
         }
 
         return $errors;
+    }
+
+    public function stampAvailabilityUpdatedAtIfChanged(Entry $location, ?bool $previousAvailability = null): void
+    {
+        $section = $location->getSection();
+        if (!$section || $section->handle !== 'locations') {
+            return;
+        }
+
+        $newAvailability = (bool)($location->getFieldValue('availability') ?? false);
+
+        if ($previousAvailability === null && $location->id) {
+            $existing = Entry::find()
+                ->section('locations')
+                ->id($location->id)
+                ->status(null)
+                ->one();
+
+            if ($existing instanceof Entry) {
+                $previousAvailability = (bool)($existing->getFieldValue('availability') ?? false);
+            } else {
+                $previousAvailability = $newAvailability;
+            }
+        } elseif ($previousAvailability === null) {
+            $previousAvailability = false;
+        }
+
+        if ($previousAvailability === $newAvailability) {
+            return;
+        }
+
+        $location->setFieldValue('availabilityUpdatedAt', DateTimeHelper::currentUTCDateTime());
     }
 }

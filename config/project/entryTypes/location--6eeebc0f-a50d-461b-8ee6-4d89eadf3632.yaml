@@ -154,6 +154,22 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            dateAdded: '2026-07-08T14:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c3a8f1e2-9b4d-4e6a-8f2c-1d5e7a9b0c3d # Availability Updated At
+            handle: availabilityUpdatedAt
+            instructions: null
+            label: 'Availability Updated At'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f4e2a8c1-7d3b-4f9e-a6c5-2b8d1e0f3a4b
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2026-04-25T17:00:00+00:00'
             editCondition: null
             elementCondition: null
