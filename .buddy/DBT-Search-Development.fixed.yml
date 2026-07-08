@@ -12,8 +12,6 @@
     encrypted: true
   - key: DEV_USER
     value: blarson721
-  - key: SERVER_PATH
-    value: public_html
   actions:
   - action: Transfer Files
     type: TRANSFER
