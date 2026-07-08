@@ -7,8 +7,6 @@
   events:
   - type: PUSH
   variables:
-  - key: DEV_IP
-    value: 45.55.79.253
   - key: DEV_PASS
     value: '!encrypted 70xok637FYADXFJrFFymSd6kTusu/BXUtw+UMj70pbY=.pTEtijJZb39B1MIeSElIAw=='
     encrypted: true
