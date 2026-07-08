@@ -199,6 +199,8 @@ function initPortalForm() {
 
   form.addEventListener('submit', (e) => {
     if (craftSave) {
+      savedSignature = serializeForm();
+      setDirty(false);
       return;
     }
 
