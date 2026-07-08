@@ -12,19 +12,10 @@
   - key: DEV_PASS
     value: '!encrypted 70xok637FYADXFJrFFymSd6kTusu/BXUtw+UMj70pbY=.pTEtijJZb39B1MIeSElIAw=='
     encrypted: true
-  - key: DEV_PATH
-    value: public_html
   - key: DEV_USER
     value: blarson721
-  targets:
-  - target: dbt-search-development
-    type: SSH
-    name: DBT Search Dev Server
-    host: 45.55.79.253
-    path: $DEV_PATH
-    auth:
-      username: $DEV_USER
-      password: '!encrypted 5rFKlZNmUfe9S1PSgkgtXA==.OJYmucjVonEo4ZrYvnxFpw=='
+  - key: SERVER_PATH
+    value: public_html
   actions:
   - action: Transfer Files
     type: TRANSFER
