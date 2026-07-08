@@ -72,6 +72,18 @@
             />
           </div>
 
+          <div class="flex items-center gap-2">
+            <input
+              id="rememberMe"
+              type="checkbox"
+              name="rememberMe"
+              value="1"
+              checked
+              class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-primary focus:ring-primary focus:ring-offset-slate-900"
+            />
+            <label for="rememberMe" class="text-sm text-slate-300">Keep me signed in</label>
+          </div>
+
           {% set forgotPasswordSubject = '[DBT Search] Provider User Access Assistance'|url_encode %}
           {% set forgotPasswordBody = 'Please help me with provider manager access to DBT Search. The email I used for signing up is: [ your_email_here ]'|url_encode %}
           {% set forgotPasswordMailto = 'mailto:support@tinytreecounseling.com?subject=' ~ forgotPasswordSubject ~ '&body=' ~ forgotPasswordBody %}

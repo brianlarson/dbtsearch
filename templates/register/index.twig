@@ -33,7 +33,7 @@
           </ul>
         </div>
 
-        <div class="w-1/2 md:w-full rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
+        <div class="w-full rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
           {% if form %}
             {% set submission = form.getCurrentSubmission() %}
             {% set attributes = { method: 'post', class: 'grid gap-3', 'data-fui-form': form.configJson } %}

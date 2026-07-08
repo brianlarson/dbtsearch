@@ -9,11 +9,11 @@ The provider onboarding page is live at **`/register`**. This URL is **not linke
 3. Add these fields **in this order**:
    - **fullName** — Single Line Text, required
    - **email** — Email, required
-   - **providerListing** — Entries, required, single selection, display as **Dropdown**, source **Providers** section only
+   - **provider** — Entries, required, single selection, display as **Dropdown**, source **Providers** section only
    - **password** — Password, required
    - **confirmPassword** — Password, required, enable **Match Field** → `password`
 4. **Form Template:** Assign the **Register** template (`_forms/register`) to this form. Disable Formie base/theme CSS on the template (the page uses site styles from `directory.css`).
-5. **Submit Action:** Redirect to URL (the portal module overrides this to `/manage/login?registered=1` with email/listing params after successful signup).
+5. **Submit Action:** Redirect to URL (the portal module overrides this to log the user in and redirect to `/manage` after successful signup).
 6. Configure **Spam** (honeypot and/or reCAPTCHA) as needed.
 7. Optional **Email Notifications** to notify staff when a provider claims a listing.
 
@@ -23,7 +23,7 @@ Until this form exists, the template shows setup instructions.
 
 1. Formie validates the submission (including unclaimed-listing checks).
 2. The portal module creates a Craft user, assigns the **Provider** group, and links the user to the selected listing.
-3. The user is redirected to **Manage Login** with a success message.
+3. The user is logged in automatically and redirected to **Manage** with a welcome message.
 
 ## Private signup URL for outreach
 

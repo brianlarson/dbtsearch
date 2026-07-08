@@ -1,4 +1,5 @@
 {% set hasOptgroups = false %}
+{% set selectedValue = value.value is defined ? value.value : value %}
 
 <select
   id="{{ field.getHtmlId(field.form) }}"
@@ -20,7 +21,7 @@
       {% if field.multi %}
         {% set selected = option.value is defined and ('' ~ option.value) in value %}
       {% else %}
-        {% set selected = option.value is defined and ('' ~ option.value) == ('' ~ value) %}
+        {% set selected = option.value is defined and ('' ~ option.value) == ('' ~ selectedValue) %}
       {% endif %}
       <option value="{{ option.value }}" {% if selected %}selected{% endif %} {% if disabled %}disabled{% endif %}>{{ option.label | t('formie') }}</option>
     {% endif %}

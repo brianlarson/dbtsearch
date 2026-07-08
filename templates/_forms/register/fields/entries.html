@@ -4,7 +4,7 @@
 {% set value = originalField.getDisplayTypeValue(value) %}
 
 {% if originalField.displayType == 'dropdown' %}
-  {% if originalField.handle == 'providerListing' %}
+  {% if originalField.handle == 'provider' %}
     <p class="mb-2 text-xs text-slate-400">Only listings without a manager account appear here.</p>
   {% endif %}
   {{ formieInclude('fields/dropdown') }}

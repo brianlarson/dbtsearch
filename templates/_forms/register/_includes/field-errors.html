@@ -1,7 +1,7 @@
 {% if errors %}
-  <ul class="mt-2 space-y-1 text-sm text-red-300" role="alert">
+  <div class="mt-2 space-y-1" role="alert">
     {% for error in errors %}
-      <li>{{ error | t('formie') }}</li>
+      <p class="text-sm text-red-300">{{ error | t('formie') }}</p>
     {% endfor %}
-  </ul>
+  </div>
 {% endif %}

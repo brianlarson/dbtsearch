@@ -50,7 +50,7 @@ class Module extends BaseModule
             ElementField::EVENT_MODIFY_ELEMENT_QUERY,
             function (ModifyElementFieldQueryEvent $event) use ($onboarding) {
                 $field = $event->field;
-                if (!$field || $field->handle !== 'providerListing') {
+                if (!$field || $field->handle !== ProviderOnboardingService::PROVIDER_FIELD_HANDLE) {
                     return;
                 }
 
@@ -85,6 +85,8 @@ class Module extends BaseModule
                 if (($event->submitAction ?? 'submit') !== 'submit') {
                     return;
                 }
+
+                $onboarding->normalizeProviderFieldValue($submission);
 
                 $errors = $onboarding->validateSignupSubmission($submission);
                 if ($errors !== []) {
@@ -124,8 +126,22 @@ class Module extends BaseModule
                 }
 
                 $provider = $onboarding->resolveProviderFromSubmission($submission);
-                $email = trim((string)$submission->getFieldValue('email'));
+                $user = $onboarding->loginUserFromSubmission($submission);
 
+                if ($user) {
+                    $notice = $provider
+                        ? sprintf('Welcome! You can now manage %s.', $provider->title)
+                        : 'Welcome! Your account is ready.';
+                    Craft::$app->getSession()->setFlash('notice', $notice);
+                    $form->settings->submitAction = 'redirect';
+                    $event->redirectUrl = UrlHelper::siteUrl('manage');
+                    return;
+                }
+
+                $form->settings->submitAction = 'redirect';
+
+                $email = trim((string)$submission->getFieldValue('email'));
+                Craft::warning('Provider signup succeeded but auto-login failed; redirecting to login.', __METHOD__);
                 $event->redirectUrl = UrlHelper::siteUrl('manage/login', array_filter([
                     'registered' => '1',
                     'email' => $email !== '' ? $email : null,

@@ -13,6 +13,8 @@ class ProviderOnboardingService extends Component
 {
     public const SIGNUP_FORM_HANDLE = 'providerSignup';
 
+    public const PROVIDER_FIELD_HANDLE = 'provider';
+
     /**
      * @return int[]
      */
@@ -23,11 +25,12 @@ class ProviderOnboardingService extends Component
         $providerField = Craft::$app->getFields()->getFieldByHandle('provider');
         if ($providerField) {
             $relationIds = (new Query())
-                ->select(['targetId'])
-                ->from(['{{%relations}}'])
+                ->select(['relations.targetId'])
+                ->from(['{{%relations}} relations'])
+                ->innerJoin(['{{%elements}} elements'], '[[elements.id]] = [[relations.sourceId]]')
                 ->where([
-                    'fieldId' => $providerField->id,
-                    'sourceClass' => User::class,
+                    'relations.fieldId' => $providerField->id,
+                    'elements.type' => User::class,
                 ])
                 ->column();
 
@@ -103,9 +106,9 @@ class ProviderOnboardingService extends Component
 
         $provider = $this->resolveProviderFromSubmission($submission);
         if (!$provider) {
-            $errors['providerListing'] = 'Please select your practice listing.';
+            $errors[self::PROVIDER_FIELD_HANDLE] = 'Please select your practice listing.';
         } elseif (!$this->isProviderClaimable($provider)) {
-            $errors['providerListing'] = 'That listing already has a manager account. Contact support if you need access.';
+            $errors[self::PROVIDER_FIELD_HANDLE] = 'That listing already has a manager account. Contact support if you need access.';
         }
 
         $password = $this->getRawPasswordFromRequest('password');
@@ -182,9 +185,34 @@ class ProviderOnboardingService extends Component
         return $user;
     }
 
+    public function loginUserFromSubmission(Submission $submission): ?User
+    {
+        $email = trim((string)$submission->getFieldValue('email'));
+        if ($email === '') {
+            return null;
+        }
+
+        $user = User::find()->email($email)->status(null)->one();
+        if (!$user instanceof User) {
+            return null;
+        }
+
+        $duration = Craft::$app->getConfig()->getGeneral()->userSessionDuration;
+        if (!Craft::$app->getUser()->loginByUserId((int)$user->id, $duration)) {
+            Craft::warning('Provider signup auto-login failed for ' . $email, __METHOD__);
+            return null;
+        }
+
+        return $user;
+    }
+
     public function resolveProviderFromSubmission(Submission $submission): ?Entry
     {
-        $providerId = $this->resolveProviderId($submission->getFieldValue('providerListing'));
+        $providerId = $this->resolveProviderId($submission->getFieldValue(self::PROVIDER_FIELD_HANDLE));
+        if (!$providerId) {
+            $providerId = $this->resolveProviderIdFromRequest();
+        }
+
         if (!$providerId) {
             return null;
         }
@@ -198,6 +226,25 @@ class ProviderOnboardingService extends Component
         return $provider instanceof Entry ? $provider : null;
     }
 
+    public function normalizeProviderFieldValue(Submission $submission): void
+    {
+        $fields = Craft::$app->getRequest()->getBodyParam('fields');
+        if (!is_array($fields) || !array_key_exists(self::PROVIDER_FIELD_HANDLE, $fields)) {
+            return;
+        }
+
+        $raw = $fields[self::PROVIDER_FIELD_HANDLE];
+        if (is_array($raw)) {
+            return;
+        }
+
+        if (!is_numeric($raw)) {
+            return;
+        }
+
+        $submission->setFieldValue(self::PROVIDER_FIELD_HANDLE, [(int)$raw]);
+    }
+
     private function resolveProviderId(mixed $value): ?int
     {
         if ($value instanceof Entry) {
@@ -205,9 +252,24 @@ class ProviderOnboardingService extends Component
         }
 
         if (is_object($value) && method_exists($value, 'one')) {
+            if (property_exists($value, 'id') && $value->id === false) {
+                return null;
+            }
+
             $one = $value->one();
             if ($one instanceof Entry) {
                 return (int)$one->id;
+            }
+
+            if (property_exists($value, 'id')) {
+                if (is_array($value->id)) {
+                    $first = reset($value->id);
+                    if (is_numeric($first)) {
+                        return (int)$first;
+                    }
+                } elseif (is_numeric($value->id)) {
+                    return (int)$value->id;
+                }
             }
         }
 
@@ -227,6 +289,16 @@ class ProviderOnboardingService extends Component
         }
 
         return null;
+    }
+
+    private function resolveProviderIdFromRequest(): ?int
+    {
+        $fields = Craft::$app->getRequest()->getBodyParam('fields');
+        if (!is_array($fields) || !array_key_exists(self::PROVIDER_FIELD_HANDLE, $fields)) {
+            return null;
+        }
+
+        return $this->resolveProviderId($fields[self::PROVIDER_FIELD_HANDLE]);
     }
 
     private function getRawPasswordFromRequest(string $handle): ?string

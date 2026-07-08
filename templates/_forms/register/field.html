@@ -10,7 +10,7 @@
 {% set value = value ?? _defaultVal %}
 {% set errors = element ? element.getErrors(field.handle) : [] %}
 
-<div class="formie-field-wrapper w-full min-w-0">
+<div class="formie-field-wrapper w-full min-w-0 mb-4">
   {% hook 'formie.field.field-start' %}
 
   {{ formieInclude('_includes/instructions', { position: 'above' }) }}
