@@ -61,12 +61,13 @@
 {% for location in locationEntries %}
   {% set provider = location.provider.one() %}
   {% if provider %}
-    {% set availabilityUpdatedAt = location.availabilityUpdatedAt ?? location.dateUpdated %}
+    {# Sort/display only by availabilityUpdatedAt — never fall back to dateUpdated,
+       which is bumped on any saveElement and was historically polluted by bulk location saves. #}
     {% set locations = locations|merge([{
       location: location,
       provider: provider,
       hasAvailability: location.getFieldValue('availability') ? true : false,
-      availabilityUpdatedAt: availabilityUpdatedAt,
+      availabilityUpdatedAt: location.availabilityUpdatedAt ?? null,
     }]) %}
   {% endif %}
 {% endfor %}
