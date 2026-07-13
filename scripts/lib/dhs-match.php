@@ -44,6 +44,7 @@ function normProvider(?string $name): string
 {
     $name = normStr($name);
     $name = preg_replace('/\([^)]*\)/', '', $name) ?? $name;
+    $name = preg_replace('/[&]/', ' ', $name) ?? $name;
     $name = preg_replace('/\b(inc|llc|pllc|pa|llp|dba)\b/', '', $name) ?? $name;
     $name = preg_replace('/\s+/', ' ', $name) ?? $name;
     return trim($name);
