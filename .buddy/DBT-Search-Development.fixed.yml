@@ -35,6 +35,7 @@
     - scripts/migrate/*.cfg
     - .env
     - .env.example*
+    - .env.*
     - vendor/
     - storage/
     - web/cpresources/
