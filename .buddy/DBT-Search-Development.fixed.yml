@@ -20,14 +20,21 @@
     - .ddev/
     - .cursor/
     - .vite/
+    - .buddy/
+    - .github/
+    - .vscode/
     - .mcp.json
     - .cursorrules
+    - .gitignore
+    - README.md
+    - docs/
+    - public/
+    - data/
+    - frontend/
+    - package.json
     - scripts/migrate/*.cfg
-    - frontend/node_modules/
-    - frontend/test-results/
-    - frontend/playwright-report/
-    - frontend/storybook-static/
     - .env
+    - .env.example*
     - vendor/
     - storage/
     - web/cpresources/
