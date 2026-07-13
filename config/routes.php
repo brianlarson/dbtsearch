@@ -10,7 +10,6 @@
  */
 
 return [
-    '' => ['template' => 'splash/index'],
     'directory' => ['template' => 'directory/index'],
     'providers' => ['template' => 'directory/index'],
     'about' => ['template' => 'about/index'],

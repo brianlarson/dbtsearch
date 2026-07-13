@@ -102,7 +102,7 @@ handle: splashPage
 hasTitleField: false
 icon: hand-wave
 name: 'Splash Page'
-showSlugField: false
+showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site

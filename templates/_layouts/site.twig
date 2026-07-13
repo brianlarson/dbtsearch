@@ -4,6 +4,7 @@
 {% set heroImageUrl = heroImageUrl ?? '/images/pexels-hero-1440.webp' %}
 {% set activeNav = activeNav ?? '' %}
 {% set stickySiteHeader = stickySiteHeader ?? true %}
+{% set marketingHome = marketingHome ?? false %}
 {% set pageTitle = pageTitle ?? (pageHeading ? pageHeading ~ ' | ' ~ (siteName ?? 'DBT Search') : (siteName ?? 'DBT Search')) %}
 
 <!DOCTYPE html>
@@ -18,6 +19,18 @@
 <body class="dark min-h-screen bg-slate-950 text-white font-sans antialiased" data-theme="dbtsearch">
   <header id="site-header" class="{{ stickySiteHeader ? 'sticky top-0 z-[1030]' : 'relative' }} border-b border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80">
     <div class="mx-auto flex max-w-6xl items-center gap-2 px-4 py-2 sm:px-6 lg:px-8">
+      <button
+        type="button"
+        id="mobile-nav-toggle"
+        class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-slate-700 text-slate-200 hover:bg-slate-800/80 md:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-nav-panel"
+        aria-label="Open menu"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
       <a href="{{ url('/') }}" class="inline-flex shrink-0 items-center py-1 md:py-2 xl:py-1">
         <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-auto max-w-[170px] md:hidden" width="170" height="40" />
         <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="hidden h-auto max-w-[280px] md:block" width="280" height="48" />
@@ -38,6 +51,29 @@
     </div>
   </header>
 
+  <div id="mobile-nav-backdrop" class="mobile-nav-backdrop" aria-hidden="true"></div>
+  <nav id="mobile-nav-panel" class="mobile-nav-panel" aria-label="Primary" aria-hidden="true" tabindex="-1">
+    <div class="flex items-center justify-end border-b border-slate-800 px-4 py-3">
+      <button
+        type="button"
+        id="mobile-nav-close"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-md text-slate-300 hover:bg-slate-800/80 hover:text-white"
+        aria-label="Close menu"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="flex flex-col gap-1 px-4 py-4">
+      <a href="{{ url('directory') }}" class="mobile-nav-link {{ activeNav == 'directory' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'directory' %}aria-current="page"{% endif %}>Providers</a>
+      <a href="{{ url('about') }}" class="mobile-nav-link {{ activeNav == 'about' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'about' %}aria-current="page"{% endif %}>About</a>
+      <a href="{{ url('faqs') }}" class="mobile-nav-link {{ activeNav == 'faqs' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'faqs' %}aria-current="page"{% endif %}>FAQs</a>
+      <a href="{{ url('contact') }}" class="mobile-nav-link {{ activeNav == 'contact' ? 'bg-slate-800/50 text-white' : 'text-slate-200 hover:bg-slate-800/50 hover:text-white' }}" {% if activeNav == 'contact' %}aria-current="page"{% endif %}>Contact</a>
+    </div>
+  </nav>
+
+  {% if not marketingHome %}
   <section class="relative min-h-[7rem] bg-slate-900 py-5 md:min-h-[9rem]">
     <div class="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8"></div>
     <div class="absolute inset-0 grid grid-cols-1 md:grid-cols-2">
@@ -63,6 +99,7 @@
       <hr class="mt-4 border-slate-700" />
     {% endif %}
   </section>
+  {% endif %}
 
   {% block content %}{% endblock %}
 

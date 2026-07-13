@@ -1,0 +1,48 @@
+{#
+  Marketing homepage — matches docs/reference-markup/home.html and
+  frontend/stories/referenceScreenKit.js renderReferenceHomeMarketingPage().
+#}
+{% extends '_layouts/site' %}
+
+{% set marketingHome = true %}
+{% set activeNav = '' %}
+{% set pageTitle = (siteName ?? 'DBT Search') ~ ' | Find Certified DBT Providers in Minnesota' %}
+{% set heroImageUrl = url('/images/pexels-hero-1440.webp') %}
+
+{% set defaultHeading = 'Find certified DBT provider availability in Minnesota' %}
+{% set defaultCopy = "DBTsearch is a website that allows clinicians and prospective clients to search for certified DBT providers in Minnesota and more specifically, locate providers that have current availability." %}
+{% set defaultCtaLabel = 'Find DBT Providers' %}
+
+{% set heading = defaultHeading %}
+{% set copy = defaultCopy %}
+{% set ctaLabel = defaultCtaLabel %}
+
+{% block content %}
+  <section class="relative overflow-hidden bg-slate-900 py-12 sm:py-14 md:py-16 lg:py-20 min-h-[24rem] sm:min-h-[26rem] md:min-h-[28rem] lg:min-h-[32rem]">
+    <div class="relative z-[2] mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 md:gap-8">
+        <div class="max-w-xl py-4 md:max-w-none md:py-8 lg:py-12">
+          <h1 class="text-3xl font-bold leading-tight tracking-tight text-brand sm:text-4xl lg:text-5xl">{{ heading }}</h1>
+          <div class="mt-4 text-lg leading-relaxed text-slate-300 sm:text-xl">
+            <p>{{ copy|raw }}</p>
+          </div>
+          <a href="{{ url('directory') }}" class="mt-6 inline-flex items-center rounded-lg bg-primary px-5 py-3 text-base font-semibold text-primary-foreground hover:opacity-90">
+            {{ ctaLabel }}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-2 h-5 w-5" aria-hidden="true">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+        <div class="hidden md:block" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="pointer-events-none absolute inset-0 grid grid-cols-1 md:grid-cols-2">
+      <div class="hidden md:block"></div>
+      <div class="relative min-h-[12rem] md:min-h-0">
+        <img src="{{ heroImageUrl }}" alt="" class="absolute inset-0 h-full w-full object-cover object-center" />
+      </div>
+    </div>
+    <div class="absolute inset-0 bg-black/50 md:hidden" aria-hidden="true"></div>
+  </section>
+{% endblock %}
