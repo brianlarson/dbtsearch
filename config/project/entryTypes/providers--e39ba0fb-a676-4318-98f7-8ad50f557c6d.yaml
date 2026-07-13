@@ -126,44 +126,6 @@ fieldLayouts:
             uid: cc00d2ca-14d5-4224-b743-52d1845acfea
             userCondition: null
           -
-            dateAdded: '2026-04-24T12:00:00+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: f77e21c5-ded4-4082-86c6-5df3b28a7316 # DBT-A Certified
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 94c77279-5331-47e2-83db-51bf7f59d6d9
-            userCondition: null
-            warning: null
-            width: 50
-          -
-            dateAdded: '2026-04-24T19:40:20+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: 0e258167-c7d6-40a4-8865-93e694a27c14 # DBT Adherent Team
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: c1b5dd79-7b87-4ae1-a247-99164faf2fc0
-            userCondition: null
-            warning: null
-            width: 50
-          -
-            dateAdded: '2026-04-24T19:26:58+00:00'
-            elementCondition: null
-            type: craft\fieldlayoutelements\HorizontalRule
-            uid: d5e53c7a-54e5-4eb9-87b3-850b5f926ddd
-            userCondition: null
-          -
             dateAdded: '2026-04-24T19:40:20+00:00'
             editCondition: null
             elementCondition: null

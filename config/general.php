@@ -15,11 +15,11 @@ use craft\helpers\App;
 
 
 $isLocalDev = in_array(App::env('CRAFT_ENVIRONMENT'), ['dev', 'local'], true);
-$skipLocalMysqlSsl = static fn(ShellCommand $command) => $command->addArg('--skip-ssl');
+$skipLocalMysqlSsl = static fn(ShellCommand $command) => $command->addArg('--ssl-mode=DISABLED');
 
 return GeneralConfig::create()
-    // Set the dev mode based on the environment
-    ->devMode(App::env('ENVIRONMENT') === 'local' ? true : false)
+    // CRAFT_DEV_MODE, CRAFT_ALLOW_ADMIN_CHANGES, CRAFT_DISALLOW_ROBOTS, and
+    // CRAFT_SECURITY_KEY are applied automatically from the environment.
     // Set the default week start day for date pickers (0 = Sunday, 1 = Monday, etc.)
     ->defaultWeekStartDay(1)
     // Prevent generated URLs from including "index.php"

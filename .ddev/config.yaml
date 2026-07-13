@@ -7,26 +7,18 @@ xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
 database:
-    # Legacy Node app data may use Postgres. Craft CMS 5.10+ uses MySQL 8 — see mysql8 sidecar
-    # (.ddev/docker-compose.mysql.yaml) and CRAFT_DB_* in web_environment below.
-    # To consolidate on a single MySQL 8 primary DB, see docs/MIGRATION-MYSQL-ONLY.md.
-    type: postgres
-    version: "14"
+    type: mysql
+    version: "8.0"
 hooks:
   post-start:
-    - exec-host: cp .ddev/craft-mysql.env.web .ddev/.env.web
+    - exec: mysql -hdb -uroot -proot -e "CREATE DATABASE IF NOT EXISTS craft; GRANT ALL ON craft.* TO 'db'@'%'; FLUSH PRIVILEGES;"
 use_dns_when_possible: true
 composer_root: .
 composer_version: "2"
 disable_settings_management: true
-web_environment:
-    - CRAFT_DB_DRIVER=mysql
-    - CRAFT_DB_SERVER=mysql8
-    - CRAFT_DB_PORT=3306
-    - CRAFT_DB_DATABASE=craft
-    - CRAFT_DB_USER=craft
-    - CRAFT_DB_PASSWORD=craft
 corepack_enable: false
+upload_dirs:
+ - uploads
 
 # Key features of DDEV's config.yaml:
 

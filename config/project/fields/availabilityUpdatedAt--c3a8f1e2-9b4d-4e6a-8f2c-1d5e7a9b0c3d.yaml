@@ -1,0 +1,15 @@
+columnSuffix: null
+handle: availabilityUpdatedAt
+instructions: 'Set automatically when availability changes.'
+name: 'Availability Updated At'
+searchable: false
+settings:
+  max: null
+  min: null
+  minuteIncrement: 30
+  showDate: true
+  showTime: true
+  showTimeZone: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Date

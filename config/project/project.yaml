@@ -1,9 +1,9 @@
-dateModified: 1781535301
+dateModified: 1783963976
 email:
   fromEmail: system@dbtsearch.org
   fromName: 'DBT Search'
-  replyToEmail: no-reply@dbtsearch.org
-  template: null
+  replyToEmail: noreply@dbtsearch.org
+  template: ''
   transportSettings:
     apiKey: $RESEND_API_KEY
   transportType: superbig\resend\Adapter
@@ -29,6 +29,7 @@ meta:
     9b2d4e9a-6c8f-4d7b-a123-5e6f708192ab: 'Source Provider ID' # Source Provider ID
     013af865-2f84-430b-be6b-dedc48ddc923: Provider # Provider
     68f6aaed-7edc-4e91-9996-3a86c16baf2f: 'Basic Editor' # Basic Editor
+    72b30c1b-c0c2-4a07-9307-7d02be16ec34: Register # Register
     98fab9df-c419-4085-9a57-5c61f96573c2: Form # Form
     0135fc29-0cdc-4de0-8ba2-e9c7abd5b8aa: 'Use dark background for logo' # Use dark background for logo
     288c542e-3541-4e24-96ee-aa5fa0bea135: General # General
@@ -39,10 +40,12 @@ meta:
     b4c00cdb-3a29-44e5-814b-9a920f515289: Provider # Provider
     bcf50025-2188-4126-a360-29999caeae89: 'Splash Page' # Splash Page
     bea9cc9c-6390-413d-ba6e-35e2d30805ca: Availability # Availability
+    c3a8f1e2-9b4d-4e6a-8f2c-1d5e7a9b0c3d: 'Availability Updated At' # Availability Updated At
     c7598e88-bdae-462f-8790-410a3fccdcc6: URL # URL
     cc0c373f-6532-483b-831f-3c8878b9bb8e: 'DBT Search' # DBT Search
     d5ae5dfe-b4f7-487a-8ba4-6fbd94e54839: Logo # Logo
     d7cbe0ad-28b6-4a03-ace9-d634d2072400: 'Contact Form' # Contact Form
+    dbd6cbf0-a1c8-4539-8975-eed16f2d7e39: Homepage # Homepage
     dc344b98-ee18-453c-80b8-d9fbe035d2ca: Credentials # Credentials
     ddb25fd5-a759-494a-9d4d-96a6e44c941e: 'Plain Text' # Plain Text
     ddb17090-e3f7-41d7-aab7-b1729da37d11: Subscriber # Subscriber
@@ -52,12 +55,13 @@ meta:
     ea4a7d29-5dee-4e91-b48b-181666006b36: Locations # Locations
     eb8a7a70-63cb-4cc1-bae4-e3516a6766ee: Splash # Splash
     f77e21c5-ded4-4082-86c6-5df3b28a7316: 'DBT-A Certified' # DBT-A Certified
+    fb5a845e-8008-4ed9-b090-6ff630b99a27: Homepage # Homepage
     fe417a71-4d1b-460f-8a63-7ac81c0e5092: Images # Images
 plugins:
   ckeditor:
     edition: standard
     enabled: true
-    schemaVersion: 5.0.0.1
+    schemaVersion: 5.6.0.0
   cp-nav:
     edition: standard
     enabled: true
@@ -77,7 +81,7 @@ plugins:
   formie:
     edition: standard
     enabled: true
-    licenseKey: QUKB6ZEKL37AO89B4TEAAZKZ
+    licenseKey: CT5W28LI25L1KXDEXTOKBM6Q
     schemaVersion: 3.4.12
     settings:
       ajaxTimeout: 10
@@ -138,9 +142,9 @@ plugins:
     enabled: true
     schemaVersion: 1.0.1
 system:
-  edition: team
+  edition: pro
   live: true
   name: 'DBT Search'
   retryDuration: null
-  schemaVersion: 5.9.0.8
+  schemaVersion: 5.10.0.0
   timeZone: America/Chicago

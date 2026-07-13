@@ -14,7 +14,7 @@ Use `docs/LEGACY-DIRECTORY-PARITY-CHECKLIST.md` as the source-of-truth parity gu
 - **Badges**
   - Availability
   - No Availability
-  - DBT-A Certified
+  - DBT-A
 - **Form controls**
   - Search input
   - Text/email input
@@ -37,7 +37,7 @@ Use `docs/LEGACY-DIRECTORY-PARITY-CHECKLIST.md` as the source-of-truth parity gu
   - Logo/fallback mark
   - Availability/certification badges
   - Name/address/phone
-  - Website/email actions
+  - Website/email actions (phone/email hidden when location has no availability; website always shown when present)
   - Last updated
 - **Legacy header chrome**
   - Logo
@@ -85,9 +85,4 @@ Use `docs/LEGACY-DIRECTORY-PARITY-CHECKLIST.md` as the source-of-truth parity gu
 - `docs/reference-markup/admin-edit.html` (captured integrated markup reference)
 
 All stories are currently in `frontend/stories/` and use shared render helpers in `frontend/stories/directoryKit.js`.
-The helper file is intentionally aligned to class names and structure in:
-
-- `app/src/components/directory/DirectoryFilters.vue`
-- `app/src/components/directory/ProviderCard.vue`
-- `app/src/components/directory/ProviderList.vue`
-- `app/src/views/DirectoryPageView.vue`
+The helper file is intentionally aligned to class names and structure used by Craft directory templates and the archived Vue SPA on `archive/develop-vue-spa` (`DirectoryFilters`, `ProviderCard`, `ProviderList`, directory page layout).

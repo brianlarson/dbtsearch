@@ -1,36 +1,43 @@
-# Stack-rewrite: first-run setup
+# Craft CMS: first-run setup
 
-Get Craft CMS and MySQL 8 running in DDEV on the `stack-rewrite` branch.
+Get Craft CMS and MySQL 8 running in DDEV.
 
-## Folder structure (current)
+## Folder structure
 
-- **Repo root** = where `.ddev/` lives and where Craft now lives.
+- **Repo root** = where `.ddev/` lives and where Craft lives.
 - Craft’s public docroot is **`web/`**.
 - DDEV is configured with `docroot: web` and `composer_root: .`.
 
 ## Prerequisites
 
-- You’re on the `stack-rewrite` branch.
 - DDEV and Docker are installed.
 - **Run all commands below from your repo root** (the same directory where you run `ddev start`).
 
-## Start in 3 steps
+## Start in a few steps
 
-### 1. Start DDEV
+### 1. Local `.env`
+
+```bash
+cp .env.example.dev .env
+```
+
+Set `CRAFT_SECURITY_KEY` (e.g. `php -r "echo base64_encode(random_bytes(32)), PHP_EOL;"`). `.env.example.dev` includes DDEV-ready `CRAFT_DB_*` values (`CRAFT_DB_SERVER=db`, user/password `db`, database `craft`) and `CRAFT_WEB_ROOT=/var/www/html/web`.
+
+### 2. Start DDEV
 
 ```bash
 ddev start
 ```
 
-You get Postgres (legacy) and MySQL 8 (Craft sidecar). Craft uses MySQL: host `mysql8`, port `3306`, database `craft`, user `craft`, password `craft`.
+DDEV runs MySQL 8 as the primary database. Craft connects to host `db`, port `3306`, database `craft`, user `db`, password `db`.
 
-### 2. Install dependencies
+### 3. Install dependencies
 
 ```bash
 ddev composer install
 ```
 
-### 3. Apply project config / install Craft
+### 4. Apply project config / install Craft
 
 If first install:
 
@@ -45,7 +52,7 @@ ddev craft project-config/apply --force
 ddev craft migrate/all
 ```
 
-### 4. Open the site
+### 5. Open the site
 
 - **Front:** `https://dbtsearch.ddev.site`  
 - **Admin:** `https://dbtsearch.ddev.site/admin`
@@ -54,40 +61,24 @@ ddev craft migrate/all
 
 - `ddev composer` runs at repo root.
 - `ddev craft` runs Craft CLI from repo root.
+- `ddev import-db` and `ddev export-db` target the primary MySQL database.
+- `ddev craft-db-import` / `ddev craft-db-export` import/export the `craft` database specifically.
 
 ## Troubleshooting
 
-**`ddev import-db` imports into Postgres, not Craft**  
-Production Craft backups are MySQL 8 dumps. Never use `ddev import-db` for Craft while Postgres is primary — it fails on backtick syntax (`DROP TABLE IF EXISTS \`addresses\`;`). Import into the **mysql8** sidecar instead:
+**Import a production Craft backup**
 
 ```bash
 ddev craft-db-import storage/backups/latest.sql.gz
-# or manually:
-ddev exec -s mysql8 sh -c 'gunzip -c /var/www/html/storage/backups/latest.sql.gz | mysql -u craft -pcraft craft'
 ddev craft up
 ```
 
-Use `pnpm mm -- pull` for automated pulls — it targets mysql8/craft automatically. To move to a single primary MySQL 8 database, see [MIGRATION-MYSQL-ONLY.md](MIGRATION-MYSQL-ONLY.md).
+Or use `pnpm mm -- pull` for automated pulls.
 
-**Craft used Postgres and failed with “relation already exists” (e.g. `users`)**  
-Craft was using DDEV’s primary DB (Postgres) instead of MySQL. Ensure `.ddev/craft-mysql.env.web` has `CRAFT_DB_SERVER=mysql8`, `CRAFT_DB_DATABASE=craft`, `CRAFT_DB_USER=craft`, `CRAFT_DB_PASSWORD=craft`. Then remove the Craft tables that were created in Postgres and run the installer again:
+**Migrating from the old dual-database setup (Postgres + mysql8 sidecar)**
 
-```bash
-cat .ddev/commands/web/drop-craft-tables-from-postgres.sql | ddev exec -s db psql -U db -d db
-ddev craft install
-```
+If your local DDEV volume still has Postgres from the previous config, see [MIGRATION-MYSQL-ONLY.md](MIGRATION-MYSQL-ONLY.md) for one-time migration steps. New clones can skip that doc — the config already uses MySQL-only.
 
-## Frontend app (Nuxt)
+## Frontend (Storybook + Craft templates)
 
-The Nuxt app lives in **`app/`**. Run it with `cd app && npm run dev` (see `app/README.md`). The splash page is at `/`. Use **`frontend/`** for Storybook (markup-only stories); the Nuxt app implements the same UI as Vue components.
-
-## Switching back to the legacy app
-
-```bash
-git checkout main
-ddev start
-npm run server
-npm run client
-```
-
-Legacy uses Postgres only; the Node app runs on your host.
+UI is served by **Craft Twig templates** (`templates/`). Use **`frontend/`** for Storybook (design iteration) and Vite builds that emit CSS/JS into `web/` (e.g. `npm run build:directory` from `frontend/`). The archived Vue SPA lives on branch `archive/develop-vue-spa`. The legacy React/Express app lives on `main` / `legacy`.

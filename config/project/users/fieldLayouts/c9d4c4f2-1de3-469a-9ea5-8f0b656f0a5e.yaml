@@ -1,0 +1,127 @@
+cardThumbAlignment: start
+cardView:
+  - email
+  - 'layoutElement:1eef5a94-7aa0-4b05-9b24-1b1c3e02afbd'
+tabs:
+  -
+    elementCondition: null
+    elements:
+      -
+        autocapitalize: true
+        autocomplete: false
+        autocorrect: true
+        class: null
+        dateAdded: '2026-07-06T22:48:50+00:00'
+        disabled: false
+        elementCondition: null
+        id: null
+        inputType: null
+        instructions: null
+        label: null
+        max: null
+        min: null
+        name: null
+        orientation: null
+        placeholder: null
+        readonly: false
+        requirable: false
+        size: null
+        step: null
+        tip: null
+        title: null
+        type: craft\fieldlayoutelements\users\UsernameField
+        uid: 5df1d8f6-5613-40a1-97a7-a52dfccfd0de
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        attribute: fullName
+        autocapitalize: true
+        autocomplete: false
+        autocorrect: true
+        class: null
+        dateAdded: '2026-07-06T22:48:50+00:00'
+        disabled: false
+        elementCondition: null
+        id: null
+        inputType: null
+        instructions: null
+        label: null
+        max: null
+        min: null
+        name: null
+        orientation: null
+        placeholder: null
+        readonly: false
+        requirable: true
+        required: false
+        size: null
+        step: null
+        tip: null
+        title: null
+        type: craft\fieldlayoutelements\users\FullNameField
+        uid: 78f91408-f72e-4a7e-b0b0-7f88c0e6cda0
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-07-06T22:48:50+00:00'
+        elementCondition: null
+        id: null
+        instructions: null
+        label: null
+        orientation: null
+        requirable: false
+        tip: null
+        type: craft\fieldlayoutelements\users\PhotoField
+        uid: be533f77-ac17-4a97-aa2e-d9118afc57f4
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        autocapitalize: true
+        autocomplete: false
+        autocorrect: true
+        class: null
+        dateAdded: '2026-07-06T22:48:50+00:00'
+        disabled: false
+        elementCondition: null
+        id: null
+        inputType: null
+        instructions: null
+        label: null
+        max: null
+        min: null
+        name: null
+        orientation: null
+        placeholder: null
+        readonly: false
+        requirable: false
+        size: null
+        step: null
+        tip: null
+        title: null
+        type: craft\fieldlayoutelements\users\EmailField
+        uid: c84ec10d-e424-41f3-9999-716d6634b764
+        userCondition: null
+        width: 100
+      -
+        dateAdded: '2026-07-06T22:50:44+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: 013af865-2f84-430b-be6b-dedc48ddc923 # Provider
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 1eef5a94-7aa0-4b05-9b24-1b1c3e02afbd
+        userCondition: null
+        warning: null
+        width: 100
+    name: Content
+    uid: 3d8a8772-3bea-4b84-a3b6-1d0b46de45a3
+    userCondition: null
+thumbFieldKey: 'layoutElement:1eef5a94-7aa0-4b05-9b24-1b1c3e02afbd'

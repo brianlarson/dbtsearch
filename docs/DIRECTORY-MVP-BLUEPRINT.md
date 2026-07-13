@@ -23,7 +23,7 @@ This is the implementation blueprint for the **directory MVP** while the splash 
 
 -----------------------------------------------------------
 | ProviderCard                                             |
-| [logo/fallback] [Availability] [DBT-A Certified]         |
+| [logo/fallback] [Availability] [DBT-A]         |
 |                Name                                       |
 |                Address, City ST ZIP                       |
 |                Phone                                      |
@@ -140,14 +140,7 @@ type Provider = {
 
 ## ENV contract for frontend
 
-Add to `app/.env` when wiring Craft:
-
-```bash
-VITE_CRAFT_GRAPHQL_ENDPOINT=https://<craft-site>/api
-VITE_CRAFT_GQL_TOKEN=<public-schema-token-if-required>
-```
-
-For local MVP development before Craft provider fields are complete, the composable can fallback to `public/data/dbt-providers.json`.
+Craft serves directory pages via Twig; no separate SPA env is required on `develop`. For the archived Vue SPA pattern, see branch `archive/develop-vue-spa`.
 
 ## Definition of done (MVP layout pass)
 
@@ -155,5 +148,6 @@ For local MVP development before Craft provider fields are complete, the composa
 - Availability toggle defaults to ON and updates list.
 - Search by name updates list.
 - Optional fields (website/email/logo) gracefully hide when missing.
+- Phone and email CTAs hide when the location has no availability; website link stays visible.
 - Loading, empty, and error states are visible and testable.
 - Splash route (`/`) remains unchanged.

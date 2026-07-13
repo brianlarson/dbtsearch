@@ -5,6 +5,7 @@ entryTypes:
     uid: 6eeebc0f-a50d-461b-8ee6-4d89eadf3632 # Location
 handle: locations
 maxAuthors: null
+minAuthors: 1
 name: Locations
 propagationMethod: all
 siteSettings:

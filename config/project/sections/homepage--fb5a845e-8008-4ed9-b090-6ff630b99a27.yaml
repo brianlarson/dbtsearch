@@ -1,0 +1,22 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: dbd6cbf0-a1c8-4539-8975-eed16f2d7e39 # Homepage
+handle: homepage
+maxAuthors: 1
+minAuthors: 1
+name: Homepage
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  0e198a9f-3b1b-487f-80ee-3c2aeed6d349: # DBT Search
+    enabledByDefault: true
+    hasUrls: true
+    template: homepage/index.twig
+    uriFormat: __home__
+type: single

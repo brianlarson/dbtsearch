@@ -1,5 +1,5 @@
 /**
- * Static HTML aligned with Vue `app/src/components/directory/LegacyContentLayout.vue`
+ * Static HTML aligned with legacy Vue `LegacyContentLayout` (see archive/develop-vue-spa)
  * + `LegacyHeader`, `LegacyPageHeader`, `LegacyFooter` (Tailwind classes).
  * Nav uses `href="#"` — Storybook preview only.
  */

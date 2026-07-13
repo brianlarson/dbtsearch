@@ -1,0 +1,4 @@
+{% set instructionsPosition = instructionsPosition ?? craft.formie.getInstructionsPosition(field, form) %}
+{% if field.instructions and instructionsPosition.shouldDisplay(position) %}
+  <p class="mb-2 text-xs text-slate-400">{{ field.instructions | t('formie') | raw }}</p>
+{% endif %}

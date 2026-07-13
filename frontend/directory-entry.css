@@ -21,6 +21,30 @@
     @apply opacity-100 visible pointer-events-auto;
   }
 
+  .mobile-nav-backdrop {
+    @apply fixed inset-0 z-[1040] bg-black/60 opacity-0 invisible pointer-events-none transition-opacity duration-300 ease-out;
+  }
+
+  .mobile-nav-backdrop.is-open {
+    @apply opacity-100 visible pointer-events-auto;
+  }
+
+  .mobile-nav-panel {
+    @apply fixed inset-y-0 left-0 z-[1041] flex w-[min(280px,85vw)] -translate-x-full flex-col border-r border-slate-800 bg-slate-950 shadow-xl transition-transform duration-300 ease-out;
+  }
+
+  .mobile-nav-panel.is-open {
+    @apply translate-x-0;
+  }
+
+  .mobile-nav-link {
+    @apply block rounded-md px-3 py-3 text-base font-medium;
+  }
+
+  body.mobile-nav-open {
+    @apply overflow-hidden;
+  }
+
   /*
    * Directory filter bar — flat header treatment, full-bleed from constrained main.
    * Same top as site header so sticky stacking pushes the header up; higher z-index
@@ -54,5 +78,10 @@
   textarea.portal-field,
   select.portal-field {
     @apply text-[15px];
+  }
+
+  /* Formie register form — fallback for fields without a custom partial */
+  .formie-field-wrapper .fui-input {
+    @apply block w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
   }
 }

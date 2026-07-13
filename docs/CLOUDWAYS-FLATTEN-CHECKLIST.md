@@ -33,21 +33,17 @@ See [STAGING-dev.dbtsearch.org.md](STAGING-dev.dbtsearch.org.md) for dev.dbtsear
 From app root:
 
 ```bash
-./scripts/cloudways-post-deploy.sh
-```
-
-If your team standard is `craft up`:
-
-```bash
-./scripts/cloudways-post-deploy.sh --with-up
-```
-
-Manual fallback:
-
-```bash
 composer install --no-dev --optimize-autoloader
 php craft project-config/apply --force --interactive=0
 php craft migrate/all --interactive=0
+php craft clear-caches/all --interactive=0
+```
+
+Or, if your team standard is `craft up`:
+
+```bash
+composer install --no-dev --optimize-autoloader
+php craft up --interactive=0
 php craft clear-caches/all --interactive=0
 ```
 

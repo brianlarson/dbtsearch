@@ -1,0 +1,49 @@
+{% set originalField = field %}
+{% do originalField.populateValue(value, submission) %}
+
+{# Provider signup: always list unclaimed provider entries that own locations. #}
+{% if originalField.handle == 'provider' and originalField.displayType == 'dropdown' %}
+  {% set onboarding = craft.app.getModule('portal').get('providerOnboarding') %}
+  {% set claimableProviders = onboarding.getUnclaimedProviders() %}
+  {% set selectedId = null %}
+  {% if value is defined and value %}
+    {# Prefill renderOptions pass an EntryQuery; submitted/display values vary. #}
+    {% if attribute(value, 'elementType', [], 'any', true) %}
+      {% set selectedEntry = value.one() %}
+      {% set selectedId = selectedEntry ? selectedEntry.id : null %}
+    {% elseif value is numeric %}
+      {% set selectedId = value %}
+    {% elseif attribute(value, 'value', [], 'any', true) %}
+      {% set selectedId = attribute(value, 'value') ?: null %}
+    {% endif %}
+  {% endif %}
+
+  <p class="mb-2 text-xs text-slate-400">Only provider practices without a manager account appear here.</p>
+  <select
+    id="{{ originalField.getHtmlId(originalField.form) }}"
+    name="{{ originalField.getHtmlName() }}"
+    {{ originalField.required ? 'required' : '' }}
+    class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+    {{ attr(originalField.getInputAttributes()) }}
+  >
+    <option value="">{{ originalField.placeholder ?: 'Select your organization'|t('formie') }}</option>
+    {% for provider in claimableProviders %}
+      <option value="{{ provider.id }}" {% if selectedId and (selectedId ~ '') == (provider.id ~ '') %}selected{% endif %}>{{ provider.title }}</option>
+    {% endfor %}
+  </select>
+{% else %}
+  {% set field = originalField.getDisplayTypeField() %}
+  {% set value = originalField.getDisplayTypeValue(value) %}
+
+  {% if originalField.displayType == 'dropdown' %}
+    {{ formieInclude('fields/dropdown') }}
+  {% endif %}
+
+  {% if originalField.displayType == 'checkboxes' %}
+    {{ formieInclude('fields/checkboxes') }}
+  {% endif %}
+
+  {% if originalField.displayType == 'radio' %}
+    {{ formieInclude('fields/radio') }}
+  {% endif %}
+{% endif %}

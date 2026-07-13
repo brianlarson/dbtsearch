@@ -9,6 +9,7 @@ import {
   directoryIconMail,
 } from './directoryIcons.js';
 
+/** Each card represents a directory location; `updatedAt` is the location entry's dateUpdated. */
 export const sampleProviders = [
   {
     id: '1',
@@ -231,7 +232,7 @@ function renderProviderListItem(provider) {
     ? '<div class="mr-4"><span class="badge fs-sm text-success border border-success">Availability</span></div>'
     : '<div class="mr-4"><span class="badge fs-sm text-secondary border border-secondary">No Availability</span></div>';
   const dbtaBadge = provider.dbtaCertified
-    ? '<div class="mr-4"><span class="badge fs-sm text-info border border-info">DBT-A Certified</span></div>'
+    ? '<div class="mr-4"><span class="rounded border border-violet-400/70 px-2 py-0.5 text-xs font-medium text-violet-300">DBT-A</span></div>'
     : '';
 
   const logoCol = provider.image
@@ -246,6 +247,8 @@ function renderProviderListItem(provider) {
         </div>
       </div>`;
 
+  const showContactCtas = Boolean(provider.availability);
+
   const websiteBtn = provider.website
     ? `<a href="${escapeHtml(provider.website)}" class="btn btn-outline-secondary d-inline-flex align-items-center" target="_blank" rel="noopener" title="Visit ${escapeHtml(provider.website)}">
         ${directoryIconGlobe()}Website
@@ -253,14 +256,14 @@ function renderProviderListItem(provider) {
     : '';
 
   const mailQuery = 'subject=Inquiry%20from%20DBTsearch.org';
-  const emailBtn = provider.email
+  const emailBtn = showContactCtas && provider.email
     ? `<a href="mailto:${encodeURIComponent(provider.email)}?${mailQuery}" class="btn btn-outline-secondary d-inline-flex align-items-center">
         ${directoryIconMail()}Email
       </a>`
     : '';
 
   const phoneDigits = String(provider.phone || '').replace(/\D/g, '');
-  const phoneLink = provider.phone
+  const phoneLink = showContactCtas && provider.phone
     ? `<a href="tel:${phoneDigits}" class="text-primary fs-base text-light border-bottom-0">${escapeHtml(provider.phone)}</a>`
     : '';
 
@@ -326,6 +329,9 @@ export function renderButton({ label = 'Button', variant = 'primary' }) {
 }
 
 export function renderBadge({ label, tone = 'neutral' }) {
+  if (tone === 'violet') {
+    return `<span class="rounded border border-violet-400/70 px-2 py-0.5 text-xs font-medium text-violet-300">${escapeHtml(label)}</span>`;
+  }
   const cls =
     tone === 'success'
       ? 'text-success border-success'

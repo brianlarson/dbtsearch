@@ -1,0 +1,11 @@
+{% set position = position ?? 'above' %}
+{% if position == 'above' %}
+  {% set isRequired = field.required ?? required ?? false %}
+  <label for="{{ field.getHtmlId(field.form) }}" class="mb-2 block text-sm font-medium text-slate-200">
+    {%- set label = field.handle == 'fullName' ? 'Name or Organization' : field.label -%}
+    {{- label | t('formie') | raw -}}
+    {%- if isRequired -%}
+      <span class="text-primary" aria-hidden="true"> *</span>
+    {%- endif -%}
+  </label>
+{% endif %}

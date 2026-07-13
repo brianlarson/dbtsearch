@@ -5,25 +5,24 @@ Short reference for anyone (human or AI) working in this repo.
 ## Project
 
 - **Name:** DBT Search (with space). Searchable directory of certified DBT providers in Minnesota; surfaces availability first.
-- **Repo:** Legacy app (React, Vite, Express, Passport, Postgres) on `main` and `legacy`; restack (Vue, Nuxt, Tailwind, Craft CMS, MySQL 8) on `stack-rewrite`.
+- **Stack:** Craft CMS 5 at repo root (docroot `web/`), Twig templates, MySQL 8, frontend assets in `frontend/` built into `web/css/`.
 
 ## Branches
 
-- **`main`** — Legacy stack (default branch). Run: `ddev start`, `npm run server`, `npm run client`. See [GETTING-STARTED.md](GETTING-STARTED.md).
-- **`legacy`** — Snapshot of legacy app (same as `main`). Use `git checkout legacy` to run the old stack; stays unchanged when you later promote the new stack to `main`.
-- **`stack-rewrite`** — New stack. Craft now lives at repo root (docroot `web`). See [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md).
+- **`develop`** (and feature branches) — Active Craft stack. Run: `ddev start`, open `https://dbtsearch.ddev.site`. See [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md).
+- **`main` / `legacy`** — Legacy React + Express + Postgres. Use `git checkout legacy` only if you need the old stack.
+- **`archive/develop-vue-spa`** — Archived Vue SPA (reference only).
 
 ## Key docs
 
 | Doc | Purpose |
 |-----|---------|
-| [README.md](../README.md) | Project summary, specs, how to run legacy app. |
-| [ROADMAP.md](ROADMAP.md) | Current status, chosen stack, next milestones. |
-| [GETTING-STARTED.md](GETTING-STARTED.md) | Legacy app: DDEV/Postgres, env, smoke test. |
+| [README.md](../README.md) | Project summary and how to run Craft locally. |
+| [ROADMAP.md](ROADMAP.md) | Current status and milestones. |
 | [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) | Craft + MySQL 8 in DDEV; root-level Craft setup. |
 | [HOSTING.md](HOSTING.md) | Hosting plan: Cloudways, lightweight Craft. |
 | [deploy-cloudways.md](deploy-cloudways.md) | Cloudways staging/production deployment workflow. |
-| [CAPTURE-MARKUP.md](CAPTURE-MARKUP.md) | How to capture legacy HTML to `docs/reference-markup/`. |
+| [STAGING-dev.dbtsearch.org.md](STAGING-dev.dbtsearch.org.md) | Staging app runbook. |
 
 ## Tracking
 
@@ -31,8 +30,10 @@ Short reference for anyone (human or AI) working in this repo.
 
 ## Conventions
 
-- **Node:** Use Node 20.19+ for legacy app (see `.nvmrc`); run `nvm use` before `npm install` / `npm run client`.
+- **Craft lives at repo root** — no `cms/` or `app/` prefix. Docroot is `web/`.
+- **Env:** Use Craft-standard `CRAFT_*` vars. Templates: `.env.example.dev`, `.env.example.staging`, `.env.example.production`. Local `.env` is gitignored.
 - **Naming:** Prefer “DBT Search” (with space) in prose; code/URLs may still use “dbtsearch” where that’s the identifier.
-- **Cloudways deploy helper:** Use `./scripts/cloudways-post-deploy.sh` for post-deploy Craft tasks.
+- **Migration:** `pnpm mm` (or `npm run mm`) for mighty-migration tooling under `scripts/migrate/`.
+- **Post-deploy on Cloudways:** from app root run `composer install --no-dev --optimize-autoloader`, then `php craft project-config/apply --force --interactive=0`, `php craft migrate/all --interactive=0`, and `php craft clear-caches/all --interactive=0` (or `php craft up --interactive=0`).
 
 This project is AI-assisted; docs and code can have mistakes. Review and test changes.

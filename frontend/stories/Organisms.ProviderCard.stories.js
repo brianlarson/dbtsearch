@@ -7,7 +7,7 @@ export default {
     docs: {
       description: {
         component:
-          'Single provider row — Bootstrap `card` + grid per `docs/reference-markup/providers.html` and `ProviderListItem.jsx`.',
+          'Single provider row — Bootstrap `card` + grid per `docs/reference-markup/providers.html` and `ProviderListItem.jsx`. Phone and email CTAs hide when `availability` is false; website link remains.',
       },
     },
   },

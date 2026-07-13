@@ -61,15 +61,18 @@
 {% for location in locationEntries %}
   {% set provider = location.provider.one() %}
   {% if provider %}
+    {# Sort/display only by availabilityUpdatedAt — never fall back to dateUpdated,
+       which is bumped on any saveElement and was historically polluted by bulk location saves. #}
     {% set locations = locations|merge([{
       location: location,
       provider: provider,
-      hasAvailability: location.availability ?? false
+      hasAvailability: location.getFieldValue('availability') ? true : false,
+      availabilityUpdatedAt: location.availabilityUpdatedAt ?? null,
     }]) %}
   {% endif %}
 {% endfor %}
 
-{% set locations = locations|sort((a, b) => (b.provider.dateUpdated ? b.provider.dateUpdated.timestamp : 0) <=> (a.provider.dateUpdated ? a.provider.dateUpdated.timestamp : 0)) %}
+{% set locations = locations|sort((a, b) => (b.availabilityUpdatedAt ? b.availabilityUpdatedAt.timestamp : 0) <=> (a.availabilityUpdatedAt ? a.availabilityUpdatedAt.timestamp : 0)) %}
 {% if sprig.isRequest %}
   {% do sprig.pushUrl(url('directory', {
     q: searchTerm ?: null,
@@ -159,7 +162,7 @@
             {% set provider = item.provider %}
             {% set logo = provider.logo.one() ?? null %}
             {% set logoWellBg = logo ? (provider.useDarkBackgroundForLogo ? 'bg-logo-well-dark' : 'bg-white') : 'bg-slate-800/60' %}
-            {% set providerPhone = (attribute(provider, 'phone') ?? '') %}
+            {% set providerPhone = (attribute(provider, 'phone') ?? '')|trim %}
             {% set providerPhoneDigits = providerPhone|replace({' ': '', '-': '', '(': '', ')': '', '.': '', '+': ''}) %}
             {% if providerPhoneDigits|length == 11 and providerPhoneDigits|slice(0, 1) == '1' %}
               {% set providerPhoneDigits = providerPhoneDigits|slice(1) %}
@@ -169,7 +172,7 @@
             {% else %}
               {% set providerPhoneDisplay = providerPhone %}
             {% endif %}
-            {% set providerEmail = (attribute(provider, 'email') ?? '') %}
+            {% set providerEmail = (attribute(provider, 'email') ?? '')|trim %}
             {% set websiteField = attribute(provider, 'website') ?? attribute(provider, 'urlField') ?? null %}
             {% set websiteUrl = '' %}
             {% if websiteField %}
@@ -209,17 +212,14 @@
                     </div>
                   </div>
                   <div class="flex h-full flex-col sm:col-span-8 md:col-span-9">
-                    <div class="flex h-full flex-1 flex-col gap-6 p-4 sm:py-10 sm:pl-3 sm:pr-4 md:pl-6 md:pr-12">
-                      <div class="relative flex min-w-0 flex-1 flex-col gap-4 pe-2 sm:justify-center sm:pe-4">
+                    <div class="flex h-full flex-1 flex-col gap-6 p-6">
+                      <div class="relative flex min-w-0 flex-1 flex-col gap-4 pt-1 pe-2 sm:justify-center sm:pe-4">
                         <div class="flex flex-wrap gap-2">
                           <span class="rounded border px-2 py-0.5 text-xs font-medium {{ item.hasAvailability ? 'border-emerald-500/70 text-emerald-300' : 'border-red-500/70 text-red-300' }}">
-                            {{ item.hasAvailability ? 'Accepting New Clients' : 'No Availability' }}
+                            {{ item.hasAvailability ? 'Accepting Clients' : 'No Availability' }}
                           </span>
-                          {% if provider.dbtaCertified %}
-                            <span class="rounded border border-sky-500/60 px-2 py-0.5 text-xs font-medium text-sky-300">DBT-A Certified</span>
-                          {% endif %}
-                          {% if provider.dbtAdherentTeam %}
-                            <span class="rounded border border-violet-400/70 px-2 py-0.5 text-xs font-medium text-violet-300">DBT Adherent Team</span>
+                          {% if location.dbtaCertified %}
+                            <span class="rounded border border-violet-400/70 px-2 py-0.5 text-xs font-medium text-violet-300">DBT-A</span>
                           {% endif %}
                         </div>
                         <div>
@@ -228,12 +228,15 @@
                           </h2>
                           <p class="text-sm leading-relaxed text-slate-300">{{ location.title }}{% if location.city %} {{ location.city }}{% endif %}{% if location.state %}, {{ location.state }}{% endif %} {{ location.zip }}</p>
                         </div>
-                        {% if providerPhone or providerEmail or websiteUrl %}
+                        {% set showContactCtas = item.hasAvailability %}
+                        {% set showPhoneCta = showContactCtas and providerPhone %}
+                        {% set showEmailCta = showContactCtas and providerEmail %}
+                        {% if showPhoneCta or showEmailCta or websiteUrl %}
                           <div class="flex flex-row flex-wrap items-center gap-2 md:flex-nowrap md:gap-2.5">
-                            {% if providerPhone %}
+                            {% if showPhoneCta %}
                               <a href="tel:{{ providerPhoneDigits|length == 10 ? providerPhoneDigits : providerPhone|replace({' ': '', '-': '', '(': '', ')': '', '.': '', '+': ''}) }}" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Call {{ providerPhoneDisplay }}</a>
                             {% endif %}
-                            {% if providerEmail %}
+                            {% if showEmailCta %}
                               <a href="mailto:{{ providerEmail }}?subject=Inquiry%20from%20DBTsearch.org" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Email Us</a>
                             {% endif %}
                             {% if websiteUrl %}
@@ -241,7 +244,7 @@
                             {% endif %}
                           </div>
                         {% endif %}
-                        {% set updated = provider.dateUpdated %}
+                        {% set updated = item.availabilityUpdatedAt %}
                         <div class="inline-flex items-center gap-1.5 text-xs text-brand">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-3.5 w-3.5 shrink-0 text-brand" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

@@ -108,9 +108,11 @@ Replace `<DEV_APP_ID>` with the numeric app id from the Cloudways dev app URL (p
 pnpm mm -- ssh:dev
 # or: ssh ... then cd /home/master/applications/dbtsearch_dev/public_html
 
-./scripts/cloudways-post-deploy.sh
-# or, if you prefer craft up:
-# ./scripts/cloudways-post-deploy.sh --with-up
+composer install --no-dev --optimize-autoloader
+php craft project-config/apply --force --interactive=0
+php craft migrate/all --interactive=0
+php craft clear-caches/all --interactive=0
+# or: php craft up --interactive=0
 ```
 
 Quick sanity checks:
@@ -133,8 +135,7 @@ grep -E '^(CRAFT_ENVIRONMENT|PRIMARY_SITE_URL|CRAFT_WEB_ROOT)=' .env
 
 1. Re-deploy previous commit in Cloudways Git deploy.
 2. Restore DB snapshot if migrations ran.
-3. Temporarily set webroot back to `cms/web` only if rolling back **before** flatten code is removed from branch.
-4. `./scripts/cloudways-post-deploy.sh` and re-run smoke tests.
+3. Re-run the post-deploy Craft commands above and smoke tests.
 
 ## After staging passes
 

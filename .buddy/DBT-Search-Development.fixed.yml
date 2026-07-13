@@ -2,43 +2,40 @@
   name: 🚧 DBT Search Development
   refs:
   - refs/heads/develop
+  target_site_url: https://unified.cloudways.com/server/1606631/access_detail
   fail_on_prepare_env_warning: true
   events:
-  - type: WEBHOOK
   - type: PUSH
   variables:
-  - key: DEV_IP
-    value: 45.55.79.253
   - key: DEV_PASS
     value: '!encrypted 70xok637FYADXFJrFFymSd6kTusu/BXUtw+UMj70pbY=.pTEtijJZb39B1MIeSElIAw=='
     encrypted: true
-  - key: DEV_PATH
-    value: public_html
   - key: DEV_USER
     value: blarson721
-  targets:
-  - target: dbt-search-development
-    type: SSH
-    name: DBT Search Dev Server
-    host: 45.55.79.253
-    path: $DEV_PATH
-    auth:
-      username: $DEV_USER
-      password: '!encrypted 5rFKlZNmUfe9S1PSgkgtXA==.OJYmucjVonEo4ZrYvnxFpw=='
   actions:
-  - action: Transfer files
+  - action: Transfer Files
     type: TRANSFER
+    local_path: /
     deployment_excludes:
     - .ddev/
     - .cursor/
     - .vite/
-    - frontend/node_modules/
-    - frontend/test-results/
-    - frontend/playwright-report/
-    - frontend/storybook-static/
+    - .buddy/
+    - .github/
+    - .vscode/
+    - .mcp.json
+    - .cursorrules
+    - .gitignore
+    - README.md
+    - docs/
+    - public/
+    - data/
+    - frontend/
+    - package.json
+    - scripts/migrate/*.cfg
     - .env
+    - .env.example*
     - .env.*
-    - '!.env.example*'
     - vendor/
     - storage/
     - web/cpresources/
@@ -53,9 +50,33 @@
     - web/uploads/.gitignore
     targets:
     - dbt-search-development
-  - action: Execute composer install --no-interaction && php craft up && php craft clear-caches/all
+  - action: Execute composer install --no-dev --optimize-autoloader --no-interaction
     type: SSH_COMMAND
-    commands: composer install --no-interaction && php craft up && php craft clear-caches/all
+    commands: composer install --no-dev --optimize-autoloader --no-interaction
+    targets:
+    - dbt-search-development
+    run_as_script: true
+  - action: php craft db/backup storage/backups/previous.sql --overwrite=1 --zip=1
+    type: SSH_COMMAND
+    commands: php craft db/backup storage/backups/previous.sql --overwrite=1 --zip=1
+    targets:
+    - dbt-search-development
+    run_as_script: true
+  - action: php craft up
+    type: SSH_COMMAND
+    commands: php craft up
+    targets:
+    - dbt-search-development
+    run_as_script: true
+  - action: php craft db/backup storage/backups/latest.sql --overwrite=1 --zip=1
+    type: SSH_COMMAND
+    commands: php craft db/backup storage/backups/latest.sql --overwrite=1 --zip=1
+    targets:
+    - dbt-search-development
+    run_as_script: true
+  - action: php craft clear-caches/all
+    type: SSH_COMMAND
+    commands: php craft clear-caches/all
     targets:
     - dbt-search-development
     run_as_script: true
