@@ -6,6 +6,9 @@
 {% set formHandle = 'providerSignup' %}
 {% set submitLabel = 'Create account' %}
 {% set form = craft.formie.forms({ handle: formHandle }).one() %}
+{% set onboarding = craft.app.getModule('portal').get('providerOnboarding') %}
+{% set providerIdParam = craft.app.request.getQueryParam('provider_id') %}
+{% set prefilledProvider = providerIdParam ? onboarding.resolveClaimableProviderFromId(providerIdParam) : null %}
 
 {% block head %}
   {% if form %}{% do craft.formie.registerAssets(form) %}{% endif %}
@@ -14,25 +17,7 @@
 {% block content %}
   <main class="pb-12">
     <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 md:pt-8 lg:px-8">
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,32rem)] lg:items-start">
-        <div class="max-w-xl text-base leading-relaxed text-slate-300">
-          <p class="mb-4">Create a manager account for your DBT Search listing. You can update availability, your DBT-A status, and keep your directory profile current.</p>
-          <ul class="space-y-3 text-sm">
-            <li class="flex items-start gap-3">
-              <svg class="mt-0.5 size-5 shrink-0 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              <span>Choose your practice from listings that do not yet have a manager account.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="mt-0.5 size-5 shrink-0 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              <span>Set your login email and password, then sign in to manage your listing.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="mt-0.5 size-5 shrink-0 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              <span>Update location availability so clients can see who is accepting new clients.</span>
-            </li>
-          </ul>
-        </div>
-
+      <div class="flex flex-col-reverse gap-8 lg:grid lg:grid-cols-[minmax(0,32rem)_minmax(0,1fr)] lg:items-start">
         <div class="w-full rounded-xl border border-slate-800 bg-slate-900/50 p-4 md:p-5">
           {% if form %}
             {% set submission = form.getCurrentSubmission() %}
@@ -49,7 +34,21 @@
               {% if submission and submission.id %}{{ hiddenInput('submissionId', submission.id) }}{% endif %}
 
               {% for field in form.getFields() %}
-                {{ craft.formie.renderField(form, field) }}
+                {% set renderOptions = {} %}
+                {% if prefilledProvider %}
+                  {% if field.handle == 'provider' %}
+                    {% set existingProvider = submission ? submission.getFieldValue('provider').one() : null %}
+                    {% if not existingProvider %}
+                      {% set renderOptions = { value: craft.entries.id(prefilledProvider.id).status(null) } %}
+                    {% endif %}
+                  {% elseif field.handle == 'fullName' %}
+                    {% set existingName = submission ? submission.getFieldValue('fullName') : null %}
+                    {% if not existingName %}
+                      {% set renderOptions = { value: prefilledProvider.title } %}
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+                {{ craft.formie.renderField(form, field, renderOptions) }}
               {% endfor %}
 
               <div class="pt-2">
@@ -61,6 +60,24 @@
           {% else %}
             <p class="text-sm leading-relaxed text-slate-300">Create a Formie form with handle <code class="rounded bg-slate-800 px-1 py-0.5 text-xs">providerSignup</code> in the Craft control panel. See <code class="rounded bg-slate-800 px-1 py-0.5 text-xs">templates/register/README.md</code> for setup steps.</p>
           {% endif %}
+        </div>
+
+        <div class="max-w-xl text-base leading-relaxed text-slate-300">
+          <p class="mb-4">Create a manager account for your DBT Search listing. You can update availability, your DBT-A status, and keep your directory profile current.</p>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-start gap-3">
+              <svg class="mt-0.5 size-5 shrink-0 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span>Choose your provider practice from listings that do not yet have a manager account.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="mt-0.5 size-5 shrink-0 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span>Set your login email and password, then sign in to manage your listing.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="mt-0.5 size-5 shrink-0 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span>Update location availability so clients can see who is accepting new clients.</span>
+            </li>
+          </ul>
         </div>
       </div>
     </section>

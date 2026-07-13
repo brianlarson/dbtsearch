@@ -12,9 +12,12 @@ function initPortalForm() {
   const craftSave = form.dataset.craftSave === '1';
   const initialJson = document.getElementById('portal-initial-data');
   const flashNotice = document.getElementById('portal-flash-notice');
+  const flashWelcome = document.getElementById('portal-flash-welcome');
   const unsavedBadge = document.getElementById('portal-unsaved-badge');
   const statusLine = document.getElementById('portal-status-line');
+  const welcomeAlert = document.getElementById('portal-welcome-alert');
   const saveAlert = document.getElementById('portal-save-alert');
+  const dismissWelcome = document.getElementById('portal-dismiss-welcome');
   const dismissSave = document.getElementById('portal-dismiss-save');
   const saveBtn = document.getElementById('portal-save-btn');
   const previewBtn = document.getElementById('portal-preview-btn');
@@ -100,6 +103,13 @@ function initPortalForm() {
           : `No session save yet · preview opened ${formatTime(sessionOpenedAt)}`;
       }
     }
+  }
+
+  function showWelcomeAlert() {
+    if (!welcomeAlert) return;
+    welcomeAlert.classList.remove('hidden');
+    welcomeAlert.removeAttribute('hidden');
+    welcomeAlert.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function showSaveAlert() {
@@ -190,6 +200,13 @@ function initPortalForm() {
     });
   }
 
+  if (dismissWelcome) {
+    dismissWelcome.addEventListener('click', () => {
+      welcomeAlert?.classList.add('hidden');
+      welcomeAlert?.setAttribute('hidden', '');
+    });
+  }
+
   if (dismissSave) {
     dismissSave.addEventListener('click', () => {
       saveAlert?.classList.add('hidden');
@@ -240,7 +257,12 @@ function initPortalForm() {
 
   updatePreviewUrl();
 
-  if (flashNotice) {
+  if (flashWelcome) {
+    savedSignature = serializeForm();
+    setDirty(false);
+    updateStatus(null);
+    showWelcomeAlert();
+  } else if (flashNotice) {
     savedSignature = serializeForm();
     setDirty(false);
     updateStatus(Date.now());

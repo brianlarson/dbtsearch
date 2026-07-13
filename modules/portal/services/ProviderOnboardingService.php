@@ -31,6 +31,7 @@ class ProviderOnboardingService extends Component
                 ->where([
                     'relations.fieldId' => $providerField->id,
                     'elements.type' => User::class,
+                    'elements.dateDeleted' => null,
                 ])
                 ->column();
 
@@ -45,7 +46,7 @@ class ProviderOnboardingService extends Component
 
         foreach ($authoredProviders as $provider) {
             $author = $provider->getAuthor();
-            if (!$author instanceof User || $author->admin) {
+            if (!$author instanceof User || $author->admin || $author->trashed) {
                 continue;
             }
 
@@ -58,6 +59,8 @@ class ProviderOnboardingService extends Component
     }
 
     /**
+     * Unclaimed provider entries that own at least one location.
+     *
      * @return Entry[]
      */
     public function getUnclaimedProviders(): array
@@ -65,6 +68,7 @@ class ProviderOnboardingService extends Component
         $claimedIds = $this->getClaimedProviderIds();
         $query = Entry::find()
             ->section('providers')
+            ->locations(':notempty:')
             ->orderBy('title ASC')
             ->status(null);
 
@@ -78,6 +82,26 @@ class ProviderOnboardingService extends Component
     public function isProviderClaimable(Entry $provider): bool
     {
         return !in_array((int)$provider->id, $this->getClaimedProviderIds(), true);
+    }
+
+    public function resolveClaimableProviderFromId(mixed $providerId): ?Entry
+    {
+        if (!is_numeric($providerId)) {
+            return null;
+        }
+
+        $provider = Entry::find()
+            ->section('providers')
+            ->locations(':notempty:')
+            ->id((int)$providerId)
+            ->status(null)
+            ->one();
+
+        if (!$provider instanceof Entry || !$this->isProviderClaimable($provider)) {
+            return null;
+        }
+
+        return $provider;
     }
 
     /**
@@ -173,6 +197,15 @@ class ProviderOnboardingService extends Component
         }
 
         $provider->authorId = $user->id;
+
+        $providerFieldValues = [];
+        if (trim((string)($provider->getFieldValue('email') ?? '')) === '') {
+            $providerFieldValues['email'] = $email;
+        }
+        if ($providerFieldValues !== []) {
+            $provider->setFieldValues($providerFieldValues);
+        }
+
         if (!Craft::$app->getElements()->saveElement($provider)) {
             throw new \RuntimeException('Could not assign listing author: ' . json_encode($provider->getErrors()));
         }
@@ -219,6 +252,7 @@ class ProviderOnboardingService extends Component
 
         $provider = Entry::find()
             ->section('providers')
+            ->locations(':notempty:')
             ->id($providerId)
             ->status(null)
             ->one();

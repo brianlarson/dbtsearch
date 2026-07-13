@@ -80,6 +80,7 @@
 {% set pageSubheading = 'Provider Admin' %}
 {% set portalToolbarTitle = portalProvider.locations|length > 1 ? 'Edit your listings' : 'Edit your listing' %}
 {% set portalFlashNotice = craft.app.session.hasFlash('notice') ? craft.app.session.getFlash('notice') : null %}
+{% set portalFlashWelcome = craft.app.session.hasFlash('portalWelcome') ? craft.app.session.getFlash('portalWelcome') : null %}
 {% set portalFlashError = craft.app.session.hasFlash('error') ? craft.app.session.getFlash('error') : null %}
 
 {% block content %}
@@ -127,6 +128,25 @@
             <p class="font-semibold text-red-100">Unable to save</p>
             <p class="mt-1 text-sm text-red-200/80">{{ portalFlashError }}</p>
           </div>
+        {% endif %}
+
+        {% if portalFlashWelcome %}
+        <div id="portal-welcome-alert" class="mt-4 scroll-mt-24 rounded-lg border border-primary/40 bg-primary/10 p-4" role="status" aria-live="polite">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="font-semibold text-sky-300">Welcome!</p>
+              <p class="mt-1 text-sm text-slate-200">
+                {% if portalFlashWelcome.provider %}
+                  You're now managing <span class="font-medium text-white">{{ portalFlashWelcome.provider }}</span>.
+                {% else %}
+                  Your provider account is ready.
+                {% endif %}
+              </p>
+              <p class="mt-2 text-sm text-slate-400">Please review your locations and keep availability up to date so families can find accurate information.</p>
+            </div>
+            <button type="button" id="portal-dismiss-welcome" class="shrink-0 rounded-md px-2 py-1 text-sm text-sky-300/80 hover:bg-primary/20" aria-label="Dismiss">✕</button>
+          </div>
+        </div>
         {% endif %}
 
         <div id="portal-save-alert" class="mt-4 hidden scroll-mt-24 rounded-lg border border-emerald-500/40 bg-emerald-950/40 p-4" role="status" aria-live="polite" {% if not portalFlashNotice %}hidden{% endif %}>
@@ -236,6 +256,9 @@
     {% endif %}
     {% if portalFlashNotice %}
       <script type="application/json" id="portal-flash-notice">{{ portalFlashNotice|json_encode|raw }}</script>
+    {% endif %}
+    {% if portalFlashWelcome %}
+      <script type="application/json" id="portal-flash-welcome">{{ portalFlashWelcome|json_encode|raw }}</script>
     {% endif %}
   </main>
 {% endblock %}

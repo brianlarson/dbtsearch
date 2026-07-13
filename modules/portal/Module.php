@@ -81,10 +81,15 @@ class Module extends BaseModule
                     return;
                 }
 
+                // Always claim provider entries (owners of locations), never location entries —
+                // even if the Formie field source is misconfigured.
                 $unclaimedIds = array_map(
                     static fn ($entry) => (int)$entry->id,
                     $onboarding->getUnclaimedProviders()
                 );
+
+                $event->query->section('providers');
+                $event->query->locations(':notempty:');
 
                 if ($unclaimedIds === []) {
                     $event->query->id(false);
@@ -156,10 +161,9 @@ class Module extends BaseModule
                 $user = $onboarding->loginUserFromSubmission($submission);
 
                 if ($user) {
-                    $notice = $provider
-                        ? sprintf('Welcome! You can now manage %s.', $provider->title)
-                        : 'Welcome! Your account is ready.';
-                    Craft::$app->getSession()->setFlash('notice', $notice);
+                    Craft::$app->getSession()->setFlash('portalWelcome', [
+                        'provider' => $provider ? $provider->title : null,
+                    ]);
                     $form->settings->submitAction = 'redirect';
                     $event->redirectUrl = UrlHelper::siteUrl('manage');
                     return;

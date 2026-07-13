@@ -9,7 +9,7 @@ The provider onboarding page is live at **`/register`**. This URL is **not linke
 3. Add these fields **in this order**:
    - **fullName** — Single Line Text, required
    - **email** — Email, required
-   - **provider** — Entries, required, single selection, display as **Dropdown**, source **Providers** section only
+   - **provider** — Entries, required, single selection, display as **Dropdown**, source **Providers** section only (not Locations). The portal module also forces this list to unclaimed **provider** entries that own at least one location.
    - **password** — Password, required
    - **confirmPassword** — Password, required, enable **Match Field** → `password`
 4. **Form Template:** Assign the **Register** template (`_forms/register`) to this form. Disable Formie base/theme CSS on the template (the page uses site styles from `directory.css`).
@@ -30,6 +30,12 @@ Until this form exists, the template shows setup instructions.
 Use your site base URL plus `/register`, for example:
 
 `https://dbtsearch.ddev.site/register`
+
+To pre-select a specific unclaimed listing, append `provider_id` with the provider entry ID:
+
+`https://dbtsearch.ddev.site/register?provider_id=2266`
+
+When the ID matches an unclaimed provider, the **Provider** dropdown and **Name or Organization** field are prefilled with that listing. Invalid, missing, or already-claimed IDs are ignored without error.
 
 Do not add this link to the public site header or login page.
 
