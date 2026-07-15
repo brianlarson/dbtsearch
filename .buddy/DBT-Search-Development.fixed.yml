@@ -4,14 +4,21 @@
   - refs/heads/develop
   target_site_url: https://unified.cloudways.com/server/1606631/access_detail
   fail_on_prepare_env_warning: true
-  events:
-  - type: PUSH
   variables:
   - key: DEV_PASS
     value: '!encrypted 70xok637FYADXFJrFFymSd6kTusu/BXUtw+UMj70pbY=.pTEtijJZb39B1MIeSElIAw=='
     encrypted: true
   - key: DEV_USER
     value: blarson721
+  targets:
+  - target: dbt-search---development
+    type: SSH
+    name: DBT Search - Development
+    host: $SERVER_IP
+    path: public_html
+    auth:
+      username: $DEV_USER
+      password: '!encrypted 70xok637FYADXFJrFFymSd6kTusu/BXUtw+UMj70pbY=.pTEtijJZb39B1MIeSElIAw=='
   actions:
   - action: Transfer Files
     type: TRANSFER
@@ -49,34 +56,34 @@
     - storage/logs/.gitignore
     - web/uploads/.gitignore
     targets:
-    - dbt-search-development
+    - dbt-search---development
   - action: Execute composer install --no-dev --optimize-autoloader --no-interaction
     type: SSH_COMMAND
     commands: composer install --no-dev --optimize-autoloader --no-interaction
     targets:
-    - dbt-search-development
+    - dbt-search---development
     run_as_script: true
   - action: php craft db/backup storage/backups/previous.sql --overwrite=1 --zip=1
     type: SSH_COMMAND
     commands: php craft db/backup storage/backups/previous.sql --overwrite=1 --zip=1
     targets:
-    - dbt-search-development
+    - dbt-search---development
     run_as_script: true
   - action: php craft up
     type: SSH_COMMAND
     commands: php craft up
     targets:
-    - dbt-search-development
+    - dbt-search---development
     run_as_script: true
   - action: php craft db/backup storage/backups/latest.sql --overwrite=1 --zip=1
     type: SSH_COMMAND
     commands: php craft db/backup storage/backups/latest.sql --overwrite=1 --zip=1
     targets:
-    - dbt-search-development
+    - dbt-search---development
     run_as_script: true
   - action: php craft clear-caches/all
     type: SSH_COMMAND
     commands: php craft clear-caches/all
     targets:
-    - dbt-search-development
+    - dbt-search---development
     run_as_script: true
