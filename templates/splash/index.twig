@@ -29,6 +29,7 @@
 <!DOCTYPE html>
 <html lang="{{ craft.app.language }}" class="dark">
 <head>
+  {% include '_partials/google-analytics' %}
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="referrer" content="origin-when-cross-origin" />
@@ -38,7 +39,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="{{ url('favicon-32x32.png') }}" />
   <link rel="icon" type="image/png" sizes="16x16" href="{{ url('favicon-16x16.png') }}" />
   <link rel="stylesheet" href="{{ url('/css/splash.css') }}" />
-  
+
   {% if form %}{% do craft.formie.registerAssets(form) %}{% endif %}
 </head>
 <body class="dark min-h-screen bg-background bg-texture-mesh text-foreground flex flex-col font-sans antialiased" data-theme="dbtsearch">
