@@ -1,4 +1,4 @@
-dateModified: 1783968144
+dateModified: 1784085380
 email:
   fromEmail: system@dbtsearch.org
   fromName: 'DBT Search'
@@ -81,7 +81,7 @@ plugins:
   formie:
     edition: standard
     enabled: true
-    licenseKey: QUKB6ZEKL37AO89B4TEAAZKZ
+    licenseKey: CT5W28LI25L1KXDEXTOKBM6Q
     schemaVersion: 3.4.12
     settings:
       ajaxTimeout: 10
@@ -141,6 +141,10 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.1
+  venveo-bulk-edit:
+    edition: standard
+    enabled: true
+    schemaVersion: 4.0.0
 system:
   edition: pro
   live: true
