@@ -14,14 +14,14 @@
 <html lang="{{ craft.app.language }}" class="light">
 <head>
   {# Google Analytics/Tag Manager - dbtsearch.org #}
-  {% if environment == 'production' %}
+  {% if environment | default(false) == 'production' %}
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-D2N43C807C"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', {{ googleTagManagerId }});
+      gtag('config', '{{ googleTagManagerId }}');
     </script>
   {% endif %}
   <meta charset="utf-8" />
