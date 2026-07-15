@@ -6,6 +6,7 @@
 {% set stickySiteHeader = stickySiteHeader ?? true %}
 {% set marketingHome = marketingHome ?? false %}
 {% set pageTitle = pageTitle ?? (pageHeading ? pageHeading ~ ' | ' ~ (siteName ?? 'DBT Search') : (siteName ?? 'DBT Search')) %}
+{% set pageDescription = pageDescription ?? 'Find certified DBT providers in Minnesota with current availability. DBTsearch helps clients and clinicians locate Dialectical Behavior Therapy programs faster.' %}
 
 <!DOCTYPE html>
 <html lang="{{ craft.app.language }}" class="dark">
@@ -13,6 +14,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDescription }}" />
   <link rel="stylesheet" href="{{ url('/css/directory.css') }}" />
   {% block head %}{% endblock %}
 </head>

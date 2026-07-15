@@ -19,6 +19,7 @@ Short reference for anyone (human or AI) working in this repo.
 |-----|---------|
 | [README.md](../README.md) | Project summary and how to run Craft locally. |
 | [ROADMAP.md](ROADMAP.md) | Current status and milestones. |
+| [_README/notes/](../_README/notes/) | Architecture plans and decision notes (e.g. stale-location reminders). |
 | [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) | Craft + MySQL 8 in DDEV; root-level Craft setup. |
 | [HOSTING.md](HOSTING.md) | Hosting plan: Cloudways, lightweight Craft. |
 | [deploy-cloudways.md](deploy-cloudways.md) | Cloudways staging/production deployment workflow. |
