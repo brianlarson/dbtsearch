@@ -81,7 +81,7 @@ plugins:
   formie:
     edition: standard
     enabled: true
-    licenseKey: CT5W28LI25L1KXDEXTOKBM6Q
+    licenseKey: QUKB6ZEKL37AO89B4TEAAZKZ
     schemaVersion: 3.4.12
     settings:
       ajaxTimeout: 10
