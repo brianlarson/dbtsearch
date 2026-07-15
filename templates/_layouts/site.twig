@@ -7,10 +7,23 @@
 {% set marketingHome = marketingHome ?? false %}
 {% set pageTitle = pageTitle ?? (pageHeading ? pageHeading ~ ' | ' ~ (siteName ?? 'DBT Search') : (siteName ?? 'DBT Search')) %}
 {% set pageDescription = pageDescription ?? 'Find certified DBT providers in Minnesota with current availability. DBTsearch helps clients and clinicians locate Dialectical Behavior Therapy programs faster.' %}
+{% set googleTagManagerId = googleTagManagerId ?? 'G-D2N43C807C' %}
+{% set environment = environment ?? craft.app.config.env %}
 
 <!DOCTYPE html>
-<html lang="{{ craft.app.language }}" class="dark">
+<html lang="{{ craft.app.language }}" class="light">
 <head>
+  {# Google Analytics/Tag Manager - dbtsearch.org #}
+  {% if environment == 'production' %}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D2N43C807C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', {{ googleTagManagerId }});
+    </script>
+  {% endif %}
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ pageTitle }}</title>
