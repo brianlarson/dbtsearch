@@ -1,4 +1,5 @@
 import './directory-entry.css';
+import { initCookieConsent } from './src/cookieConsent.js';
 
 const BACK_TO_TOP_THRESHOLD = 500;
 const MD_MEDIA_QUERY = window.matchMedia('(min-width: 768px)');
@@ -121,6 +122,7 @@ function initBackToTop() {
 function initDirectoryEntry() {
   initBackToTop();
   initMobileNav();
+  initCookieConsent();
 }
 
 if (document.readyState === 'loading') {

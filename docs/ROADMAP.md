@@ -13,6 +13,7 @@ Short-term plan and stack-rewrite options.
 | **Markup** | Capture legacy HTML (main, client-only) → `docs/reference-markup/`. [Details](CAPTURE-MARKUP.md) |
 | **Milestones** | Craft + DDEV → Nuxt + Tailwind shell → first directory page. Track in **GitHub Issues**; use issue # in commits. |
 | **Stale-location reminders** | Planned — opt-in emails when locations go stale (X days). See [_README/notes/stale-location-email-reminders.md](../_README/notes/stale-location-email-reminders.md). |
+| **Cookie consent / GDPR** | Soft essential-cookies bar shipped (SPA parity). Full CMP deferred — see [_README/notes/cookie-consent-gdpr.md](../_README/notes/cookie-consent-gdpr.md). |
 
 **Branch:** Legacy on `main`; restack on `stack-rewrite`. See [NOTES-FOR-AGENTS.md](NOTES-FOR-AGENTS.md) for a short guide for AI/agents.
 
@@ -78,4 +79,4 @@ Track in **GitHub Issues**; mention issue # in commit messages (e.g. `#12`).
 
 ---
 
-*Last updated: added stale-location email reminders plan.*
+*Last updated: soft cookie-consent bar + GDPR feasibility note; stale-location reminders plan.*

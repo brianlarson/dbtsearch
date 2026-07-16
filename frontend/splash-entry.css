@@ -3,6 +3,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
 @import "./themes/dbtsearch.css";
+@import "./src/cookie-consent.css";
 
 @layer base {
   button:not(:disabled),

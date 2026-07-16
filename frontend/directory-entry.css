@@ -2,6 +2,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
 @import "./themes/dbtsearch.css";
+@import "./src/cookie-consent.css";
 
 @source "../templates";
 
