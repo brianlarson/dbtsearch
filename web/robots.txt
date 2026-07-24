@@ -1,0 +1,18 @@
+# DBT Search — https://dbtsearch.org
+# Public directory content may be crawled and indexed.
+
+User-agent: *
+Allow: /
+
+# Craft control panel and CP assets
+Disallow: /admin
+Disallow: /cpresources
+
+# Provider portals and auth
+Disallow: /manage
+Disallow: /login
+Disallow: /register
+Disallow: /signed-out
+
+# Craft action / Sprig / form endpoints
+Disallow: /actions

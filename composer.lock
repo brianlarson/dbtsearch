@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f9d611b2d9c8ddacde257dd86a1e45b",
+    "content-hash": "2a75328c70e0b3c770937bb13580bd90",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -10049,6 +10049,53 @@
                 }
             ],
             "time": "2026-05-30T17:09:26+00:00"
+        },
+        {
+            "name": "venveo/craft-bulkedit",
+            "version": "5.0.0-beta.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/venveo/craft-bulkedit/zipball/338f9fcb45f6aad22bdc245de23ae99ccdf4eabb",
+                "reference": "338f9fcb45f6aad22bdc245de23ae99ccdf4eabb",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0",
+                "php": "^8.2"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Bulk Edit",
+                "handle": "venveo-bulk-edit",
+                "changelogUrl": "https://raw.githubusercontent.com/venveo/craft-bulkedit/main/CHANGELOG.md"
+            },
+            "autoload": {
+                "psr-4": {
+                    "venveo\\bulkedit\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Venveo",
+                    "homepage": "https://venveo.com"
+                }
+            ],
+            "description": "Bulk edit Craft CMS element fields",
+            "keywords": [
+                "bulk edit",
+                "cms",
+                "craft",
+                "craft-plugin",
+                "craftcms"
+            ],
+            "support": {
+                "docs": "https://github.com/venveo/craft-bulkedit/blob/main/README.md",
+                "issues": "https://github.com/venveo/craft-bulkedit/issues"
+            },
+            "time": "2024-09-26T15:37:21+00:00"
         },
         {
             "name": "verbb/auth",

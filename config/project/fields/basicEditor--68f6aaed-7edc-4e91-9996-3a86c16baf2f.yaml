@@ -12,7 +12,6 @@ settings:
   availableVolumes: '*'
   characterLimit: null
   css: null
-  cssFile: null
   defaultTransform: null
   defaultUploadLocationSubpath: null
   defaultUploadLocationVolume: null
@@ -22,7 +21,6 @@ settings:
   imageFieldUid: null
   imageMode: img
   js: null
-  jsFile: null
   options: null
   parseEmbeds: false
   purifierConfig: null

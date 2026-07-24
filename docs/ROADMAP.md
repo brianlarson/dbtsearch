@@ -12,6 +12,7 @@ Short-term plan and stack-rewrite options.
 | **New stack** | `stack-rewrite`: Vue, Nuxt, Tailwind, MySQL 8+. Branch ready; Craft now lives at repo root. |
 | **Markup** | Capture legacy HTML (main, client-only) → `docs/reference-markup/`. [Details](CAPTURE-MARKUP.md) |
 | **Milestones** | Craft + DDEV → Nuxt + Tailwind shell → first directory page. Track in **GitHub Issues**; use issue # in commits. |
+| **Stale-location reminders** | Planned — opt-in emails when locations go stale (X days). See [_README/notes/stale-location-email-reminders.md](../_README/notes/stale-location-email-reminders.md). |
 
 **Branch:** Legacy on `main`; restack on `stack-rewrite`. See [NOTES-FOR-AGENTS.md](NOTES-FOR-AGENTS.md) for a short guide for AI/agents.
 
@@ -71,9 +72,10 @@ You said you're converting to a "totally different stack." Here are common direc
 1. **Craft at repo root** — [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md): docroot `web`, `ddev start`, `ddev craft install`.
 2. **Nuxt + Tailwind** — App shell on `stack-rewrite`; then first directory page from `docs/reference-markup/`.
 3. **Craft data model** — Document entry types and fields for the directory.
+4. **Stale-location email reminders** — Opt-in provider emails when any location’s `availabilityUpdatedAt` is older than X days. Extend `portal` module (console + queue + Resend); no new plugin. Plan: [_README/notes/stale-location-email-reminders.md](../_README/notes/stale-location-email-reminders.md). Sequence: user fields → `/manage` UI → console/queue/email → Cloudways cron.
 
 Track in **GitHub Issues**; mention issue # in commit messages (e.g. `#12`).
 
 ---
 
-*Last updated: docs onceover; Linear removed; Craft flattened to repo root.*
+*Last updated: added stale-location email reminders plan.*

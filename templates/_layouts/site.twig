@@ -6,13 +6,16 @@
 {% set stickySiteHeader = stickySiteHeader ?? true %}
 {% set marketingHome = marketingHome ?? false %}
 {% set pageTitle = pageTitle ?? (pageHeading ? pageHeading ~ ' | ' ~ (siteName ?? 'DBT Search') : (siteName ?? 'DBT Search')) %}
+{% set pageDescription = pageDescription ?? 'Find certified DBT providers in Minnesota with current availability. DBTsearch helps clients and clinicians locate Dialectical Behavior Therapy programs faster.' %}
 
 <!DOCTYPE html>
 <html lang="{{ craft.app.language }}" class="dark">
 <head>
+  {% include '_partials/google-analytics' %}
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDescription }}" />
   <link rel="stylesheet" href="{{ url('/css/directory.css') }}" />
   {% block head %}{% endblock %}
 </head>
@@ -31,7 +34,7 @@
           <path stroke-linecap="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16" />
         </svg>
       </button>
-      <a href="{{ url('/') }}" class="inline-flex shrink-0 items-center py-1 md:py-2 xl:py-1">
+      <a href="{{ url('/homepage') }}" class="inline-flex shrink-0 items-center py-1 md:py-2 xl:py-1">
         <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="h-auto max-w-[170px] md:hidden" width="170" height="40" />
         <img src="{{ url('/uploads/dbtsearch-logo.svg') }}" alt="DBT Search" class="hidden h-auto max-w-[280px] md:block" width="280" height="48" />
       </a>

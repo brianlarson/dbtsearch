@@ -1,0 +1,12 @@
+{# GA: production public visitors only (skip staging/dev and any logged-in Craft user) #}
+{% set googleTagManagerId = googleTagManagerId ?? 'G-D2N43C807C' %}
+{% if craft.app.config.env == 'production' and not currentUser %}
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ googleTagManagerId }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ googleTagManagerId }}');
+  </script>
+{% endif %}

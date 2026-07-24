@@ -18,5 +18,5 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: splash/index.twig
-    uriFormat: splash
+    uriFormat: __home__
 type: single
