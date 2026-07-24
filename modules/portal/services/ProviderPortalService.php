@@ -109,7 +109,7 @@ class ProviderPortalService extends Component
             'name' => (string)$provider->title,
             'phone' => (string)($provider->getFieldValue('phone') ?? ''),
             'email' => (string)($provider->getFieldValue('email') ?? ''),
-            'website' => (string)($provider->getFieldValue('website') ?? ''),
+            'website' => $this->getWebsiteUrl($provider),
             'dateUpdated' => $provider->dateUpdated
                 ? DateTimeHelper::toDateTime($provider->dateUpdated)->format('c')
                 : null,
@@ -141,14 +141,17 @@ class ProviderPortalService extends Component
         $provider->title = $name;
         $fieldValues = [];
 
-        if (array_key_exists('phone', $data)) {
+        if (array_key_exists('phone', $data) && $data['phone'] !== null) {
             $fieldValues['phone'] = trim((string)$data['phone']);
         }
-        if (array_key_exists('email', $data)) {
+        if (array_key_exists('email', $data) && $data['email'] !== null) {
             $fieldValues['email'] = trim((string)$data['email']);
         }
-        if (array_key_exists('website', $data)) {
-            $fieldValues['website'] = trim((string)$data['website']);
+        if (array_key_exists('website', $data) && $data['website'] !== null) {
+            $website = $this->normalizeWebsiteUrl(trim((string)$data['website']));
+            $fieldValues['website'] = $website === ''
+                ? null
+                : ['value' => $website, 'type' => 'url'];
         }
 
         if ($fieldValues !== []) {
@@ -260,6 +263,35 @@ class ProviderPortalService extends Component
         }
 
         return $errors;
+    }
+
+    private function getWebsiteUrl(Entry $provider): string
+    {
+        try {
+            $website = $provider->getFieldValue('website');
+        } catch (\Throwable) {
+            return '';
+        }
+
+        if (is_object($website) && method_exists($website, 'getUrl')) {
+            return trim((string)$website->getUrl());
+        }
+
+        return trim((string)($website ?? ''));
+    }
+
+    private function normalizeWebsiteUrl(string $url): string
+    {
+        $url = trim($url);
+        if ($url === '') {
+            return '';
+        }
+
+        if (!preg_match('#^https?://#i', $url)) {
+            $url = 'https://' . ltrim($url, '/');
+        }
+
+        return $url;
     }
 
     public function stampAvailabilityUpdatedAtIfChanged(Entry $location, ?bool $previousAvailability = null): void
