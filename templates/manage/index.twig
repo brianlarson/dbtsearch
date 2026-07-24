@@ -8,7 +8,7 @@
 {% set activeNav = 'manage' %}
 
 {% set portalFeatures = {
-  practiceDetails: false,
+  practiceDetails: true,
   dbtaCertified: true,
   locationDetails: false,
   craftSave: true,
@@ -58,12 +58,24 @@
   {% endfor %}
 {% endif %}
 
+{% set portalWebsiteField = providerEntry ? (attribute(providerEntry, 'website') ?? attribute(providerEntry, 'urlField') ?? null) : null %}
+{% set portalWebsiteUrl = '' %}
+{% if portalWebsiteField %}
+  {% if portalWebsiteField.url is defined and portalWebsiteField.url %}
+    {% set portalWebsiteUrl = portalWebsiteField.url %}
+  {% elseif portalWebsiteField.value is defined and portalWebsiteField.value %}
+    {% set portalWebsiteUrl = portalWebsiteField.value %}
+  {% else %}
+    {% set portalWebsiteUrl = portalWebsiteField %}
+  {% endif %}
+{% endif %}
+
 {% set portalProvider = providerEntry ? {
   id: providerEntry.id,
   name: providerEntry.title,
   phone: providerEntry.phone ?? '',
   email: providerEntry.email ?? '',
-  website: providerEntry.website ?? '',
+  website: portalWebsiteUrl,
   dateUpdated: providerEntry.dateUpdated ? providerEntry.dateUpdated|date('c') : null,
   locations: portalLocations,
 } : {
