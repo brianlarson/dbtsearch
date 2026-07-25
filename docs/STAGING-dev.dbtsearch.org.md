@@ -5,6 +5,15 @@ Operational runbook for the Cloudways **dbtsearch_dev** app at [https://dev.dbts
 General Cloudways workflow: [deploy-cloudways.md](deploy-cloudways.md).  
 Flatten migration checklist: [CLOUDWAYS-FLATTEN-CHECKLIST.md](CLOUDWAYS-FLATTEN-CHECKLIST.md).
 
+## Deployment model
+
+| Layer | Mechanism | Notes |
+|---|---|---|
+| **Code** | Push to **`develop`** → GitHub **CI** → **Deploy Staging** → Cloudways Git webhook | Replaces Buddy SFTP. Full repo deploy; frontend CSS must be committed under `web/css/`. |
+| **Database + uploads** | **`pnpm mm`** (Mighty Migration) or Cloudways backup restore | Separate from code deploy. **Prod → local/staging only** — never staging → prod. |
+
+GitHub Actions does **not** run `pnpm mm` (SSH creds in gitignored `.cfg`, interactive DB sync, DDEV). Operators run Mighty Migration locally when content needs refreshing.
+
 ## Current state (2026-06-16)
 
 | Item | Status |
@@ -15,6 +24,7 @@ Flatten migration checklist: [CLOUDWAYS-FLATTEN-CHECKLIST.md](CLOUDWAYS-FLATTEN-
 | dev.dbtsearch.org | Resolves; HTTP basic auth enabled (401 without credentials) |
 | SSH via `mm` | **Blocked** — key authorized for prod app only; dev app path returns Permission denied |
 | `dev.cfg` | Needs post-flatten `REMOTE_PATH` and dev Cloudways app URL (see below) |
+| CI/CD | GitHub Actions (`.github/workflows/`) — Buddy pipeline retired |
 
 Production is still on the pre-flatten layout (`public_html/cms`, docroot `cms/web`). Staging should validate flatten **before** prod rollout.
 
@@ -43,7 +53,11 @@ In Cloudways → **dbtsearch_dev** → **Deployment via Git**:
 
 - Repository: this GitHub repo.
 - Branch: **`develop`**
-- Deploy the latest commit on that branch.
+- Webroot: **`web`** (Application Settings → General)
+- Deploy hook script: see [deploy-cloudways.md](deploy-cloudways.md#3-deploy-hook-script-cloudways-panel)
+- Copy **Webhook URL** → GitHub secret `CLOUDWAYS_STAGING_DEPLOY_URL`
+
+Pushes to `develop` trigger **CI**, then **Deploy Staging** (workflow_run). Manual redeploy: GitHub → Actions → **Deploy Staging** → Run workflow.
 
 ### 3) Document root
 
@@ -77,53 +91,76 @@ CRAFT_DISALLOW_ROBOTS=true
 
 Use **Application Access** in the Cloudways dev app panel for DB host/name/user/password. Do not copy production secrets.
 
-If staging DB is empty, refresh from production (sanitized) via Cloudways backup/restore or `pnpm mm -- pull` locally then `pnpm mm -- push:dev` after SSH is fixed.
-
 ### 5) `dev.cfg` (local, gitignored)
 
-Update `scripts/migrate/dev.cfg`:
+Update `scripts/migrate/dev.cfg` after flatten (copy from `dev.cfg.example` if needed):
 
 ```ini
 REMOTE_PATH=/home/master/applications/dbtsearch_dev/public_html
 ASSET_DIRS=web/uploads
 SITE_URL=https://dev.dbtsearch.org
 APP_URL=https://unified.cloudways.com/apps/<DEV_APP_ID>/setting
-PIPELINE_URL=https://unified.cloudways.com/apps/<DEV_APP_ID>/deployment
+PIPELINE_URL=https://github.com/<org>/dbtsearch/actions/workflows/deploy-staging.yml
 ```
 
-Replace `<DEV_APP_ID>` with the numeric app id from the Cloudways dev app URL (production is `6313253`; dev is a **different** app).
+Replace `<DEV_APP_ID>` with the numeric app id from the Cloudways dev app URL (production is `6313253`; dev is a **different** app). `PIPELINE_URL` is documentation for `pnpm mm -- urls`; point it at the GitHub Actions staging deploy workflow (not Buddy).
+
+If staging DB is empty, refresh from production (sanitized):
+
+- **Cloudways:** restore production backup/snapshot to **dbtsearch_dev**, or
+- **Local:** `pnpm mm -- pull` (prod → DDEV) then `pnpm mm -- push:dev` (local → staging) after SSH is fixed.
+
+Never push staging DB to production.
 
 ## Deploy sequence
 
-### A) Cloudways panel
+### A) Automatic (normal code deploy)
 
-1. DB backup/snapshot of **dbtsearch_dev**.
-2. Confirm webroot = `web`.
-3. Confirm `.env` at app root with staging values above.
-4. Git deploy → branch **`develop`** → **Deploy Now**.
+1. Merge to **`develop`** (frontend CSS committed if templates changed).
+2. GitHub **CI** runs: `build:directory`, `build:splash`, `verify:directory-css`, `composer validate`.
+3. **Deploy Staging** POSTs Cloudways webhook → Git pull + deploy hook on server.
+4. Run smoke tests (below).
 
-### B) SSH on staging (app root)
+Optional: Cloudways application snapshot before risky migrations.
+
+### B) Manual code redeploy
+
+- GitHub → Actions → **Deploy Staging** → **Run workflow**, or
+- Cloudways → **Deployment via Git** → **Deploy Now** (same hook script runs).
+
+### C) Content / DB refresh (not every code deploy)
+
+When staging needs to match production content:
+
+```bash
+ddev start
+pnpm mm -- pull          # prod → local
+pnpm mm -- push:dev      # local → staging (confirm prompts)
+# or: pnpm mm -- push:dev:all for uploads too
+```
+
+Or restore prod DB snapshot in Cloudways panel to **dbtsearch_dev**.
+
+After a DB import on staging, the deploy hook’s `php craft up` (on next code deploy) or manual SSH:
 
 ```bash
 pnpm mm -- ssh:dev
-# or: ssh ... then cd /home/master/applications/dbtsearch_dev/public_html
-
 composer install --no-dev --optimize-autoloader
-php craft project-config/apply --force --interactive=0
-php craft migrate/all --interactive=0
+php craft up --interactive=0
 php craft clear-caches/all --interactive=0
-# or: php craft up --interactive=0
 ```
 
-Quick sanity checks:
+### D) SSH sanity checks (app root)
 
 ```bash
+pnpm mm -- ssh:dev
+
 ls -la web craft config
 php craft project-config/status
 grep -E '^(CRAFT_ENVIRONMENT|PRIMARY_SITE_URL|CRAFT_WEB_ROOT)=' .env
 ```
 
-### C) Smoke tests (with basic-auth credentials)
+### E) Smoke tests (with basic-auth credentials)
 
 - [ ] `https://dev.dbtsearch.org/` — splash/home
 - [ ] `https://dev.dbtsearch.org/directory` — directory + filters
@@ -133,10 +170,16 @@ grep -E '^(CRAFT_ENVIRONMENT|PRIMARY_SITE_URL|CRAFT_WEB_ROOT)=' .env
 
 ## Rollback
 
-1. Re-deploy previous commit in Cloudways Git deploy.
-2. Restore DB snapshot if migrations ran.
-3. Re-run the post-deploy Craft commands above and smoke tests.
+**Code:** Re-deploy previous commit (GitHub **Deploy Staging** after resetting `develop`, or Cloudways **Deploy Now** on prior commit).
+
+**Database:** Restore Cloudways DB snapshot if migrations ran; or `pnpm mm -- rollback:dev` if the last change was an mm push.
+
+Re-run post-deploy Craft commands and smoke tests.
 
 ## After staging passes
 
-Follow [CLOUDWAYS-FLATTEN-CHECKLIST.md](CLOUDWAYS-FLATTEN-CHECKLIST.md) section 4 for production: same commit hash, webroot `web`, update `production.cfg` paths to `public_html` + `web/uploads`, then post-deploy on prod.
+Follow [CLOUDWAYS-FLATTEN-CHECKLIST.md](CLOUDWAYS-FLATTEN-CHECKLIST.md) section 4 for production: same commit hash, webroot `web`, update `production.cfg` paths to `public_html` + `web/uploads`, configure **Deploy Production** workflow and `CLOUDWAYS_PROD_DEPLOY_URL`, then post-deploy on prod.
+
+## Retiring Buddy
+
+Disable the Buddy **DBT Search Development** pipeline after the first successful GitHub Actions staging deploy. The repo no longer includes `.buddy/` pipeline YAML.

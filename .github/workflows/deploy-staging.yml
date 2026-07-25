@@ -1,0 +1,32 @@
+name: Deploy Staging
+
+# Triggers Cloudways Git deploy for dbtsearch_dev (dev.dbtsearch.org).
+# Code only — DB/content sync is separate (see docs/deploy-cloudways.md, pnpm mm).
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [develop]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Trigger Cloudways staging deploy
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Trigger Cloudways deploy webhook
+        env:
+          # Cloudways → dbtsearch_dev → Deployment via Git → Webhook URL
+          DEPLOY_URL: ${{ secrets.CLOUDWAYS_STAGING_DEPLOY_URL }}
+        run: |
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "Missing secret CLOUDWAYS_STAGING_DEPLOY_URL"
+            echo "Add it in GitHub → Settings → Secrets and variables → Actions"
+            exit 1
+          fi
+          curl -fsSL -X POST "$DEPLOY_URL"
+          echo "Cloudways staging deploy triggered."
