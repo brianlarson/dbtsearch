@@ -22,8 +22,8 @@ Short reference for anyone (human or AI) working in this repo.
 | [_README/notes/](../_README/notes/) | Architecture plans and decision notes (e.g. stale-location reminders). |
 | [STACK-REWRITE-SETUP.md](STACK-REWRITE-SETUP.md) | Craft + MySQL 8 in DDEV; root-level Craft setup. |
 | [HOSTING.md](HOSTING.md) | Hosting plan: Cloudways, lightweight Craft. |
-| [deploy-cloudways.md](deploy-cloudways.md) | Cloudways staging/production deployment workflow. |
-| [STAGING-dev.dbtsearch.org.md](STAGING-dev.dbtsearch.org.md) | Staging app runbook. |
+| [deploy-cloudways.md](deploy-cloudways.md) | Cloudways Git deploy, GitHub Actions, and Mighty Migration (`pnpm mm`) roles. |
+| [STAGING-dev.dbtsearch.org.md](STAGING-dev.dbtsearch.org.md) | Staging app runbook (dev.dbtsearch.org). |
 
 ## Tracking
 
@@ -34,7 +34,8 @@ Short reference for anyone (human or AI) working in this repo.
 - **Craft lives at repo root** — no `cms/` or `app/` prefix. Docroot is `web/`.
 - **Env:** Use Craft-standard `CRAFT_*` vars. Templates: `.env.example.dev`, `.env.example.staging`, `.env.example.production`. Local `.env` is gitignored.
 - **Naming:** Prefer “DBT Search” (with space) in prose; code/URLs may still use “dbtsearch” where that’s the identifier.
-- **Migration:** `pnpm mm` (or `npm run mm`) for mighty-migration tooling under `scripts/migrate/`.
-- **Post-deploy on Cloudways:** from app root run `composer install --no-dev --optimize-autoloader`, then `php craft project-config/apply --force --interactive=0`, `php craft migrate/all --interactive=0`, and `php craft clear-caches/all --interactive=0` (or `php craft up --interactive=0`).
+- **Code deploy:** GitHub Actions (`.github/workflows/`) → Cloudways Git webhook; branch `develop` → staging.
+- **DB/assets sync:** `pnpm mm` (Mighty Migration, `scripts/migrate/`, gitignored `.cfg`) — prod → local/staging only; never staging → prod. Not run in CI.
+- **Post-deploy on Cloudways:** handled by deploy hook script (`composer install`, `php craft up`, backups, `clear-caches/all`); see [deploy-cloudways.md](deploy-cloudways.md).
 
 This project is AI-assisted; docs and code can have mistakes. Review and test changes.

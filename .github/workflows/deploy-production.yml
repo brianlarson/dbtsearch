@@ -1,0 +1,26 @@
+name: Deploy Production
+
+# Manual production deploy only. Requires GitHub environment approval (production).
+# DB/content sync is never automated here — use Cloudways backups and pnpm mm pull (prod → local) only.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Trigger Cloudways production deploy
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Trigger Cloudways deploy webhook
+        env:
+          # Cloudways → production app → Deployment via Git → Webhook URL
+          DEPLOY_URL: ${{ secrets.CLOUDWAYS_PROD_DEPLOY_URL }}
+        run: |
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "Missing secret CLOUDWAYS_PROD_DEPLOY_URL"
+            echo "Add it in GitHub → Settings → Environments → production → Secrets"
+            exit 1
+          fi
+          curl -fsSL -X POST "$DEPLOY_URL"
+          echo "Cloudways production deploy triggered."

@@ -1,22 +1,13 @@
 version: 2
 updates:
-  # Maintain dependencies for npm
+  # Frontend npm dependencies (Storybook, Tailwind, Vite, Preline, Playwright)
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/frontend"
     schedule:
       interval: "monthly"
     commit-message:
-      # Prefix all commit messages
       prefix: "[Dependabot] npm"
     labels:
-      # Add these labels to the Generated PR
       - "npm"
       - "dependencies"
       - "update"
-    allow:
-      # Allow specific libraries to be updated
-      # By default, it would check everything, even in the lock
-      - "react*"
-      - "redux*"
-      - 
-    
