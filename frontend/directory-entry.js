@@ -1,5 +1,6 @@
 import './directory-entry.css';
 import { initCookieConsent } from './src/cookieConsent.js';
+import { initFaqAccordion } from './src/faqAccordion.js';
 
 const BACK_TO_TOP_THRESHOLD = 500;
 const MD_MEDIA_QUERY = window.matchMedia('(min-width: 768px)');
@@ -123,6 +124,7 @@ function initDirectoryEntry() {
   initBackToTop();
   initMobileNav();
   initCookieConsent();
+  initFaqAccordion();
 }
 
 if (document.readyState === 'loading') {

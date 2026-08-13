@@ -1,14 +1,116 @@
 {% extends '_layouts/site' %}
 
 {% set pageHeading = 'FAQs' %}
-{% set pageSubheading = 'Frequently Asked DBT Questions' %}
+{% set pageSubheading = 'For DBT provider representatives' %}
+{% set pageDescription = 'Answers for current DBT provider representatives: why to register on DBTsearch, who can claim a listing, and how keeping availability up to date helps people find care.' %}
 {% set activeNav = 'faqs' %}
+
+{# Draft answers from current product behavior. Owner may still want a copy pass. #}
+{% set faqItems = [
+  {
+    question: 'Why should I register as a current provider representative?',
+    answer: "Registering creates a manager account for your program's listing so you can keep it current. DBTsearch helps clients and referring clinicians find certified DBT providers in Minnesota that have openings. If you have current availability at any location, register so you can update that information. After you sign up, you log in to Manage to update availability, DBT-A status, and other listing details."
+  },
+  {
+    question: 'Who can register — who counts as a representative?',
+    answer: "Registration is for current provider representatives: someone authorized to manage the program's public listing. On the register page you choose your practice from listings that do not yet have a manager account, then set a login email and password. If a listing already has a manager, it will not appear as an option to claim."
+  },
+  {
+    question: 'How does keeping availability up to date help people find care?',
+    answer: 'People looking for DBT are often in crisis, and referring clinicians rarely have time to call every clinic. Searchers use this site to find programs that can actually take them. Availability is marked per location. Locations with availability can appear in the default directory view, which shows only locations with openings, and Call, Email, and Contact buttons show on those locations when the provider has those details. Stale availability means people may contact programs that cannot take them, or miss programs that can.'
+  },
+  {
+    question: 'Is registration only for programs with current openings?',
+    answer: 'We ask current representatives to register if you have availability at any location. You do not need openings at every site. Availability is set per location after you claim the listing. You can still register to claim a listing so you can update it when openings change.'
+  },
+  {
+    question: 'What if we have availability at some locations but not others?',
+    answer: 'Mark availability on each location separately in Manage. Locations with openings show as Accepting Clients; others show as No Availability. The default directory filter shows only locations with availability. Call, Email, and Contact buttons appear on locations that have availability, when those details exist on the provider. Phone, email, and Contact Page live on the provider; availability lives on each location.'
+  },
+  {
+    question: 'How often should I update our listings?',
+    answer: 'Update a location whenever its availability changes. There is no required schedule. Each location shows when availability was last updated, so searchers can see how current the information is.'
+  },
+  {
+    question: 'Our program is already on DBTsearch — do we still need to register?',
+    answer: 'Yes. Programs already listed still need a representative to register to claim the listing and keep it updated. Registration is how you get a manager account tied to that listing. Choose your practice from listings that do not yet have a manager.'
+  },
+  {
+    question: 'Will current availability change where we appear in search?',
+    answer: 'Yes. The directory defaults to showing only locations marked as having availability. Searchers can turn that filter off to see all locations. Within the results, locations are ordered by when availability was last updated, most recent first.'
+  },
+  {
+    question: 'What happens after I register?',
+    answer: 'You create an account, choose an unclaimed listing, and are signed in and sent to Manage. From there you can review locations, set availability, update DBT-A status, and keep the directory profile current. Once you are logged in, the site no longer shows the register banner or the Register buttons on About and FAQs.'
+  }
+] %}
+
+{% set faqMainEntity = [] %}
+{% for item in faqItems %}
+  {% set faqMainEntity = faqMainEntity|merge([{
+    '@type': 'Question',
+    'name': item.question,
+    'acceptedAnswer': {
+      '@type': 'Answer',
+      'text': item.answer
+    }
+  }]) %}
+{% endfor %}
+{% set faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': faqMainEntity
+} %}
+
+{% block head %}
+  <script type="application/ld+json">{{ faqSchema|json_encode|raw }}</script>
+{% endblock %}
 
 {% block content %}
   <main class="pb-12">
     <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 md:pt-8 lg:px-8">
-      <div class="max-w-3xl text-base leading-relaxed text-slate-300">
-        <p>Coming soon…</p>
+      <div class="max-w-3xl">
+        <p class="mb-8 text-base leading-relaxed text-slate-300">These questions are for current DBT provider representatives. Register to claim your listing and keep availability current so clients and referring clinicians can find care faster.</p>
+
+        <h2 class="sr-only">Questions for provider representatives</h2>
+        <div class="faq-accordion" data-faq-accordion>
+          {% for item in faqItems %}
+            {% set panelId = 'faq-panel-' ~ loop.index %}
+            {% set triggerId = 'faq-trigger-' ~ loop.index %}
+            <div data-faq-item>
+              <h3>
+                <button
+                  type="button"
+                  class="faq-trigger"
+                  id="{{ triggerId }}"
+                  data-faq-trigger
+                  aria-expanded="false"
+                  aria-controls="{{ panelId }}"
+                >{{ item.question }}</button>
+              </h3>
+              <div
+                class="faq-panel"
+                id="{{ panelId }}"
+                data-faq-panel
+                role="region"
+                aria-labelledby="{{ triggerId }}"
+                aria-hidden="true"
+                inert
+              >
+                <div class="faq-panel-inner">
+                  <p class="faq-answer">{{ item.answer }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if not currentUser %}
+          <div class="mt-10">
+            <p class="mb-4 text-base leading-relaxed text-slate-300">Ready to claim your listing and keep availability up to date?</p>
+            <a href="{{ url('register') }}" class="inline-flex items-center rounded-md bg-slate-600 px-4 py-2 text-base font-semibold text-white hover:bg-slate-500">Register</a>
+          </div>
+        {% endif %}
       </div>
     </section>
   </main>

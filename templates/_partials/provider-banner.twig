@@ -1,0 +1,194 @@
+{#
+  Site-wide provider registration alert. Shown to guests unless dismissed
+  (cookie dbtsearch_provider_banner_dismissed, 24h) or already on /register.
+#}
+{% set providerBannerDismissed = craft.app.request.getRawCookies().getValue('dbtsearch_provider_banner_dismissed') == '1' %}
+{% set onRegisterPage = craft.app.request.segments|first == 'register' %}
+{% if not currentUser and not providerBannerDismissed and not onRegisterPage %}
+<style>
+  .provider-banner {
+    position: relative;
+    background-color: #1e7a54;
+    color: #ecfdf5;
+    border-bottom: 1px solid #258a5f;
+  }
+  .provider-banner[hidden] {
+    display: none !important;
+  }
+  .provider-banner-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 1.125rem;
+    row-gap: 0.3rem;
+    align-items: start;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 72rem; /* Tailwind max-w-6xl — same as site chrome */
+    margin-inline: auto;
+    padding: 0.45rem 1rem;
+  }
+  @media (min-width: 640px) {
+    .provider-banner-inner {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .provider-banner-inner {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      column-gap: 0.75rem;
+      row-gap: 0;
+      padding: 0.75rem 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .provider-banner-inner {
+      padding-inline: 2rem;
+    }
+  }
+  .provider-banner-icon {
+    grid-column: 1;
+    grid-row: 1;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.12rem;
+    color: #ecfdf5;
+  }
+  @media (min-width: 768px) {
+    .provider-banner-icon {
+      width: 1.75rem;
+      height: 1.75rem;
+      margin-top: 0;
+    }
+  }
+  .provider-banner-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  .provider-banner-copy {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    max-width: 580px;
+    font-size: 17px;
+    line-height: 1.25;
+    color: #ecfdf5;
+  }
+  .provider-banner-actions {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.75rem; /* 12px between X and Register */
+  }
+  @media (min-width: 768px) {
+    .provider-banner-actions {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+    }
+  }
+  .provider-banner-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #043528;
+    border-radius: 0.375rem;
+    background-color: #064e3b;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .provider-banner-cta:hover {
+    background-color: #043528;
+    border-color: #022c22;
+    color: #fff;
+    opacity: 1;
+  }
+  .provider-banner-cta:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(187, 206, 253, 0.45);
+    color: #fff;
+  }
+  .provider-banner-dismiss {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.375rem;
+    background: transparent;
+    color: #e8eef5;
+    cursor: pointer;
+  }
+  .provider-banner-dismiss:hover {
+    background-color: rgb(255 255 255 / 0.1);
+  }
+  .provider-banner-dismiss:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(187, 206, 253, 0.45);
+  }
+  .provider-banner-dismiss svg {
+    width: 1rem;
+    height: 1rem;
+  }
+</style>
+<div
+  id="provider-banner"
+  class="provider-banner"
+  role="region"
+  aria-label="Provider registration notice"
+>
+  <div class="provider-banner-inner">
+    <span class="provider-banner-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+      </svg>
+    </span>
+    <p class="provider-banner-copy">
+      Current provider representatives: please register to update your listing if you have current availability at any location.
+    </p>
+    <div class="provider-banner-actions">
+      <button
+        type="button"
+        class="provider-banner-dismiss"
+        data-provider-banner-dismiss
+        aria-label="Dismiss this notice for 24 hours"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+        </svg>
+      </button>
+      <a href="{{ url('register') }}" class="provider-banner-cta">Register</a>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    var COOKIE = 'dbtsearch_provider_banner_dismissed';
+    var MAX_AGE = 60 * 60 * 24;
+    var bar = document.getElementById('provider-banner');
+    if (!bar) return;
+    bar.querySelectorAll('[data-provider-banner-dismiss]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        document.cookie = COOKIE + '=1; path=/; max-age=' + MAX_AGE + '; SameSite=Lax';
+        try { localStorage.removeItem('dbtsearch_home_provider_banner'); } catch (e) {}
+        bar.hidden = true;
+      });
+    });
+  })();
+</script>
+{% endif %}

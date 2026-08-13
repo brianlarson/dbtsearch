@@ -85,4 +85,57 @@
   .formie-field-wrapper .fui-input {
     @apply block w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
   }
+
+  /*
+   * FAQ accordion — same tokens as header / mobile nav items:
+   * closed = plain dim text; open/hover = rounded slate well.
+   */
+  .faq-accordion {
+    @apply flex flex-col gap-4;
+  }
+
+  .faq-trigger {
+    @apply w-full rounded-md border-b border-slate-700/50 px-3 py-4 text-left text-base font-medium text-slate-300 transition-[color,background-color,border-color] duration-200 ease-out;
+  }
+
+  .faq-trigger:hover {
+    @apply border-slate-600/40 bg-slate-800/60 text-white;
+  }
+
+  .faq-trigger[aria-expanded="true"] {
+    @apply border-slate-600/30 bg-slate-800/80 text-white;
+  }
+
+  .faq-trigger:focus {
+    @apply outline-none;
+  }
+
+  .faq-trigger:focus-visible {
+    @apply ring-2 ring-brand ring-offset-2 ring-offset-slate-950;
+  }
+
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-out;
+  }
+
+  .faq-panel.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-panel-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .faq-answer {
+    @apply px-3 pb-5 pt-2 text-base leading-relaxed text-slate-400;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-panel {
+      transition: none;
+    }
+  }
 }

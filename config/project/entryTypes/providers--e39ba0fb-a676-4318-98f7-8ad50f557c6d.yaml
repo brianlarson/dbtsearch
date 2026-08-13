@@ -120,6 +120,22 @@ fieldLayouts:
             warning: null
             width: 50
           -
+            dateAdded: '2026-08-13T15:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c7598e88-bdae-462f-8790-410a3fccdcc6 # URL
+            handle: contactPage
+            instructions: 'Public contact or intake page for this provider. Shown as a Contact button on locations with availability.'
+            label: 'Contact Page'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b813233d-6697-42a6-8662-8cf232a7b71b
+            userCondition: null
+            warning: null
+            width: 50
+          -
             dateAdded: '2026-04-24T19:26:58+00:00'
             elementCondition: null
             type: craft\fieldlayoutelements\HorizontalRule
