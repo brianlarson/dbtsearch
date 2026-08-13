@@ -3,6 +3,7 @@
 {% set pageHeading = 'Claim your listing' %}
 {% set pageSubheading = 'Provider signup' %}
 {% set activeNav = '' %}
+{% set robots = 'noindex, nofollow' %}
 {% set formHandle = 'providerSignup' %}
 {% set submitLabel = 'Create account' %}
 {% set form = craft.formie.forms({ handle: formHandle }).one() %}
@@ -31,6 +32,11 @@
               {{ actionInput('formie/submissions/submit') }}
               {{ hiddenInput('handle', form.handle) }}
               {{ csrfInput() }}
+              {{ hiddenInput('form_started_at', now|date('U')) }}
+              <div class="absolute left-[-10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                <label for="company_fax">Fax</label>
+                <input type="text" name="company_fax" id="company_fax" value="" tabindex="-1" autocomplete="off">
+              </div>
               {% if submission and submission.id %}{{ hiddenInput('submissionId', submission.id) }}{% endif %}
 
               {% for field in form.getFields() %}
@@ -76,6 +82,10 @@
             <li class="flex items-start gap-3">
               <svg class="mt-0.5 size-5 shrink-0 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               <span>Update location availability so others can see who is accepting new clients.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="mt-0.5 size-5 shrink-0 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span>If you can't find your provider name in the dropdown, someone has already registered. Email <a href="mailto:support@dbtsearch.org" class="text-primary underline decoration-1 hover:opacity-90">support@dbtsearch.org</a> for assistance!</span>
             </li>
           </ul>
         </div>

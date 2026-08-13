@@ -38,7 +38,7 @@
   <link rel="icon" type="image/x-icon" href="{{ url('favicon.ico') }}" />
   <link rel="icon" type="image/png" sizes="32x32" href="{{ url('favicon-32x32.png') }}" />
   <link rel="icon" type="image/png" sizes="16x16" href="{{ url('favicon-16x16.png') }}" />
-  <link rel="stylesheet" href="{{ url('/css/splash.css') }}" />
+  <link rel="stylesheet" href="{{ staticAsset('/css/splash.css') }}" />
 
   {% if form %}{% do craft.formie.registerAssets(form) %}{% endif %}
 </head>
@@ -155,5 +155,9 @@
       <p class="mb-0 text-xs text-muted-foreground">Copyright &copy; {{ "now"|date("Y") }} DBT Search and dbtsearch.org. All rights reserved.</p>
     </div>
   </footer>
+
+  {% include '_partials/cookie-consent' %}
+
+  <script src="{{ staticAsset('/css/splash.min.js') }}" defer></script>
 </body>
 </html>

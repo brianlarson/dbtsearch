@@ -189,6 +189,17 @@
             {% if websiteHost|lower|slice(0, 4) == 'www.' %}
               {% set websiteDisplay = websiteHost|slice(4) %}
             {% endif %}
+            {% set contactPageField = attribute(provider, 'contactPage') ?? null %}
+            {% set contactPageUrl = '' %}
+            {% if contactPageField %}
+              {% if contactPageField.url is defined and contactPageField.url %}
+                {% set contactPageUrl = contactPageField.url %}
+              {% elseif contactPageField.value is defined and contactPageField.value %}
+                {% set contactPageUrl = contactPageField.value %}
+              {% else %}
+                {% set contactPageUrl = contactPageField %}
+              {% endif %}
+            {% endif %}
             <li class="flex">
               <article class="flex w-full flex-1 flex-col overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
                 <div class="grid h-full flex-1 grid-cols-1 sm:grid-cols-12 sm:items-stretch">
@@ -231,13 +242,17 @@
                         {% set showContactCtas = item.hasAvailability %}
                         {% set showPhoneCta = showContactCtas and providerPhone %}
                         {% set showEmailCta = showContactCtas and providerEmail %}
-                        {% if showPhoneCta or showEmailCta or websiteUrl %}
+                        {% set showContactPageCta = showContactCtas and contactPageUrl %}
+                        {% if showPhoneCta or showEmailCta or showContactPageCta or websiteUrl %}
                           <div class="flex flex-row flex-wrap items-center gap-2 md:flex-nowrap md:gap-2.5">
                             {% if showPhoneCta %}
                               <a href="tel:{{ providerPhoneDigits|length == 10 ? providerPhoneDigits : providerPhone|replace({' ': '', '-': '', '(': '', ')': '', '.': '', '+': ''}) }}" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Call {{ providerPhoneDisplay }}</a>
                             {% endif %}
                             {% if showEmailCta %}
                               <a href="mailto:{{ providerEmail }}?subject=Inquiry%20from%20DBTsearch.org" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Email Us</a>
+                            {% endif %}
+                            {% if showContactPageCta %}
+                              <a href="{{ contactPageUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Contact</a>
                             {% endif %}
                             {% if websiteUrl %}
                               <a href="{{ websiteUrl }}" target="_blank" rel="noopener noreferrer" title="{{ websiteDisplay }}" class="min-w-0 max-w-full shrink truncate text-sm text-brand no-underline hover:underline md:max-w-[10rem] lg:max-w-[14rem]">{{ websiteDisplay }}</a>

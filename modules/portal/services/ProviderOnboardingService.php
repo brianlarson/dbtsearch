@@ -15,6 +15,12 @@ class ProviderOnboardingService extends Component
 
     public const PROVIDER_FIELD_HANDLE = 'provider';
 
+    public const HONEYPOT_PARAM = 'company_fax';
+
+    public const FORM_STARTED_AT_PARAM = 'form_started_at';
+
+    public const MIN_SUBMIT_SECONDS = 3;
+
     /**
      * @return int[]
      */
@@ -102,6 +108,28 @@ class ProviderOnboardingService extends Component
         }
 
         return $provider;
+    }
+
+    /**
+     * Cheap signup spam checks: filled honeypot, missing timestamp, or submit
+     * faster than a person can complete the form.
+     */
+    public function isSpamSignupRequest(): bool
+    {
+        $request = Craft::$app->getRequest();
+        $honeypot = trim((string) $request->getBodyParam(self::HONEYPOT_PARAM, ''));
+        if ($honeypot !== '') {
+            return true;
+        }
+
+        $startedAt = $request->getBodyParam(self::FORM_STARTED_AT_PARAM);
+        if (!is_numeric($startedAt)) {
+            return true;
+        }
+
+        $elapsed = time() - (int) $startedAt;
+
+        return $elapsed < self::MIN_SUBMIT_SECONDS;
     }
 
     /**
