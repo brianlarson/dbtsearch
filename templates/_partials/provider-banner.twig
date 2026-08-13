@@ -84,14 +84,16 @@
     justify-self: start;
     display: flex;
     flex-shrink: 0;
+    flex-direction: row-reverse; /* mobile: Register then X */
     align-items: center;
-    gap: 0.75rem; /* 12px between X and Register */
+    gap: 0.75rem; /* 12px between Register and X */
   }
   @media (min-width: 768px) {
     .provider-banner-actions {
       grid-column: 3;
       grid-row: 1;
       justify-self: end;
+      flex-direction: row; /* desktop: X then Register */
     }
   }
   .provider-banner-cta {

@@ -1,11 +1,10 @@
 {% extends '_layouts/site' %}
 
 {% set pageHeading = 'FAQs' %}
-{% set pageSubheading = 'For DBT provider representatives' %}
-{% set pageDescription = 'Answers for current DBT provider representatives: why to register on DBTsearch, who can claim a listing, and how keeping availability up to date helps people find care.' %}
+{% set pageSubheading = 'Frequently Asked DBT Questions' %}
 {% set activeNav = 'faqs' %}
 
-{# Draft answers from current product behavior. Owner may still want a copy pass. #}
+{# Draft FAQ accordion kept below (HTML-commented in content) for a later copy pass / JS fix. #}
 {% set faqItems = [
   {
     question: 'Why should I register as a current provider representative?',
@@ -45,30 +44,19 @@
   }
 ] %}
 
-{% set faqMainEntity = [] %}
-{% for item in faqItems %}
-  {% set faqMainEntity = faqMainEntity|merge([{
-    '@type': 'Question',
-    'name': item.question,
-    'acceptedAnswer': {
-      '@type': 'Answer',
-      'text': item.answer
-    }
-  }]) %}
-{% endfor %}
-{% set faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  'mainEntity': faqMainEntity
-} %}
-
-{% block head %}
-  <script type="application/ld+json">{{ faqSchema|json_encode|raw }}</script>
-{% endblock %}
-
 {% block content %}
   <main class="pb-12">
     <section class="mx-auto max-w-6xl px-4 pt-6 sm:px-6 md:pt-8 lg:px-8">
+      <div class="max-w-3xl text-base leading-relaxed text-slate-300">
+        <p>Coming soon…</p>
+      </div>
+
+      {#
+        Accordion temporarily disabled (Coming soon placeholder above).
+        HTML comment below keeps the markup in the page source for easy restore;
+        Twig still renders into the comment so answers are not visible or interactive.
+      #}
+      <!--
       <div class="max-w-3xl">
         <p class="mb-8 text-base leading-relaxed text-slate-300">These questions are for current DBT provider representatives. Register to claim your listing and keep availability current so clients and referring clinicians can find care faster.</p>
 
@@ -112,6 +100,7 @@
           </div>
         {% endif %}
       </div>
+      -->
     </section>
   </main>
 {% endblock %}

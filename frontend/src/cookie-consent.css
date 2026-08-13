@@ -78,8 +78,17 @@
 .cookie-consent-actions {
   display: flex;
   flex-shrink: 0;
+  flex-direction: row-reverse; /* mobile: Accept then X */
   align-items: center;
-  gap: 0.75rem; /* 12px between X and Accept */
+  justify-content: flex-end;
+  gap: 0.75rem; /* 12px between Accept and X */
+}
+
+@media (min-width: 768px) {
+  .cookie-consent-actions {
+    flex-direction: row; /* desktop: X then Accept */
+    justify-content: flex-start;
+  }
 }
 
 /* Match archived portal save / Accept green. */
