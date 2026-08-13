@@ -12,6 +12,7 @@ Disallow: /cpresources
 Disallow: /manage
 Disallow: /login
 Disallow: /register
+Disallow: /register/
 Disallow: /signed-out
 
 # Craft action / Sprig / form endpoints

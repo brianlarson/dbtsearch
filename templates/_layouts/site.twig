@@ -16,7 +16,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ pageTitle }}</title>
   <meta name="description" content="{{ pageDescription }}" />
-  <link rel="stylesheet" href="{{ url('/css/directory.css') }}" />
+  {% if robots is defined and robots %}
+    <meta name="robots" content="{{ robots }}">
+  {% endif %}
+  <link rel="stylesheet" href="{{ staticAsset('/css/directory.css') }}" />
   {% block head %}{% endblock %}
 </head>
 <body class="dark min-h-screen bg-slate-950 text-white font-sans antialiased" data-theme="dbtsearch">
@@ -152,7 +155,7 @@
 
   {% include '_partials/cookie-consent' %}
 
-  <script src="{{ url('/css/directory.min.js') }}" defer></script>
+  <script src="{{ staticAsset('/css/directory.min.js') }}" defer></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -14,7 +14,7 @@ The provider onboarding page is live at **`/register`**. This URL is **not linke
    - **confirmPassword** — Password, required, enable **Match Field** → `password`
 4. **Form Template:** Assign the **Register** template (`_forms/register`) to this form. Disable Formie base/theme CSS on the template (the page uses site styles from `directory.css`).
 5. **Submit Action:** Redirect to URL (the portal module overrides this to log the user in and redirect to `/manage` after successful signup).
-6. Configure **Spam** (honeypot and/or reCAPTCHA) as needed.
+6. The register template includes a hidden honeypot and a 3-second minimum submit time (enforced in the portal module). You can still enable Formie captchas (reCAPTCHA/Turnstile) later if spam continues.
 7. Optional **Email Notifications** to notify staff when a provider claims a listing.
 
 Until this form exists, the template shows setup instructions.

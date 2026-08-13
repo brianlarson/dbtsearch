@@ -15,7 +15,7 @@
         <div class="mt-3 flex flex-wrap items-center gap-3">
           <a href="{{ url('directory') }}" class="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-base font-semibold text-primary-foreground hover:opacity-90">Find DBT Providers</a>
           {% if not currentUser %}
-            <a href="{{ url('register') }}" class="inline-flex items-center rounded-md bg-slate-600 px-4 py-2 text-base font-semibold text-white hover:bg-slate-500">Register</a>
+            <a href="{{ url('register') }}" rel="nofollow" class="inline-flex items-center rounded-md bg-slate-600 px-4 py-2 text-base font-semibold text-white hover:bg-slate-500">Register</a>
           {% endif %}
         </div>
       </div>

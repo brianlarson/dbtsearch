@@ -5,6 +5,8 @@ namespace modules\portal;
 use Craft;
 use craft\elements\Entry;
 use craft\helpers\UrlHelper;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use yii\base\ModelEvent;
 use modules\portal\services\ProviderOnboardingService;
 use modules\portal\services\ProviderPortalService;
@@ -37,6 +39,33 @@ class Module extends BaseModule
 
         $this->registerFormieEvents();
         $this->registerLocationAvailabilityEvents();
+        $this->registerStaticAssetTwigFunction();
+    }
+
+    /**
+     * Version static CSS/JS URLs with filemtime so Cloudflare's long-lived
+     * cache does not keep serving a previous deploy's bundles.
+     */
+    private function registerStaticAssetTwigFunction(): void
+    {
+        if (Craft::$app->getRequest()->getIsConsoleRequest()) {
+            return;
+        }
+
+        Craft::$app->getView()->registerTwigExtension(new class extends AbstractExtension {
+            public function getFunctions(): array
+            {
+                return [
+                    new TwigFunction('staticAsset', static function (string $path): string {
+                        $relative = '/' . ltrim($path, '/');
+                        $full = Craft::getAlias('@webroot') . $relative;
+                        $version = is_file($full) ? (string) filemtime($full) : '1';
+
+                        return UrlHelper::url($relative, ['v' => $version]);
+                    }),
+                ];
+            }
+        });
     }
 
     private function registerLocationAvailabilityEvents(): void
@@ -115,6 +144,13 @@ class Module extends BaseModule
                 }
 
                 if (($event->submitAction ?? 'submit') !== 'submit') {
+                    return;
+                }
+
+                if ($onboarding->isSpamSignupRequest()) {
+                    Craft::warning('Blocked provider signup that failed honeypot or timing checks.', __METHOD__);
+                    $submission->addError('email', 'We could not create your account. Please try again or contact support.');
+                    $event->isValid = false;
                     return;
                 }
 

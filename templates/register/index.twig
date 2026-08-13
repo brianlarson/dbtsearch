@@ -3,6 +3,7 @@
 {% set pageHeading = 'Claim your listing' %}
 {% set pageSubheading = 'Provider signup' %}
 {% set activeNav = '' %}
+{% set robots = 'noindex, nofollow' %}
 {% set formHandle = 'providerSignup' %}
 {% set submitLabel = 'Create account' %}
 {% set form = craft.formie.forms({ handle: formHandle }).one() %}
@@ -31,6 +32,11 @@
               {{ actionInput('formie/submissions/submit') }}
               {{ hiddenInput('handle', form.handle) }}
               {{ csrfInput() }}
+              {{ hiddenInput('form_started_at', now|date('U')) }}
+              <div class="absolute left-[-10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                <label for="company_fax">Fax</label>
+                <input type="text" name="company_fax" id="company_fax" value="" tabindex="-1" autocomplete="off">
+              </div>
               {% if submission and submission.id %}{{ hiddenInput('submissionId', submission.id) }}{% endif %}
 
               {% for field in form.getFields() %}
