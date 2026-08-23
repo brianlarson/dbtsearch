@@ -233,9 +233,12 @@
                           {% if location.dbtaCertified %}
                             <span class="{{ featureChipClass }}">All Ages</span>
                           {% endif %}
-                          {# Visual mock only — not wired to telehealthAvailable / acceptsInsurance yet. #}
-                          <span class="{{ featureChipClass }}">Virtual Offered</span>
-                          <span class="{{ featureChipClass }}">Insurance Accepted</span>
+                          {% if location.virtualOffered %}
+                            <span class="{{ featureChipClass }}">Virtual Offered</span>
+                          {% endif %}
+                          {% if location.insuranceAccepted %}
+                            <span class="{{ featureChipClass }}">Insurance Accepted</span>
+                          {% endif %}
                         </div>
                         <div>
                           <h2 class="mb-1 text-xl font-semibold leading-tight text-brand sm:text-2xl">

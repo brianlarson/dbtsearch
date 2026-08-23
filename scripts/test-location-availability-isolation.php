@@ -91,6 +91,8 @@ foreach ($locations as $loc) {
     $locationsPayload[$id] = [
         'availability' => $id === (int)$target->id ? !$currentAvail : $currentAvail,
         'dbtaCertified' => (bool)$loc->getFieldValue('dbtaCertified'),
+        'virtualOffered' => (bool)$loc->getFieldValue('virtualOffered'),
+        'insuranceAccepted' => (bool)$loc->getFieldValue('insuranceAccepted'),
     ];
 }
 

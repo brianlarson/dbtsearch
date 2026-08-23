@@ -126,6 +126,38 @@ fieldLayouts:
             warning: null
             width: 50
           -
+            dateAdded: '2026-08-23T23:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f77e21c5-ded4-4082-86c6-5df3b28a7316 # DBT-A Certified
+            handle: virtualOffered
+            instructions: null
+            label: 'Virtual Offered'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f10bb1a9-b0b2-4e06-8f63-388d4a719b91
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-08-23T23:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f77e21c5-ded4-4082-86c6-5df3b28a7316 # DBT-A Certified
+            handle: insuranceAccepted
+            instructions: null
+            label: 'Insurance Accepted'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7fdbd4e2-be11-4c1b-8009-767bbfe9fa40
+            userCondition: null
+            warning: null
+            width: 50
+          -
             dateAdded: '2026-04-24T19:12:04+00:00'
             elementCondition: null
             type: craft\fieldlayoutelements\HorizontalRule

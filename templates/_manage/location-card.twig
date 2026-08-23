@@ -1,4 +1,4 @@
-{# @var location array with id, name, address, city, state, zip, phone, email, website, availability, dbtaCertified #}
+{# @var location array with id, name, address, city, state, zip, phone, email, website, availability, dbtaCertified, virtualOffered, insuranceAccepted #}
 {% set locId = location.id %}
 {% set detailsId = 'portal-loc-details-' ~ locId %}
 {% set locCity = (location.city ?? '')|trim %}
@@ -37,6 +37,20 @@
         field: 'dbtaCertified',
       } only %}
     {% endif %}
+    {% include '_manage/subtle-checkbox' with {
+      id: 'portal-virtual-' ~ locId,
+      name: 'locations[' ~ locId ~ '][virtualOffered]',
+      checked: location.virtualOffered ?? false,
+      label: 'Virtual Offered',
+      field: 'virtualOffered',
+    } only %}
+    {% include '_manage/subtle-checkbox' with {
+      id: 'portal-insurance-' ~ locId,
+      name: 'locations[' ~ locId ~ '][insuranceAccepted]',
+      checked: location.insuranceAccepted ?? false,
+      label: 'Insurance Accepted',
+      field: 'insuranceAccepted',
+    } only %}
     {% include '_manage/availability-switch' with {
       id: 'portal-availability-' ~ locId,
       name: 'locations[' ~ locId ~ '][availability]',
