@@ -50,6 +50,7 @@ class ManageController extends Controller
             'phone' => $request->getBodyParam('phone'),
             'email' => $request->getBodyParam('email'),
             'website' => $request->getBodyParam('website'),
+            'contactPage' => $request->getBodyParam('contactPage'),
             'locations' => $request->getBodyParam('locations', []),
             'locationDetails' => (bool)$request->getBodyParam('locationDetails'),
         ]);

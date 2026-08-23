@@ -3,6 +3,7 @@
 namespace modules\portal\services;
 
 use craft\base\Component;
+use craft\elements\Category;
 use craft\elements\Entry;
 use craft\elements\User;
 use craft\helpers\DateTimeHelper;
@@ -10,6 +11,9 @@ use craft\helpers\DateTimeHelper;
 class ProviderPortalService extends Component
 {
     public const PROVIDER_GROUP_HANDLES = ['provider', 'providerEditors'];
+
+    /** @var array<string, int> */
+    private array $categoryIdsByKey = [];
 
     public function userCanAccessPortal(User $user): bool
     {
@@ -107,9 +111,25 @@ class ProviderPortalService extends Component
         return [
             'id' => (string)$provider->id,
             'name' => (string)$provider->title,
-            'phone' => (string)($provider->getFieldValue('phone') ?? ''),
-            'email' => (string)($provider->getFieldValue('email') ?? ''),
-            'website' => $this->getWebsiteUrl($provider),
+            'phone' => $this->plainText($provider, 'phone'),
+            'email' => $this->plainText($provider, 'email'),
+            'website' => $this->linkUrl($provider, 'website'),
+            'contactPage' => $this->linkUrl($provider, 'contactPage'),
+            'fax' => $this->plainText($provider, 'fax'),
+            'staffPage' => $this->linkUrl($provider, 'staffPage'),
+            'facebookUrl' => $this->linkUrl($provider, 'facebookUrl'),
+            'instagramUrl' => $this->linkUrl($provider, 'instagramUrl'),
+            'servicesOffered' => $this->plainText($provider, 'servicesOffered'),
+            'dbtServicesDescription' => $this->plainText($provider, 'dbtServicesDescription'),
+            'agesServed' => $this->plainText($provider, 'agesServed'),
+            'acceptsInsurance' => $this->plainText($provider, 'acceptsInsurance'),
+            'staffNames' => $this->plainText($provider, 'staffNames'),
+            'specialties' => $this->categoryTitles($provider, 'specialties'),
+            'credentials' => $this->categoryTitles($provider, 'credentials'),
+            'telehealthAvailable' => $this->boolValue($provider, 'telehealthAvailable'),
+            'inPersonAvailable' => $this->boolValue($provider, 'inPersonAvailable'),
+            'slidingScale' => $this->boolValue($provider, 'slidingScale'),
+            'dbtAdherentTeam' => $this->boolValue($provider, 'dbtAdherentTeam'),
             'dateUpdated' => $provider->dateUpdated
                 ? DateTimeHelper::toDateTime($provider->dateUpdated)->format('c')
                 : null,
@@ -141,17 +161,31 @@ class ProviderPortalService extends Component
         $provider->title = $name;
         $fieldValues = [];
 
-        if (array_key_exists('phone', $data) && $data['phone'] !== null) {
-            $fieldValues['phone'] = trim((string)$data['phone']);
+        foreach (['phone', 'email', 'fax', 'servicesOffered', 'dbtServicesDescription', 'agesServed', 'acceptsInsurance', 'staffNames'] as $handle) {
+            if (array_key_exists($handle, $data) && $data[$handle] !== null) {
+                $fieldValues[$handle] = trim((string)$data[$handle]);
+            }
         }
-        if (array_key_exists('email', $data) && $data['email'] !== null) {
-            $fieldValues['email'] = trim((string)$data['email']);
+
+        foreach (['website', 'contactPage', 'staffPage', 'facebookUrl', 'instagramUrl'] as $handle) {
+            if (!array_key_exists($handle, $data) || $data[$handle] === null) {
+                continue;
+            }
+            $url = $this->normalizeWebsiteUrl(trim((string)$data[$handle]));
+            $fieldValues[$handle] = $url === '' ? null : ['value' => $url, 'type' => 'url'];
         }
-        if (array_key_exists('website', $data) && $data['website'] !== null) {
-            $website = $this->normalizeWebsiteUrl(trim((string)$data['website']));
-            $fieldValues['website'] = $website === ''
-                ? null
-                : ['value' => $website, 'type' => 'url'];
+
+        foreach (['telehealthAvailable', 'inPersonAvailable', 'slidingScale', 'dbtAdherentTeam'] as $handle) {
+            if (array_key_exists($handle, $data) && $data[$handle] !== null) {
+                $fieldValues[$handle] = !empty($data[$handle]) && $data[$handle] !== '0';
+            }
+        }
+
+        if (array_key_exists('specialties', $data) && $data['specialties'] !== null) {
+            $fieldValues['specialties'] = $this->categoryIdsFromList((string)$data['specialties'], 'specialties');
+        }
+        if (array_key_exists('credentials', $data) && $data['credentials'] !== null) {
+            $fieldValues['credentials'] = $this->categoryIdsFromList((string)$data['credentials'], 'credentials');
         }
 
         if ($fieldValues !== []) {
@@ -267,17 +301,132 @@ class ProviderPortalService extends Component
 
     private function getWebsiteUrl(Entry $provider): string
     {
+        return $this->linkUrl($provider, 'website');
+    }
+
+    private function plainText(Entry $entry, string $handle): string
+    {
         try {
-            $website = $provider->getFieldValue('website');
+            return trim((string)($entry->getFieldValue($handle) ?? ''));
+        } catch (\Throwable) {
+            return '';
+        }
+    }
+
+    private function boolValue(Entry $entry, string $handle): bool
+    {
+        try {
+            return (bool)($entry->getFieldValue($handle) ?? false);
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
+    private function linkUrl(Entry $entry, string $handle): string
+    {
+        try {
+            $value = $entry->getFieldValue($handle);
         } catch (\Throwable) {
             return '';
         }
 
-        if (is_object($website) && method_exists($website, 'getUrl')) {
-            return trim((string)$website->getUrl());
+        if (is_object($value) && method_exists($value, 'getUrl')) {
+            return trim((string)$value->getUrl());
         }
 
-        return trim((string)($website ?? ''));
+        if (is_object($value) && isset($value->value)) {
+            return trim((string)$value->value);
+        }
+
+        return trim((string)($value ?? ''));
+    }
+
+    private function categoryTitles(Entry $entry, string $handle): string
+    {
+        try {
+            $related = $entry->getFieldValue($handle);
+        } catch (\Throwable) {
+            return '';
+        }
+
+        if (!is_object($related) || !method_exists($related, 'all')) {
+            return '';
+        }
+
+        $titles = [];
+        foreach ($related->all() as $category) {
+            if ($category instanceof Category) {
+                $title = trim((string)$category->title);
+                if ($title !== '') {
+                    $titles[] = $title;
+                }
+            }
+        }
+
+        return implode(', ', $titles);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function categoryIdsFromList(string $raw, string $groupHandle): array
+    {
+        $group = \Craft::$app->getCategories()->getGroupByHandle($groupHandle);
+        if (!$group) {
+            return [];
+        }
+
+        $ids = [];
+        foreach ($this->splitList($raw) as $title) {
+            $cacheKey = $groupHandle . ':' . mb_strtolower($title);
+            if (isset($this->categoryIdsByKey[$cacheKey])) {
+                $ids[] = $this->categoryIdsByKey[$cacheKey];
+                continue;
+            }
+
+            $category = Category::find()
+                ->groupId($group->id)
+                ->title($title)
+                ->status(null)
+                ->one();
+
+            if (!$category instanceof Category) {
+                $category = new Category();
+                $category->groupId = $group->id;
+                $category->title = $title;
+                $category->enabled = true;
+                if (!\Craft::$app->getElements()->saveElement($category)) {
+                    continue;
+                }
+            }
+
+            $this->categoryIdsByKey[$cacheKey] = (int)$category->id;
+            $ids[] = (int)$category->id;
+        }
+
+        return array_values(array_unique($ids));
+    }
+
+    /**
+     * @return string[]
+     */
+    public function splitList(string $raw): array
+    {
+        $parts = preg_split('/\s*(?:,|;|\n)\s*/', $raw) ?: [];
+        $out = [];
+        foreach ($parts as $part) {
+            $title = trim((string)$part);
+            $normalized = strtolower($title);
+            if ($title === '' || in_array($normalized, ['not found', 'unknown', 'n/a', 'na', 'none', 'null', '-'], true)) {
+                continue;
+            }
+            if (mb_strlen($title) > 80) {
+                continue;
+            }
+            $out[$normalized] = $title;
+        }
+
+        return array_values($out);
     }
 
     private function normalizeWebsiteUrl(string $url): string

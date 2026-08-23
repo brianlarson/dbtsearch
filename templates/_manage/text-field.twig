@@ -1,0 +1,11 @@
+{# Labeled portal text / URL / textarea field #}
+{% set spanClass = (span ?? 1) == 2 ? ' sm:col-span-2' : '' %}
+{% set inputClass = 'portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary' %}
+<div class="{{ spanClass|trim }}">
+  <label for="{{ id }}" class="mb-2 block text-sm font-medium text-slate-200">{{ label }}</label>
+  {% if rows is defined and rows %}
+    <textarea id="{{ id }}" name="{{ name }}" rows="{{ rows }}" class="{{ inputClass }}">{{ value }}</textarea>
+  {% else %}
+    <input id="{{ id }}" name="{{ name }}" type="{{ type ?? 'text' }}" value="{{ value }}" class="{{ inputClass }}" />
+  {% endif %}
+</div>

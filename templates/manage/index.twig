@@ -36,60 +36,36 @@
 {% endif %}
 {% set providerEntry = linkedProvider %}
 
-{% set portalLocations = [] %}
-{% if providerEntry %}
-  {% for location in providerEntry.locations.all() %}
-    {% set locCity = (location.city ?? '')|trim %}
-    {% set locState = (location.state ?? '')|trim %}
-    {% set portalLocations = portalLocations|merge([{
-      id: location.id,
-      name: location.title,
-      address: location.title,
-      heading: locCity ?: locState ?: 'Unknown location',
-      city: locCity,
-      state: locState,
-      zip: location.zip ?? '',
-      phone: '',
-      email: '',
-      website: '',
-      availability: location.availability ?? false,
-      dbtaCertified: location.dbtaCertified ?? false,
-    }]) %}
-  {% endfor %}
-{% endif %}
-
-{% set portalWebsiteField = providerEntry ? (attribute(providerEntry, 'website') ?? attribute(providerEntry, 'urlField') ?? null) : null %}
-{% set portalWebsiteUrl = '' %}
-{% if portalWebsiteField %}
-  {% if portalWebsiteField.url is defined and portalWebsiteField.url %}
-    {% set portalWebsiteUrl = portalWebsiteField.url %}
-  {% elseif portalWebsiteField.value is defined and portalWebsiteField.value %}
-    {% set portalWebsiteUrl = portalWebsiteField.value %}
-  {% else %}
-    {% set portalWebsiteUrl = portalWebsiteField %}
-  {% endif %}
-{% endif %}
-
-{% set portalProvider = providerEntry ? {
-  id: providerEntry.id,
-  name: providerEntry.title,
-  phone: providerEntry.phone ?? '',
-  email: providerEntry.email ?? '',
-  website: portalWebsiteUrl,
-  dateUpdated: providerEntry.dateUpdated ? providerEntry.dateUpdated|date('c') : null,
-  locations: portalLocations,
-} : {
+{% set portalService = craft.app.getModule('portal').get('providerPortal') %}
+{% set portalProvider = providerEntry ? portalService.buildPortalData(providerEntry) : {
   id: null,
   name: '',
   phone: '',
   email: '',
   website: '',
+  contactPage: '',
+  fax: '',
+  staffPage: '',
+  facebookUrl: '',
+  instagramUrl: '',
+  servicesOffered: '',
+  dbtServicesDescription: '',
+  agesServed: '',
+  acceptsInsurance: '',
+  staffNames: '',
+  specialties: '',
+  credentials: '',
+  telehealthAvailable: false,
+  inPersonAvailable: false,
+  slidingScale: false,
+  dbtAdherentTeam: false,
   dateUpdated: null,
   locations: [],
 } %}
 
 {% set pageHeading = portalProvider.name ?: 'Provider Admin' %}
 {% set pageSubheading = 'Provider Admin' %}
+{% set showProviderLogout = true %}
 {% set portalToolbarTitle = portalProvider.locations|length > 1 ? 'Edit your listings' : 'Edit your listing' %}
 {% set portalFlashNotice = craft.app.session.hasFlash('notice') ? craft.app.session.getFlash('notice') : null %}
 {% set portalFlashWelcome = craft.app.session.hasFlash('portalWelcome') ? craft.app.session.getFlash('portalWelcome') : null %}
@@ -228,18 +204,10 @@
                 </button>
               </div>
               <div id="portal-practice-details" class="hidden grid gap-3 sm:grid-cols-2" hidden>
-                <div>
-                  <label for="portal-phone" class="mb-2 block text-sm font-medium text-slate-200">Phone</label>
-                  <input id="portal-phone" name="phone" type="text" value="{{ portalProvider.phone }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
-                </div>
-                <div>
-                  <label for="portal-email" class="mb-2 block text-sm font-medium text-slate-200">Email</label>
-                  <input id="portal-email" name="email" type="email" value="{{ portalProvider.email }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
-                </div>
-                <div class="sm:col-span-2">
-                  <label for="portal-website" class="mb-2 block text-sm font-medium text-slate-200">Website</label>
-                  <input id="portal-website" name="website" type="url" value="{{ portalProvider.website }}" class="portal-field w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
-                </div>
+                {% include '_manage/text-field' with { id: 'portal-phone', name: 'phone', label: 'Phone', value: portalProvider.phone ?? '' } only %}
+                {% include '_manage/text-field' with { id: 'portal-email', name: 'email', label: 'Email', type: 'email', value: portalProvider.email ?? '' } only %}
+                {% include '_manage/text-field' with { id: 'portal-website', name: 'website', label: 'Website', type: 'url', value: portalProvider.website ?? '' } only %}
+                {% include '_manage/text-field' with { id: 'portal-contact-page', name: 'contactPage', label: 'Contact page', type: 'url', value: portalProvider.contactPage ?? '' } only %}
               </div>
             {% endif %}
             </div>
