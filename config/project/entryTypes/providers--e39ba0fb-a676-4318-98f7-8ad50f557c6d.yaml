@@ -136,6 +136,220 @@ fieldLayouts:
             warning: null
             width: 50
           -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: fax
+            instructions: null
+            label: Fax
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a1f8c3d2-4b5e-4e91-9c2a-7d6f1e8b3c40
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c7598e88-bdae-462f-8790-410a3fccdcc6 # URL
+            handle: staffPage
+            instructions: 'Public staff or team page for this provider.'
+            label: 'Staff / Team Page'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b2e9d4c3-5c6f-4f02-8d3b-8e7f2f9c4d51
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c7598e88-bdae-462f-8790-410a3fccdcc6 # URL
+            handle: facebookUrl
+            instructions: null
+            label: Facebook
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c3f0e5d4-6d70-4013-9e4c-9f8030ad5e62
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c7598e88-bdae-462f-8790-410a3fccdcc6 # URL
+            handle: instagramUrl
+            instructions: null
+            label: Instagram
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d401f6e5-7e81-4124-af5d-0a9141be6f73
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 7e0b968f-182b-4bc4-49f7-a43be158f91d
+            userCondition: null
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: servicesOffered
+            instructions: null
+            label: 'Services Offered'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e51207f6-8f92-4235-b06e-1ba252cf7084
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: dbtServicesDescription
+            instructions: null
+            label: 'DBT Services Description'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f6231807-90a3-4346-c17f-2cb363d08195
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: agesServed
+            instructions: null
+            label: 'Ages Served'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 07342918-a1b4-4457-d280-3dc474e192a6
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: acceptsInsurance
+            instructions: null
+            label: 'Accepts Insurance'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 18453029-b2c5-4568-e391-4ed585f2a3b7
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ddb25fd5-a759-494a-9d4d-96a6e44c941e # Plain Text
+            handle: staffNames
+            instructions: null
+            label: 'Staff Names'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2956413a-c3d6-4679-f4a2-5fe69603b4c8
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f77e21c5-ded4-4082-86c6-5df3b28a7316 # DBT-A Certified
+            handle: telehealthAvailable
+            instructions: null
+            label: 'Telehealth Available'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3a67524b-d4e7-4780-05b3-60f7a714c5d9
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f77e21c5-ded4-4082-86c6-5df3b28a7316 # DBT-A Certified
+            handle: inPersonAvailable
+            instructions: null
+            label: 'In-Person Available'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4b78635c-e5f8-4891-16c4-7108b825d6ea
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f77e21c5-ded4-4082-86c6-5df3b28a7316 # DBT-A Certified
+            handle: slidingScale
+            instructions: null
+            label: 'Sliding Scale'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5c89746d-f609-49a2-27d5-8219c936e7fb
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-08-23T21:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0e258167-c7d6-40a4-8865-93e694a27c14 # DBT Adherent Team
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6d9a857e-071a-4ab3-38e6-932ad047f80c
+            userCondition: null
+            warning: null
+            width: 25
+          -
             dateAdded: '2026-04-24T19:26:58+00:00'
             elementCondition: null
             type: craft\fieldlayoutelements\HorizontalRule

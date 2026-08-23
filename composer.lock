@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a75328c70e0b3c770937bb13580bd90",
+    "content-hash": "96c488d489771dd779e552d578b16091",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2794,6 +2794,44 @@
             ],
             "description": "Provides functionality for http_build_url() to environments without pecl_http.",
             "time": "2017-05-01T15:36:40+00:00"
+        },
+        {
+            "name": "justinholtweb/craft-dispatch",
+            "version": "5.0.4",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/justinholtweb/craft-dispatch/zipball/62b36500eb482b6ca6c53b65ef2161b596d1266a",
+                "reference": "62b36500eb482b6ca6c53b65ef2161b596d1266a",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.3.0",
+                "php": "^8.2"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "handle": "dispatch",
+                "name": "Dispatch",
+                "developer": "Justin Holt",
+                "developerUrl": "https://github.com/justinholtweb",
+                "documentationUrl": "https://github.com/justinholtweb/craft-dispatch",
+                "description": "Lightweight email marketing and newsletter plugin for Craft CMS.",
+                "class": "justinholtweb\\dispatch\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "justinholtweb\\dispatch\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Lightweight email marketing and newsletter plugin for Craft CMS 5. Manage subscribers, send campaigns, and track delivery natively.",
+            "support": {
+                "issues": "https://github.com/justinholtweb/craft-dispatch/issues",
+                "source": "https://github.com/justinholtweb/craft-dispatch"
+            },
+            "time": "2026-08-19T13:16:22+00:00"
         },
         {
             "name": "lcobucci/clock",

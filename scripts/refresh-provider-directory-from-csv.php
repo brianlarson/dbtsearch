@@ -6,7 +6,7 @@
  * Source (preferred): data/mn_dbt_providers_final.csv
  * Companion workbook: data/MN_DBT_Providers_Refreshed_Contact_Directory.xlsx
  *
- * Updates existing providers (phone/email/website if empty; Contact Page from sheet)
+ * Updates existing providers (empty contact/profile fields from the sheet; Contact Page from sheet)
  * and locations (DBT-A; source IDs; obvious ZIP fixes). Creates missing
  * providers/locations. Does not change availability or delete extra Craft records.
  *
@@ -116,6 +116,16 @@ function pickEmail(?string $raw): string
     return $emails[0];
 }
 
+function pickText(?string $raw): string
+{
+    $raw = trim((string)$raw);
+    if (isBlankCell($raw)) {
+        return '';
+    }
+
+    return $raw;
+}
+
 function pickUrl(?string $raw): string
 {
     $raw = trim((string)$raw);
@@ -213,6 +223,88 @@ function linkUrl(Entry $provider, string $handle): string
     }
 
     return trim((string)($value ?? ''));
+}
+
+function fieldText(Entry $entry, string $handle): string
+{
+    try {
+        return trim((string)($entry->getFieldValue($handle) ?? ''));
+    } catch (Throwable) {
+        return '';
+    }
+}
+
+function fieldBool(Entry $entry, string $handle): bool
+{
+    try {
+        return (bool)($entry->getFieldValue($handle) ?? false);
+    } catch (Throwable) {
+        return false;
+    }
+}
+
+function categoryCount(Entry $entry, string $handle): int
+{
+    try {
+        $value = $entry->getFieldValue($handle);
+    } catch (Throwable) {
+        return 0;
+    }
+
+    if (is_object($value) && method_exists($value, 'count')) {
+        return (int)$value->count();
+    }
+
+    return 0;
+}
+
+function directoryPortalService()
+{
+    $module = Craft::$app->getModule('portal');
+    if (!$module || !method_exists($module, 'get')) {
+        return null;
+    }
+
+    try {
+        return $module->get('providerPortal');
+    } catch (Throwable) {
+        return null;
+    }
+}
+
+function directoryTextFields(array $meta): array
+{
+    return [
+        'phone' => $meta['phone'] ?? '',
+        'email' => $meta['email'] ?? '',
+        'fax' => $meta['fax'] ?? '',
+        'servicesOffered' => $meta['servicesOffered'] ?? '',
+        'dbtServicesDescription' => $meta['dbtServicesDescription'] ?? '',
+        'agesServed' => $meta['agesServed'] ?? '',
+        'acceptsInsurance' => $meta['acceptsInsurance'] ?? '',
+        'staffNames' => $meta['staffNames'] ?? '',
+    ];
+}
+
+function directoryLinkFields(array $meta): array
+{
+    return [
+        'website' => $meta['website'] ?? '',
+        'contactPage' => $meta['contactPage'] ?? '',
+        'staffPage' => $meta['staffPage'] ?? '',
+        'facebookUrl' => $meta['facebookUrl'] ?? '',
+        'instagramUrl' => $meta['instagramUrl'] ?? '',
+    ];
+}
+
+function directoryBoolFields(array $meta): array
+{
+    return [
+        'telehealthAvailable' => $meta['telehealthAvailable'] ?? null,
+        'inPersonAvailable' => $meta['inPersonAvailable'] ?? null,
+        'slidingScale' => $meta['slidingScale'] ?? null,
+        'dbtAdherentTeam' => $meta['dbtAdherentTeam'] ?? null,
+    ];
 }
 
 function loadCsvRows(string $path): array
@@ -337,6 +429,21 @@ foreach ($csvRows as $csvRow) {
         'email' => pickEmail((string)($csvRow['Email'] ?? '')),
         'website' => pickUrl((string)($csvRow['Website (DHS)'] ?? '')),
         'contactPage' => pickUrl((string)($csvRow['Contact Page URL'] ?? '')),
+        'staffPage' => pickUrl((string)($csvRow['Staff/Team Page URL'] ?? '')),
+        'facebookUrl' => pickUrl((string)($csvRow['Facebook URL'] ?? '')),
+        'instagramUrl' => pickUrl((string)($csvRow['Instagram URL'] ?? '')),
+        'fax' => pickText((string)($csvRow['Fax'] ?? '')),
+        'servicesOffered' => pickText((string)($csvRow['Services Offered'] ?? '')),
+        'dbtServicesDescription' => pickText((string)($csvRow['DBT Services Description'] ?? '')),
+        'agesServed' => pickText((string)($csvRow['Ages Served'] ?? '')),
+        'acceptsInsurance' => pickText((string)($csvRow['Accepts Insurance'] ?? '')),
+        'staffNames' => pickText((string)($csvRow['Staff Names'] ?? '')),
+        'specialties' => pickText((string)($csvRow['Specialties'] ?? '')),
+        'credentials' => pickText((string)($csvRow['Staff Credentials'] ?? '')),
+        'telehealthAvailable' => yesNoToBool((string)($csvRow['Telehealth Available'] ?? '')),
+        'inPersonAvailable' => yesNoToBool((string)($csvRow['In-Person Available'] ?? '')),
+        'slidingScale' => yesNoToBool((string)($csvRow['Sliding Scale'] ?? '')),
+        'dbtAdherentTeam' => yesNoToBool((string)($csvRow['Adherent Team Only'] ?? '')),
         'dbtaCertified' => yesNoToBool((string)($csvRow['DBT-A Certified'] ?? '')),
         'accepting' => yesNoToBool((string)($csvRow['Accepting New Clients'] ?? '')),
         'sourceLocationId' => sourceLocationId($name, $address['full'], $address['city'], $address['state'], $address['zip']),
@@ -344,6 +451,23 @@ foreach ($csvRows as $csvRow) {
 
     $sheetProviders[$name][] = $location;
     $sheetLocations[] = $location;
+}
+
+function firstFilled(array $locations, string $key, bool $bool = false): string|bool|null
+{
+    foreach ($locations as $loc) {
+        if ($bool) {
+            if ($loc[$key] !== null) {
+                return $loc[$key];
+            }
+            continue;
+        }
+        if (($loc[$key] ?? '') !== '') {
+            return $loc[$key];
+        }
+    }
+
+    return $bool ? null : '';
 }
 
 $sheetProviderMeta = [];
@@ -373,6 +497,21 @@ foreach ($sheetProviders as $name => $locations) {
         'email' => $emails !== [] ? array_values($emails)[0] : '',
         'contactPage' => $contacts !== [] ? array_values($contacts)[0] : '',
         'website' => $websites !== [] ? array_values($websites)[0] : '',
+        'staffPage' => firstFilled($locations, 'staffPage'),
+        'facebookUrl' => firstFilled($locations, 'facebookUrl'),
+        'instagramUrl' => firstFilled($locations, 'instagramUrl'),
+        'fax' => firstFilled($locations, 'fax'),
+        'servicesOffered' => firstFilled($locations, 'servicesOffered'),
+        'dbtServicesDescription' => firstFilled($locations, 'dbtServicesDescription'),
+        'agesServed' => firstFilled($locations, 'agesServed'),
+        'acceptsInsurance' => firstFilled($locations, 'acceptsInsurance'),
+        'staffNames' => firstFilled($locations, 'staffNames'),
+        'specialties' => firstFilled($locations, 'specialties'),
+        'credentials' => firstFilled($locations, 'credentials'),
+        'telehealthAvailable' => firstFilled($locations, 'telehealthAvailable', true),
+        'inPersonAvailable' => firstFilled($locations, 'inPersonAvailable', true),
+        'slidingScale' => firstFilled($locations, 'slidingScale', true),
+        'dbtAdherentTeam' => firstFilled($locations, 'dbtAdherentTeam', true),
         'sourceProviderId' => sourceProviderId($name),
         'locations' => $locations,
     ];
@@ -455,17 +594,29 @@ function createProviderEntry($section, $type, ?int $authorId, array $meta, bool 
     $fields = [
         'sourceProviderId' => $meta['sourceProviderId'],
     ];
-    if ($meta['phone'] !== '') {
-        $fields['phone'] = $meta['phone'];
+    foreach (directoryTextFields($meta) as $handle => $value) {
+        if ($value !== '') {
+            $fields[$handle] = $value;
+        }
     }
-    if ($meta['email'] !== '') {
-        $fields['email'] = $meta['email'];
+    foreach (directoryLinkFields($meta) as $handle => $value) {
+        if ($value !== '') {
+            $fields[$handle] = ['value' => $value, 'type' => 'url'];
+        }
     }
-    if ($meta['website'] !== '') {
-        $fields['website'] = ['value' => $meta['website'], 'type' => 'url'];
+    foreach (directoryBoolFields($meta) as $handle => $value) {
+        if ($value !== null) {
+            $fields[$handle] = $value;
+        }
     }
-    if ($meta['contactPage'] !== '') {
-        $fields['contactPage'] = ['value' => $meta['contactPage'], 'type' => 'url'];
+    $portal = directoryPortalService();
+    if ($portal) {
+        if ($meta['specialties'] !== '') {
+            $fields['specialties'] = $portal->categoryIdsFromList($meta['specialties'], 'specialties');
+        }
+        if ($meta['credentials'] !== '') {
+            $fields['credentials'] = $portal->categoryIdsFromList($meta['credentials'], 'credentials');
+        }
     }
 
     $entry->setFieldValues($fields);
@@ -533,27 +684,45 @@ foreach ($providers as $provider) {
     $changes = [];
     $fields = [];
 
-    $currentPhone = trim((string)$provider->getFieldValue('phone'));
-    $currentEmail = trim((string)$provider->getFieldValue('email'));
-    $currentWebsite = linkUrl($provider, 'website');
-    $currentContact = linkUrl($provider, 'contactPage');
-    $currentSourceId = trim((string)($provider->getFieldValue('sourceProviderId') ?? ''));
+    $currentSourceId = fieldText($provider, 'sourceProviderId');
 
-    if ($currentPhone === '' && $meta['phone'] !== '') {
-        $fields['phone'] = $meta['phone'];
-        $changes[] = 'phone';
+    foreach (directoryTextFields($meta) as $handle => $value) {
+        if ($value !== '' && fieldText($provider, $handle) === '') {
+            $fields[$handle] = $value;
+            $changes[] = $handle;
+        }
     }
-    if ($currentEmail === '' && $meta['email'] !== '') {
-        $fields['email'] = $meta['email'];
-        $changes[] = 'email';
+    foreach (directoryLinkFields($meta) as $handle => $value) {
+        $current = linkUrl($provider, $handle);
+        if ($value === '') {
+            continue;
+        }
+        if ($handle === 'contactPage' && $current !== $value) {
+            $fields[$handle] = ['value' => $value, 'type' => 'url'];
+            $changes[] = $handle;
+            continue;
+        }
+        if ($current === '') {
+            $fields[$handle] = ['value' => $value, 'type' => 'url'];
+            $changes[] = $handle;
+        }
     }
-    if ($currentWebsite === '' && $meta['website'] !== '') {
-        $fields['website'] = ['value' => $meta['website'], 'type' => 'url'];
-        $changes[] = 'website';
+    foreach (directoryBoolFields($meta) as $handle => $value) {
+        if ($value === true && !fieldBool($provider, $handle)) {
+            $fields[$handle] = true;
+            $changes[] = $handle;
+        }
     }
-    if ($meta['contactPage'] !== '' && $currentContact !== $meta['contactPage']) {
-        $fields['contactPage'] = ['value' => $meta['contactPage'], 'type' => 'url'];
-        $changes[] = 'contactPage';
+    $portal = directoryPortalService();
+    if ($portal) {
+        if ($meta['specialties'] !== '' && categoryCount($provider, 'specialties') === 0) {
+            $fields['specialties'] = $portal->categoryIdsFromList($meta['specialties'], 'specialties');
+            $changes[] = 'specialties';
+        }
+        if ($meta['credentials'] !== '' && categoryCount($provider, 'credentials') === 0) {
+            $fields['credentials'] = $portal->categoryIdsFromList($meta['credentials'], 'credentials');
+            $changes[] = 'credentials';
+        }
     }
     if ($currentSourceId === '' && $meta['sourceProviderId'] !== '') {
         $fields['sourceProviderId'] = $meta['sourceProviderId'];

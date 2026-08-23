@@ -120,7 +120,16 @@
       <div class="grid grid-cols-1 items-end gap-2 md:grid-cols-2 md:gap-4">
         <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">{{ pageHeading }}</h1>
         {% if pageSubheading %}
-          <h2 class="text-base font-medium text-slate-400 md:text-right">{{ pageSubheading }}</h2>
+          <h2 class="text-base font-medium text-slate-400 md:text-right">
+            {{ pageSubheading }}
+            {% if showProviderLogout ?? false and currentUser %}
+              <form method="post" action="{{ url('sign-out') }}" class="ml-1.5 inline">
+                {{ csrfInput() }}
+                {{ actionInput('users/logout') }}
+                <button type="submit" class="text-sm font-normal text-primary/80 underline decoration-primary/30 underline-offset-2 hover:text-primary hover:decoration-primary">(Logout)</button>
+              </form>
+            {% endif %}
+          </h2>
         {% endif %}
       </div>
       <hr class="mt-4 border-slate-700" />

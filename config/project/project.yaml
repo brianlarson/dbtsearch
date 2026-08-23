@@ -1,4 +1,4 @@
-dateModified: 1786634553
+dateModified: 1787521046
 email:
   fromEmail: system@dbtsearch.org
   fromName: 'DBT Search'
@@ -68,6 +68,10 @@ plugins:
     schemaVersion: 2.0.11
   dashboard-begone:
     edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  dispatch:
+    edition: free
     enabled: true
     schemaVersion: 1.0.0
   expanded-singles:

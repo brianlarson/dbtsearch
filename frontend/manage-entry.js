@@ -44,11 +44,13 @@ function initPortalForm() {
   }
 
   function serializeForm() {
+    const valueOf = (id) => form.querySelector(`#${id}`)?.value ?? '';
     const out = {
-      name: form.querySelector('#portal-name')?.value ?? '',
-      phone: form.querySelector('#portal-phone')?.value ?? '',
-      email: form.querySelector('#portal-email')?.value ?? '',
-      website: form.querySelector('#portal-website')?.value ?? '',
+      name: valueOf('portal-name'),
+      phone: valueOf('portal-phone'),
+      email: valueOf('portal-email'),
+      website: valueOf('portal-website'),
+      contactPage: valueOf('portal-contact-page'),
       locations: {},
     };
     form.querySelectorAll('[data-portal-location]').forEach((card) => {
