@@ -253,16 +253,16 @@
                         {% if showPhoneCta or showEmailCta or showContactPageCta or websiteUrl %}
                           <div class="flex flex-row flex-wrap items-center gap-2 md:flex-nowrap md:gap-2.5">
                             {% if showPhoneCta %}
-                              <a href="tel:{{ providerPhoneDigits|length == 10 ? providerPhoneDigits : providerPhone|replace({' ': '', '-': '', '(': '', ')': '', '.': '', '+': ''}) }}" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Call {{ providerPhoneDisplay }}</a>
+                              <a href="tel:{{ providerPhoneDigits|length == 10 ? providerPhoneDigits : providerPhone|replace({' ': '', '-': '', '(': '', ')': '', '.': '', '+': ''}) }}" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">{{ providerPhoneDisplay }}</a>
                             {% endif %}
                             {% if showEmailCta %}
-                              <a href="mailto:{{ providerEmail }}?subject=Inquiry%20from%20DBT Search.org" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Email Us</a>
+                              <a href="mailto:{{ providerEmail }}?subject=Inquiry%20from%20DBT Search.org" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Email</a>
                             {% endif %}
                             {% if showContactPageCta %}
                               <a href="{{ contactPageUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Contact</a>
                             {% endif %}
                             {% if websiteUrl %}
-                              <a href="{{ websiteUrl }}" target="_blank" rel="noopener noreferrer" title="{{ websiteDisplay }}" class="min-w-0 max-w-full shrink truncate text-sm text-brand no-underline hover:underline md:max-w-[10rem] lg:max-w-[14rem]">{{ websiteDisplay }}</a>
+                              <a href="{{ contactPageUrl }}" target="_blank" rel="noopener noreferrer" title="{{ websiteDisplay }}" class="min-w-0 max-w-full shrink truncate text-sm text-brand no-underline hover:underline md:max-w-[10rem] lg:max-w-[14rem]">{{ websiteDisplay }}</a>
                             {% endif %}
                           </div>
                         {% endif %}
