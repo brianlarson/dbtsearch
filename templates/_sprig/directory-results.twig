@@ -3,6 +3,7 @@
 {% set onlyAvailable = availabilityValue == '1' %}
 {% set searchButtonClass = 'inline-flex h-10 w-full items-center justify-center rounded-lg bg-primary px-4 font-semibold text-primary-foreground hover:opacity-90 md:w-auto' %}
 {% set searchInputClass = 'h-10 w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary' %}
+{% set featureChipClass = 'rounded border border-slate-800 bg-slate-900/70 px-2 py-0.5 text-xs font-medium text-slate-400' %}
 
 {% set locationsQuery = craft.entries()
   .section('locations')
@@ -230,8 +231,11 @@
                             {{ item.hasAvailability ? 'Accepting Clients' : 'No Availability' }}
                           </span>
                           {% if location.dbtaCertified %}
-                            <span class="rounded border border-violet-400/70 px-2 py-0.5 text-xs font-medium text-violet-300">DBT-A</span>
+                            <span class="{{ featureChipClass }}">All Ages</span>
                           {% endif %}
+                          {# Visual mock only — not wired to telehealthAvailable / acceptsInsurance yet. #}
+                          <span class="{{ featureChipClass }}">Virtual Offered</span>
+                          <span class="{{ featureChipClass }}">Insurance Accepted</span>
                         </div>
                         <div>
                           <h2 class="mb-1 text-xl font-semibold leading-tight text-brand sm:text-2xl">

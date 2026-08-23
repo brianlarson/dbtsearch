@@ -24,6 +24,7 @@
     "craftcms/ckeditor": "^5.5.0",
     "craftcms/cms": "^5.10.9",
     "craftcms/feed-me": "^6.13",
+    "cweagans/composer-patches": "^1.7",
     "justinholtweb/craft-dispatch": "^5.0.4",
     "putyourlightson/craft-sprig": "^3.7",
     "stimmt/craft-mcp": "^v1.2.2",
@@ -41,9 +42,10 @@
       "modules\\": "modules/"
     }
   },
-  "config": {
+    "config": {
     "allow-plugins": {
       "craftcms/plugin-installer": true,
+      "cweagans/composer-patches": true,
       "php-http/discovery": true,
       "yiisoft/yii2-composer": true
     },
@@ -56,5 +58,13 @@
       "url": "https://composer.craftcms.com",
       "canonical": false
     }
-  ]
+  ],
+  "extra": {
+    "patches": {
+      "justinholtweb/craft-dispatch": {
+        "Fix unescaped apostrophe in lists/edit.twig": "patches/craft-dispatch-lists-edit-apostrophe.patch",
+        "Use Craft Color enum in element statuses()": "patches/craft-dispatch-status-color-enum.patch"
+      }
+    }
+  }
 }

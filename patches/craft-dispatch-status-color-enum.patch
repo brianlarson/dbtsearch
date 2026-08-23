@@ -1,0 +1,52 @@
+--- a/src/elements/Subscriber.php
++++ b/src/elements/Subscriber.php
+@@ -7,6 +7,7 @@
+ use craft\elements\actions\Delete;
+ use craft\elements\actions\Restore;
+ use craft\elements\User;
++use craft\enums\Color;
+ use craft\helpers\Db;
+ use craft\helpers\UrlHelper;
+ use justinholtweb\dispatch\elements\db\SubscriberQuery;
+@@ -68,10 +69,10 @@
+     public static function statuses(): array
+     {
+         return [
+-            'active' => ['label' => Craft::t('dispatch', 'Active'), 'color' => 'green'],
+-            'unsubscribed' => ['label' => Craft::t('dispatch', 'Unsubscribed'), 'color' => 'white'],
+-            'bounced' => ['label' => Craft::t('dispatch', 'Bounced'), 'color' => 'orange'],
+-            'complained' => ['label' => Craft::t('dispatch', 'Complained'), 'color' => 'red'],
++            'active' => ['label' => Craft::t('dispatch', 'Active'), 'color' => Color::Green],
++            'unsubscribed' => ['label' => Craft::t('dispatch', 'Unsubscribed'), 'color' => Color::White],
++            'bounced' => ['label' => Craft::t('dispatch', 'Bounced'), 'color' => Color::Orange],
++            'complained' => ['label' => Craft::t('dispatch', 'Complained'), 'color' => Color::Red],
+         ];
+     }
+ 
+--- a/src/elements/Campaign.php
++++ b/src/elements/Campaign.php
+@@ -7,6 +7,7 @@
+ use craft\elements\actions\Delete;
+ use craft\elements\actions\Restore;
+ use craft\elements\User;
++use craft\enums\Color;
+ use craft\helpers\UrlHelper;
+ use justinholtweb\dispatch\elements\db\CampaignQuery;
+ use justinholtweb\dispatch\enums\CampaignStatus;
+@@ -83,11 +84,11 @@
+     public static function statuses(): array
+     {
+         return [
+-            'draft' => ['label' => Craft::t('dispatch', 'Draft'), 'color' => 'white'],
+-            'scheduled' => ['label' => Craft::t('dispatch', 'Scheduled'), 'color' => 'blue'],
+-            'sending' => ['label' => Craft::t('dispatch', 'Sending'), 'color' => 'orange'],
+-            'sent' => ['label' => Craft::t('dispatch', 'Sent'), 'color' => 'green'],
+-            'failed' => ['label' => Craft::t('dispatch', 'Failed'), 'color' => 'red'],
++            'draft' => ['label' => Craft::t('dispatch', 'Draft'), 'color' => Color::White],
++            'scheduled' => ['label' => Craft::t('dispatch', 'Scheduled'), 'color' => Color::Blue],
++            'sending' => ['label' => Craft::t('dispatch', 'Sending'), 'color' => Color::Orange],
++            'sent' => ['label' => Craft::t('dispatch', 'Sent'), 'color' => Color::Green],
++            'failed' => ['label' => Craft::t('dispatch', 'Failed'), 'color' => Color::Red],
+         ];
+     }
+ 
