@@ -203,7 +203,7 @@
                   Edit details
                 </button>
               </div>
-              <div id="portal-practice-details" class="hidden grid gap-3 sm:grid-cols-2" hidden>
+              <div id="portal-practice-details" class="hidden grid gap-6 sm:grid-cols-2" hidden>
                 {% include '_manage/text-field' with { id: 'portal-phone', name: 'phone', label: 'Phone', value: portalProvider.phone ?? '' } only %}
                 {% include '_manage/text-field' with { id: 'portal-email', name: 'email', label: 'Email', type: 'email', value: portalProvider.email ?? '' } only %}
                 {% include '_manage/text-field' with { id: 'portal-website', name: 'website', label: 'Website', type: 'url', value: portalProvider.website ?? '' } only %}

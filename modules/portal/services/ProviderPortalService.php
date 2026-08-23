@@ -105,6 +105,8 @@ class ProviderPortalService extends Component
                 'website' => '',
                 'availability' => (bool)($location->getFieldValue('availability') ?? false),
                 'dbtaCertified' => (bool)($location->getFieldValue('dbtaCertified') ?? false),
+                'virtualOffered' => $this->boolValue($location, 'virtualOffered'),
+                'insuranceAccepted' => $this->boolValue($location, 'insuranceAccepted'),
             ];
         }
 
@@ -256,14 +258,26 @@ class ProviderPortalService extends Component
             $newDbtaCertified = !empty($locationData['dbtaCertified']);
             $currentAvailability = (bool)($location->getFieldValue('availability') ?? false);
             $currentDbtaCertified = (bool)($location->getFieldValue('dbtaCertified') ?? false);
+            $currentVirtualOffered = $this->boolValue($location, 'virtualOffered');
+            $currentInsuranceAccepted = $this->boolValue($location, 'insuranceAccepted');
+            $newVirtualOffered = array_key_exists('virtualOffered', $locationData)
+                ? !empty($locationData['virtualOffered'])
+                : $currentVirtualOffered;
+            $newInsuranceAccepted = array_key_exists('insuranceAccepted', $locationData)
+                ? !empty($locationData['insuranceAccepted'])
+                : $currentInsuranceAccepted;
 
             $fieldValues = [
                 'availability' => $newAvailability,
                 'dbtaCertified' => $newDbtaCertified,
+                'virtualOffered' => $newVirtualOffered,
+                'insuranceAccepted' => $newInsuranceAccepted,
             ];
 
             $hasChanges = $currentAvailability !== $newAvailability
-                || $currentDbtaCertified !== $newDbtaCertified;
+                || $currentDbtaCertified !== $newDbtaCertified
+                || $currentVirtualOffered !== $newVirtualOffered
+                || $currentInsuranceAccepted !== $newInsuranceAccepted;
 
             if ($saveDetails) {
                 $address = trim((string)($locationData['address'] ?? ''));

@@ -58,6 +58,8 @@ function initPortalForm() {
       if (!id) return;
       const availability = card.querySelector(`#portal-availability-${id}`);
       const dbtaCertified = card.querySelector(`#portal-dbta-${id}`);
+      const virtualOffered = card.querySelector(`#portal-virtual-${id}`);
+      const insuranceAccepted = card.querySelector(`#portal-insurance-${id}`);
       out.locations[id] = {
         name: card.querySelector(`#portal-loc-name-${id}`)?.value ?? '',
         address: card.querySelector(`#portal-loc-address-${id}`)?.value ?? '',
@@ -69,6 +71,8 @@ function initPortalForm() {
         website: card.querySelector(`#portal-loc-website-${id}`)?.value ?? '',
         availability: availability?.checked ?? false,
         dbtaCertified: dbtaCertified?.checked ?? false,
+        virtualOffered: virtualOffered?.checked ?? false,
+        insuranceAccepted: insuranceAccepted?.checked ?? false,
       };
     });
     return JSON.stringify(out);

@@ -21,11 +21,31 @@
  */
 
 use craft\helpers\App;
+use craft\mail\transportadapters\Smtp;
 
-return [
+// This DDEV project’s `.env` may set CRAFT_ENVIRONMENT=production. Detect DDEV explicitly
+// so Mailpit is used locally without changing staging/production Resend.
+$isDdev = filter_var(App::env('IS_DDEV_PROJECT'), FILTER_VALIDATE_BOOLEAN);
+
+$config = [
     'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS',
     'modules' => [
         'portal' => \modules\portal\Module::class,
     ],
     'bootstrap' => ['portal'],
 ];
+
+if ($isDdev) {
+    $config['components']['mailer'] = static function() {
+        $settings = App::mailSettings();
+        $settings->transportType = Smtp::class;
+        $settings->transportSettings = [
+            'host' => '127.0.0.1',
+            'port' => 1025,
+            'useAuthentication' => false,
+        ];
+        return Craft::createObject(App::mailerConfig($settings));
+    };
+}
+
+return $config;
