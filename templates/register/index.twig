@@ -33,10 +33,10 @@
               {{ hiddenInput('handle', form.handle) }}
               {{ csrfInput() }}
               {{ hiddenInput('form_started_at', now|date('U')) }}
-              <div class="absolute left-[-10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+              {# <div class="absolute left-[-10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
                 <label for="company_fax">Fax</label>
                 <input type="text" name="company_fax" id="company_fax" value="" tabindex="-1" autocomplete="off">
-              </div>
+              </div> #}
               {% if submission and submission.id %}{{ hiddenInput('submissionId', submission.id) }}{% endif %}
 
               {% for field in form.getFields() %}
