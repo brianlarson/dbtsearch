@@ -1,0 +1,16 @@
+{{ hiddenInput(field.getHtmlName(), '') }}
+<div class="flex items-start gap-2">
+  <input
+    type="checkbox"
+    id="{{ field.getHtmlId(field.form) }}"
+    name="{{ field.getHtmlName() }}"
+    value="1"
+    {% if value %}checked{% endif %}
+    {{ field.required ? 'required' : '' }}
+    class="mt-1 h-4 w-4 shrink-0 rounded border-slate-600 bg-slate-900 text-primary focus:ring-primary"
+    {{ attr(field.getInputAttributes()) }}
+  >
+  <label for="{{ field.getHtmlId(field.form) }}" class="text-sm leading-relaxed text-slate-200">
+    {{ field.getDescriptionHtml() }}
+  </label>
+</div>

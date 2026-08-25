@@ -21,6 +21,42 @@ class ProviderOnboardingService extends Component
 
     public const MIN_SUBMIT_SECONDS = 3;
 
+    public function isSoftLaunch(): bool
+    {
+        $config = Craft::$app->getConfig()->getConfigFromFile('dbtsearch');
+        if (!is_array($config) || !array_key_exists('softLaunch', $config)) {
+            return true;
+        }
+
+        return (bool) $config['softLaunch'];
+    }
+
+    /**
+     * Claimed vs total directory providers (listings that own at least one location).
+     *
+     * @return array{claimed: int, total: int}
+     */
+    public function getDirectoryClaimProgress(): array
+    {
+        $directoryIds = array_map(
+            'intval',
+            Entry::find()
+                ->section('providers')
+                ->locations(':notempty:')
+                ->status(null)
+                ->ids()
+        );
+
+        $total = count($directoryIds);
+        if ($total === 0) {
+            return ['claimed' => 0, 'total' => 0];
+        }
+
+        $claimed = count(array_intersect($directoryIds, $this->getClaimedProviderIds()));
+
+        return ['claimed' => $claimed, 'total' => $total];
+    }
+
     /**
      * @return int[]
      */

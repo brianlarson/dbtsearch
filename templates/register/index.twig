@@ -2,7 +2,7 @@
 
 {% set pageHeading = 'Claim your listing' %}
 {% set pageSubheading = 'Provider signup' %}
-{% set activeNav = '' %}
+{% set activeNav = 'register' %}
 {% set robots = 'noindex, nofollow' %}
 {% set formHandle = 'providerSignup' %}
 {% set submitLabel = 'Create account' %}
@@ -28,7 +28,7 @@
               <p class="mb-4 block w-full rounded-lg border border-red-500/50 bg-red-950/70 px-3 py-2 text-[13px] font-medium text-red-200" role="alert">{{ flashError|raw }}</p>
             {% endif %}
 
-            <form {{ attr(attributes) }}>
+            <form {{ attr(attributes) }} data-register-form>
               {{ actionInput('formie/submissions/submit') }}
               {{ hiddenInput('handle', form.handle) }}
               {{ csrfInput() }}
@@ -39,7 +39,12 @@
               </div> #}
               {% if submission and submission.id %}{{ hiddenInput('submissionId', submission.id) }}{% endif %}
 
-              {% for field in form.getFields() %}
+              {# Custom templates flatten getFields(); keep Provider first regardless of CP row order. #}
+              {% set registerFields = form.getFields() %}
+              {% set providerFields = registerFields|filter(f => f.handle == 'provider') %}
+              {% set otherFields = registerFields|filter(f => f.handle != 'provider') %}
+
+              {% for field in providerFields|merge(otherFields) %}
                 {% set renderOptions = {} %}
                 {% if prefilledProvider %}
                   {% if field.handle == 'provider' %}
@@ -92,4 +97,50 @@
       </div>
     </section>
   </main>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    (function () {
+      const form = document.querySelector('[data-register-form]');
+      if (!form) return;
+
+      const select = form.querySelector('[data-register-provider-select]');
+      const nameWrap = form.querySelector('[data-register-fullname-field]');
+      const nameInput = nameWrap ? nameWrap.querySelector('input, textarea') : null;
+      if (!select || !nameWrap || !nameInput) return;
+
+      const nameIsRequired = nameWrap.getAttribute('data-required') === '1';
+
+      function selectedLabel() {
+        const option = select.options[select.selectedIndex];
+        if (!option || !option.value) return '';
+        return (option.textContent || '').trim();
+      }
+
+      function setNameVisible(visible) {
+        nameWrap.classList.toggle('hidden', !visible);
+        if (visible) {
+          nameWrap.removeAttribute('hidden');
+        } else {
+          nameWrap.setAttribute('hidden', 'hidden');
+        }
+        nameInput.required = visible && nameIsRequired;
+      }
+
+      function syncFromProvider(overwriteName) {
+        const hasProvider = Boolean(select.value);
+        setNameVisible(hasProvider);
+        if (hasProvider && overwriteName) {
+          nameInput.value = selectedLabel();
+        }
+      }
+
+      select.addEventListener('change', function () {
+        syncFromProvider(true);
+      });
+
+      syncFromProvider(false);
+    })();
+  </script>
 {% endblock %}
