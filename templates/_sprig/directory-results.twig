@@ -2,8 +2,22 @@
 {% set availabilityValue = availability ?? '1' %}
 {% set onlyAvailable = availabilityValue == '1' %}
 {% set searchButtonClass = 'inline-flex h-10 w-full items-center justify-center rounded-lg bg-primary px-4 font-semibold text-primary-foreground hover:opacity-90 md:w-auto' %}
+<style>
+  .claim-listing-cta {
+    border: 1px solid #059669;
+    background-color: #059669;
+    color: #fff;
+  }
+  .claim-listing-cta:hover {
+    opacity: 0.9;
+  }
+</style>
 {% set searchInputClass = 'h-10 w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary' %}
 {% set featureChipClass = 'rounded border border-slate-800 bg-slate-900/70 px-2 py-0.5 text-xs font-medium text-slate-400' %}
+{% set portalModule = craft.app.getModule('portal') %}
+{% set onboarding = portalModule ? portalModule.get('providerOnboarding') : null %}
+{% set softLaunch = onboarding ? onboarding.isSoftLaunch() : false %}
+{% set claimedProviderIds = softLaunch and onboarding ? onboarding.getClaimedProviderIds() : [] %}
 
 {% set locationsQuery = craft.entries()
   .section('locations')
@@ -52,7 +66,7 @@
     : locationsQuery.id(false) %}
 {% endif %}
 
-{% if onlyAvailable %}
+{% if onlyAvailable and not softLaunch %}
   {% set locationsQuery = locationsQuery.availability(true) %}
 {% endif %}
 
@@ -62,6 +76,8 @@
 {% for location in locationEntries %}
   {% set provider = location.provider.one() %}
   {% if provider %}
+    {% set isUnclaimedSoftLaunch = softLaunch and provider.id not in claimedProviderIds %}
+    {% if not onlyAvailable or isUnclaimedSoftLaunch or location.getFieldValue('availability') %}
     {# Sort/display only by availabilityUpdatedAt — never fall back to dateUpdated,
        which is bumped on any saveElement and was historically polluted by bulk location saves. #}
     {% set locations = locations|merge([{
@@ -70,6 +86,7 @@
       hasAvailability: location.getFieldValue('availability') ? true : false,
       availabilityUpdatedAt: location.availabilityUpdatedAt ?? null,
     }]) %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 
@@ -226,10 +243,17 @@
                   <div class="flex h-full flex-col sm:col-span-8 md:col-span-9">
                     <div class="flex h-full flex-1 flex-col gap-6 p-6">
                       <div class="relative flex min-w-0 flex-1 flex-col gap-4 pt-1 pe-2 sm:justify-center sm:pe-4">
+                        {% set isUnclaimedSoftLaunch = softLaunch and provider.id not in claimedProviderIds %}
                         <div class="flex flex-wrap gap-2">
-                          <span class="rounded border px-2 py-0.5 text-xs font-medium {{ item.hasAvailability ? 'border-emerald-500/70 text-emerald-300' : 'border-red-500/70 text-red-300' }}">
-                            {{ item.hasAvailability ? 'Accepting Clients' : 'No Availability' }}
-                          </span>
+                          {% if isUnclaimedSoftLaunch %}
+                            <span class="rounded border border-amber-400/70 px-2 py-0.5 text-xs font-medium text-amber-200">
+                              Availability Unknown
+                            </span>
+                          {% else %}
+                            <span class="rounded border px-2 py-0.5 text-xs font-medium {{ item.hasAvailability ? 'border-emerald-500/70 text-emerald-300' : 'border-red-500/70 text-red-300' }}">
+                              {{ item.hasAvailability ? 'Accepting Clients' : 'No Availability' }}
+                            </span>
+                          {% endif %}
                           {% if location.dbtaCertified %}
                             <span class="{{ featureChipClass }}">All Ages</span>
                           {% endif %}
@@ -246,23 +270,26 @@
                           </h2>
                           <p class="text-sm leading-relaxed text-slate-300">{{ location.title }}{% if location.city %} {{ location.city }}{% endif %}{% if location.state %}, {{ location.state }}{% endif %} {{ location.zip }}</p>
                         </div>
-                        {% set showContactCtas = item.hasAvailability %}
+                        {% set showContactCtas = item.hasAvailability and not isUnclaimedSoftLaunch %}
                         {% set showPhoneCta = showContactCtas and providerPhone %}
                         {% set showEmailCta = showContactCtas and providerEmail %}
                         {% set showContactPageCta = showContactCtas and contactPageUrl %}
-                        {% if showPhoneCta or showEmailCta or showContactPageCta or websiteUrl %}
+                        {% if isUnclaimedSoftLaunch or showPhoneCta or showEmailCta or showContactPageCta or websiteUrl %}
                           <div class="flex flex-row flex-wrap items-center gap-2 md:flex-nowrap md:gap-2.5">
+                            {% if isUnclaimedSoftLaunch %}
+                              <a href="{{ url('register', { provider_id: provider.id }) }}" rel="nofollow" class="claim-listing-cta inline-flex shrink-0 items-center rounded-lg px-4 py-2 text-sm font-semibold text-white">Claim Listing</a>
+                            {% endif %}
                             {% if showPhoneCta %}
-                              <a href="tel:{{ providerPhoneDigits|length == 10 ? providerPhoneDigits : providerPhone|replace({' ': '', '-': '', '(': '', ')': '', '.': '', '+': ''}) }}" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Call {{ providerPhoneDisplay }}</a>
+                              <a href="tel:{{ providerPhoneDigits|length == 10 ? providerPhoneDigits : providerPhone|replace({' ': '', '-': '', '(': '', ')': '', '.': '', '+': ''}) }}" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">{{ providerPhoneDisplay }}</a>
                             {% endif %}
                             {% if showEmailCta %}
-                              <a href="mailto:{{ providerEmail }}?subject=Inquiry%20from%20DBT Search.org" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Email Us</a>
+                              <a href="mailto:{{ providerEmail }}?subject=Inquiry%20from%20DBT Search.org" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Email</a>
                             {% endif %}
                             {% if showContactPageCta %}
                               <a href="{{ contactPageUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex shrink-0 items-center rounded-lg border border-primary bg-transparent px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground hover:opacity-90">Contact</a>
                             {% endif %}
                             {% if websiteUrl %}
-                              <a href="{{ websiteUrl }}" target="_blank" rel="noopener noreferrer" title="{{ websiteDisplay }}" class="min-w-0 max-w-full shrink truncate text-sm text-brand no-underline hover:underline md:max-w-[10rem] lg:max-w-[14rem]">{{ websiteDisplay }}</a>
+                              <a href="{{ contactPageUrl }}" target="_blank" rel="noopener noreferrer" title="{{ websiteDisplay }}" class="min-w-0 max-w-full shrink truncate text-sm text-brand no-underline hover:underline md:max-w-[10rem] lg:max-w-[14rem]">{{ websiteDisplay }}</a>
                             {% endif %}
                           </div>
                         {% endif %}

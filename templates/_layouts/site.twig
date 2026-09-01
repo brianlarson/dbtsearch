@@ -7,6 +7,10 @@
 {% set marketingHome = marketingHome ?? false %}
 {% set pageTitle = pageTitle ?? (pageHeading ? pageHeading ~ ' | ' ~ (siteName ?? 'DBT Search') : (siteName ?? 'DBT Search')) %}
 {% set pageDescription = pageDescription ?? 'Find certified DBT providers in Minnesota with current availability. DBT Search helps clients and clinicians locate Dialectical Behavior Therapy programs faster.' %}
+{% set portalModule = craft.app.getModule('portal') %}
+{% set onboarding = portalModule ? portalModule.get('providerOnboarding') : null %}
+{% set softLaunch = onboarding ? onboarding.isSoftLaunch() : false %}
+{% set showRegisterNav = softLaunch and not currentUser %}
 
 <!DOCTYPE html>
 <html lang="{{ craft.app.language }}" class="dark">
@@ -55,6 +59,9 @@
         <a href="{{ url('directory') }}" class="rounded-md px-3 py-2 text-sm font-medium {{ activeNav == 'directory' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'directory' %}aria-current="page"{% endif %}>Providers</a>
         <a href="{{ url('about') }}" class="rounded-md px-3 py-2 text-sm font-medium {{ activeNav == 'about' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'about' %}aria-current="page"{% endif %}>About</a>
         <a href="{{ url('faqs') }}" class="rounded-md px-3 py-2 text-sm font-medium {{ activeNav == 'faqs' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'faqs' %}aria-current="page"{% endif %}>FAQs</a>
+        {% if showRegisterNav %}
+          <a href="{{ url('register') }}" rel="nofollow" class="rounded-md px-3 py-2 text-sm font-medium {{ activeNav == 'register' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'register' %}aria-current="page"{% endif %}>Register</a>
+        {% endif %}
       </nav>
       <div class="ml-auto flex items-center gap-1 sm:gap-2">
         <a href="{{ url('contact') }}" class="hidden rounded-md border border-slate-600 px-3 py-2 text-sm font-medium {{ activeNav == 'contact' ? 'bg-slate-800/50 text-white' : 'text-slate-200 hover:border-slate-500 hover:bg-slate-800/50 hover:text-white' }} md:inline-flex" {% if activeNav == 'contact' %}aria-current="page"{% endif %}>Contact</a>
@@ -96,6 +103,9 @@
       <a href="{{ url('directory') }}" class="mobile-nav-link {{ activeNav == 'directory' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'directory' %}aria-current="page"{% endif %}>Providers</a>
       <a href="{{ url('about') }}" class="mobile-nav-link {{ activeNav == 'about' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'about' %}aria-current="page"{% endif %}>About</a>
       <a href="{{ url('faqs') }}" class="mobile-nav-link {{ activeNav == 'faqs' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'faqs' %}aria-current="page"{% endif %}>FAQs</a>
+      {% if showRegisterNav %}
+        <a href="{{ url('register') }}" rel="nofollow" class="mobile-nav-link {{ activeNav == 'register' ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}" {% if activeNav == 'register' %}aria-current="page"{% endif %}>Register</a>
+      {% endif %}
       <a href="{{ url('contact') }}" class="mobile-nav-link {{ activeNav == 'contact' ? 'bg-slate-800/50 text-white' : 'text-slate-200 hover:bg-slate-800/50 hover:text-white' }}" {% if activeNav == 'contact' %}aria-current="page"{% endif %}>Contact</a>
     </div>
   </nav>
@@ -156,9 +166,9 @@
     <div class="mx-auto max-w-6xl px-4 py-8 text-center sm:px-6 lg:px-8">
       <p class="mb-3 text-sm text-slate-300">
         <span class="font-semibold text-slate-100">DBT Search</span> is powered by
-        <a href="https://www.tinytreecounseling.com/" class="ml-1 text-brand underline decoration-1 hover:opacity-90" target="_blank" rel="noopener noreferrer">Tiny Tree Counseling &amp; Consulting</a>
+        <a href="https://www.tinytreecounseling.com/" class="ml-1 text-brand underline decoration-1 hover:opacity-90" target="_blank" rel="noopener noreferrer">Tiny Tree Counseling</a>
       </p>
-      <p class="text-xs text-slate-400">Copyright &copy; {{ "now"|date("Y") }} DBT Search.org. All rights reserved.</p>
+      <p class="text-xs text-slate-400">Copyright &copy; {{ "now"|date("Y") }} DBT Search. All rights reserved.</p>
     </div>
   </footer>
 

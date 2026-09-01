@@ -9,14 +9,24 @@
 {% set value = value ?? _fromElement %}
 {% set value = value ?? _defaultVal %}
 {% set errors = element ? element.getErrors(field.handle) : [] %}
+{% set isFullName = field.handle == 'fullName' %}
+{% set fullNameValue = isFullName ? (value|default('')|trim) : '' %}
+{% set hideFullName = isFullName and fullNameValue == '' %}
+{% set isAgree = className(field) == 'verbb\\formie\\fields\\Agree' %}
 
-<div class="formie-field-wrapper w-full min-w-0 mb-4">
+<div
+  class="formie-field-wrapper w-full min-w-0 mb-4{% if hideFullName %} hidden{% endif %}"
+  {% if isFullName %}data-register-fullname-field data-required="{{ field.required ? '1' : '0' }}"{% endif %}
+  {% if hideFullName %}hidden{% endif %}
+>
   {% hook 'formie.field.field-start' %}
 
   {{ formieInclude('_includes/instructions', { position: 'above' }) }}
 
   <div class="w-full min-w-0">
-    {{ formieInclude('_includes/label', { position: 'above' }) }}
+    {% if not isAgree %}
+      {{ formieInclude('_includes/label', { position: 'above' }) }}
+    {% endif %}
 
     <div class="formie-input-block w-full min-w-0">
       {% hook 'formie.field.input-before' %}

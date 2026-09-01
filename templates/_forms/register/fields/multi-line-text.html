@@ -1,12 +1,9 @@
-{# Formie Name field — single full-name input, matches login/manage portal fields #}
-{% set nameValue = value|default('') %}
-<input type="text"
+<textarea
   id="{{ field.getHtmlId(field.form) }}"
   name="{{ field.getHtmlName() }}"
-  value="{{ nameValue }}"
-  {{ field.required and nameValue|trim ? 'required' : '' }}
-  autocomplete="name"
+  rows="4"
+  {{ field.required ? 'required' : '' }}
   placeholder="{{ field.placeholder|default('') }}"
   class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white placeholder-slate-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
   {{ attr(field.getInputAttributes()) }}
-/>
+>{{ value|default('') }}</textarea>

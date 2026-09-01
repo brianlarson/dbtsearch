@@ -23,6 +23,7 @@
     id="{{ originalField.getHtmlId(originalField.form) }}"
     name="{{ originalField.getHtmlName() }}"
     {{ originalField.required ? 'required' : '' }}
+    data-register-provider-select
     class="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
     {{ attr(originalField.getInputAttributes()) }}
   >

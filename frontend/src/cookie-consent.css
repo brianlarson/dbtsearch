@@ -79,7 +79,6 @@
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 0.75rem; /* 12px between X and Accept */
 }
 
 /* Match archived portal save / Accept green. */
@@ -112,29 +111,28 @@
 }
 
 .cookie-consent-dismiss {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  display: inline;
+  margin: 0 0 0 0.2em;
   padding: 0;
   border: 0;
-  border-radius: 0.375rem;
   background: transparent;
-  color: #e8eef5;
+  color: rgb(232 238 245 / 0.72);
+  font: inherit;
+  font-size: 0.8125em;
+  font-weight: 500;
+  line-height: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
   cursor: pointer;
 }
 
 .cookie-consent-dismiss:hover {
-  background-color: rgb(255 255 255 / 0.1);
+  color: #fff;
 }
 
 .cookie-consent-dismiss:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 0.25rem rgba(187, 206, 253, 0.45);
-}
-
-.cookie-consent-dismiss svg {
-  width: 1rem;
-  height: 1rem;
+  box-shadow: 0 0 0 0.2rem rgba(187, 206, 253, 0.45);
+  color: #fff;
+  border-radius: 0.15rem;
 }
