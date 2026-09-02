@@ -1,17 +1,17 @@
-"ID","Form ID","Form Name","User ID","IP Address","Is Incomplete?","Is Spam?","Spam Reason","Spam Type","Title","Date Created","Date Updated","Date Deleted","Trashed","Status","Name","Organization","Email Address","Certified Provider"
-"3115","3","Launch Sign-up","","","","","","","Caila Kritzeck","2026-07-16T17:14:10-05:00","2026-07-16T17:14:10-05:00","","","pending","Caila Kritzeck","Art of Counseling","caila@artofcounselingstpaul.com","Yes"
-"2594","3","Launch Sign-up","","","","","","","Haley Raifsnider","2026-05-01T10:26:53-05:00","2026-05-01T10:26:53-05:00","","","pending","Haley Raifsnider","Secure Base Counseling Center","haley@securebasecounselingcenter.com","Yes"
-"96","3","Launch Sign-up","","","","","","","Beth Bordenave","2026-04-13T09:33:59-05:00","2026-04-13T09:33:59-05:00","","","pending","Beth Bordenave","PhoenixRisen Counseling","beth@prcounselingmn.com","Yes"
-"95","3","Launch Sign-up","","","","","","","Stephanie Wanous","2026-04-10T11:07:49-05:00","2026-04-10T11:07:49-05:00","","","pending","Stephanie Wanous","Spero","stephaniew@speromn.org","Yes"
-"93","3","Launch Sign-up","","","","","","","Kristin Bunge","2026-04-09T10:10:26-05:00","2026-04-24T11:11:52-05:00","","","pending","Kristin Bunge","Tiny Tree Counseling","kristin.bunge@tinytreecounseling.com","Yes"
-"92","3","Launch Sign-up","","","","","","","Patty Lauer-Roberts","2026-04-09T07:51:07-05:00","2026-04-09T07:51:07-05:00","","","pending","Patty Lauer-Roberts","RADIAS Health","patty.lauer-roberts@radiashealth.org","Yes"
-"90","3","Launch Sign-up","","","","","","","Jennifer Goerger","2026-04-08T17:16:02-05:00","2026-04-08T17:16:02-05:00","","","pending","Jennifer Goerger","Fernbrook Family Center","jgoerger@fernbrook.org","Yes"
-"89","3","Launch Sign-up","","","","","","","Joyce Koerner","2026-04-08T10:17:25-05:00","2026-04-08T10:17:25-05:00","","","pending","Joyce Koerner","Family Service Rochester","jkoerner@familyservicerochester.org","Yes"
-"88","3","Launch Sign-up","","","","","","","Haley Raifsnider","2026-04-08T10:02:32-05:00","2026-04-08T10:02:32-05:00","","","pending","Haley Raifsnider","Secure Base Counseling Center","haley@securebasecounselingcenter.com","Yes"
-"87","3","Launch Sign-up","","","","","","","Kate Perry","2026-04-08T10:01:52-05:00","2026-04-08T10:01:52-05:00","","","pending","Kate Perry","Family Service Rochester","kperry@familyservicerochester.org","Yes"
-"86","3","Launch Sign-up","","","","","","","Marsha Werner","2026-04-08T10:00:19-05:00","2026-04-08T10:00:19-05:00","","","pending","Marsha Werner","Autonomy Counseling, PLLC","mwerner@autonomypllc.com","Yes"
-"85","3","Launch Sign-up","","","","","","","Elizabeth Carlton","2026-04-08T10:00:14-05:00","2026-04-08T10:00:14-05:00","","","pending","Elizabeth Carlton","IMS","ecarlton@imsofmn.com","Yes"
-"84","3","Launch Sign-up","","","","","","","Josh Powell","2026-04-08T10:00:08-05:00","2026-04-08T10:00:08-05:00","","","pending","Josh Powell","Vona Center for Mental Health/VOA","josh.powell@voamn.org","Yes"
-"83","3","Launch Sign-up","","","","","","","Jo Ripplinger","2026-04-08T09:59:57-05:00","2026-04-08T09:59:57-05:00","","","pending","Jo Ripplinger","","joripplinger@gmail.com","Yes"
-"82","3","Launch Sign-up","","","","","","","Caila Kritzeck","2026-04-08T09:59:31-05:00","2026-04-08T09:59:31-05:00","","","pending","Caila Kritzeck","Art of Counseling","caila@artofcounselingstpaul.com","Yes"
-"81","3","Launch Sign-up","","","","","","","Madeline Asp","2026-04-08T09:59:25-05:00","2026-04-08T09:59:25-05:00","","","pending","Madeline Asp","Mental Health Systems","masp@mhs-dbt.com","Yes"
+email,firstName,lastName
+caila@artofcounselingstpaul.com,Caila,Kritzeck
+haley@securebasecounselingcenter.com,Haley,Raifsnider
+beth@prcounselingmn.com,Beth,Bordenave
+stephaniew@speromn.org,Stephanie,Wanous
+kristin.bunge@tinytreecounseling.com,Kristin,Bunge
+patty.lauer-roberts@radiashealth.org,Patty,Lauer-Roberts
+jgoerger@fernbrook.org,Jennifer,Goerger
+jkoerner@familyservicerochester.org,Joyce,Koerner
+haley@securebasecounselingcenter.com,Haley,Raifsnider
+kperry@familyservicerochester.org,Kate,Perry
+mwerner@autonomypllc.com,Marsha,Werner
+ecarlton@imsofmn.com,Elizabeth,Carlton
+josh.powell@voamn.org,Josh,Powell
+joripplinger@gmail.com,Jo,Ripplinger
+caila@artofcounselingstpaul.com,Caila,Kritzeck
+masp@mhs-dbt.com,Madeline,Asp
