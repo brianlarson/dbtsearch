@@ -66,7 +66,7 @@
     : locationsQuery.id(false) %}
 {% endif %}
 
-{% if onlyAvailable and not softLaunch %}
+{% if onlyAvailable %}
   {% set locationsQuery = locationsQuery.availability(true) %}
 {% endif %}
 
@@ -77,7 +77,7 @@
   {% set provider = location.provider.one() %}
   {% if provider %}
     {% set isUnclaimedSoftLaunch = softLaunch and provider.id not in claimedProviderIds %}
-    {% if not onlyAvailable or isUnclaimedSoftLaunch or location.getFieldValue('availability') %}
+    {% if not onlyAvailable or (not isUnclaimedSoftLaunch and location.getFieldValue('availability')) %}
     {# Sort/display only by availabilityUpdatedAt — never fall back to dateUpdated,
        which is bumped on any saveElement and was historically polluted by bulk location saves. #}
     {% set locations = locations|merge([{
