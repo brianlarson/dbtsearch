@@ -245,3 +245,51 @@ if (document.readyState === 'loading') {
 } else {
   initDirectoryCardHeights();
 }
+
+function isDirectorySprigEvent(event) {
+  const elt = event.detail?.elt;
+  if (!elt) {
+    return false;
+  }
+
+  return Boolean(elt.id === 'directory-sprig' || elt.closest?.('#directory-sprig'));
+}
+
+function setDirectoryCountLoading(isLoading) {
+  const wrap = document.querySelector('[data-directory-results-count]');
+  if (!wrap) {
+    return;
+  }
+
+  wrap.classList.toggle('is-loading', isLoading);
+  wrap.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+
+  const idle = wrap.querySelector('.directory-results-count-idle');
+  const loading = wrap.querySelector('.directory-results-count-loading');
+  if (idle) {
+    idle.setAttribute('aria-hidden', isLoading ? 'true' : 'false');
+  }
+  if (loading) {
+    loading.setAttribute('aria-hidden', isLoading ? 'false' : 'true');
+  }
+}
+
+function initDirectoryCountLoading() {
+  document.body.addEventListener('htmx:beforeRequest', (event) => {
+    if (isDirectorySprigEvent(event)) {
+      setDirectoryCountLoading(true);
+    }
+  });
+
+  document.body.addEventListener('htmx:afterRequest', (event) => {
+    if (isDirectorySprigEvent(event)) {
+      setDirectoryCountLoading(false);
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDirectoryCountLoading);
+} else {
+  initDirectoryCountLoading();
+}
