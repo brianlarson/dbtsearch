@@ -7,12 +7,12 @@
 {% set marketingHome = true %}
 {% set activeNav = '' %}
 {% set pageTitle = (siteName ?? 'DBT Search') ~ ' | Find Certified DBT Providers in Minnesota' %}
-{% set pageDescription = 'Search certified DBT providers in Minnesota and see who has current openings. DBT Search helps clients and clinicians find Dialectical Behavior Therapy faster.' %}
+{% set pageDescription = 'Search certified DBT providers in Minnesota and see who has current openings. DBT Search helps clients and clinicians get the help they need faster.' %}
 {% set heroImageUrl = url('/images/pexels-hero-1440.webp') %}
 
-{% set defaultHeading = 'Find certified DBT provider availability in Minnesota' %}
-{% set defaultCopy = "DBT Search is a website that allows clinicians and prospective clients to search for certified DBT providers in Minnesota and more specifically, locate providers that have current availability." %}
-{% set defaultCtaLabel = 'Find DBT Providers' %}
+{% set defaultHeading = 'Certified DBT provider <span class="text-white">availability</span> in MN' %}
+{% set defaultCopy = "DBT Search is a website that allows clinicians and prospective clients to search for certified DBT providers in Minnesota and more specifically, <span class='text-white'>locate providers that have current availability</span>." %}
+{% set defaultCtaLabel = 'Search Available Providers' %}
 
 {% set heading = defaultHeading %}
 {% set copy = defaultCopy %}
@@ -23,11 +23,12 @@
     <div class="relative z-[2] mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 md:gap-8">
         <div class="max-w-xl py-4 md:max-w-none md:py-8 lg:py-12">
-          <h1 class="text-3xl font-bold leading-tight tracking-tight text-brand sm:text-4xl lg:text-5xl">{{ heading }}</h1>
+          <h1 class="text-3xl font-bold leading-tight tracking-tight text-brand sm:text-4xl lg:text-5xl">{{ heading|raw }}</h1>
+          <hr class="my-4 border-slate-700" />
           <div class="mt-4 text-lg leading-relaxed text-slate-300 sm:text-xl">
             <p>{{ copy|raw }}</p>
           </div>
-          <a href="{{ url('directory') }}" class="mt-6 inline-flex items-center rounded-lg bg-primary px-5 py-3 text-base font-semibold text-primary-foreground hover:opacity-90">
+          <a href="{{ url('directory') }}" class="mt-8 inline-flex items-center rounded-lg bg-primary px-5 py-3 text-base font-semibold text-primary-foreground hover:opacity-90">
             {{ ctaLabel }}
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-2 h-5 w-5" aria-hidden="true">
               <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
